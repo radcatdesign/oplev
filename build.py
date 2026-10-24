@@ -500,8 +500,8 @@ def case(i):
                       for _ in range(3))
         res_label = 'to be added'
     res_title = c.get('results_title', 'Results.')
-    facts = [('Focus', c['focus']), ('Built', c['built']), ('Includes', c['includes'])]
-    if c.get('stack'):
+    facts = [tuple(f) for f in c['facts']] if c.get('facts') else [('Focus', c['focus']), ('Built', c['built']), ('Includes', c['includes'])]
+    if c.get('stack') and not c.get('facts'):
         facts.append(('Stack', c['stack']))
     facts_html = ''.join(f'\n      <div><dt class="label">{k}</dt><dd>{E(v)}</dd></div>' for k, v in facts)
     note = f'\n    <p class="label case-note">{E(c["note"])}</p>' if c.get('note') else ''

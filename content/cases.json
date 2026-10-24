@@ -226,109 +226,140 @@
   {
     "id": "element-glo",
     "name": "Element Glo",
-    "focus": "lead capture",
-    "line": "Five lead capture tools for an aggregate brand.",
-    "summary": "Buyers, retailers and builders all needed answers before they would order. We built five tools that answer those questions on the site and capture the lead while they do it.",
-    "built": "5 lead capture tools",
-    "includes": "Aggregate visualizer, aggregate calculator, store display maker, mosaic layout planner, builder bidding tool",
-    "img": "",
-    "before": [
+    "focus": "store + lead tools",
+    "line": "One platform to sell, market and service a glow pool brand.",
+    "summary": "Element Glo makes pool finishes that glow after dark, but the business ran on phone calls, PDFs and inboxes. We built a site and store that sell the product, an AI guide that answers questions at any hour, a portal that runs sales and marketing, and free design tools that make glow an easy yes for pool builders.",
+    "built": "Site, store, AI guide, portal + design tools",
+    "includes": "Online store, Aggro the AI guide, staff portal, Element Glo Studio, UV light planner",
+    "facts": [
       [
-        "Buyers guess how much aggregate to order",
-        "aggregate calculator"
+        "Focus",
+        "store + lead tools"
       ],
       [
-        "Customers can't picture the finished look",
-        "aggregate visualizer"
+        "Built",
+        "Site, store, AI guide, portal + design tools"
       ],
       [
-        "Mosaic layouts planned on paper",
-        "mosaic layout planner"
+        "Timeline",
+        "Three weeks"
       ],
       [
-        "Store displays laid out one at a time",
-        "store display maker"
-      ],
-      [
-        "Builders price every job from scratch",
-        "builder bidding tool"
+        "Stack",
+        "Vercel, Stripe, Claude API, Three.js"
       ]
     ],
+    "img": "",
+    "before_title": "What it does.",
+    "before": [],
+    "count": "6 parts / three weeks",
     "system": [
       [
-        "tool",
-        "Aggregate visualizer",
-        "Lets buyers see how the aggregate looks before they order."
+        "site",
+        "Website",
+        "A dark, cinematic site built around the night glow, with real projects and a mosaic catalog that flips between day and night."
+      ],
+      [
+        "store",
+        "Online store",
+        "Aggregates and mosaics sell online with live shipping, automatic tax, trade pricing and a quantity calculator. Big orders go to a person."
+      ],
+      [
+        "agent",
+        "Aggro, the glow guide",
+        "An AI guide trained on Element Glo's content. He answers product and install questions any time and hands people to the team when they want a person."
+      ],
+      [
+        "platform",
+        "Staff portal",
+        "Visitors, marketing and sales in one place. Every form, chat and estimate lands as a contact with the full email thread."
       ],
       [
         "tool",
-        "Aggregate calculator",
-        "Works out how much aggregate a project needs and turns the estimate into a lead."
+        "Element Glo Studio",
+        "Free design tools for builders and dealers: a pool visualizer, a mosaic layout planner, a display wall planner and branded quotes."
       ],
       [
         "tool",
-        "Store display maker",
-        "Helps retail partners plan in-store displays."
-      ],
-      [
-        "tool",
-        "Mosaic layout planner",
-        "Plans mosaic patterns and the material each one needs."
-      ],
-      [
-        "tool",
-        "Builder bidding tool",
-        "Helps builders price jobs that use the aggregate and send bids faster."
+        "UV light planner",
+        "Upload a pool plan, trace the pool, and get light placement, aggregate amounts, photoreal previews and a branded report."
       ]
     ],
-    "cmd": "oplev run lead --source aggregate-calculator",
+    "cmd": "glo run uv-planner --plan pool-plan.pdf",
     "run": [
       [
-        "14:02:10",
-        "calculator",
-        "visitor finished an aggregate estimate",
+        "16:10:02",
+        "planner",
+        "read the pool plan and specs",
+        "read"
+      ],
+      [
+        "16:12:40",
+        "planner",
+        "builder traced pool, stairs and spa",
+        "traced"
+      ],
+      [
+        "16:12:44",
+        "planner",
+        "placed UV lights for full coverage",
+        "6 lights"
+      ],
+      [
+        "16:12:45",
+        "planner",
+        "worked out the aggregate needed",
         "estimate ready"
       ],
       [
-        "14:02:12",
-        "calculator",
-        "captured contact and project details",
-        "lead saved"
+        "16:13:20",
+        "previews",
+        "made night and day previews",
+        "3 previews"
       ],
       [
-        "14:02:13",
-        "visualizer",
-        "attached the visitor's saved design",
-        "attached"
-      ],
-      [
-        "14:02:15",
-        "crm",
-        "tagged lead by project type",
-        "tagged"
-      ],
-      [
-        "14:02:16",
-        "sales",
-        "approve follow-up with estimate",
+        "16:13:21",
+        "expert",
+        "review the lighting plan",
         "pending",
         "need"
       ],
       [
-        "14:20:41",
-        "sales",
-        "approved follow-up",
+        "16:31:08",
+        "expert",
+        "approved plan",
         "ok",
         "me"
       ],
       [
-        "14:20:43",
-        "follow-up",
-        "sent estimate and design to the lead",
+        "16:31:10",
+        "report",
+        "sent branded PDF to the builder",
         "sent"
+      ],
+      [
+        "16:31:11",
+        "portal",
+        "saved builder as a contact",
+        "logged"
       ]
     ],
-    "results": []
+    "results_title": "At a glance.",
+    "results_label": "from the build",
+    "results": [
+      [
+        "3",
+        "weeks from start to launch"
+      ],
+      [
+        "300+",
+        "shipped updates"
+      ],
+      [
+        "5",
+        "free design tools for builders"
+      ]
+    ]
   },
   {
     "id": "fit-funnels",

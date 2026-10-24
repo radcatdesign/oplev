@@ -23,4 +23,4 @@ Put an image in `img/` and set `"img": "img/adessa-mind.jpg"` on that case. It r
 
 ## Optional case fields
 
-`stack`, `note`, `count`, `before_title`, `before_label`, `results_title`, `results_label`. Leave `results` empty to show "result to add" slots.
+`facts`, `stack`, `note`, `count`, `before_title`, `before_label`, `results_title`, `results_label`. Leave `results` empty to show "result to add" slots.
