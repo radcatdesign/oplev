@@ -4,70 +4,44 @@
     "name": "Adessa Mind",
     "focus": "clinic platform",
     "line": "The clinic system behind the Adessa Quotient.",
-    "summary": "Adessa Mind's assessment pulls together cognitive tasks, heart rate variability and brain data. We built the AQ Platform to run the whole visit: it runs the tasks, reads the HeartMath and WAVi reports, scores the AQ, presents it to the client and hands the Activation plan to the technician. Every number traces back to its source.",
+    "summary": "Adessa Mind gives clients a score for how their mind is working today, from a single clinic visit. We built the platform that runs that visit from check-in to the plan they leave with. Every number traces back to its source.",
     "built": "Clinic platform + AI assistant",
-    "includes": "Assessment tasks, report import, scoring engine, client reports, Ask Adessa, staff console",
+    "includes": "In-clinic tests, data import, scoring, client reports, AI assistant, staff console",
     "stack": "Next.js, Postgres, Claude API, Vercel",
     "img": "",
-    "before_title": "A visit, end to end.",
-    "before_label": "The visit",
-    "before": [
-      [
-        "Consent and a short check-in, full screen to the end",
-        "client flow"
-      ],
-      [
-        "Flanker, Numbers, Copying and Matrix Reasoning, scored as each finishes",
-        "task runner"
-      ],
-      [
-        "HeartMath HRT report uploaded and read",
-        "report import"
-      ],
-      [
-        "WAVi report uploaded and read",
-        "report import"
-      ],
-      [
-        "AQ scored and saved, with every step shown",
-        "scoring engine"
-      ],
-      [
-        "Ring reveal, report export and technician brief",
-        "console"
-      ]
-    ],
+    "before_title": "What it does.",
+    "before": [],
     "count": "6 parts / pilot",
     "system": [
       [
         "platform",
-        "AQ console",
-        "Clients and sessions, four team roles enforced on the server, an audit trail on every change, and plans, memberships and revenue."
+        "Clinic console",
+        "Clients, sessions, team roles and billing in one place, with every change on record."
       ],
       [
         "engine",
         "Scoring engine",
-        "Eight domains in two rings. Each is a weighted mix of its inputs, and every weight change is versioned."
+        "Turns test results and health data into one score a client can understand."
       ],
       [
         "tool",
-        "Assessment battery",
-        "Flanker, Numbers, Copying and Matrix Reasoning, with millisecond timing and seeded trials."
+        "In-clinic tests",
+        "Short timed tasks clients take on a screen during the visit."
       ],
       [
         "import",
-        "Report import",
-        "Reads HeartMath HRT and WAVi PDFs, plus past AQ reports so returning clients keep their history."
+        "Data import",
+        "Reads results from the clinic's existing devices, so nobody types them in by hand."
       ],
       [
         "agent",
         "Ask Adessa",
-        "A Claude assistant trained on the clinic's own material. It also drafts client reports, which staff check before saving."
+        "An AI assistant that knows the clinic's own material and drafts client reports for staff to check."
       ],
       [
         "playbook",
         "Staff guide",
-        "28 SOPs and walkthroughs, a test mode and a phone layout."
+        "Step-by-step guides so anyone on the team can run a visit."
       ]
     ],
     "cmd": "aq run visit --client new",
@@ -75,49 +49,37 @@
       [
         "10:00:04",
         "intake",
-        "consent signed, check-in complete",
+        "client checked in",
         "done"
       ],
       [
-        "10:06:31",
-        "tasks",
-        "flanker, 20 trials",
-        "scored"
-      ],
-      [
         "10:24:12",
-        "tasks",
-        "numbers, copying, matrix reasoning",
+        "tests",
+        "in-clinic tasks complete",
         "scored"
-      ],
-      [
-        "10:31:40",
-        "import",
-        "read HeartMath HRT report",
-        "hrv read"
       ],
       [
         "10:38:02",
         "import",
-        "read WAVi report",
-        "eeg read"
+        "device reports read",
+        "imported"
       ],
       [
         "10:38:05",
         "scoring",
-        "generated AQ with every step shown",
+        "AQ score generated",
         "saved"
       ],
       [
         "10:38:20",
         "report",
-        "drafted client report with Claude",
+        "drafted client report",
         "drafted"
       ],
       [
         "10:38:21",
         "staff",
-        "check client report before saving",
+        "review client report",
         "pending",
         "need"
       ],
@@ -131,7 +93,7 @@
       [
         "10:44:58",
         "console",
-        "activation plan sent to technician",
+        "plan sent to technician",
         "handed off"
       ]
     ],
@@ -140,11 +102,11 @@
     "results": [
       [
         "8",
-        "domains scored, in two rings"
+        "areas scored in every visit"
       ],
       [
         "28",
-        "SOPs and walkthroughs in the staff guide"
+        "staff guides and walkthroughs"
       ],
       [
         "pilot",

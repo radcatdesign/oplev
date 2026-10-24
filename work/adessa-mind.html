@@ -430,7 +430,7 @@ html.is-loading .loader,.loader.out{display:flex}
     <dl class="facts f4">
       <div><dt class="label">Focus</dt><dd>clinic platform</dd></div>
       <div><dt class="label">Built</dt><dd>Clinic platform + AI assistant</dd></div>
-      <div><dt class="label">Includes</dt><dd>Assessment tasks, report import, scoring engine, client reports, Ask Adessa, staff console</dd></div>
+      <div><dt class="label">Includes</dt><dd>In-clinic tests, data import, scoring, client reports, AI assistant, staff console</dd></div>
       <div><dt class="label">Stack</dt><dd>Next.js, Postgres, Claude API, Vercel</dd></div>
     </dl>
     <figure class="thumb" role="img" aria-label="Placeholder image for the Adessa Mind case"><canvas data-seed="1"></canvas><span class="tk a"></span><span class="tk b"></span><span class="tk c"></span><span class="tk d"></span><span class="tag tl label">case image / placeholder</span><span class="tag br label">1600 x 900</span></figure>
@@ -442,21 +442,10 @@ html.is-loading .loader,.loader.out{display:flex}
   <div class="wrap split">
     <div class="head-l">
       <p class="eyebrow">~/oplev/work/adessa-mind/before</p>
-      <h2 class="h2" id="before-h">A visit, end to end.</h2>
+      <h2 class="h2" id="before-h">What it does.</h2>
     </div>
     <div class="split-r">
-      <p class="lede">Adessa Mind&#x27;s assessment pulls together cognitive tasks, heart rate variability and brain data. We built the AQ Platform to run the whole visit: it runs the tasks, reads the HeartMath and WAVi reports, scores the AQ, presents it to the client and hands the Activation plan to the technician. Every number traces back to its source.</p>
-      <div>
-        <p class="label">The visit</p>
-        <ul class="check" data-anim style="margin-top:14px">
-          <li class="ck" data-by="client flow"><span class="b">[ ]</span><span class="txw"><span class="tx">Consent and a short check-in, full screen to the end</span></span><span class="by label">open</span></li>
-          <li class="ck" data-by="task runner"><span class="b">[ ]</span><span class="txw"><span class="tx">Flanker, Numbers, Copying and Matrix Reasoning, scored as each finishes</span></span><span class="by label">open</span></li>
-          <li class="ck" data-by="report import"><span class="b">[ ]</span><span class="txw"><span class="tx">HeartMath HRT report uploaded and read</span></span><span class="by label">open</span></li>
-          <li class="ck" data-by="report import"><span class="b">[ ]</span><span class="txw"><span class="tx">WAVi report uploaded and read</span></span><span class="by label">open</span></li>
-          <li class="ck" data-by="scoring engine"><span class="b">[ ]</span><span class="txw"><span class="tx">AQ scored and saved, with every step shown</span></span><span class="by label">open</span></li>
-          <li class="ck" data-by="console"><span class="b">[ ]</span><span class="txw"><span class="tx">Ring reveal, report export and technician brief</span></span><span class="by label">open</span></li>
-        </ul>
-      </div>
+      <p class="lede">Adessa Mind gives clients a score for how their mind is working today, from a single clinic visit. We built the platform that runs that visit from check-in to the plan they leave with. Every number traces back to its source.</p>
     </div>
   </div>
 </section>
@@ -471,12 +460,12 @@ html.is-loading .loader,.loader.out{display:flex}
       <p class="label">6 parts / pilot</p>
     </div>
     <ul class="built">
-      <li><span class="label kind platform">platform</span><h3 class="h3">AQ console</h3><p>Clients and sessions, four team roles enforced on the server, an audit trail on every change, and plans, memberships and revenue.</p></li>
-      <li><span class="label kind engine">engine</span><h3 class="h3">Scoring engine</h3><p>Eight domains in two rings. Each is a weighted mix of its inputs, and every weight change is versioned.</p></li>
-      <li><span class="label kind tool">tool</span><h3 class="h3">Assessment battery</h3><p>Flanker, Numbers, Copying and Matrix Reasoning, with millisecond timing and seeded trials.</p></li>
-      <li><span class="label kind import">import</span><h3 class="h3">Report import</h3><p>Reads HeartMath HRT and WAVi PDFs, plus past AQ reports so returning clients keep their history.</p></li>
-      <li><span class="label kind agent">agent</span><h3 class="h3">Ask Adessa</h3><p>A Claude assistant trained on the clinic&#x27;s own material. It also drafts client reports, which staff check before saving.</p></li>
-      <li><span class="label kind playbook">playbook</span><h3 class="h3">Staff guide</h3><p>28 SOPs and walkthroughs, a test mode and a phone layout.</p></li>
+      <li><span class="label kind platform">platform</span><h3 class="h3">Clinic console</h3><p>Clients, sessions, team roles and billing in one place, with every change on record.</p></li>
+      <li><span class="label kind engine">engine</span><h3 class="h3">Scoring engine</h3><p>Turns test results and health data into one score a client can understand.</p></li>
+      <li><span class="label kind tool">tool</span><h3 class="h3">In-clinic tests</h3><p>Short timed tasks clients take on a screen during the visit.</p></li>
+      <li><span class="label kind import">import</span><h3 class="h3">Data import</h3><p>Reads results from the clinic&#x27;s existing devices, so nobody types them in by hand.</p></li>
+      <li><span class="label kind agent">agent</span><h3 class="h3">Ask Adessa</h3><p>An AI assistant that knows the clinic&#x27;s own material and drafts client reports for staff to check.</p></li>
+      <li><span class="label kind playbook">playbook</span><h3 class="h3">Staff guide</h3><p>Step-by-step guides so anyone on the team can run a visit.</p></li>
     </ul>
   </div>
 </section>
@@ -508,8 +497,8 @@ html.is-loading .loader,.loader.out{display:flex}
       <p class="label">from the platform overview</p>
     </div>
     <div class="results">
-      <div class="rcell"><span class="rcell-v">8</span><span class="label">domains scored, in two rings</span></div>
-      <div class="rcell"><span class="rcell-v">28</span><span class="label">SOPs and walkthroughs in the staff guide</span></div>
+      <div class="rcell"><span class="rcell-v">8</span><span class="label">areas scored in every visit</span></div>
+      <div class="rcell"><span class="rcell-v">28</span><span class="label">staff guides and walkthroughs</span></div>
       <div class="rcell"><span class="rcell-v">pilot</span><span class="label">running at aq.adessamind.com</span></div>
     </div>
   </div>
@@ -549,7 +538,7 @@ html.is-loading .loader,.loader.out{display:flex}
   </div>
 </footer>
 
-<script type="application/json" id="case-data">{"cmd": "aq run visit --client new", "run": [["10:00:04", "intake", "consent signed, check-in complete", "done"], ["10:06:31", "tasks", "flanker, 20 trials", "scored"], ["10:24:12", "tasks", "numbers, copying, matrix reasoning", "scored"], ["10:31:40", "import", "read HeartMath HRT report", "hrv read"], ["10:38:02", "import", "read WAVi report", "eeg read"], ["10:38:05", "scoring", "generated AQ with every step shown", "saved"], ["10:38:20", "report", "drafted client report with Claude", "drafted"], ["10:38:21", "staff", "check client report before saving", "pending", "need"], ["10:44:56", "staff", "approved report", "ok", "me"], ["10:44:58", "console", "activation plan sent to technician", "handed off"]]}</script>
+<script type="application/json" id="case-data">{"cmd": "aq run visit --client new", "run": [["10:00:04", "intake", "client checked in", "done"], ["10:24:12", "tests", "in-clinic tasks complete", "scored"], ["10:38:02", "import", "device reports read", "imported"], ["10:38:05", "scoring", "AQ score generated", "saved"], ["10:38:20", "report", "drafted client report", "drafted"], ["10:38:21", "staff", "review client report", "pending", "need"], ["10:44:56", "staff", "approved report", "ok", "me"], ["10:44:58", "console", "plan sent to technician", "handed off"]]}</script>
 <script>
 (function(){
 'use strict';

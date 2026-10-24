@@ -477,6 +477,12 @@ def case(i):
     checks = ''.join(
         f'\n          <li class="ck" data-by="{E(by)}"><span class="b">[ ]</span><span class="txw"><span class="tx">{E(t)}</span></span><span class="by label">open</span></li>'
         for t, by in c['before'])
+    checklist = (f'''
+      <div>
+        <p class="label">{E(c.get('before_label', 'Before'))}</p>
+        <ul class="check" data-anim style="margin-top:14px">{checks}
+        </ul>
+      </div>''' if c['before'] else '')
     built = ''.join(
         f'\n      <li><span class="label kind {E(k)}">{E(k)}</span><h3 class="h3">{E(t)}</h3><p>{E(d)}</p></li>'
         for k, t, d in c['system'])
@@ -521,12 +527,7 @@ def case(i):
       <h2 class="h2" id="before-h">{E(c.get('before_title', 'What was breaking.'))}</h2>
     </div>
     <div class="split-r">
-      <p class="lede">{E(c['summary'])}</p>
-      <div>
-        <p class="label">{E(c.get('before_label', 'Before'))}</p>
-        <ul class="check" data-anim style="margin-top:14px">{checks}
-        </ul>
-      </div>
+      <p class="lede">{E(c['summary'])}</p>{checklist}
     </div>
   </div>
 </section>
