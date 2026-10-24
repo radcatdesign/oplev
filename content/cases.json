@@ -1,0 +1,651 @@
+[
+  {
+    "id": "adessa-mind",
+    "name": "Adessa Mind",
+    "focus": "clinic platform",
+    "line": "The clinic system behind the Adessa Quotient.",
+    "summary": "Adessa Mind's assessment pulls together cognitive tasks, heart rate variability and brain data. We built the AQ Platform to run the whole visit: it runs the tasks, reads the HeartMath and WAVi reports, scores the AQ, presents it to the client and hands the Activation plan to the technician. Every number traces back to its source.",
+    "built": "Clinic platform + AI assistant",
+    "includes": "Assessment tasks, report import, scoring engine, client reports, Ask Adessa, staff console",
+    "stack": "Next.js, Postgres, Claude API, Vercel",
+    "img": "",
+    "before_title": "A visit, end to end.",
+    "before_label": "The visit",
+    "before": [
+      [
+        "Consent and a short check-in, full screen to the end",
+        "client flow"
+      ],
+      [
+        "Flanker, Numbers, Copying and Matrix Reasoning, scored as each finishes",
+        "task runner"
+      ],
+      [
+        "HeartMath HRT report uploaded and read",
+        "report import"
+      ],
+      [
+        "WAVi report uploaded and read",
+        "report import"
+      ],
+      [
+        "AQ scored and saved, with every step shown",
+        "scoring engine"
+      ],
+      [
+        "Ring reveal, report export and technician brief",
+        "console"
+      ]
+    ],
+    "count": "6 parts / pilot",
+    "system": [
+      [
+        "platform",
+        "AQ console",
+        "Clients and sessions, four team roles enforced on the server, an audit trail on every change, and plans, memberships and revenue."
+      ],
+      [
+        "engine",
+        "Scoring engine",
+        "Eight domains in two rings. Each is a weighted mix of its inputs, and every weight change is versioned."
+      ],
+      [
+        "tool",
+        "Assessment battery",
+        "Flanker, Numbers, Copying and Matrix Reasoning, with millisecond timing and seeded trials."
+      ],
+      [
+        "import",
+        "Report import",
+        "Reads HeartMath HRT and WAVi PDFs, plus past AQ reports so returning clients keep their history."
+      ],
+      [
+        "agent",
+        "Ask Adessa",
+        "A Claude assistant trained on the clinic's own material. It also drafts client reports, which staff check before saving."
+      ],
+      [
+        "playbook",
+        "Staff guide",
+        "28 SOPs and walkthroughs, a test mode and a phone layout."
+      ]
+    ],
+    "cmd": "aq run visit --client new",
+    "run": [
+      [
+        "10:00:04",
+        "intake",
+        "consent signed, check-in complete",
+        "done"
+      ],
+      [
+        "10:06:31",
+        "tasks",
+        "flanker, 20 trials",
+        "scored"
+      ],
+      [
+        "10:24:12",
+        "tasks",
+        "numbers, copying, matrix reasoning",
+        "scored"
+      ],
+      [
+        "10:31:40",
+        "import",
+        "read HeartMath HRT report",
+        "hrv read"
+      ],
+      [
+        "10:38:02",
+        "import",
+        "read WAVi report",
+        "eeg read"
+      ],
+      [
+        "10:38:05",
+        "scoring",
+        "generated AQ with every step shown",
+        "saved"
+      ],
+      [
+        "10:38:20",
+        "report",
+        "drafted client report with Claude",
+        "drafted"
+      ],
+      [
+        "10:38:21",
+        "staff",
+        "check client report before saving",
+        "pending",
+        "need"
+      ],
+      [
+        "10:44:56",
+        "staff",
+        "approved report",
+        "ok",
+        "me"
+      ],
+      [
+        "10:44:58",
+        "console",
+        "activation plan sent to technician",
+        "handed off"
+      ]
+    ],
+    "results_title": "At a glance.",
+    "results_label": "from the platform overview",
+    "results": [
+      [
+        "8",
+        "domains scored, in two rings"
+      ],
+      [
+        "28",
+        "SOPs and walkthroughs in the staff guide"
+      ],
+      [
+        "pilot",
+        "running at aq.adessamind.com"
+      ]
+    ],
+    "note": "The AQ is a non-diagnostic measure of current cognitive state, for informational and wellness purposes only."
+  },
+  {
+    "id": "art-of-practice",
+    "name": "Art of Practice",
+    "focus": "programs",
+    "line": "A cohort program that runs without the founder in every thread.",
+    "summary": "Enrollment, cohort setup and member questions were all handled by hand. We wrote the playbook for opening a cohort and built three agents to run it, so the founder teaches instead of administering.",
+    "built": "Operating system + 3 agents",
+    "includes": "Enrollment, cohort ops and member support agents",
+    "img": "",
+    "before": [
+      [
+        "Enrollments tracked in a spreadsheet",
+        "enrollment agent"
+      ],
+      [
+        "Every cohort set up from scratch",
+        "cohort playbook"
+      ],
+      [
+        "Member questions answered one by one",
+        "support agent"
+      ]
+    ],
+    "system": [
+      [
+        "playbook",
+        "Cohort playbook",
+        "How a cohort opens, runs and closes, step by step, so anyone on the team can run it."
+      ],
+      [
+        "agent",
+        "Enrollment agent",
+        "Pulls paid enrollments into one roster and keeps it current."
+      ],
+      [
+        "agent",
+        "Cohort ops agent",
+        "Sets up the member space and calendar and schedules every live session."
+      ],
+      [
+        "agent",
+        "Member support agent",
+        "Drafts welcome emails and answers common member questions from the FAQ."
+      ]
+    ],
+    "cmd": "oplev run cohort-open --cohort next",
+    "run": [
+      [
+        "07:00:02",
+        "enrollment",
+        "pulled paid enrollments",
+        "roster built"
+      ],
+      [
+        "07:00:09",
+        "cohort ops",
+        "created member space and calendar",
+        "created"
+      ],
+      [
+        "07:00:15",
+        "cohort ops",
+        "scheduled live sessions",
+        "scheduled"
+      ],
+      [
+        "07:00:21",
+        "support",
+        "drafted welcome email",
+        "drafted"
+      ],
+      [
+        "07:00:22",
+        "owner",
+        "approve welcome email to cohort",
+        "pending",
+        "need"
+      ],
+      [
+        "07:41:30",
+        "owner",
+        "approved with one edit",
+        "ok",
+        "me"
+      ],
+      [
+        "07:41:32",
+        "support",
+        "sent welcome to roster",
+        "sent"
+      ],
+      [
+        "08:15:44",
+        "support",
+        "answered member questions from the faq",
+        "4 closed"
+      ]
+    ],
+    "results": []
+  },
+  {
+    "id": "element-glo",
+    "name": "Element Glo",
+    "focus": "lead capture",
+    "line": "Five lead capture tools for an aggregate brand.",
+    "summary": "Buyers, retailers and builders all needed answers before they would order. We built five tools that answer those questions on the site and capture the lead while they do it.",
+    "built": "5 lead capture tools",
+    "includes": "Aggregate visualizer, aggregate calculator, store display maker, mosaic layout planner, builder bidding tool",
+    "img": "",
+    "before": [
+      [
+        "Buyers guess how much aggregate to order",
+        "aggregate calculator"
+      ],
+      [
+        "Customers can't picture the finished look",
+        "aggregate visualizer"
+      ],
+      [
+        "Mosaic layouts planned on paper",
+        "mosaic layout planner"
+      ],
+      [
+        "Store displays laid out one at a time",
+        "store display maker"
+      ],
+      [
+        "Builders price every job from scratch",
+        "builder bidding tool"
+      ]
+    ],
+    "system": [
+      [
+        "tool",
+        "Aggregate visualizer",
+        "Lets buyers see how the aggregate looks before they order."
+      ],
+      [
+        "tool",
+        "Aggregate calculator",
+        "Works out how much aggregate a project needs and turns the estimate into a lead."
+      ],
+      [
+        "tool",
+        "Store display maker",
+        "Helps retail partners plan in-store displays."
+      ],
+      [
+        "tool",
+        "Mosaic layout planner",
+        "Plans mosaic patterns and the material each one needs."
+      ],
+      [
+        "tool",
+        "Builder bidding tool",
+        "Helps builders price jobs that use the aggregate and send bids faster."
+      ]
+    ],
+    "cmd": "oplev run lead --source aggregate-calculator",
+    "run": [
+      [
+        "14:02:10",
+        "calculator",
+        "visitor finished an aggregate estimate",
+        "estimate ready"
+      ],
+      [
+        "14:02:12",
+        "calculator",
+        "captured contact and project details",
+        "lead saved"
+      ],
+      [
+        "14:02:13",
+        "visualizer",
+        "attached the visitor's saved design",
+        "attached"
+      ],
+      [
+        "14:02:15",
+        "crm",
+        "tagged lead by project type",
+        "tagged"
+      ],
+      [
+        "14:02:16",
+        "sales",
+        "approve follow-up with estimate",
+        "pending",
+        "need"
+      ],
+      [
+        "14:20:41",
+        "sales",
+        "approved follow-up",
+        "ok",
+        "me"
+      ],
+      [
+        "14:20:43",
+        "follow-up",
+        "sent estimate and design to the lead",
+        "sent"
+      ]
+    ],
+    "results": []
+  },
+  {
+    "id": "fit-funnels",
+    "name": "Fit Funnels",
+    "focus": "launches",
+    "line": "Client launches for a fitness marketing team, on rails.",
+    "summary": "Each new gym client meant a week of setup and a checklist nobody could find. We turned launch into a written system and built agents for onboarding, pre-launch checks and the weekly report.",
+    "built": "Operating system + 3 agents",
+    "includes": "Onboarding, launch QA and reporting agents",
+    "img": "",
+    "before": [
+      [
+        "Onboarding calls repeat the same questions",
+        "onboarding agent"
+      ],
+      [
+        "Launches checked from memory",
+        "launch qa agent"
+      ],
+      [
+        "Weekly reports built by hand on Friday",
+        "reporting agent"
+      ]
+    ],
+    "system": [
+      [
+        "playbook",
+        "Launch system",
+        "One written process for taking a new gym client from signed to live."
+      ],
+      [
+        "agent",
+        "Onboarding agent",
+        "Sends the intake form and asset request and chases anything missing."
+      ],
+      [
+        "agent",
+        "Launch QA agent",
+        "Checks pages, forms and tracking before anything goes live."
+      ],
+      [
+        "agent",
+        "Reporting agent",
+        "Builds the weekly client report from campaign data."
+      ]
+    ],
+    "cmd": "oplev run launch --client new-gym",
+    "run": [
+      [
+        "10:00:01",
+        "onboarding",
+        "sent intake form and asset request",
+        "sent"
+      ],
+      [
+        "13:22:48",
+        "onboarding",
+        "intake complete, assets received",
+        "received"
+      ],
+      [
+        "13:23:10",
+        "launch qa",
+        "checked pages, forms and tracking",
+        "1 issue"
+      ],
+      [
+        "13:23:12",
+        "launch qa",
+        "flagged missing thank-you redirect",
+        "flagged"
+      ],
+      [
+        "13:23:13",
+        "lead",
+        "approve go-live with fix applied",
+        "pending",
+        "need"
+      ],
+      [
+        "13:40:02",
+        "lead",
+        "approved go-live",
+        "ok",
+        "me"
+      ],
+      [
+        "13:40:05",
+        "launch qa",
+        "campaign live",
+        "live"
+      ],
+      [
+        "13:40:07",
+        "reporting",
+        "scheduled weekly report",
+        "scheduled"
+      ]
+    ],
+    "results": []
+  },
+  {
+    "id": "jason-stephenson",
+    "name": "Jason Stephenson",
+    "focus": "publishing",
+    "line": "Publishing and inbox ops for a meditation creator.",
+    "summary": "A large audience means a steady stream of releases, messages and licensing requests. We wrote down the release pipeline and built agents that prep each drop, sort the inbox and route licensing requests to the right person.",
+    "built": "Operating system + 3 agents",
+    "includes": "Publishing, inbox and licensing agents",
+    "img": "",
+    "before": [
+      [
+        "Every release prepped by hand per platform",
+        "publishing agent"
+      ],
+      [
+        "Fans, partners and spam share one inbox",
+        "inbox agent"
+      ],
+      [
+        "Licensing requests slip through",
+        "licensing agent"
+      ]
+    ],
+    "system": [
+      [
+        "playbook",
+        "Release pipeline",
+        "Every step of a release, from final audio to scheduled posts, written down."
+      ],
+      [
+        "agent",
+        "Publishing agent",
+        "Preps titles, descriptions and tags and queues each release across channels."
+      ],
+      [
+        "agent",
+        "Inbox agent",
+        "Sorts messages into fans, partners and everything else."
+      ],
+      [
+        "agent",
+        "Licensing agent",
+        "Routes licensing requests with standard terms to the right person."
+      ]
+    ],
+    "cmd": "oplev run release --next",
+    "run": [
+      [
+        "05:45:00",
+        "publishing",
+        "pulled final audio and artwork",
+        "ready"
+      ],
+      [
+        "05:45:08",
+        "publishing",
+        "wrote titles, descriptions and tags",
+        "drafted"
+      ],
+      [
+        "05:45:12",
+        "publishing",
+        "queued release across channels",
+        "queued"
+      ],
+      [
+        "05:45:13",
+        "creator",
+        "approve release copy",
+        "pending",
+        "need"
+      ],
+      [
+        "06:20:31",
+        "creator",
+        "approved release",
+        "ok",
+        "me"
+      ],
+      [
+        "06:20:33",
+        "inbox",
+        "sorted overnight messages",
+        "sorted"
+      ],
+      [
+        "06:20:40",
+        "licensing",
+        "routed requests with standard terms",
+        "2 routed"
+      ]
+    ],
+    "results": []
+  },
+  {
+    "id": "mawa",
+    "name": "MaWa!",
+    "focus": "launch ops",
+    "line": "Launch ops for a matcha water brand.",
+    "summary": "A beverage launch runs on store outreach, orders and investor updates at the same time. We built the launch system and agents that work the retail pipeline, reconcile orders and draft the monthly update.",
+    "built": "Operating system + 3 agents",
+    "includes": "Retail, orders and investor update agents",
+    "img": "",
+    "before": [
+      [
+        "Store outreach tracked in DMs",
+        "retail agent"
+      ],
+      [
+        "Orders reconciled at month end",
+        "orders agent"
+      ],
+      [
+        "Investor updates written from scratch",
+        "update agent"
+      ]
+    ],
+    "system": [
+      [
+        "playbook",
+        "Launch system",
+        "The weekly rhythm for retail outreach, orders and investor updates."
+      ],
+      [
+        "agent",
+        "Retail agent",
+        "Tracks the store pipeline and follows up with open accounts."
+      ],
+      [
+        "agent",
+        "Orders agent",
+        "Reconciles orders and payouts as they come in."
+      ],
+      [
+        "agent",
+        "Investor update agent",
+        "Drafts the monthly update from the month's numbers and notes."
+      ]
+    ],
+    "cmd": "oplev run monthly-update",
+    "run": [
+      [
+        "08:00:00",
+        "orders",
+        "reconciled orders and payouts",
+        "reconciled"
+      ],
+      [
+        "08:00:14",
+        "retail",
+        "summarized store pipeline",
+        "summarized"
+      ],
+      [
+        "08:00:30",
+        "update",
+        "drafted investor update",
+        "drafted"
+      ],
+      [
+        "08:00:31",
+        "founder",
+        "approve update to investors",
+        "pending",
+        "need"
+      ],
+      [
+        "09:15:02",
+        "founder",
+        "approved update",
+        "ok",
+        "me"
+      ],
+      [
+        "09:15:05",
+        "update",
+        "sent to investor list",
+        "sent"
+      ],
+      [
+        "09:15:20",
+        "retail",
+        "followed up with open stores",
+        "followed up"
+      ]
+    ],
+    "results": []
+  }
+]
