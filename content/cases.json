@@ -118,102 +118,110 @@
   {
     "id": "art-of-practice",
     "name": "Art of Practice",
-    "focus": "programs",
-    "line": "A cohort program that runs without the founder in every thread.",
-    "summary": "Enrollment, cohort setup and member questions were all handled by hand. We wrote the playbook for opening a cohort and built three agents to run it, so the founder teaches instead of administering.",
-    "built": "Operating system + 3 agents",
-    "includes": "Enrollment, cohort ops and member support agents",
-    "img": "",
-    "before": [
-      [
-        "Enrollments tracked in a spreadsheet",
-        "enrollment agent"
-      ],
-      [
-        "Every cohort set up from scratch",
-        "cohort playbook"
-      ],
-      [
-        "Member questions answered one by one",
-        "support agent"
-      ]
-    ],
+    "focus": "practice platform",
+    "line": "The operating system for the solo clinical professional.",
+    "summary": "Solo clinical professionals pay for a stack of apps and still can't answer a simple question: am I making money? We designed and built Art of Practice, one platform for the schedule, notes, client files, payments and credentials, plus the investor overview and product demo.",
+    "built": "Practice platform + investor deck",
+    "includes": "Today view, charting, AI-assisted notes, practice reports, professional vault, investor overview",
+    "img": "img/art-of-practice.png",
+    "before_title": "What it does.",
+    "before": [],
+    "count": "6 parts / working prototype",
     "system": [
       [
-        "playbook",
-        "Cohort playbook",
-        "How a cohort opens, runs and closes, step by step, so anyone on the team can run it."
+        "platform",
+        "Today view",
+        "Revenue, schedule, open notes, unpaid invoices and license renewals on one screen."
+      ],
+      [
+        "tool",
+        "Charting and files",
+        "Note templates, consent forms and client records, private by design."
       ],
       [
         "agent",
-        "Enrollment agent",
-        "Pulls paid enrollments into one roster and keeps it current."
+        "AI-assisted notes",
+        "Speak the findings, then review a structured note before it's saved."
       ],
       [
-        "agent",
-        "Cohort ops agent",
-        "Sets up the member space and calendar and schedules every live session."
+        "tool",
+        "Practice reports",
+        "One financial picture across every place the practitioner works."
       ],
       [
-        "agent",
-        "Member support agent",
-        "Drafts welcome emails and answers common member questions from the FAQ."
+        "tool",
+        "Professional vault",
+        "Licenses, credentials and continuing education, with renewal reminders."
+      ],
+      [
+        "deck",
+        "Investor overview",
+        "The story, the product and the plan in twelve slides, with a recorded demo."
       ]
     ],
-    "cmd": "oplev run cohort-open --cohort next",
+    "cmd": "aop run today",
     "run": [
       [
-        "07:00:02",
-        "enrollment",
-        "pulled paid enrollments",
-        "roster built"
+        "07:30:00",
+        "schedule",
+        "loaded today's visits",
+        "6 visits"
       ],
       [
-        "07:00:09",
-        "cohort ops",
-        "created member space and calendar",
-        "created"
-      ],
-      [
-        "07:00:15",
-        "cohort ops",
-        "scheduled live sessions",
-        "scheduled"
-      ],
-      [
-        "07:00:21",
-        "support",
-        "drafted welcome email",
+        "09:52:14",
+        "notes",
+        "turned dictated findings into a note",
         "drafted"
       ],
       [
-        "07:00:22",
-        "owner",
-        "approve welcome email to cohort",
+        "09:52:15",
+        "practitioner",
+        "review note before saving",
         "pending",
         "need"
       ],
       [
-        "07:41:30",
-        "owner",
-        "approved with one edit",
+        "09:54:40",
+        "practitioner",
+        "approved note",
         "ok",
         "me"
       ],
       [
-        "07:41:32",
-        "support",
-        "sent welcome to roster",
+        "09:54:42",
+        "billing",
+        "sent invoice for the visit",
         "sent"
       ],
       [
-        "08:15:44",
-        "support",
-        "answered member questions from the faq",
-        "4 closed"
+        "12:00:00",
+        "vault",
+        "license renewal coming up",
+        "reminder set"
+      ],
+      [
+        "18:00:00",
+        "reports",
+        "updated this month's income and expenses",
+        "updated"
       ]
     ],
-    "results": []
+    "results_title": "At a glance.",
+    "results_label": "from the investor overview",
+    "results": [
+      [
+        "1",
+        "platform instead of a stack of apps"
+      ],
+      [
+        "6",
+        "parts, from schedule to credentials"
+      ],
+      [
+        "demo",
+        "working prototype, recorded walkthrough"
+      ]
+    ]
   },
   {
     "id": "element-glo",
