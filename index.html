@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
 <script>
-(function(){var d=document.documentElement,rm=false;try{rm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}d.classList.add(rm?'rm':'is-loading')})();
+(function(){var d=document.documentElement,rm=false,seen=false;try{rm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}try{seen=sessionStorage.getItem('oplev-boot')==='1'}catch(e){}d.classList.add(rm?'rm':(seen?'booted':'is-loading'))})();
 </script>
 <style>
 /* Layout: one column at 1360 max, hairline rules between sections. Work is a sticky case index beside the open case; on phones the open case drops in under its row. */
@@ -273,7 +273,7 @@ html.is-loading .loader,.loader.out{display:flex}
     <nav class="links" aria-label="Sections">
       <a href="#work">Work</a>
       <a href="#method">Method</a>
-      <a href="#ownership">Ownership</a>
+      <a href="pricing.html">Pricing</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="nav-r">
@@ -882,7 +882,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{
 (function(){
   const html=document.documentElement,L=$('#loader');
   const after=()=>{decode($('#h1'));fitWordmark();};
-  if(!html.classList.contains('is-loading')||!L){if(L)L.remove();return;}
+  if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
   const lines=[['> oplev init'],['runtime','ok'],['intake','ok'],['systems','ok'],['agents','ok'],['approvals','ok'],['guardrails','armed'],['> ready']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
@@ -891,6 +891,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{
   const t0=performance.now();let done=false,shown=0;
   function exit(){
     if(done)return;done=true;
+    try{sessionStorage.setItem('oplev-boot','1')}catch(e){}
     L.classList.add('out');html.classList.remove('is-loading');
     requestAnimationFrame(()=>requestAnimationFrame(()=>L.classList.add('gone')));
     setTimeout(()=>{L.remove();},950);

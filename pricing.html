@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OpLev Pricing</title>
+<meta name="description" content="OpLev plans start at $5k a month. Month to month, and you own everything we build.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
+<script>
+(function(){var d=document.documentElement,rm=false,seen=false;try{rm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}try{seen=sessionStorage.getItem('oplev-boot')==='1'}catch(e){}d.classList.add(rm?'rm':(seen?'booted':'is-loading'))})();
+</script>
+<style>
+/* Layout: same shell as the home page. Short header, the three plans on the one inverted band, then what every plan includes, questions, and a call to action. */
+:root{
+  color-scheme:dark;
+  --ink:#070708;--ink-2:#0E0E10;--paper:#F2F2EF;--paper-2:#E5E5E1;
+  --soft:#B8B8BD;--dim:#8A8A90;--dim-2:#56565C;--line:#202024;--line-2:#36363C;
+  --on-paper-dim:#5C5C61;--on-paper-line:#C7C7C2;
+  --display:"Martian Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --body:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --num:"Doto","Martian Mono",ui-monospace,monospace;
+  --gut:16px;--nav:62px;--max:1360px;
+  --wipe:cubic-bezier(.77,0,.18,1);
+}
+@media (min-width:760px){:root{--gut:40px}}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 17px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+[hidden]{display:none!important}
+img{max-width:100%}
+html.is-loading body{overflow:hidden}
+::selection{background:var(--paper);color:var(--ink)}
+.band ::selection{background:var(--ink);color:var(--paper)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+a{color:inherit}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.wrap{width:100%;max-width:calc(var(--max) + 2*var(--gut));margin-inline:auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+section[id]{scroll-margin-top:var(--nav)}
+
+/* type */
+.label{font:400 11px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0}
+.eyebrow{display:flex;align-items:center;gap:10px;margin:0;font:400 12px/1 var(--display);letter-spacing:.02em;color:var(--dim)}
+.eyebrow::before{content:"";width:6px;height:6px;background:var(--paper);flex:none}
+.h1,.h2,.h3{font-family:var(--display);font-weight:500;font-stretch:87.5%;margin:0;color:var(--paper);text-wrap:balance}
+.h1{font-size:clamp(32px,6vw,92px);line-height:1;letter-spacing:-.055em;max-width:16ch}
+.h2{font-size:clamp(28px,4.4vw,62px);line-height:1.04;letter-spacing:-.045em;max-width:18ch}
+.h3{font-size:clamp(18px,1.7vw,23px);line-height:1.2;letter-spacing:-.03em}
+.lede{color:var(--soft);max-width:54ch;margin:0}
+.cursor{display:inline-block;width:.52em;height:.8em;background:var(--paper);margin-left:.14em;vertical-align:-.02em;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{0%{opacity:1}50%{opacity:0}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:500 12px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;padding:15px 20px;border:1px solid var(--paper);background:var(--paper);color:var(--ink);text-decoration:none;cursor:pointer;border-radius:0;transition:background .18s,color .18s,border-color .18s;white-space:nowrap}
+.btn:hover{background:transparent;color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--paper);border-color:var(--line-2)}
+.btn.ghost:hover{border-color:var(--paper)}
+.btn svg{width:14px;height:14px;flex:none}
+.btn-sm{padding:11px 14px;font-size:11px}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--nav);background:rgba(7,7,8,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{height:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px}
+@media (min-width:900px){.nav .wrap{grid-template-columns:1fr auto 1fr}}
+.brand{display:inline-flex;align-items:center;gap:10px;font:500 13px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--paper);text-decoration:none;justify-self:start}
+.mark{width:10px;height:10px;flex:none;display:block}
+.links{display:none}
+@media (min-width:900px){.links{display:flex;gap:28px}}
+.links a{font:400 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:8px 0;transition:color .18s}
+.links a:hover,.links a[aria-current="page"]{color:var(--paper)}
+.nav-r{display:flex;align-items:center;gap:16px;justify-self:end}
+.clock{font:400 11px/1 var(--display);letter-spacing:.14em;color:var(--dim);font-variant-numeric:tabular-nums;text-transform:uppercase;white-space:nowrap}
+.clock .c{animation:blink 1.1s steps(1) infinite}
+.nav .clock{display:none}
+@media (min-width:520px){.nav .clock{display:inline}}
+
+/* sections */
+.sec{border-top:1px solid var(--line)}
+.sec>.wrap{padding-block:clamp(84px,11vw,160px)}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 40px;margin-bottom:clamp(36px,5vw,64px)}
+.head-l{display:flex;flex-direction:column;gap:22px;min-width:0}
+.top .wrap{padding-block:clamp(56px,8vw,112px) clamp(56px,7vw,96px);display:flex;flex-direction:column;gap:28px}
+
+/* plans band */
+.band{background:var(--paper);color:var(--ink);border-top:0}
+.band .eyebrow{color:var(--on-paper-dim)}
+.band .eyebrow::before{background:var(--ink)}
+.band .h2,.band .h3{color:var(--ink)}
+.band .label{color:var(--on-paper-dim)}
+.band .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.band .btn:hover{background:transparent;color:var(--ink)}
+.plans{display:grid;gap:1px;background:var(--on-paper-line);border:1px solid var(--on-paper-line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.plans{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.plan{background:var(--paper);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:22px;min-width:0;transition:background .18s}
+.plan:hover{background:var(--paper-2)}
+.plan-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.plan-id{display:flex;flex-direction:column;gap:16px}
+.price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;color:var(--ink)}
+.price .amt{font-size:clamp(52px,5.8vw,88px);line-height:.92;letter-spacing:-.055em;font-variant-numeric:tabular-nums}
+.price .per{font:400 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--on-paper-dim)}
+.plan .for{margin:0;color:var(--on-paper-dim);font-size:16px}
+@media (min-width:980px){.plan .for{min-height:3.1em}}
+.inc{list-style:none;margin:0;padding:0;border-top:1px solid var(--on-paper-line);flex:1}
+.inc li{display:grid;grid-template-columns:6px minmax(0,1fr);gap:14px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--on-paper-line);font-size:15px;line-height:1.45;color:var(--ink)}
+.inc li::before{content:"";width:6px;height:6px;background:var(--ink);transform:translateY(-1px)}
+.plan .btn{align-self:flex-start}
+.fine{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 24px}
+
+/* every plan */
+.every{display:grid;column-gap:40px;border-top:1px solid var(--line)}
+@media (min-width:760px){.every{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ev{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.ev .b{font:400 12px/1 var(--display);color:var(--paper)}
+.ev p{grid-column:2;margin:0;color:var(--soft);font-size:16px}
+
+/* questions */
+.qa{display:grid;gap:40px}
+@media (min-width:980px){.qa{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px}.qa .head{position:sticky;top:calc(var(--nav) + 32px);align-self:start;margin:0}}
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:22px 0}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"[+]";font:400 12px/1 var(--display);color:var(--dim)}
+.faq details[open] summary::after{content:"[-]";color:var(--paper)}
+.faq summary:hover .h3{color:var(--paper)}
+.faq .h3{color:var(--soft);transition:color .18s}
+.faq details[open] .h3{color:var(--paper)}
+.faq .a{margin:0;padding:0 0 26px;color:var(--soft);max-width:60ch}
+
+/* footer */
+.foot{border-top:1px solid var(--line)}
+.foot .wrap{padding-block:clamp(48px,7vw,96px) 28px}
+.wm{font:900 clamp(76px,26vw,400px)/.8 var(--num);letter-spacing:-.02em;color:var(--paper);white-space:nowrap;overflow-x:clip;margin:0 0 clamp(28px,4vw,48px)}
+.wm span{display:inline-block}
+.frow{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;padding-top:18px;border-top:1px solid var(--line)}
+
+/* loader */
+.loader{display:none;position:fixed;inset:0;z-index:100;background:var(--ink);flex-direction:column;justify-content:space-between;padding-top:calc(20px + env(safe-area-inset-top,0px));padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px));-webkit-clip-path:inset(0 0 0 0);clip-path:inset(0 0 0 0);transition:clip-path .85s var(--wipe),-webkit-clip-path .85s var(--wipe)}
+html.is-loading .loader,.loader.out{display:flex}
+.loader.gone{-webkit-clip-path:inset(0 0 100% 0);clip-path:inset(0 0 100% 0)}
+.ld-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.ld-bot{display:flex;flex-direction:column;gap:16px}
+.ld-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.ld-log{margin:0;font:400 12px/1.7 var(--display);color:var(--dim);white-space:pre;min-height:calc(8 * 1.7em)}
+.ld-log b{font-weight:400;color:var(--paper)}
+.ld-n{font:900 clamp(96px,21vw,290px)/.8 var(--num);color:var(--paper);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.ld-track{height:1px;background:var(--line-2);position:relative;overflow:hidden}
+.ld-fill{position:absolute;inset:0;background:var(--paper);transform-origin:0 50%;transform:scaleX(0)}
+@media (max-width:600px){.ld-row{flex-direction:column;align-items:stretch}.ld-n{align-self:flex-end}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="ld-top">
+    <span class="brand"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg>OPLEV</span>
+    <span class="label">oplev / build 2026.10</span>
+  </div>
+  <div class="ld-bot">
+    <div class="ld-row">
+      <pre class="ld-log" id="ld-log"></pre>
+      <div class="ld-n" id="ld-n">000</div>
+    </div>
+    <div class="ld-track"><div class="ld-fill" id="ld-fill"></div></div>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="OpLev home"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span class="brand-t">OPLEV</span></a>
+    <nav class="links" aria-label="Sections">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#method">Method</a>
+      <a href="pricing.html" aria-current="page">Pricing</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-r">
+      <span class="clock" data-clock></span>
+      <a class="btn btn-sm" href="index.html#contact">Start a project</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="top" aria-labelledby="h1">
+    <div class="wrap">
+      <p class="eyebrow">~/oplev/pricing</p>
+      <h1 class="h1" id="h1">One monthly fee. No lock-in.<span class="cursor" aria-hidden="true"></span></h1>
+      <p class="lede">Every plan covers the build, the agents and the two of us keeping them running. Plans are month to month, and everything we build is yours.</p>
+    </div>
+  </section>
+
+  <section class="sec band" id="plans" aria-labelledby="plans-h">
+    <div class="wrap">
+      <div class="head">
+        <div class="head-l">
+          <p class="eyebrow">~/oplev/plans</p>
+          <h2 class="h2" id="plans-h">Pick the scope. We do the work.</h2>
+        </div>
+        <p class="label">usd / billed monthly</p>
+      </div>
+      <div class="plans">
+        <article class="plan" aria-labelledby="p1">
+          <div class="plan-top"><span class="label">plan 01 / 03</span></div>
+          <div class="plan-id">
+            <h3 class="h3" id="p1">One function</h3>
+            <p class="price"><span class="amt">$5k</span><span class="per">/ month</span></p>
+          </div>
+          <p class="for">One part of the business needs to stop running through you.</p>
+          <ul class="inc">
+            <li>One function written down and built out</li>
+            <li>Up to 2 work agents</li>
+            <li>Playbooks for that function</li>
+            <li>Monthly OpLev Score</li>
+            <li>Monthly working session</li>
+            <li>Async support, reply within a business day</li>
+          </ul>
+          <a class="btn" href="index.html#contact">Start with one <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+        </article>
+        <article class="plan" aria-labelledby="p2">
+          <div class="plan-top"><span class="label">plan 02 / 03</span></div>
+          <div class="plan-id">
+            <h3 class="h3" id="p2">Core ops</h3>
+            <p class="price"><span class="amt">$10k</span><span class="per">/ month</span></p>
+          </div>
+          <p class="for">A growing team where the work lives in a few people's heads.</p>
+          <ul class="inc">
+            <li>Up to 3 functions written down and built out</li>
+            <li>Up to 6 work agents</li>
+            <li>Team interviews with Mira</li>
+            <li>Dashboards for each function</li>
+            <li>Monthly OpLev Score, scored with your team</li>
+            <li>Weekly working session</li>
+            <li>Same-day support</li>
+          </ul>
+          <a class="btn" href="index.html#contact">Start core ops <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+        </article>
+        <article class="plan" aria-labelledby="p3">
+          <div class="plan-top"><span class="label">plan 03 / 03</span></div>
+          <div class="plan-id">
+            <h3 class="h3" id="p3">Whole company</h3>
+            <p class="price"><span class="amt">$15k+</span><span class="per">/ month</span></p>
+          </div>
+          <p class="for">You want the whole operation written down and running.</p>
+          <ul class="inc">
+            <li>Every function</li>
+            <li>Custom agents, scoped with you</li>
+            <li>A searchable company knowledge base</li>
+            <li>OpLev Score across teams and roles</li>
+            <li>Weekly sessions and on-call support</li>
+            <li>Priced by team size and scope</li>
+          </ul>
+          <a class="btn" href="index.html#contact">Talk to us <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+        </article>
+      </div>
+      <div class="fine">
+        <p class="label">month to month</p>
+        <p class="label">switch plans any month</p>
+        <p class="label">you own all of it</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="every" aria-labelledby="every-h">
+    <div class="wrap">
+      <div class="head">
+        <div class="head-l">
+          <p class="eyebrow">~/oplev/plans/all</p>
+          <h2 class="h2" id="every-h">In every plan.</h2>
+        </div>
+      </div>
+      <div class="every">
+        <div class="ev"><span class="b" aria-hidden="true">[x]</span><h3 class="h3">Built in your tools</h3><p>We work in the software you already pay for. No new platform to learn.</p></div>
+        <div class="ev"><span class="b" aria-hidden="true">[x]</span><h3 class="h3">Agents ask first</h3><p>Anything that touches a customer, money or a contract waits for a person to approve it.</p></div>
+        <div class="ev"><span class="b" aria-hidden="true">[x]</span><h3 class="h3">You own it</h3><p>Docs, workflows and agents live in your accounts and keep running if you leave.</p></div>
+        <div class="ev"><span class="b" aria-hidden="true">[x]</span><h3 class="h3">Founders on the work</h3><p>Andre and Matt do the work themselves. No account managers in between.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="questions" aria-labelledby="q-h">
+    <div class="wrap qa">
+      <div class="head">
+        <div class="head-l">
+          <p class="eyebrow">~/oplev/questions</p>
+          <h2 class="h2" id="q-h">Questions.</h2>
+        </div>
+      </div>
+      <div class="faq">
+        <details open>
+          <summary><span class="h3">Where do we start?</span></summary>
+          <p class="a">With the OpLev Score. Your team answers a short set of questions with Mira, and we show you where the business leans on one person. That tells us which plan fits.</p>
+        </details>
+        <details>
+          <summary><span class="h3">Do we even need this?</span></summary>
+          <p class="a">Maybe not. If the business runs fine while you take two weeks off, keep your money. We'll tell you that on the first call.</p>
+        </details>
+        <details>
+          <summary><span class="h3">What does the + on Whole company mean?</span></summary>
+          <p class="a">It starts at $15k a month and goes up with team size and the number of functions we take on. We quote it after the OpLev Score, so you know the number before you commit.</p>
+        </details>
+        <details>
+          <summary><span class="h3">Can we change plans?</span></summary>
+          <p class="a">Yes. Move up or down at the start of any month.</p>
+        </details>
+        <details>
+          <summary><span class="h3">What happens if we stop?</span></summary>
+          <p class="a">Everything stays. The playbooks, workflows and agents live in your accounts, so they keep running without us.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="start" aria-labelledby="start-h">
+    <div class="wrap top-cta" style="display:flex;flex-direction:column;gap:28px">
+      <p class="eyebrow">~/oplev/start</p>
+      <h2 class="h2" id="start-h">Not sure which plan fits?</h2>
+      <p class="lede">Start with the OpLev Score. We'll tell you which plan fits, even if the answer is none of them.</p>
+      <div class="actions">
+        <a class="btn" href="index.html#contact">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+        <a class="btn ghost" href="index.html#work">See the work <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="wm" id="wm"><span id="wm-t">OPLEV</span></p>
+    <div class="frow label">
+      <span>OpLev</span>
+      <span>Operating systems + work agents</span>
+      <span>Bend, Oregon</span>
+      <span class="clock" data-clock></span>
+      <span id="year">2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+let RM=false;try{RM=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+const $=(s,r)=>(r||document).querySelector(s);
+const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad2=n=>String(n).padStart(2,'0');
+
+/* decode */
+const UP='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>[]{}_';
+const LO='abcdefghijklmnopqrstuvwxyz0123456789#%&*+=/<>_';
+const CAPS='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const recs=new WeakMap();
+const pick=s=>s[Math.random()*s.length|0];
+function decode(el,dur,glyphs){
+  if(RM||!el) return;
+  let r=recs.get(el);
+  if(!r){
+    const nodes=[],w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+    while(w.nextNode()) if(w.currentNode.nodeValue.trim()) nodes.push(w.currentNode);
+    r={nodes,finals:nodes.map(n=>n.nodeValue),id:0};
+    recs.set(el,r);
+    el.setAttribute('aria-label',r.finals.join('').replace(/\s+/g,' ').trim());
+  }
+  const id=++r.id,total=r.finals.join('').length;
+  if(!total) return;
+  dur=dur||Math.min(1500,380+total*20);
+  let off=0;
+  const at=r.finals.map(s=>{const a=[];for(let i=0;i<s.length;i++)a.push(((off+i)/total)*dur*.62+Math.random()*dur*.38);off+=s.length;return a;});
+  const cur=r.finals.map(s=>s.split(''));
+  const t0=performance.now();let last=0;
+  function frame(now){
+    if(r.id!==id) return;
+    const e=now-t0,swap=now-last>50;if(swap) last=now;
+    let done=true;
+    r.finals.forEach((f,k)=>{
+      for(let i=0;i<f.length;i++){
+        const c=f[i];
+        if(/\s/.test(c)||e>=at[k][i]) cur[k][i]=c;
+        else{done=false;if(swap||cur[k][i]===c) cur[k][i]=glyphs?pick(glyphs):(c>='a'&&c<='z'?pick(LO):pick(UP));}
+      }
+      r.nodes[k].nodeValue=cur[k].join('');
+    });
+    if(!done) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+function onHover(el,fn){if(!el)return;el.addEventListener('mouseenter',fn);el.addEventListener('focus',fn);}
+
+/* clock */
+(function(){
+  const els=$$('[data-clock]');let tz='';
+  try{const p=new Intl.DateTimeFormat('en-US',{timeZoneName:'short'}).formatToParts(new Date()).find(x=>x.type==='timeZoneName');tz=p?p.value:''}catch(e){}
+  let prev='';
+  const tick=()=>{const d=new Date(),s=pad2(d.getHours())+pad2(d.getMinutes());if(s===prev)return;prev=s;
+    els.forEach(el=>{el.innerHTML=pad2(d.getHours())+'<span class="c">:</span>'+pad2(d.getMinutes())+(tz?' '+esc(tz):'')});};
+  tick();setInterval(tick,1000);
+  const y=$('#year');if(y)y.textContent=String(new Date().getFullYear());
+})();
+
+/* hover + scroll decodes */
+$$('.links a,.btn').forEach(el=>onHover(el,()=>decode(el,360)));
+onHover($('.nav .brand'),()=>decode($('.brand-t'),360,CAPS));
+$$('.plan').forEach(p=>p.addEventListener('mouseenter',()=>decode($('.h3',p),360)));
+$$('.ev').forEach(p=>p.addEventListener('mouseenter',()=>decode($('.h3',p),360)));
+if(!RM&&'IntersectionObserver' in window){
+  const ho=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){ho.unobserve(e.target);decode(e.target)}}),{threshold:.35});
+  $$('.h2').forEach(h=>ho.observe(h));
+  const po=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;po.unobserve(e.target);
+    $$('.amt',e.target).forEach((a,i)=>setTimeout(()=>decode(a,700),i*160));
+  }),{threshold:.3});
+  const plans=$('.plans');if(plans)po.observe(plans);
+  const wo=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){wo.unobserve(e.target);decode($('#wm-t'),null,CAPS)}}),{threshold:.35});
+  wo.observe($('#wm'));
+}
+
+/* footer wordmark fit */
+function fitWordmark(){
+  const wm=$('#wm'),t=$('#wm-t');if(!wm||!t)return;
+  wm.style.fontSize='';
+  const avail=wm.clientWidth,w=t.getBoundingClientRect().width;
+  if(w>avail&&avail>0){const fs=parseFloat(getComputedStyle(wm).fontSize);wm.style.fontSize=(fs*avail/w*.98)+'px';}
+}
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(fitWordmark,150);});
+fitWordmark();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitWordmark);
+
+/* loader */
+(function(){
+  const html=document.documentElement,L=$('#loader');
+  const after=()=>{decode($('#h1'));fitWordmark();};
+  if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
+  const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
+  const lines=[['> oplev init'],['runtime','ok'],['intake','ok'],['systems','ok'],['agents','ok'],['approvals','ok'],['guardrails','armed'],['> ready']];
+  const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);
+  const t0=performance.now();let done=false,shown=0;
+  function exit(){
+    if(done)return;done=true;
+    try{sessionStorage.setItem('oplev-boot','1')}catch(e){}
+    L.classList.add('out');html.classList.remove('is-loading');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>L.classList.add('gone')));
+    setTimeout(()=>{L.remove();},950);
+    after();
+  }
+  setTimeout(exit,5000);
+  function frame(now){
+    if(done)return;
+    const t=Math.min(1,(now-t0)/1550),e=ease(t);
+    n.textContent=String(Math.round(e*100)).padStart(3,'0');
+    fill.style.transform='scaleX('+e.toFixed(4)+')';
+    const want=Math.max(1,Math.ceil(e*lines.length));
+    if(want!==shown){shown=want;log.innerHTML=lines.slice(0,want).map(fmt).join('\n');}
+    if(t<1)requestAnimationFrame(frame);else fontsP.then(()=>sleep(240)).then(exit);
+  }
+  requestAnimationFrame(frame);
+})();
+})();
+</script>
+</body>
+</html>
