@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OpLev Work</title>
-<meta name="description" content="Case studies: operating systems and work agents OpLev has built for founders and small teams.">
+<meta name="description" content="Case studies: custom software, work agents and lead capture tools OpLev has built for founders and small teams.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
@@ -379,6 +379,127 @@ html.is-loading .loader,.loader.out{display:flex}
 .ld-fill{position:absolute;inset:0;background:var(--paper);transform-origin:0 50%;transform:scaleX(0)}
 @media (max-width:600px){.ld-row{flex-direction:column;align-items:stretch}.ld-n{align-self:flex-end}}
 
+/* sound familiar */
+.pains .ck .tx{font-family:var(--display);font-stretch:87.5%;font-size:clamp(16px,1.5vw,20px);letter-spacing:-.02em;line-height:1.35}
+.pains .ck.done .by::before{content:"fixed by "}
+.pains .ck .by{min-height:1em}
+
+/* built for picker */
+.picker{display:flex;flex-direction:column}
+.tabs{display:flex;gap:1px;background:var(--line);border:1px solid var(--line);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+@media (max-width:699px){.tabs{flex-wrap:wrap;overflow:visible}.tab{flex:1 1 calc(50% - 1px);justify-content:flex-start;white-space:normal;text-align:left;line-height:1.3}}
+.tab{flex:1 0 auto;appearance:none;-webkit-appearance:none;border:0;border-radius:0;background:var(--ink);color:var(--dim);font:400 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;padding:18px 20px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s,color .18s}
+.tab::before{content:"";width:6px;height:6px;border:1px solid currentColor;flex:none}
+.tab:hover{background:var(--ink-2);color:var(--paper)}
+.tab[aria-selected="true"]{background:var(--paper);color:var(--ink)}
+.tab[aria-selected="true"]::before{background:var(--ink);border-color:var(--ink)}
+.fpanel{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-top:0}
+@media (min-width:900px){.fpanel{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
+.fp-l,.fp-r{background:var(--ink);padding:clamp(22px,2.6vw,40px);display:flex;flex-direction:column;gap:18px;min-width:0}
+.fp-name{font-size:clamp(24px,2.6vw,38px);line-height:1.05;letter-spacing:-.045em}
+.fp-pitch{margin:0;color:var(--soft);max-width:48ch}
+.rowlist{list-style:none;margin:6px 0 0;padding:0;border-top:1px solid var(--line)}
+.rowlist li{display:grid;grid-template-columns:6px minmax(0,1fr);gap:14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);color:var(--paper);font-size:16px;line-height:1.45}
+.rowlist li::before{content:"";width:6px;height:6px;background:var(--paper);transform:translateY(-2px)}
+.seen{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
+.seen a{display:flex;align-items:center;gap:14px;padding:14px;background:var(--ink);text-decoration:none;color:var(--paper);transition:background .18s;min-width:0}
+.seen a:hover{background:var(--ink-2)}
+.seen a:hover .mini{border-color:var(--dim)}
+.seen .h3{font-size:clamp(16px,1.4vw,19px);min-width:0}
+.go{display:inline-flex;margin-left:auto;color:var(--dim);transition:color .18s}
+.go svg{width:14px;height:14px}
+a:hover>.go{color:var(--paper)}
+.fp-r .btn{align-self:flex-start;margin-top:auto}
+
+/* run / grow / sell */
+.band .lede{color:var(--on-paper-dim)}
+.model{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--on-paper-line);border:1px solid var(--on-paper-line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.model{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.mcell{background:var(--paper);padding:clamp(22px,2.6vw,40px);display:flex;flex-direction:column;gap:14px;transition:background .18s}
+.mcell:hover{background:var(--paper-2)}
+.mcell .num{font:900 clamp(52px,5.4vw,80px)/.85 var(--num);color:var(--ink);font-variant-numeric:tabular-nums;margin-bottom:clamp(14px,3vw,44px)}
+.mcell .h3{font-size:clamp(22px,2.2vw,30px);letter-spacing:-.045em}
+.mcell p{margin:0;color:var(--on-paper-dim);font-size:16px;max-width:42ch}
+.kicker{margin-top:clamp(28px,4vw,48px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px 40px}
+.kicker-t{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(22px,2.8vw,40px);letter-spacing:-.045em;line-height:1.08;color:var(--ink);max-width:22ch;text-wrap:balance}
+.band .btn.ghost{background:transparent;color:var(--ink);border-color:var(--on-paper-line)}
+.band .btn.ghost:hover{border-color:var(--ink)}
+.model-row{margin-top:8px}
+@media (min-width:900px){.every.model-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.every.one-col{grid-template-columns:minmax(0,1fr)}
+
+/* compare */
+.cmp{border-top:1px solid var(--line)}
+.cmp-row{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(3,minmax(0,1fr));column-gap:24px;border-bottom:1px solid var(--line)}
+.cmp-row>span{padding:18px 0;min-width:0}
+.cmp-k{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:15px;line-height:1.35;letter-spacing:-.01em;color:var(--paper)}
+.cmp-v{color:var(--dim);font-size:15px;line-height:1.45}
+.cmp-row>.us{padding-left:16px;padding-right:16px;background:var(--ink-2);color:var(--paper)}
+.cmp-head>span{padding-block:14px}
+.cmp-h{font:400 11px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.cmp-head>.us{background:var(--paper);color:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:759px){
+  .cmp-head{display:none}
+  .cmp-row{grid-template-columns:minmax(0,1fr);padding:14px 0}
+  .cmp-row>span{padding:5px 0}
+  .cmp-row>.us{padding:10px 12px;margin-top:6px}
+  .cmp-v::before{content:attr(data-l);display:block;font:400 10px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim-2);margin-bottom:2px}
+  .cmp-v.us::before{color:var(--dim)}
+}
+
+/* resale example */
+.example{display:flex;align-items:center;gap:16px;margin-top:8px;padding:16px;border:1px solid var(--line-2);background:var(--ink);color:inherit;text-decoration:none;transition:background .18s,border-color .18s;min-width:0}
+.example:hover{background:var(--ink-2);border-color:var(--dim)}
+.example .mini{width:96px}
+.ex-b{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ex-t{color:var(--soft);font-size:15px;line-height:1.45}
+
+/* inquiry */
+.inq-page>.wrap{padding-block:clamp(48px,7vw,104px) clamp(84px,11vw,160px)}
+.inq-wrap{display:grid;gap:48px}
+@media (min-width:980px){.inq-wrap{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px}.inq-side{position:sticky;top:calc(var(--nav) + 32px);align-self:start}}
+.inq-side{display:flex;flex-direction:column;gap:24px;min-width:0}
+.next{list-style:none;margin:6px 0 0;padding:0;border-top:1px solid var(--line)}
+.next li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
+.nx-n{font:900 26px/1 var(--num);color:var(--paper);font-variant-numeric:tabular-nums}
+.next .h3{font-size:clamp(16px,1.4vw,19px)}
+.next p{margin:6px 0 0;color:var(--soft);font-size:15px;line-height:1.5}
+.sel{color:var(--paper);-webkit-user-select:all;user-select:all;text-transform:none;letter-spacing:.02em}
+.inq{position:relative;background:var(--ink-2);border:1px solid var(--line-2);padding:clamp(18px,2.6vw,36px);display:flex;flex-direction:column;gap:24px;min-width:0}
+.inq-hd{display:flex;align-items:center;gap:6px;padding-bottom:16px;border-bottom:1px solid var(--line-2)}
+.inq-grid{display:grid;gap:22px}
+@media (min-width:640px){.inq-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fl{display:flex;flex-direction:column;gap:9px;min-width:0}
+.inp{display:block;width:100%;appearance:none;-webkit-appearance:none;background:var(--ink);border:1px solid var(--line-2);border-radius:0;color:var(--paper);font:400 16px/1.45 var(--body);padding:13px 14px;transition:border-color .18s}
+.inp:hover{border-color:var(--dim-2)}
+.inp:focus{border-color:var(--paper);outline:none}
+.inp:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
+.inp::placeholder{color:var(--dim-2)}
+textarea.inp{min-height:132px;resize:vertical}
+.fl.bad .label{color:var(--paper)}
+.fl.bad .label::after{content:" / " attr(data-err)}
+.fl.bad .inp{border-color:var(--paper)}
+.fs{border:0;margin:0;padding:0;min-width:0}
+.fs legend{padding:0;margin:0 0 12px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative;display:inline-flex;cursor:pointer}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.opt span{display:inline-flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--line-2);background:var(--ink);color:var(--soft);font:400 12px/1.2 var(--display);letter-spacing:.03em;transition:border-color .15s,color .15s,background .15s}
+.opt span::before{content:"";width:7px;height:7px;border:1px solid currentColor;flex:none}
+.opt:hover span{border-color:var(--dim);color:var(--paper)}
+.opt input:checked+span{background:var(--paper);border-color:var(--paper);color:var(--ink)}
+.opt input:checked+span::before{background:var(--ink);border-color:var(--ink)}
+.opt input:focus-visible+span{outline:2px solid var(--paper);outline-offset:3px}
+.hp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+.inq-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px;padding-top:20px;border-top:1px solid var(--line-2)}
+.inq .btn[disabled]{opacity:.55;cursor:progress}
+.inq-status{font:400 12px/1.7 var(--display);color:var(--dim);background:var(--ink);border:1px solid var(--line-2);padding:14px;overflow-wrap:anywhere}
+.inq-status .ln{display:block;white-space:pre-wrap;animation:rise .25s ease-out both}
+.inq-status b{font-weight:400;color:var(--paper)}
+.inq-status pre{margin:12px 0;padding:12px;border:1px dashed var(--line-2);white-space:pre-wrap;color:var(--soft);font:inherit;max-height:240px;overflow:auto}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -411,13 +532,13 @@ html.is-loading .loader,.loader.out{display:flex}
     <a class="brand" href="index.html" aria-label="OpLev home"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span class="brand-t">OPLEV</span></a>
     <nav class="links" aria-label="Sections">
       <a href="work.html" aria-current="page">Work</a>
-      <a href="index.html#method">Method</a>
+      <a href="index.html#model">How it works</a>
       <a href="pricing.html">Pricing</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="start.html">Contact</a>
     </nav>
     <div class="nav-r">
       <span class="clock" data-clock></span>
-      <a class="btn btn-sm nav-cta" href="index.html#contact">Start a project</a>
+      <a class="btn btn-sm nav-cta" href="start.html">Start a project</a>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="mb-t">Menu</span></button>
     </div>
   </div>
@@ -428,9 +549,9 @@ html.is-loading .loader,.loader.out{display:flex}
     <nav aria-label="Menu">
       <ul class="menu-list">
         <li><a href="work.html" aria-current="page"><span class="mn">01</span><span class="mt">Work</span><span class="mp">~/oplev/work</span></a></li>
-        <li><a href="index.html#method"><span class="mn">02</span><span class="mt">Method</span><span class="mp">~/oplev/method</span></a></li>
+        <li><a href="index.html#model"><span class="mn">02</span><span class="mt">How it works</span><span class="mp">~/oplev/model</span></a></li>
         <li><a href="pricing.html"><span class="mn">03</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
-        <li><a href="index.html#contact"><span class="mn">04</span><span class="mt">Contact</span><span class="mp">~/oplev/contact</span></a></li>
+        <li><a href="start.html"><span class="mn">04</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
       </ul>
     </nav>
     <div class="menu-foot label"><span>hello@oplev.com</span><span class="clock" data-clock></span></div>
@@ -443,7 +564,7 @@ html.is-loading .loader,.loader.out{display:flex}
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">~/oplev/work</p><span class="label">06 cases</span></div>
     <h1 class="h1" id="h1">Systems we've built.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">Operating systems, work agents and lead capture tools for founders and small teams. Each case shows the problem, what we built and a sample run.</p>
+    <p class="lede">Custom software, work agents and lead capture tools for founders and small teams. Each case shows the problem, what we built and a sample run.</p>
     <div class="cards">
       <a class="card" href="work/adessa-mind.html">
         <figure class="thumb" role="img" aria-label="Placeholder image for the Adessa Mind case"><canvas data-seed="1"></canvas><span class="tk a"></span><span class="tk b"></span><span class="tk c"></span><span class="tk d"></span></figure>
@@ -502,14 +623,14 @@ html.is-loading .loader,.loader.out{display:flex}
     </div>
   </div>
 </section>
-<section class="sec" id="start" aria-labelledby="start-h">
+<section class="sec" id="next" aria-labelledby="next-h">
   <div class="wrap stack">
     <p class="eyebrow">~/oplev/start</p>
-    <h2 class="h2" id="start-h">Want one of these running for you?</h2>
+    <h2 class="h2" id="next-h">Want one of these running for you?</h2>
     <p class="lede">Tell us what still runs through you. We will show you where we would start.</p>
     <div class="actions">
-      <a class="btn" href="index.html#contact">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
-      <a class="btn ghost" href="pricing.html">See pricing <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+      <a class="btn" href="start.html">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+      <a class="btn ghost" href="pricing.html">See licenses <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
     </div>
   </div>
 </section>
@@ -520,7 +641,7 @@ html.is-loading .loader,.loader.out{display:flex}
     <p class="wm" id="wm"><span id="wm-t">OPLEV</span></p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>Systems, agents + lead tools</span>
+      <span>Custom software, licensed</span>
       <span>Bend, Oregon</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -873,6 +994,101 @@ $$('.check[data-anim]').forEach(list=>{
   const close=e=>{if(e.matches)set(false);};
   wide.addEventListener?wide.addEventListener('change',close):wide.addListener(close);
 })();
+
+/* ---------- built-for picker ---------- */
+$$('[data-tabs]').forEach(root=>{
+  const tabs=$$('[role="tab"]',root),panels=tabs.map(t=>document.getElementById(t.getAttribute('aria-controls')));
+  function sel(i,focus){
+    tabs.forEach((t,k)=>{const on=k===i;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;if(panels[k])panels[k].hidden=!on;});
+    if(focus)tabs[i].focus();
+    const p=panels[i];if(!p)return;
+    $$('.mini canvas[data-seed]',p).forEach(cv=>drawMini(cv,seedOf(cv)));
+    decode($('.fp-name',p),420);
+  }
+  tabs.forEach((t,i)=>{
+    t.addEventListener('click',()=>sel(i,false));
+    t.addEventListener('keydown',e=>{
+      let j=null;
+      if(e.key==='ArrowRight')j=(i+1)%tabs.length;
+      else if(e.key==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;
+      else if(e.key==='Home')j=0;
+      else if(e.key==='End')j=tabs.length-1;
+      if(j!==null){e.preventDefault();sel(j,true);}
+    });
+    onHover(t,()=>decode(t,300));
+  });
+});
+$$('.mcell').forEach(c=>c.addEventListener('mouseenter',()=>decode($('.h3',c),360)));
+
+/* ---------- inquiry form ---------- */
+$$('form.inq').forEach(f=>{
+  const st=$('.inq-status',f),btn=$('button[type="submit"]',f),KEY='oplev-inquiry',TEXT=['name','email','company','message'];
+  const MAIL=f.dataset.email||'';
+  const PRE={one:'license-one',core:'license-core',company:'license-company',resale:'resale-yes'};
+  const h=(location.hash||'').slice(1).toLowerCase();
+  if(h){const el=document.getElementById('inq-'+(PRE[h]||('type-'+h)));if(el&&f.contains(el))el.checked=true;}
+  try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');TEXT.forEach(k=>{const el=f.elements[k];if(el&&d[k]&&!el.value)el.value=d[k];});}catch(e){}
+  f.addEventListener('input',e=>{
+    try{const d={};TEXT.forEach(k=>d[k]=f.elements[k].value);localStorage.setItem(KEY,JSON.stringify(d));}catch(err){}
+    const fl=e.target.closest&&e.target.closest('.fl.bad');if(fl){fl.classList.remove('bad');e.target.removeAttribute('aria-invalid');}
+  });
+  const RULES=[['name',v=>v.trim().length>0],['email',v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())],['message',v=>v.trim().length>0]];
+  function check(){
+    let first=null;
+    RULES.forEach(([k,ok])=>{
+      const el=f.elements[k],fl=el.closest('.fl'),good=ok(el.value);
+      fl.classList.toggle('bad',!good);
+      if(good)el.removeAttribute('aria-invalid');else{el.setAttribute('aria-invalid','true');if(!first)first=el;}
+    });
+    return first;
+  }
+  function out(lines){
+    st.hidden=false;st.innerHTML='';
+    lines.forEach((l,i)=>{const s=document.createElement('span');s.className='ln';s.style.animationDelay=(i*140)+'ms';s.innerHTML=l;st.appendChild(s);});
+  }
+  function collect(){
+    const d={};new FormData(f).forEach((v,k)=>{if(k==='build'){(d.build=d.build||[]).push(v);}else d[k]=v;});
+    return d;
+  }
+  function compose(d){
+    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Business',d.type],['Team size',d.team],
+      ['Build',(d.build||[]).join(', ')],['License',d.license],['Sell to others',d.resale],['Start',d.timing]];
+    return rows.filter(r=>r[1]).map(r=>r[0]+': '+r[1]).join('\n')+'\n\nWhat still runs through me:\n'+(d.message||'');
+  }
+  function fallback(d){
+    const text=compose(d);
+    out(['<span class="chip">[!]</span> this form can\'t send from here yet.','  email it to <b>'+esc(MAIL)+'</b> and we\'ll take it from there. your note is ready to copy:']);
+    const pre=document.createElement('pre');pre.textContent=text;st.appendChild(pre);
+    const b=document.createElement('button');b.type='button';b.className='btn ghost btn-sm';b.textContent='Copy note';
+    b.addEventListener('click',()=>{
+      const sel=()=>{try{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);}catch(e){}b.textContent='Selected. Copy it';};
+      try{navigator.clipboard.writeText(MAIL?('To: '+MAIL+'\n\n'+text):text).then(()=>{b.textContent='Copied';},sel);}catch(e){sel();}
+    });
+    st.appendChild(b);
+  }
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const bad=check();
+    if(bad){out(['<span class="chip">[!]</span> add your name, a valid email and what still runs through you.']);bad.focus();return;}
+    const d=collect(),first=esc((d.name||'').trim().split(/\s+/)[0]||'there');
+    btn.disabled=true;
+    out(['> sending inquiry ...']);
+    let ok=false,code=0,msg='';
+    try{
+      const r=await fetch(f.getAttribute('action'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+      code=r.status;const j=await r.json().catch(()=>({}));ok=r.ok&&j.ok===true;msg=j.error||'';
+    }catch(err){}
+    btn.disabled=false;
+    if(ok){
+      out(['> sending inquiry ... <b>ok</b>','  received ............ <b>ok</b>','  routed to ........... <b>oplev team</b>','<span class="chip">[ok]</span> thanks, '+first+'. we\'ll be in touch soon.']);
+      f.reset();try{localStorage.removeItem(KEY);}catch(err){}
+    }else if(code===400&&msg){
+      out(['<span class="chip">[!]</span> '+esc(msg)]);
+    }else{
+      fallback(d);
+    }
+  });
+});
 
 /* ---------- hover + scroll decodes ---------- */
 $$('.links a,.btn').forEach(el=>onHover(el,()=>decode(el,360)));

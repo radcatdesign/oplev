@@ -343,6 +343,101 @@ $$('.check[data-anim]').forEach(list=>{
   wide.addEventListener?wide.addEventListener('change',close):wide.addListener(close);
 })();
 
+/* ---------- built-for picker ---------- */
+$$('[data-tabs]').forEach(root=>{
+  const tabs=$$('[role="tab"]',root),panels=tabs.map(t=>document.getElementById(t.getAttribute('aria-controls')));
+  function sel(i,focus){
+    tabs.forEach((t,k)=>{const on=k===i;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;if(panels[k])panels[k].hidden=!on;});
+    if(focus)tabs[i].focus();
+    const p=panels[i];if(!p)return;
+    $$('.mini canvas[data-seed]',p).forEach(cv=>drawMini(cv,seedOf(cv)));
+    decode($('.fp-name',p),420);
+  }
+  tabs.forEach((t,i)=>{
+    t.addEventListener('click',()=>sel(i,false));
+    t.addEventListener('keydown',e=>{
+      let j=null;
+      if(e.key==='ArrowRight')j=(i+1)%tabs.length;
+      else if(e.key==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;
+      else if(e.key==='Home')j=0;
+      else if(e.key==='End')j=tabs.length-1;
+      if(j!==null){e.preventDefault();sel(j,true);}
+    });
+    onHover(t,()=>decode(t,300));
+  });
+});
+$$('.mcell').forEach(c=>c.addEventListener('mouseenter',()=>decode($('.h3',c),360)));
+
+/* ---------- inquiry form ---------- */
+$$('form.inq').forEach(f=>{
+  const st=$('.inq-status',f),btn=$('button[type="submit"]',f),KEY='oplev-inquiry',TEXT=['name','email','company','message'];
+  const MAIL=f.dataset.email||'';
+  const PRE={one:'license-one',core:'license-core',company:'license-company',resale:'resale-yes'};
+  const h=(location.hash||'').slice(1).toLowerCase();
+  if(h){const el=document.getElementById('inq-'+(PRE[h]||('type-'+h)));if(el&&f.contains(el))el.checked=true;}
+  try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');TEXT.forEach(k=>{const el=f.elements[k];if(el&&d[k]&&!el.value)el.value=d[k];});}catch(e){}
+  f.addEventListener('input',e=>{
+    try{const d={};TEXT.forEach(k=>d[k]=f.elements[k].value);localStorage.setItem(KEY,JSON.stringify(d));}catch(err){}
+    const fl=e.target.closest&&e.target.closest('.fl.bad');if(fl){fl.classList.remove('bad');e.target.removeAttribute('aria-invalid');}
+  });
+  const RULES=[['name',v=>v.trim().length>0],['email',v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())],['message',v=>v.trim().length>0]];
+  function check(){
+    let first=null;
+    RULES.forEach(([k,ok])=>{
+      const el=f.elements[k],fl=el.closest('.fl'),good=ok(el.value);
+      fl.classList.toggle('bad',!good);
+      if(good)el.removeAttribute('aria-invalid');else{el.setAttribute('aria-invalid','true');if(!first)first=el;}
+    });
+    return first;
+  }
+  function out(lines){
+    st.hidden=false;st.innerHTML='';
+    lines.forEach((l,i)=>{const s=document.createElement('span');s.className='ln';s.style.animationDelay=(i*140)+'ms';s.innerHTML=l;st.appendChild(s);});
+  }
+  function collect(){
+    const d={};new FormData(f).forEach((v,k)=>{if(k==='build'){(d.build=d.build||[]).push(v);}else d[k]=v;});
+    return d;
+  }
+  function compose(d){
+    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Business',d.type],['Team size',d.team],
+      ['Build',(d.build||[]).join(', ')],['License',d.license],['Sell to others',d.resale],['Start',d.timing]];
+    return rows.filter(r=>r[1]).map(r=>r[0]+': '+r[1]).join('\n')+'\n\nWhat still runs through me:\n'+(d.message||'');
+  }
+  function fallback(d){
+    const text=compose(d);
+    out(['<span class="chip">[!]</span> this form can\'t send from here yet.','  email it to <b>'+esc(MAIL)+'</b> and we\'ll take it from there. your note is ready to copy:']);
+    const pre=document.createElement('pre');pre.textContent=text;st.appendChild(pre);
+    const b=document.createElement('button');b.type='button';b.className='btn ghost btn-sm';b.textContent='Copy note';
+    b.addEventListener('click',()=>{
+      const sel=()=>{try{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);}catch(e){}b.textContent='Selected. Copy it';};
+      try{navigator.clipboard.writeText(MAIL?('To: '+MAIL+'\n\n'+text):text).then(()=>{b.textContent='Copied';},sel);}catch(e){sel();}
+    });
+    st.appendChild(b);
+  }
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const bad=check();
+    if(bad){out(['<span class="chip">[!]</span> add your name, a valid email and what still runs through you.']);bad.focus();return;}
+    const d=collect(),first=esc((d.name||'').trim().split(/\s+/)[0]||'there');
+    btn.disabled=true;
+    out(['> sending inquiry ...']);
+    let ok=false,code=0,msg='';
+    try{
+      const r=await fetch(f.getAttribute('action'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+      code=r.status;const j=await r.json().catch(()=>({}));ok=r.ok&&j.ok===true;msg=j.error||'';
+    }catch(err){}
+    btn.disabled=false;
+    if(ok){
+      out(['> sending inquiry ... <b>ok</b>','  received ............ <b>ok</b>','  routed to ........... <b>oplev team</b>','<span class="chip">[ok]</span> thanks, '+first+'. we\'ll be in touch soon.']);
+      f.reset();try{localStorage.removeItem(KEY);}catch(err){}
+    }else if(code===400&&msg){
+      out(['<span class="chip">[!]</span> '+esc(msg)]);
+    }else{
+      fallback(d);
+    }
+  });
+});
+
 /* ---------- hover + scroll decodes ---------- */
 $$('.links a,.btn').forEach(el=>onHover(el,()=>decode(el,360)));
 onHover($('.nav .brand'),()=>decode($('.brand-t'),360,CAPS));
