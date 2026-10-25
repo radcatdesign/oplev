@@ -301,7 +301,7 @@ def opts(name, items, kind='radio'):
 
 
 def inquiry(level='h2', heading='Tell us what still runs through you.',
-            lede='Two minutes. We read every one, and Andre or Matt replies personally.'):
+            lede='Takes two minutes. A real person reads it.'):
     first = level == 'h1'
     hid = 'h1' if first else 'start-h'
     cursor = '<span class="cursor" aria-hidden="true"></span>' if first else ''
@@ -314,10 +314,10 @@ def inquiry(level='h2', heading='Tell us what still runs through you.',
       <{level} class="{level}" id="{hid}">{heading}{cursor}</{level}>
       <p class="lede">{lede}</p>
       <ol class="next">
-        <li><span class="nx-n" aria-hidden="true">01</span><div><h3 class="h3">We read it</h3><p>A real reply from one of the two people who will build your system.</p></div></li>
-        <li><span class="nx-n" aria-hidden="true">02</span><div><h3 class="h3">A short call</h3><p>We talk through what still runs through you and what it costs you.</p></div></li>
-        <li><span class="nx-n" aria-hidden="true">03</span><div><h3 class="h3">Where to start</h3><p>We look at what still depends on you and pick the first thing to fix.</p></div></li>
-        <li><span class="nx-n" aria-hidden="true">04</span><div><h3 class="h3">Your plan</h3><p>What we'd build, what it costs each month, and when it goes live.</p></div></li>
+        <li><span class="nx-n" aria-hidden="true">01</span><div><h3 class="h3">We reply</h3><p>Andre or Matt. Not a bot.</p></div></li>
+        <li><span class="nx-n" aria-hidden="true">02</span><div><h3 class="h3">We talk</h3><p>A short call about what still needs you.</p></div></li>
+        <li><span class="nx-n" aria-hidden="true">03</span><div><h3 class="h3">We pick</h3><p>The one thing worth fixing first.</p></div></li>
+        <li><span class="nx-n" aria-hidden="true">04</span><div><h3 class="h3">You get a plan</h3><p>Scope, price and launch date.</p></div></li>
       </ol>
       <p class="label inq-alt">Prefer email? <span class="sel">{EMAIL}</span></p>
     </div>
@@ -571,7 +571,7 @@ def home(mode='full'):
   </div>
 </section>
 ''' + inquiry('h2', 'Stop being the system.',
-              'Tell us what still runs through you. Two minutes. Andre or Matt replies personally.')
+              'Tell us what still runs through you. Takes two minutes.')
     return page('OpLev', 'OpLev is an agency that designs and builds custom engines for companies: Ops, Agents and Leads. Built around how you work, kept running by us, licensed monthly.',
                 body, p='', home=True, active=None, mode=mode)
 
