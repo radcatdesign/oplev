@@ -331,7 +331,7 @@ $$('[data-jobs]').forEach(list=>{
       +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
       +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
       +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
-      +'<div class="actions"><a class="btn" id="js-start">Start a project</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
     document.body.appendChild(dlg);
     $('.sheet-x',dlg).addEventListener('click',close);
     dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
@@ -349,7 +349,7 @@ $$('[data-jobs]').forEach(list=>{
     $('#js-t',dlg).textContent=j.title;$('#js-d',dlg).textContent=j.desc;
     $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
     const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
-    st.href=J.start;st.innerHTML='Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
+    st.href=J.start;st.innerHTML='Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     dm.href=J.demo;dm.innerHTML='Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
     const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
@@ -448,6 +448,14 @@ $$('form.inq').forEach(f=>{
   const h=(location.hash||'').slice(1).toLowerCase();
   if(h){const el=document.getElementById('inq-'+(PRE[h]||('type-'+h)));if(el&&f.contains(el))el.checked=true;}
   try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');TEXT.forEach(k=>{const el=f.elements[k];if(el&&d[k]&&!el.value)el.value=d[k];});}catch(e){}
+  // marketplace links (start.html#os-practice) say which OS the inquiry is about
+  const osBox=$('.inq-os',f),osIn=$('#inq-os',f);let osNames={};try{osNames=JSON.parse(($('.os-names',f)||{}).textContent||'{}')}catch(e){}
+  function setOS(id){
+    if(!osBox)return;const nm=id&&osNames[id];
+    osBox.hidden=!nm;osIn.disabled=!nm;osIn.value=nm||'';$('.inq-os-n',osBox).textContent=nm||'';
+  }
+  if(h.indexOf('os-')===0)setOS(h.slice(3));
+  if(osBox)$('.inq-os-x',osBox).addEventListener('click',()=>{setOS(null);const m=f.elements.message;if(m)m.focus();});
   const other=$('.type-other',f),otherIn=other&&$('input',other);
   function syncOther(focus){
     if(!other)return;const r=f.querySelector('input[name="type"]:checked'),on=!!(r&&r.id==='inq-type-other');
@@ -479,13 +487,13 @@ $$('form.inq').forEach(f=>{
     return d;
   }
   function compose(d){
-    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Business',d.type_other||d.type],['Team size',d.team],
+    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Asking about',d.os],['Business',d.type_other||d.type],['Team size',d.team],
       ['Build',(d.build||[]).join(', ')],['License',d.license],['Sell to others',d.resale],['Start',d.timing]];
     return rows.filter(r=>r[1]).map(r=>r[0]+': '+r[1]).join('\n')+'\n\nWhat still runs through me:\n'+(d.message||'');
   }
   function fallback(d){
     const text=compose(d);
-    out(['<span class="chip">[!]</span> this form can\'t send from here yet.','  email it to <b>'+esc(MAIL)+'</b> and we\'ll take it from there. your note is ready to copy:']);
+    out(['<span class="chip">[!]</span> this form can\'t send from here yet.','  email it to <b>'+esc(MAIL)+'</b> and we\'ll take it from there. your application is ready to copy:']);
     const pre=document.createElement('pre');pre.textContent=text;st.appendChild(pre);
     const b=document.createElement('button');b.type='button';b.className='btn ghost btn-sm';b.textContent='Copy note';
     b.addEventListener('click',()=>{
@@ -500,7 +508,7 @@ $$('form.inq').forEach(f=>{
     if(bad){out(['<span class="chip">[!]</span> add your name, a valid email and what still runs through you.']);bad.focus();return;}
     const d=collect(),first=esc((d.name||'').trim().split(/\s+/)[0]||'there');
     btn.disabled=true;
-    out(['> sending inquiry ...']);
+    out(['> sending application ...']);
     let ok=false,code=0,msg='';
     try{
       const r=await fetch(f.getAttribute('action'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
@@ -508,7 +516,7 @@ $$('form.inq').forEach(f=>{
     }catch(err){}
     btn.disabled=false;
     if(ok){
-      out(['> sending inquiry ... <b>ok</b>','  received ............ <b>ok</b>','  routed to ........... <b>oplev team</b>','<span class="chip">[ok]</span> thanks, '+first+'. we\'ll be in touch soon.']);
+      out(['> sending application ... <b>ok</b>','  received ............ <b>ok</b>','  read by ............. <b>andre + matt</b>','<span class="chip">[ok]</span> thanks, '+first+'. we review every application and reply personally.']);
       f.reset();try{localStorage.removeItem(KEY);}catch(err){}
     }else if(code===400&&msg){
       out(['<span class="chip">[!]</span> '+esc(msg)]);

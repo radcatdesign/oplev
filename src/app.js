@@ -123,7 +123,7 @@ function shell(){
         <span class="avatar" id="avatar" title=""></span>
       </div>
     </header>
-    <div class="demo-bar"><span><b>This is an example.</b> A made-up business with sample data, to show the kind of dashboard we build. Changes stay in this browser.</span><a href="start.html">Talk to us about yours &rarr;</a></div>
+    <div class="demo-bar"><span><b>This is an example.</b> A made-up business with sample data, to show the kind of dashboard we build. Changes stay in this browser.</span><a href="start.html">Apply for yours &rarr;</a></div>
     <main class="view" id="view" tabindex="-1"></main>
   </div>
   <div id="drawer-root"></div>
@@ -139,7 +139,7 @@ function renderSide(){
     if(x==='badge')right=`<span class="badge" data-n="${S.approvals.length}" id="ap-badge">${S.approvals.length}</span>`;
     return `<a class="${cls}" href="#${r}"${route===r||(r==='engine-ops'&&false)?' aria-current="page"':''}>${t}${right}</a>`;
   }).join('')}</div>`).join('');
-  $('#side-foot').innerHTML=`<div class="lic-mini"><span class="label">built by</span><b>OpLev</b></div><div class="etags">${S.licensed.map(tag).join('')}</div><a class="label" href="start.html">Talk to us about yours &rarr;</a><a class="label" href="index.html">&larr; Back to site</a>`;
+  $('#side-foot').innerHTML=`<div class="lic-mini"><span class="label">built by</span><b>OpLev</b></div><div class="etags">${S.licensed.map(tag).join('')}</div><a class="label" href="start.html">Apply for yours &rarr;</a><a class="label" href="index.html">&larr; Back to site</a>`;
   const lb=$('#live-btn');lb.setAttribute('aria-pressed',String(S.live));lb.title=S.live?'Pause live activity':'Resume live activity';
   $('#avatar').textContent=initials(owner());$('#avatar').title=owner();
 }

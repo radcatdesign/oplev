@@ -5,8 +5,8 @@
 //   INQUIRY_FROM    optional sender, e.g. "OpLev <site@yourdomain.com>" (domain must be verified in Resend)
 // Without RESEND_API_KEY and INQUIRY_TO it answers 503 and the page shows an email fallback.
 
-const MAX = { name: 120, email: 200, company: 160, type: 80, type_other: 80, team: 40, license: 80, resale: 40, timing: 60, message: 4000 };
-const LABELS = { company: 'Company', type: 'Business', team: 'Team size', build: 'Build', license: 'License', resale: 'Sell to others', timing: 'Start' };
+const MAX = { name: 120, email: 200, company: 160, type: 80, type_other: 80, os: 80, team: 40, license: 80, resale: 40, timing: 60, message: 4000 };
+const LABELS = { company: 'Company', os: 'Asking about', type: 'Business', team: 'Team size', build: 'Build', license: 'License', resale: 'Sell to others', timing: 'Start' };
 
 const clean = (v, n) => String(v == null ? '' : v).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim().slice(0, n);
 const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -64,7 +64,7 @@ async function handler(req, res) {
         from: process.env.INQUIRY_FROM || 'OpLev <onboarding@resend.dev>',
         to,
         reply_to: v.email,
-        subject: `New inquiry: ${v.company || v.name}`,
+        subject: `New application: ${v.company || v.name}`,
         text,
         html,
       }),

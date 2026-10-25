@@ -7,6 +7,8 @@ Static site. Every page is a self-contained HTML file, so Vercel serves the repo
 - Case studies: `content/cases.json`
 - Setups and Console sample data: `content/setups.json`
 - Job walkthroughs (what happens when a job runs): `content/jobs.json`, keyed by job title. Use `setupid:Title` for a version specific to one setup.
+- Marketplace listings: `content/marketplace.json` (currently example listings)
+- Client spots shown across the site: `CAPACITY` at the top of `build.py`. Keep it set to your real numbers.
 - Console: `src/app.css`, `src/app.js`
 - Styles: `src/site.css`
 - Behavior: `src/site.js`
@@ -18,7 +20,7 @@ Then rebuild and commit the output:
 python3 build.py
 ```
 
-This writes `index.html`, `pricing.html`, `work.html`, `start.html`, `setups.html`, `setups/<type>.html`, `app.html` and `work/<case>.html`.
+This writes `index.html`, `how-it-works.html`, `pricing.html`, `work.html`, `start.html`, `setups.html`, `setups/<type>.html`, `marketplace.html`, `marketplace/<os>.html`, `app.html` and `work/<case>.html`.
 
 ## Case images
 
@@ -38,7 +40,7 @@ The form on the home page and `/start` posts to `api/inquiry.js`, a Vercel funct
 
 Until those are set, the form shows the visitor a ready-to-copy note and the email address instead.
 
-Links can preselect answers: `start.html#clinic`, `#brand`, `#agency`, `#creator`, `#startup` set the business type; `#one`, `#core`, `#company` set the plan; `#resale` sets resale to yes.
+Links can preselect answers: `start.html#os-practice` marks the application as about that marketplace OS; `start.html#clinic`, `#brand`, `#agency`, `#creator`, `#startup` set the business type; `#one`, `#core`, `#company` set the plan; `#resale` sets resale to yes.
 
 `.vercelignore` keeps `build.py`, `src/`, `content/` and this README off the live site.
 

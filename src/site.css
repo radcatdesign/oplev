@@ -649,3 +649,59 @@ html.sheet-open{overflow:hidden}
 
 .type-other{margin-top:10px}
 .type-other[hidden]{display:none}
+
+/* ---------- how it works ---------- */
+.phases{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.phase{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding:clamp(26px,3.4vw,44px) 0;border-bottom:1px solid var(--line)}
+@media (min-width:960px){.phase{grid-template-columns:minmax(0,3fr) minmax(0,5fr) minmax(0,4fr);gap:48px;align-items:start}}
+.phase-id{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:16px}
+.phase-id .num{font:900 clamp(44px,4.6vw,64px)/.85 var(--num);color:var(--paper);font-variant-numeric:tabular-nums}
+.phase-id .px{width:36px;height:36px}
+.phase-id .h3{margin:0}
+@media (min-width:960px){.phase-id{grid-template-columns:auto minmax(0,1fr);row-gap:18px}.phase-id .px{grid-row:1;grid-column:2;justify-self:end}.phase-id .h3{grid-column:1/-1}}
+.phase-d{margin:0;color:var(--soft);font-size:17px;line-height:1.55;max-width:56ch}
+.phase-kv{margin:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.phase-kv>div{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.phase-kv dd{margin:0;color:var(--paper);font-size:15px;line-height:1.5}
+.phase:hover .px rect:not(.on){fill:var(--line-2)}
+.duo{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:640px){.duo{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.duo-col{background:var(--ink);padding:clamp(18px,2.2vw,28px);display:flex;flex-direction:column;gap:10px}
+.duo-col>.label{color:var(--paper)}
+.steps.steps-3{grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.steps.steps-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.steps.steps-3.one-col{grid-template-columns:minmax(0,1fr)}
+.steps.steps-3 .step-top{margin-bottom:clamp(12px,2.6vw,36px)}
+.band .steps{background:var(--on-paper-line);border-color:var(--on-paper-line)}
+.band .step{background:var(--paper)}
+.band .step:hover{background:#E8E8E4}
+.band .step .num,.band .step .h3{color:var(--ink)}
+.band .step p{color:var(--on-paper-dim)}
+
+/* ---------- marketplace ---------- */
+.mk-note{margin:14px 0 0;color:var(--dim)}
+.mk-filters{margin-top:clamp(24px,3vw,40px)}
+.mk-filters+.mk-cards{margin-top:16px}
+.os-card .card-b{gap:12px}
+.os-card .rowlist li{font-size:15px;padding:10px 0}
+.os-card[hidden]{display:none}
+.inq-os{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:12px 14px;border:1px solid var(--line-2);background:var(--ink)}
+.inq-os[hidden]{display:none}
+.inq-os-n{font:500 15px/1.2 var(--display);color:var(--paper)}
+.inq-os-x{margin-left:auto;appearance:none;-webkit-appearance:none;background:none;border:0;padding:4px 0;color:var(--dim);cursor:pointer}
+.inq-os-x:hover,.inq-os-x:focus-visible{color:var(--paper)}
+
+/* ---------- limited spots ---------- */
+.spots{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px}
+.sp-meter{display:inline-flex;gap:4px}
+.sp-meter i{display:block;width:22px;height:9px;border:1px solid var(--paper)}
+.sp-meter i.taken{background:var(--dim-2);border-color:var(--dim-2)}
+.sp-meter i.open:first-of-type,.sp-meter i.taken+i.open{animation:blink 1.4s steps(1) infinite}
+.spots .label b{color:var(--paper);font-weight:500}
+.hero-spots{margin-top:-4px}
+.inq-spots{padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.spots-pill{display:none;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line-2);color:var(--soft);text-decoration:none;font:400 11px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;transition:border-color .18s,color .18s}
+.spots-pill:hover{border-color:var(--paper);color:var(--paper)}
+.spots-pill .dot{width:6px;height:6px;background:var(--paper);animation:blink 1.4s steps(1) infinite}
+@media (min-width:520px){.spots-pill{display:inline-flex}}
+@media (prefers-reduced-motion:reduce){.sp-meter i,.spots-pill .dot{animation:none!important}}

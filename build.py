@@ -19,11 +19,17 @@ APP_JS = (ROOT / 'src' / 'app.js').read_text()
 SETUPS = json.loads((ROOT / 'content' / 'setups.json').read_text())
 SETUP = {x['id']: x for x in SETUPS}
 JOBS = json.loads((ROOT / 'content' / 'jobs.json').read_text())
+MARKET = json.loads((ROOT / 'content' / 'marketplace.json').read_text())
+MARKET_BY = {x['id']: x for x in MARKET}
+MARKET_TYPES = [('clinic', 'Clinics'), ('brand', 'Brands'), ('agency', 'Agencies'), ('creator', 'Creators'),
+                ('startup', 'Startups'), ('services', 'Services')]
 LICENSES = {'one': {'name': 'One engine', 'price': '$5k', 'count': 1},
             'core': {'name': 'Two engines', 'price': '$10k', 'count': 2},
             'company': {'name': 'All three', 'price': '$15k+', 'count': 3}}
 
 EMAIL = 'hello@oplev.com'
+# Client capacity shown across the site. Set these to your real numbers.
+CAPACITY = {'window': 'Q1 2027', 'total': 4, 'open': 2}
 LOCATION = 'Bend, Oregon'
 BUILD = '2026.10'
 FONTS = ('https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600'
@@ -138,10 +144,11 @@ def nav_items(p, home):
     a = (lambda h: h) if home else (lambda h: p + 'index.html' + h)
     return [
         ('work', 'Work', p + 'work.html', 'case studies', False),
-        ('engines', 'What we build', a('#engines'), 'custom engines', False),
+        ('how', 'How it works', p + 'how-it-works.html', 'start to finish', False),
         ('setups', "Who it's for", p + 'setups.html', 'by business', False),
+        ('market', 'Marketplace', p + 'marketplace.html', 'ready-made systems', False),
         ('pricing', 'Pricing', p + 'pricing.html', 'how we charge', False),
-        ('contact', 'Contact', p + 'start.html', 'get in touch', True),
+        ('contact', 'Apply', p + 'start.html', 'limited spots', True),
     ]
 
 
@@ -174,8 +181,8 @@ def shell_top(p, home, active):
     <nav class="links" aria-label="Sections">{links}
     </nav>
     <div class="nav-r">
-      <span class="clock" data-clock></span>
-      <a class="btn btn-sm nav-cta" href="{p}start.html">Start a project</a>
+      <a class="spots-pill" href="{p}start.html"><span class="dot" aria-hidden="true"></span>{CAPACITY['open']} spots open</a>
+      <a class="btn btn-sm nav-cta" href="{p}start.html">Apply</a>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="mb-t">Menu</span></button>
     </div>
   </div>
@@ -256,6 +263,13 @@ def etags(keys, extra=''):
         f'<span class="etag e-{k}">{ENGINE_NAME[k]}</span>' for k in keys if k in ENGINE_NAME) + '</span>'
 
 
+def spots(cls=''):
+    c = CAPACITY
+    segs = ''.join(f'<i class="{"taken" if i < c["total"] - c["open"] else "open"}"></i>' for i in range(c['total']))
+    return (f'<div class="spots{cls}"><span class="sp-meter" aria-hidden="true">{segs}</span>'
+            f'<span class="label">{E(c["window"])} / <b>{c["open"]} of {c["total"]} client spots open</b></span></div>')
+
+
 def job_of(title, sid=None):
     j = JOBS.get(f'{sid}:{title}') if sid else None
     j = j or JOBS.get(title)
@@ -263,7 +277,7 @@ def job_of(title, sid=None):
     return j
 
 
-def job_cards(items, sid=None, p='', extra_cls=''):
+def job_cards(items, sid=None, p='', extra_cls='', start=None, demo=None):
     """Clickable job cards plus the data the walkthrough sheet plays."""
     cards, data = [], []
     for i, (e, trig, title, desc) in enumerate(items):
@@ -272,8 +286,8 @@ def job_cards(items, sid=None, p='', extra_cls=''):
                      'ex': j['ex'], 'steps': j['steps'], 'you': j['you'], 'get': j['get']})
         cards.append(f'''
       <li class="play e-{e}" data-e="{e}"><div class="play-top">{etags([e])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3"><button class="play-open" type="button" data-job="{i}" aria-haspopup="dialog">{E(title)}</button></h3><p>{E(desc)}</p><span class="play-go label" aria-hidden="true">see how it works {ARR_R}</span></li>''')
-    start = f'{p}start.html' + (f'#{sid}' if sid else '')
-    demo = f'{p}app.html' + (f'#{sid}' if sid else '')
+    start = start or (f'{p}start.html' + (f'#{sid}' if sid else ''))
+    demo = demo or (f'{p}app.html' + (f'#{sid}' if sid else ''))
     blob = json.dumps({'start': start, 'demo': demo, 'jobs': data}).replace('</', '<\\/')
     return (f'<ul class="plays{extra_cls}" data-jobs="jobs-data">' + ''.join(cards) + '\n    </ul>\n'
             f'    <script type="application/json" id="jobs-data">{blob}</script>')
@@ -287,8 +301,8 @@ def cta(title, text, p):
     <h2 class="h2" id="next-h">{title}</h2>
     <p class="lede">{text}</p>
     <div class="actions">
-      <a class="btn" href="{p}start.html">Start a project {ARR_R}</a>
-      <a class="btn ghost" href="{p}pricing.html">See licenses {ARR_R}</a>
+      <a class="btn" href="{p}start.html">Apply {ARR_R}</a>
+      <a class="btn ghost" href="{p}pricing.html">See pricing {ARR_R}</a>
     </div>
   </div>
 </section>'''
@@ -300,8 +314,8 @@ def opts(name, items, kind='radio'):
         for v, t in items)
 
 
-def inquiry(level='h2', heading='Tell us what still runs through you.',
-            lede='Takes two minutes. A real person reads it.'):
+def inquiry(level='h2', heading='Apply to work with us.',
+            lede="We only take on a few clients at a time, so every build gets our full attention. Tell us about your business. If it's a fit, we'll set up a call."):
     first = level == 'h1'
     hid = 'h1' if first else 'start-h'
     cursor = '<span class="cursor" aria-hidden="true"></span>' if first else ''
@@ -310,13 +324,16 @@ def inquiry(level='h2', heading='Tell us what still runs through you.',
 <section class="{cls}" id="start" aria-labelledby="{hid}">
   <div class="wrap inq-wrap">
     <div class="inq-side">
-      <p class="eyebrow">Start a project</p>
+      <p class="eyebrow">Apply</p>
       <{level} class="{level}" id="{hid}">{heading}{cursor}</{level}>
       <p class="lede">{lede}</p>
+      {spots(' inq-spots')}
       <p class="label inq-alt">Prefer email? <span class="sel">{EMAIL}</span></p>
     </div>
-    <form class="inq" action="/api/inquiry" method="post" novalidate data-email="{EMAIL}" aria-label="Project inquiry">
-      <div class="inq-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">New project</span><span class="label">* required</span></div>
+    <form class="inq" action="/api/inquiry" method="post" novalidate data-email="{EMAIL}" aria-label="Application">
+      <div class="inq-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">Application</span><span class="label">* required</span></div>
+      <div class="inq-os" hidden><span class="label">asking about</span><b class="inq-os-n"></b><button class="label inq-os-x" type="button">remove &times;</button><input type="hidden" name="os" id="inq-os" disabled></div>
+      <script type="application/json" class="os-names">{json.dumps({x['id']: x['name'] for x in MARKET})}</script>
       <div class="inq-grid">
         <label class="fl"><span class="label" data-err="add your name">Name *</span><input class="inp" id="inq-name" name="name" autocomplete="name" maxlength="120" required></label>
         <label class="fl"><span class="label" data-err="add a valid email">Email *</span><input class="inp" id="inq-email" name="email" type="email" autocomplete="email" maxlength="200" required></label>
@@ -330,7 +347,7 @@ def inquiry(level='h2', heading='Tell us what still runs through you.',
       <fieldset class="fs"><legend class="label">Would you want to sell it to others one day?</legend><div class="opts">{opts('resale', F_RESALE)}</div></fieldset>
       <fieldset class="fs"><legend class="label">When do you want to start?</legend><div class="opts">{opts('timing', F_TIMING)}</div></fieldset>
       <div class="hp" aria-hidden="true"><label>Leave this empty <input id="inq-hp" name="company_url" tabindex="-1" autocomplete="off"></label></div>
-      <div class="inq-foot"><button class="btn" type="submit">Send inquiry {ARR_R}</button><p class="label">No mailing list. Just a reply.</p></div>
+      <div class="inq-foot"><button class="btn" type="submit">Submit application {ARR_R}</button><p class="label">We reply to every application.</p></div>
       <div class="inq-status" aria-live="polite" hidden></div>
     </form>
   </div>
@@ -404,9 +421,10 @@ def home(mode='full'):
     <p class="eyebrow">An agency that builds custom engines</p>
     <h1 class="h1" id="h1">Your business shouldn't need you for everything.<span class="cursor" aria-hidden="true"></span></h1>
     <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span> and <span class="e-leads ec">Leads</span> engines around how you already work, and run them for you every month. Then you can license yours to others.</p>
+    {spots(' hero-spots')}
     <div class="actions">
       <a class="btn" href="#work">See the work {ARR_D}</a>
-      <a class="btn ghost" href="#start">Start a project {ARR_R}</a>
+      <a class="btn ghost" href="#start">Apply for a spot {ARR_R}</a>
     </div>
     <nav class="hindex" aria-label="Case index"><span class="lab">recent work /</span>{hindex}</nav>
   </div>
@@ -525,6 +543,21 @@ def home(mode='full'):
   </div>
 </section>
 
+<section class="sec" id="marketplace" aria-labelledby="mk-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">Marketplace</p>
+        <h2 class="h2" id="mk-h">Or start from one that works.</h2>
+        <p class="lede">Operating systems we built for other businesses, ready to license and tailor to yours.</p>
+      </div>
+      <a class="btn ghost" href="marketplace.html">Browse the marketplace {ARR_R}</a>
+    </div>
+    <div class="cards">{''.join(os_card(x) for x in MARKET[:3])}
+    </div>
+  </div>
+</section>
+
 <section class="sec band" id="model" aria-labelledby="model-h">
   <div class="wrap">
     <div class="head">
@@ -542,7 +575,7 @@ def home(mode='full'):
     </ol>
     <div class="kicker">
       <p class="kicker-t">Most custom builds are a cost. Yours can earn.</p>
-      <div class="actions"><a class="btn" href="pricing.html">See pricing {ARR_R}</a><a class="btn ghost" href="#start">Start a project {ARR_R}</a></div>
+      <div class="actions"><a class="btn" href="pricing.html">See pricing {ARR_R}</a><a class="btn ghost" href="#start">Apply {ARR_R}</a></div>
     </div>
   </div>
 </section>
@@ -554,7 +587,7 @@ def home(mode='full'):
         <p class="eyebrow">How we work together</p>
         <h2 class="h2" id="method-h">How a build runs.</h2>
       </div>
-      <p class="label">discuss / build / launch / measure</p>
+      <a class="btn ghost" href="how-it-works.html">How it works {ARR_R}</a>
     </div>
     <ol class="steps">
       <li class="step"><div class="step-top"><span class="num" aria-hidden="true">01</span><svg class="px" data-icon="discuss" viewBox="0 0 50 50" aria-hidden="true"></svg></div><h3 class="h3">Discuss</h3><p>We talk with you and your team and see how the work really gets done.</p></li>
@@ -565,7 +598,7 @@ def home(mode='full'):
   </div>
 </section>
 ''' + inquiry('h2', 'Stop being the system.',
-              'Tell us what still runs through you. Takes two minutes.')
+              "We only take on a few clients at a time, so every build gets our full attention. Apply in two minutes.")
     return page('OpLev', 'OpLev is an agency that designs and builds custom engines for companies: Ops, Agents and Leads. Built around how you work, kept running by us, licensed monthly.',
                 body, p='', home=True, active=None, mode=mode)
 
@@ -635,18 +668,18 @@ def pricing():
                   ['Built around your business', 'Automations set up for how you work',
                    'We host it, fix it and update it', 'A monthly progress score', 'A monthly check-in call',
                    'Email support, reply within a business day'],
-                  'Start with one')
+                  'Apply for one engine')
              + plan(2, 'core', 'Two engines', '$10k', 'Two engines that feed each other, so nothing falls between them.',
                     ['Your two engines, working together', 'Automations across both', 'We interview your team',
                      'A monthly progress score', 'We host it, fix it and update it',
                      'A weekly check-in call', 'Same-day support'],
-                    'Start with two')
+                    'Apply for two engines')
              + plan(3, 'company', 'All three', '$15k+', 'The full system, built around your whole business.',
                     ['All three engines, working together', 'Custom tools built for you',
                      'One place your team can look up how things are done', 'A progress score for every team',
                      'We host it, fix it and update it', 'Weekly calls and on-call support',
                      'Price depends on team size'],
-                    'Talk to us'))
+                    'Apply for all three'))
     lic = f'''
       <article class="lic" aria-labelledby="lic-h">
         <div class="lic-l">
@@ -724,7 +757,7 @@ def pricing():
       <p class="eyebrow">Resale</p>
       <h2 class="h2" id="resale-h">Your system could be a product.</h2>
       <p class="lede">The way you run your business is worth something to everyone who runs one like it. Prove it works in yours, then sell it to them.</p>
-      <div class="actions"><a class="btn" href="start.html#resale">Ask about resale {ARR_R}</a></div>
+      <div class="actions"><a class="btn" href="start.html#resale">Ask about resale {ARR_R}</a><a class="btn ghost" href="marketplace.html">See the marketplace {ARR_R}</a></div>
     </div>
     <div class="split-r">
       <div class="every one-col">
@@ -767,7 +800,11 @@ def pricing():
       </details>
       <details>
         <summary><span class="h3">Where do we start?</span></summary>
-        <p class="a">Send us a note. We'll set up a short call, look at what still depends on you, and tell you where to start and which plan fits.</p>
+        <p class="a">Apply. If it's a fit, we'll set up a short call, look at what still depends on you, and tell you where to start and which plan fits.</p>
+      </details>
+      <details>
+        <summary><span class="h3">Why do we have to apply?</span></summary>
+        <p class="a">We're a small team and only take on a few clients at a time, so every build gets our full attention. Applying tells us both if it's the right fit before anyone spends money.</p>
       </details>
       <details>
         <summary><span class="h3">What does the + on All three mean?</span></summary>
@@ -791,7 +828,7 @@ def pricing():
     <h2 class="h2" id="next-h">Not sure which plan fits?</h2>
     <p class="lede">Tell us what still runs through you. We'll tell you which plan fits, even if the answer is none of them.</p>
     <div class="actions">
-      <a class="btn" href="start.html">Start a project {ARR_R}</a>
+      <a class="btn" href="start.html">Apply {ARR_R}</a>
       <a class="btn ghost" href="work.html">See the work {ARR_R}</a>
     </div>
   </div>
@@ -803,7 +840,7 @@ def pricing():
 # ---------- start ----------
 
 def start():
-    return page('Start a Project | OpLev', 'Tell OpLev what still runs through you. Andre or Matt replies personally.',
+    return page('Apply | OpLev', 'Apply to work with OpLev. We take on a few clients at a time so every build gets our full attention.',
                 inquiry('h1'), p='', active='contact')
 
 
@@ -836,7 +873,7 @@ def setups_index():
         <div class="card-top"><span class="label">what we build for</span></div>
         <h2 class="h3 card-name">Something else</h2>
         <p class="card-line">Your business doesn't fit a box? Good. Tell us how you work and we'll design the engines around it.</p>
-        <div class="card-foot"><span class="label">from $5k a month</span><span class="label go">Talk to us {ARR_R}</span></div>
+        <div class="card-foot"><span class="label">from $5k a month</span><span class="label go">Apply {ARR_R}</span></div>
       </a>'''
     body = f'''
 <section class="top" aria-labelledby="h1">
@@ -844,7 +881,7 @@ def setups_index():
     <div class="crumbs"><p class="eyebrow">Who it's for</p><span class="label">{len(SETUPS):02d} kinds of business</span></div>
     <h1 class="h1" id="h1">What we build for businesses like yours.<span class="cursor" aria-hidden="true"></span></h1>
     <p class="lede">Every engine we build is custom. These are the engines we usually build for each kind of business, based on the work we've done. Yours starts from how you work.</p>
-    <div class="actions"><a class="btn" href="start.html">Start a project {ARR_R}</a><a class="btn ghost" href="pricing.html">See pricing {ARR_R}</a></div>
+    <div class="actions"><a class="btn" href="start.html">Apply {ARR_R}</a><a class="btn ghost" href="pricing.html">See pricing {ARR_R}</a></div>
     <div class="cards">{cards}
     </div>
   </div>
@@ -880,7 +917,7 @@ def setup_page(i):
       <div><dt class="label">Usual plan</dt><dd>{E(L['name'])} / {E(L['price'])} a month</dd></div>
       <div><dt class="label">Works with</dt><dd>{E(', '.join(x['connects']))}</dd></div>
     </dl>
-    <div class="actions"><a class="btn" href="{p}start.html#{k}">Start a project {ARR_R}</a><a class="btn ghost" href="{p}app.html#{k}">See an example {ARR_R}</a></div>
+    <div class="actions"><a class="btn" href="{p}start.html#{k}">Apply {ARR_R}</a><a class="btn ghost" href="{p}app.html#{k}">See an example {ARR_R}</a></div>
   </div>
 </section>
 
@@ -949,6 +986,301 @@ def setup_page(i):
   </div>
 </section>''' + cta('Start your build.', "Tell us about your business. We'll design the engines around how you work and show you where we'd start.", p)
     return page(f'{x["type"]} | OpLev', f'What OpLev builds for {x["type"].lower()}: {x["pitch"]}', body, p=p, active='setups')
+
+
+# ---------- marketplace ----------
+
+def os_jobs(x):
+    """Job tuples (engine, trigger, title, desc) for an OS, taken from its setup or the shared list."""
+    pools = ([tuple(u) for u in SETUP[x['sid']]['uses']] if x.get('sid') else []) + list(PLAYS) + [
+        tuple(u) for s in SETUPS for u in s['uses']]
+    out = []
+    for t in x['jobs']:
+        hit = next((j for j in pools if j[2] == t), None)
+        assert hit, f'no job named {t} for {x["id"]}'
+        out.append(hit)
+    return out
+
+
+def os_card(x, p=''):
+    i = MARKET.index(x)
+    jobs = ''.join(f'<li>{E(t)}</li>' for t in x['jobs'][:3])
+    fig = (f'<figure class="thumb" role="img" aria-label="Placeholder image for {E(x["name"])}"><canvas data-seed="{21 + i}"></canvas>{TICKS}'
+           f'<span class="tag tl label">os {i + 1:02d}</span><span class="tag br label">example listing</span></figure>')
+    return f'''
+      <a class="card os-card" href="{p}marketplace/{x['id']}.html" data-e="{x['type']}">
+        {fig}
+        <div class="card-b">
+          <div class="card-top"><span class="label">{E(x['type_label'])}</span>{etags(x['engines'])}</div>
+          <h2 class="h3 card-name">{E(x['name'])}</h2>
+          <p class="card-line">{E(x['pitch'])}</p>
+          <ul class="rowlist">{jobs}</ul>
+          <div class="card-foot"><span class="label">price on request</span><span class="label go">View {ARR_R}</span></div>
+        </div>
+      </a>'''
+
+
+LICENSE_STEPS = [
+    ('Pick one', 'Find an OS built for a business like yours, and see every job it handles.'),
+    ('We tailor it', 'We connect it to your tools and set it up with your wording, your prices and your rules.'),
+    ('We run it', 'You pay monthly. We host it, fix it and keep it improving. The owner earns on every license.'),
+]
+
+
+SELL_STEPS = [
+    ('We build it for you', 'Custom engines, built around how your business runs.'),
+    ('It proves itself', "It runs your business first. That's the proof buyers want."),
+    ('We list it', 'Your OS goes in the marketplace. We tailor and run it for every buyer.'),
+    ('You earn', 'Every business that licenses it pays you, every month.'),
+]
+
+
+def sell_steps():
+    return '<div class="every one-col">' + ''.join(
+        f'<div class="ev"><span class="b" aria-hidden="true">{i + 1:02d}</span><h3 class="h3">{E(t)}</h3><p>{E(d)}</p></div>'
+        for i, (t, d) in enumerate(SELL_STEPS)) + '</div>'
+
+
+def license_steps(cls=''):
+    return f'''<ol class="steps steps-3{cls}">''' + ''.join(
+        f'''<li class="step"><div class="step-top"><span class="num" aria-hidden="true">{i + 1:02d}</span></div><h3 class="h3">{E(t)}</h3><p>{E(d)}</p></li>'''
+        for i, (t, d) in enumerate(LICENSE_STEPS)) + '</ol>'
+
+
+def market_index():
+    filters = '<button class="tab" type="button" aria-pressed="true" data-f="all">All</button>' + ''.join(
+        f'<button class="tab" type="button" aria-pressed="false" data-f="{k}">{E(t)}</button>' for k, t in MARKET_TYPES)
+    cards = ''.join(os_card(x) for x in MARKET)
+    body = f'''
+<section class="top" aria-labelledby="h1">
+  <div class="wrap">
+    <div class="crumbs"><p class="eyebrow">Marketplace</p><span class="label">{len(MARKET):02d} example listings</span></div>
+    <h1 class="h1" id="h1">Operating systems, ready to license.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">Each OS here was built by OpLev for a business like yours, then listed by its owner. Pick one, apply, and we tailor it to you and run it every month. Faster than starting from scratch.</p>
+    <p class="label mk-note">These are example listings while the first ones go live.</p>
+    <div class="tabs filters mk-filters" role="group" aria-label="Filter by business">{filters}</div>
+    <div class="cards mk-cards">{cards}
+    </div>
+  </div>
+</section>
+
+<section class="sec band" id="licensing" aria-labelledby="lic-steps-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">How licensing works</p>
+        <h2 class="h2" id="lic-steps-h">Proven in one business. Tailored for yours.</h2>
+      </div>
+    </div>
+    {license_steps()}
+  </div>
+</section>
+
+<section class="sec" id="sell" aria-labelledby="sell-h">
+  <div class="wrap split">
+    <div class="head-l">
+      <p class="eyebrow">Sell yours</p>
+      <h2 class="h2" id="sell-h">Built something that works? List it.</h2>
+      <p class="lede">What works for your business will work for businesses like yours. Add a resale license and we list your OS here, run it for every buyer, and you earn on every license.</p>
+      <div class="actions"><a class="btn" href="start.html#resale">Ask about resale {ARR_R}</a><a class="btn ghost" href="pricing.html#resale">How resale works {ARR_R}</a></div>
+    </div>
+    <div class="split-r">
+      {sell_steps()}
+    </div>
+  </div>
+</section>''' + cta("Don't see your business?", "We'll build an OS around how yours works. Tell us what still runs through you.", '')
+    return page('OS Marketplace | OpLev', 'Operating systems OpLev built for real kinds of business, ready to license. Pick one, we tailor it to you and run it every month.',
+                body, p='', active='market')
+
+
+def market_page(i):
+    x = MARKET[i]
+    p = '../'
+    n = len(MARKET)
+    start = f'{p}start.html#os-{x["id"]}'
+    demo = f'{p}app.html#{x["sid"]}' if x.get('sid') else None
+    jobs = job_cards(os_jobs(x), sid=x.get('sid'), p=p, extra_cls=' plays-top', start=start, demo=demo or f'{p}marketplace.html')
+    more = ''.join(os_card(MARKET[(i + k) % n], p) for k in (1, 2, 3))
+    acts = f'<a class="btn" href="{start}">Apply for this OS {ARR_R}</a>' + (
+        f'<a class="btn ghost" href="{demo}">See an example dashboard {ARR_R}</a>' if demo else '')
+    body = f'''
+<section class="top" aria-labelledby="h1">
+  <div class="wrap">
+    <div class="crumbs"><a class="label" href="{p}marketplace.html">{ARR_L} Marketplace</a><span class="label">os {i + 1:02d} / {n:02d} / example listing</span></div>
+    <p class="eyebrow">Operating system for {E(x['type_label'].lower())}</p>
+    <h1 class="h1" id="h1">{E(x['name'])}<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">{E(x['pitch'])}</p>
+    <dl class="facts f4">
+      <div><dt class="label">For</dt><dd>{E(x['for'])}</dd></div>
+      <div><dt class="label">Engines</dt><dd>{etags(x['engines'])}</dd></div>
+      <div><dt class="label">Built for</dt><dd>{E(x['built_for'])}</dd></div>
+      <div><dt class="label">Price</dt><dd>Monthly license, on request</dd></div>
+    </dl>
+    <div class="actions">{acts}</div>
+  </div>
+</section>
+
+<section class="sec" id="inside" aria-labelledby="inside-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">What's inside</p>
+        <h2 class="h2" id="inside-h">Jobs it takes off your plate.</h2>
+        <p class="lede">Tap any job to see what happens, step by step. We tailor each one to how you work before it goes live.</p>
+      </div>
+      <p class="label">{len(x['jobs'])} jobs</p>
+    </div>
+    {jobs}
+  </div>
+</section>
+
+<section class="sec band" id="licensing" aria-labelledby="lic-steps-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">How licensing works</p>
+        <h2 class="h2" id="lic-steps-h">Proven in one business. Tailored for yours.</h2>
+      </div>
+    </div>
+    {license_steps()}
+  </div>
+</section>
+
+<section class="sec" id="more" aria-labelledby="more-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">More in the marketplace</p>
+        <h2 class="h2" id="more-h">Other operating systems.</h2>
+      </div>
+      <a class="btn ghost" href="{p}marketplace.html">See all {ARR_R}</a>
+    </div>
+    <div class="cards">{more}
+    </div>
+  </div>
+</section>''' + cta(f'Want {E(x["name"])}?', 'Tell us about your business. We will show you how we would tailor it and what it costs.', p)
+    return page(f'{x["name"]} | OpLev Marketplace', f'{x["name"]}: {x["pitch"]}', body, p=p, active='market')
+
+
+# ---------- how it works ----------
+
+PHASES = [
+    ('system', 'Apply', 'We only take on a few clients at a time. Tell us about your business and what still runs through you. If it looks like a fit, we set up a call.',
+     'Fill in a two-minute application.', 'A reply from the people who would build it.'),
+    ('discuss', 'Discuss', 'We get on a call with you and your team and see how the work really gets done: where leads come in, what you answer twice, what only one person knows.',
+     'Walk us through a normal week.', 'A plan with what we would build first, the monthly price and a launch date.'),
+    ('build', 'Build', 'We build your engines around how you already work and connect them to the tools you use, like your calendar, inbox and payments.',
+     'Answer our questions and try it early.', 'Engines built for your business, tested on your real work.'),
+    ('implement', 'Launch', 'We roll it out one piece at a time. Every job checks with you first until you trust it, then it runs on its own.',
+     'Approve drafts from your phone.', 'Busywork off your plate. Nothing important goes out without your OK.'),
+    ('measure', 'Improve', 'Every month we track how much of the business runs without you, then pick the next thing to fix.',
+     'Join a short check-in call.', 'Engines that keep getting better for as long as you use them.'),
+]
+DUO = [
+    ('You', ['Tell us how the business runs', 'Approve anything important', 'Tell us what to change', 'Keep your data, always']),
+    ('Us', ['Design and build your engines', 'Connect the tools you already use', 'Host, fix and update everything', 'Keep improving it every month']),
+]
+MONTHLY = [
+    ('Hosting, fixes and updates', 'We keep it running. You never hire a developer.'),
+    ('Changes when you ask', 'New jobs, new rules, new wording. We build them in.'),
+    ('A progress score', 'A simple number for how much runs without you.'),
+    ('Check-in calls', 'We review what is working and pick what to fix next.'),
+    ('Approvals your way', 'You decide what needs your OK and what runs on its own.'),
+    ('Your data stays yours', 'Download all of it any time.'),
+]
+
+
+def how_page():
+    phases = ''.join(f'''
+      <li class="phase">
+        <div class="phase-id"><span class="num" aria-hidden="true">{i + 1:02d}</span><svg class="px" data-icon="{icon}" viewBox="0 0 50 50" aria-hidden="true"></svg><h3 class="h3">{E(t)}</h3></div>
+        <p class="phase-d">{E(d)}</p>
+        <dl class="phase-kv"><div><dt class="label">you</dt><dd>{E(you)}</dd></div><div><dt class="label">you get</dt><dd>{E(get)}</dd></div></dl>
+      </li>''' for i, (icon, t, d, you, get) in enumerate(PHASES))
+    duo = ''.join(f'''
+      <div class="duo-col"><p class="label">{E(who)}</p><ul class="rowlist">{''.join(f'<li>{E(x)}</li>' for x in items)}</ul></div>''' for who, items in DUO)
+    monthly = ''.join(f'<div class="ev"><span class="b" aria-hidden="true">{i + 1:02d}</span><h3 class="h3">{E(t)}</h3><p>{E(d)}</p></div>'
+                      for i, (t, d) in enumerate(MONTHLY))
+    body = f'''
+<section class="top" aria-labelledby="h1">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h1 class="h1" id="h1">From first call to engines that run without you.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">We learn how your business runs, build engines around it and keep them running every month. You talk to the people building it, the whole way.</p>
+    <dl class="facts f4">
+      <div><dt class="label">You talk to</dt><dd>The people building it</dd></div>
+      <div><dt class="label">You pay</dt><dd>One monthly price</dd></div>
+      <div><dt class="label">You approve</dt><dd>Anything important</dd></div>
+      <div><dt class="label">You keep</dt><dd>Your data, always</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec" id="process" aria-labelledby="process-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">The process</p>
+        <h2 class="h2" id="process-h">Five steps.</h2>
+      </div>
+      <p class="label">apply / discuss / build / launch / improve</p>
+    </div>
+    <ol class="phases">{phases}
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="roles" aria-labelledby="roles-h">
+  <div class="wrap split">
+    <div class="head-l">
+      <p class="eyebrow">Who does what</p>
+      <h2 class="h2" id="roles-h">You run the business. We run the engines.</h2>
+      <p class="lede">Your part takes a few calls and a few taps a day. The rest is on us.</p>
+    </div>
+    <div class="split-r"><div class="duo">{duo}
+    </div></div>
+  </div>
+</section>
+
+<section class="sec band" id="engines" aria-labelledby="eng-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">What we build</p>
+        <h2 class="h2" id="eng-h">Three kinds of engines.</h2>
+        <p class="lede">We build one, two or all three. They share the same information, so nothing gets typed in twice.</p>
+      </div>
+    </div>{engmap()}
+  </div>
+</section>
+
+<section class="sec" id="monthly" aria-labelledby="monthly-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">Every month</p>
+        <h2 class="h2" id="monthly-h">What your monthly price covers.</h2>
+      </div>
+      <a class="btn ghost" href="pricing.html">See pricing {ARR_R}</a>
+    </div>
+    <div class="every">{monthly}
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="resale" aria-labelledby="resale-h">
+  <div class="wrap split">
+    <div class="head-l">
+      <p class="eyebrow">Then sell it</p>
+      <h2 class="h2" id="resale-h">Your OS can earn.</h2>
+      <p class="lede">What works for you will work for businesses like yours. List it in our marketplace and earn on every license. We run it for every buyer.</p>
+      <div class="actions"><a class="btn" href="marketplace.html">Browse the marketplace {ARR_R}</a></div>
+    </div>
+    <div class="split-r">{sell_steps()}</div>
+  </div>
+</section>''' + inquiry('h2', 'Ready when you are.')
+    return page('How It Works | OpLev', 'How OpLev works: we learn how your business runs, build custom engines around it and keep them running every month.',
+                body, p='', active='how')
 
 
 # ---------- console app ----------
@@ -1127,7 +1459,10 @@ def case(i):
 
 def main():
     out = {'index.html': home(), 'pricing.html': pricing(), 'work.html': work(), 'start.html': start(),
-           'setups.html': setups_index(), 'app.html': app_page()}
+           'setups.html': setups_index(), 'app.html': app_page(),
+           'how-it-works.html': how_page(), 'marketplace.html': market_index()}
+    for i, x in enumerate(MARKET):
+        out[f'marketplace/{x["id"]}.html'] = market_page(i)
     for i, x in enumerate(SETUPS):
         out[f'setups/{x["id"]}.html'] = setup_page(i)
     for i, c in enumerate(CASES):

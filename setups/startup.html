@@ -661,6 +661,62 @@ html.sheet-open{overflow:hidden}
 
 .type-other{margin-top:10px}
 .type-other[hidden]{display:none}
+
+/* ---------- how it works ---------- */
+.phases{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.phase{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding:clamp(26px,3.4vw,44px) 0;border-bottom:1px solid var(--line)}
+@media (min-width:960px){.phase{grid-template-columns:minmax(0,3fr) minmax(0,5fr) minmax(0,4fr);gap:48px;align-items:start}}
+.phase-id{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:16px}
+.phase-id .num{font:900 clamp(44px,4.6vw,64px)/.85 var(--num);color:var(--paper);font-variant-numeric:tabular-nums}
+.phase-id .px{width:36px;height:36px}
+.phase-id .h3{margin:0}
+@media (min-width:960px){.phase-id{grid-template-columns:auto minmax(0,1fr);row-gap:18px}.phase-id .px{grid-row:1;grid-column:2;justify-self:end}.phase-id .h3{grid-column:1/-1}}
+.phase-d{margin:0;color:var(--soft);font-size:17px;line-height:1.55;max-width:56ch}
+.phase-kv{margin:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.phase-kv>div{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.phase-kv dd{margin:0;color:var(--paper);font-size:15px;line-height:1.5}
+.phase:hover .px rect:not(.on){fill:var(--line-2)}
+.duo{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:640px){.duo{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.duo-col{background:var(--ink);padding:clamp(18px,2.2vw,28px);display:flex;flex-direction:column;gap:10px}
+.duo-col>.label{color:var(--paper)}
+.steps.steps-3{grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.steps.steps-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.steps.steps-3.one-col{grid-template-columns:minmax(0,1fr)}
+.steps.steps-3 .step-top{margin-bottom:clamp(12px,2.6vw,36px)}
+.band .steps{background:var(--on-paper-line);border-color:var(--on-paper-line)}
+.band .step{background:var(--paper)}
+.band .step:hover{background:#E8E8E4}
+.band .step .num,.band .step .h3{color:var(--ink)}
+.band .step p{color:var(--on-paper-dim)}
+
+/* ---------- marketplace ---------- */
+.mk-note{margin:14px 0 0;color:var(--dim)}
+.mk-filters{margin-top:clamp(24px,3vw,40px)}
+.mk-filters+.mk-cards{margin-top:16px}
+.os-card .card-b{gap:12px}
+.os-card .rowlist li{font-size:15px;padding:10px 0}
+.os-card[hidden]{display:none}
+.inq-os{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:12px 14px;border:1px solid var(--line-2);background:var(--ink)}
+.inq-os[hidden]{display:none}
+.inq-os-n{font:500 15px/1.2 var(--display);color:var(--paper)}
+.inq-os-x{margin-left:auto;appearance:none;-webkit-appearance:none;background:none;border:0;padding:4px 0;color:var(--dim);cursor:pointer}
+.inq-os-x:hover,.inq-os-x:focus-visible{color:var(--paper)}
+
+/* ---------- limited spots ---------- */
+.spots{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px}
+.sp-meter{display:inline-flex;gap:4px}
+.sp-meter i{display:block;width:22px;height:9px;border:1px solid var(--paper)}
+.sp-meter i.taken{background:var(--dim-2);border-color:var(--dim-2)}
+.sp-meter i.open:first-of-type,.sp-meter i.taken+i.open{animation:blink 1.4s steps(1) infinite}
+.spots .label b{color:var(--paper);font-weight:500}
+.hero-spots{margin-top:-4px}
+.inq-spots{padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.spots-pill{display:none;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line-2);color:var(--soft);text-decoration:none;font:400 11px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;transition:border-color .18s,color .18s}
+.spots-pill:hover{border-color:var(--paper);color:var(--paper)}
+.spots-pill .dot{width:6px;height:6px;background:var(--paper);animation:blink 1.4s steps(1) infinite}
+@media (min-width:520px){.spots-pill{display:inline-flex}}
+@media (prefers-reduced-motion:reduce){.sp-meter i,.spots-pill .dot{animation:none!important}}
 </style>
 </head>
 <body>
@@ -683,13 +739,14 @@ html.sheet-open{overflow:hidden}
     <a class="brand" href="../index.html" aria-label="OpLev home"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span class="brand-t">OPLEV</span></a>
     <nav class="links" aria-label="Sections">
       <a href="../work.html">Work</a>
-      <a href="../index.html#engines">What we build</a>
+      <a href="../how-it-works.html">How it works</a>
       <a href="../setups.html" aria-current="page">Who it's for</a>
+      <a href="../marketplace.html">Marketplace</a>
       <a href="../pricing.html">Pricing</a>
     </nav>
     <div class="nav-r">
-      <span class="clock" data-clock></span>
-      <a class="btn btn-sm nav-cta" href="../start.html">Start a project</a>
+      <a class="spots-pill" href="../start.html"><span class="dot" aria-hidden="true"></span>2 spots open</a>
+      <a class="btn btn-sm nav-cta" href="../start.html">Apply</a>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="mb-t">Menu</span></button>
     </div>
   </div>
@@ -700,10 +757,11 @@ html.sheet-open{overflow:hidden}
     <nav aria-label="Menu">
       <ul class="menu-list">
         <li><a href="../work.html"><span class="mn">01</span><span class="mt">Work</span><span class="mp">case studies</span></a></li>
-        <li><a href="../index.html#engines"><span class="mn">02</span><span class="mt">What we build</span><span class="mp">custom engines</span></a></li>
+        <li><a href="../how-it-works.html"><span class="mn">02</span><span class="mt">How it works</span><span class="mp">start to finish</span></a></li>
         <li><a href="../setups.html" aria-current="page"><span class="mn">03</span><span class="mt">Who it's for</span><span class="mp">by business</span></a></li>
-        <li><a href="../pricing.html"><span class="mn">04</span><span class="mt">Pricing</span><span class="mp">how we charge</span></a></li>
-        <li><a href="../start.html"><span class="mn">05</span><span class="mt">Contact</span><span class="mp">get in touch</span></a></li>
+        <li><a href="../marketplace.html"><span class="mn">04</span><span class="mt">Marketplace</span><span class="mp">ready-made systems</span></a></li>
+        <li><a href="../pricing.html"><span class="mn">05</span><span class="mt">Pricing</span><span class="mp">how we charge</span></a></li>
+        <li><a href="../start.html"><span class="mn">06</span><span class="mt">Apply</span><span class="mp">limited spots</span></a></li>
       </ul>
     </nav>
     <div class="menu-foot label"><span>hello@oplev.com</span><span class="clock" data-clock></span></div>
@@ -724,7 +782,7 @@ html.sheet-open{overflow:hidden}
       <div><dt class="label">Usual plan</dt><dd>Two engines / $10k a month</dd></div>
       <div><dt class="label">Works with</dt><dd>Stripe, HubSpot, Slack, Google Workspace, Linear</dd></div>
     </dl>
-    <div class="actions"><a class="btn" href="../start.html#startup">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="../app.html#startup">See an example <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
+    <div class="actions"><a class="btn" href="../start.html#startup">Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="../app.html#startup">See an example <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
   </div>
 </section>
 
@@ -806,8 +864,8 @@ html.sheet-open{overflow:hidden}
     <h2 class="h2" id="next-h">Start your build.</h2>
     <p class="lede">Tell us about your business. We'll design the engines around how you work and show you where we'd start.</p>
     <div class="actions">
-      <a class="btn" href="../start.html">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
-      <a class="btn ghost" href="../pricing.html">See licenses <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+      <a class="btn" href="../start.html">Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+      <a class="btn ghost" href="../pricing.html">See pricing <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
     </div>
   </div>
 </section>
@@ -1160,7 +1218,7 @@ $$('[data-jobs]').forEach(list=>{
       +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
       +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
       +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
-      +'<div class="actions"><a class="btn" id="js-start">Start a project</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
     document.body.appendChild(dlg);
     $('.sheet-x',dlg).addEventListener('click',close);
     dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
@@ -1178,7 +1236,7 @@ $$('[data-jobs]').forEach(list=>{
     $('#js-t',dlg).textContent=j.title;$('#js-d',dlg).textContent=j.desc;
     $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
     const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
-    st.href=J.start;st.innerHTML='Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
+    st.href=J.start;st.innerHTML='Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     dm.href=J.demo;dm.innerHTML='Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
     const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
@@ -1277,6 +1335,14 @@ $$('form.inq').forEach(f=>{
   const h=(location.hash||'').slice(1).toLowerCase();
   if(h){const el=document.getElementById('inq-'+(PRE[h]||('type-'+h)));if(el&&f.contains(el))el.checked=true;}
   try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');TEXT.forEach(k=>{const el=f.elements[k];if(el&&d[k]&&!el.value)el.value=d[k];});}catch(e){}
+  // marketplace links (start.html#os-practice) say which OS the inquiry is about
+  const osBox=$('.inq-os',f),osIn=$('#inq-os',f);let osNames={};try{osNames=JSON.parse(($('.os-names',f)||{}).textContent||'{}')}catch(e){}
+  function setOS(id){
+    if(!osBox)return;const nm=id&&osNames[id];
+    osBox.hidden=!nm;osIn.disabled=!nm;osIn.value=nm||'';$('.inq-os-n',osBox).textContent=nm||'';
+  }
+  if(h.indexOf('os-')===0)setOS(h.slice(3));
+  if(osBox)$('.inq-os-x',osBox).addEventListener('click',()=>{setOS(null);const m=f.elements.message;if(m)m.focus();});
   const other=$('.type-other',f),otherIn=other&&$('input',other);
   function syncOther(focus){
     if(!other)return;const r=f.querySelector('input[name="type"]:checked'),on=!!(r&&r.id==='inq-type-other');
@@ -1308,13 +1374,13 @@ $$('form.inq').forEach(f=>{
     return d;
   }
   function compose(d){
-    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Business',d.type_other||d.type],['Team size',d.team],
+    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Asking about',d.os],['Business',d.type_other||d.type],['Team size',d.team],
       ['Build',(d.build||[]).join(', ')],['License',d.license],['Sell to others',d.resale],['Start',d.timing]];
     return rows.filter(r=>r[1]).map(r=>r[0]+': '+r[1]).join('\n')+'\n\nWhat still runs through me:\n'+(d.message||'');
   }
   function fallback(d){
     const text=compose(d);
-    out(['<span class="chip">[!]</span> this form can\'t send from here yet.','  email it to <b>'+esc(MAIL)+'</b> and we\'ll take it from there. your note is ready to copy:']);
+    out(['<span class="chip">[!]</span> this form can\'t send from here yet.','  email it to <b>'+esc(MAIL)+'</b> and we\'ll take it from there. your application is ready to copy:']);
     const pre=document.createElement('pre');pre.textContent=text;st.appendChild(pre);
     const b=document.createElement('button');b.type='button';b.className='btn ghost btn-sm';b.textContent='Copy note';
     b.addEventListener('click',()=>{
@@ -1329,7 +1395,7 @@ $$('form.inq').forEach(f=>{
     if(bad){out(['<span class="chip">[!]</span> add your name, a valid email and what still runs through you.']);bad.focus();return;}
     const d=collect(),first=esc((d.name||'').trim().split(/\s+/)[0]||'there');
     btn.disabled=true;
-    out(['> sending inquiry ...']);
+    out(['> sending application ...']);
     let ok=false,code=0,msg='';
     try{
       const r=await fetch(f.getAttribute('action'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
@@ -1337,7 +1403,7 @@ $$('form.inq').forEach(f=>{
     }catch(err){}
     btn.disabled=false;
     if(ok){
-      out(['> sending inquiry ... <b>ok</b>','  received ............ <b>ok</b>','  routed to ........... <b>oplev team</b>','<span class="chip">[ok]</span> thanks, '+first+'. we\'ll be in touch soon.']);
+      out(['> sending application ... <b>ok</b>','  received ............ <b>ok</b>','  read by ............. <b>andre + matt</b>','<span class="chip">[ok]</span> thanks, '+first+'. we review every application and reply personally.']);
       f.reset();try{localStorage.removeItem(KEY);}catch(err){}
     }else if(code===400&&msg){
       out(['<span class="chip">[!]</span> '+esc(msg)]);

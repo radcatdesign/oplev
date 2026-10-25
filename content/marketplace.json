@@ -1,0 +1,134 @@
+[
+ {
+  "id": "practice",
+  "name": "Practice OS",
+  "type": "clinic",
+  "type_label": "Clinics + practices",
+  "for": "Solo practitioners and small clinics",
+  "sid": "clinic",
+  "pitch": "Intake, reminders, rebooking and notes that run between visits, so you can stay with the client in front of you.",
+  "engines": [
+   "ops",
+   "agents"
+  ],
+  "built_for": "A physical therapy clinic with three providers",
+  "jobs": [
+   "New client intake",
+   "Visit reminders",
+   "Missed visit rebooking",
+   "Visit notes",
+   "Unpaid invoice reminders",
+   "Morning summary"
+  ]
+ },
+ {
+  "id": "showroom",
+  "name": "Showroom OS",
+  "type": "brand",
+  "type_label": "Product brands",
+  "for": "Brands that sell big-ticket or made-to-order products",
+  "sid": "brand",
+  "pitch": "Buyers price the job, see it on their own photo and get answers any hour. Every one becomes a lead your team can close.",
+  "engines": [
+   "leads",
+   "agents",
+   "ops"
+  ],
+  "built_for": "A tile and surfaces brand",
+  "jobs": [
+   "Instant price quotes",
+   "Preview on their own photo",
+   "Fast replies to new leads",
+   "Wholesale applications",
+   "\"Where's my order?\" answers",
+   "Low stock alerts"
+  ]
+ },
+ {
+  "id": "agency",
+  "name": "Agency OS",
+  "type": "agency",
+  "type_label": "Agencies + service firms",
+  "for": "Agencies and studios with retainer clients",
+  "sid": "agency",
+  "pitch": "Onboarding, launch checks, client reports and extra work, handled the same way for every client.",
+  "engines": [
+   "ops",
+   "agents"
+  ],
+  "built_for": "A twelve-person design studio",
+  "jobs": [
+   "Client onboarding",
+   "Pre-launch checks",
+   "Weekly client report",
+   "Extra work alerts",
+   "Unpaid invoice reminders",
+   "Weekly numbers"
+  ]
+ },
+ {
+  "id": "creator",
+  "name": "Creator OS",
+  "type": "creator",
+  "type_label": "Creators + media",
+  "for": "Podcasters, musicians and creators with a busy inbox",
+  "sid": "creator",
+  "pitch": "Releases go out on schedule, the inbox sorts itself and sponsor deals reach you with a summary.",
+  "engines": [
+   "agents"
+  ],
+  "built_for": "An independent audio creator",
+  "jobs": [
+   "New episode publishing",
+   "Inbox sorting",
+   "Sponsor requests",
+   "Licensing requests",
+   "Fan replies",
+   "Sponsor report"
+  ]
+ },
+ {
+  "id": "founder",
+  "name": "Founder OS",
+  "type": "startup",
+  "type_label": "Startups",
+  "for": "Early-stage startups with a small team",
+  "sid": "startup",
+  "pitch": "Every lead captured, every number on one screen and the investor update drafted for you.",
+  "engines": [
+   "ops",
+   "leads"
+  ],
+  "built_for": "A seed-stage software startup",
+  "jobs": [
+   "Waitlist and demo booking",
+   "Fast replies to new leads",
+   "Weekly numbers",
+   "Morning summary",
+   "New hire setup",
+   "Monthly investor update"
+  ]
+ },
+ {
+  "id": "field-service",
+  "name": "Field Service OS",
+  "type": "services",
+  "type_label": "Home + field services",
+  "for": "Contractors, installers and home service teams",
+  "sid": null,
+  "pitch": "Quotes go out fast, follow-ups happen on their own and happy customers leave reviews.",
+  "engines": [
+   "leads",
+   "agents"
+  ],
+  "built_for": "A pool and patio installer",
+  "jobs": [
+   "Instant price quotes",
+   "Quote follow-ups",
+   "Fast replies to new leads",
+   "Missed appointment rebooking",
+   "Review requests",
+   "Unpaid invoice reminders"
+  ]
+ }
+]
