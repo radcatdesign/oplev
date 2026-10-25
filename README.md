@@ -5,6 +5,8 @@ Static site. Every page is a self-contained HTML file, so Vercel serves the repo
 ## Edit
 
 - Case studies: `content/cases.json`
+- Setups and Console sample data: `content/setups.json`
+- Console: `src/app.css`, `src/app.js`
 - Styles: `src/site.css`
 - Behavior: `src/site.js`
 - Page copy and layout: `build.py`
@@ -15,7 +17,7 @@ Then rebuild and commit the output:
 python3 build.py
 ```
 
-This writes `index.html`, `pricing.html`, `work.html`, `start.html` and `work/<case>.html`.
+This writes `index.html`, `pricing.html`, `work.html`, `start.html`, `setups.html`, `setups/<type>.html`, `app.html` and `work/<case>.html`.
 
 ## Case images
 
@@ -38,3 +40,11 @@ Until those are set, the form shows the visitor a ready-to-copy note and the ema
 Links can preselect answers: `start.html#clinic`, `#brand`, `#agency`, `#creator`, `#startup` set the business type; `#one`, `#core`, `#company` set the license; `#resale` sets resale to yes.
 
 `.vercelignore` keeps `build.py`, `src/`, `content/` and this README off the live site.
+
+## Console demo (`/app`)
+
+`app.html` is the OpLev Console running on sample data: overview, approvals, activity, engine pages with plays, plays library, pipeline, records, OpLev Score, a setup wizard and settings. Changes stay in the visitor's browser.
+
+Open it as a business type with `app.html#clinic`, `#brand`, `#agency`, `#creator` or `#startup`. Each setup page links to its demo.
+
+To add or change a setup, edit `content/setups.json`. Each entry drives its setup page, the home picker, the pricing "fits" line and the Console's sample workspace.

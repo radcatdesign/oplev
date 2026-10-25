@@ -3,7 +3,8 @@
 
 Edit content/cases.json, src/site.css or src/site.js, then run:
     python3 build.py
-Outputs index.html, pricing.html, work.html, start.html and work/<case>.html at the repo root.
+Outputs index.html, pricing.html, work.html, start.html, setups.html, setups/<type>.html,
+app.html (the Console demo) and work/<case>.html at the repo root.
 Optional: python3 build.py --preview PATH writes an artifact-ready copy of the home page.
 """
 import json, sys, pathlib
@@ -13,6 +14,13 @@ ROOT = pathlib.Path(__file__).resolve().parent
 CASES = json.loads((ROOT / 'content' / 'cases.json').read_text())
 CSS = (ROOT / 'src' / 'site.css').read_text()
 JS = (ROOT / 'src' / 'site.js').read_text()
+APP_CSS = (ROOT / 'src' / 'app.css').read_text()
+APP_JS = (ROOT / 'src' / 'app.js').read_text()
+SETUPS = json.loads((ROOT / 'content' / 'setups.json').read_text())
+SETUP = {x['id']: x for x in SETUPS}
+LICENSES = {'one': {'name': 'One engine', 'price': '$5k', 'count': 1},
+            'core': {'name': 'Two engines', 'price': '$10k', 'count': 2},
+            'company': {'name': 'All three', 'price': '$15k+', 'count': 3}}
 
 EMAIL = 'hello@oplev.com'
 LOCATION = 'Bend, Oregon'
@@ -103,29 +111,6 @@ PAINS = [
     ('People keep asking if they can use what I built.', 'a commercial license'),
 ]
 
-FOR = [
-    ('clinic', 'Clinics + practices', 'Smoother visits for clients. Less admin for you.',
-     ['Intake, booking and follow-up that run on their own', 'Notes, records and reports in one place',
-      'An assistant trained on your own material'],
-     ['adessa-mind', 'art-of-practice'], ['ops', 'agents']),
-    ('brand', 'Product brands', "Answer every buyer's question and capture the order.",
-     ['A store that answers questions and takes orders', 'Tools that let buyers see it and price it',
-      'Orders, stock and wholesale handled by agents'],
-     ['element-glo', 'mawa'], ['leads', 'agents']),
-    ('agency', 'Agencies + service firms', 'Deliver the same great work without you in every thread.',
-     ['Client onboarding that runs itself', 'Launch checks and reports your team can trust',
-      'Your method, packaged so you can sell it'],
-     ['fit-funnels'], ['ops', 'agents']),
-    ('creator', 'Creators + media', 'Keep making things. Let the busywork run itself.',
-     ['A release pipeline for every channel', 'An inbox sorted into fans, partners and deals',
-      'Licensing and partnership requests routed'],
-     ['jason-stephenson'], ['agents', 'ops']),
-    ('startup', 'Startups', 'Run lean from day one, and turn what works into a product.',
-     ['Ops that scale before your headcount does', 'Investor updates that draft themselves',
-      'Software you can license to others'],
-     ['mawa', 'art-of-practice'], ['ops', 'leads']),
-]
-
 CMP_HEAD = ('Off-the-shelf apps', 'Agency build', 'OpLev license')
 CMP = [
     ('Built around how you work', 'No. You work around it.', 'Yes', 'Yes'),
@@ -151,21 +136,23 @@ F_TIMING = [('month', 'This month'), ('quarter', 'This quarter'), ('exploring', 
 def nav_items(p, home):
     a = (lambda h: h) if home else (lambda h: p + 'index.html' + h)
     return [
-        ('work', 'Work', p + 'work.html', '~/oplev/work'),
-        ('engines', 'Engines', a('#engines'), '~/oplev/engines'),
-        ('pricing', 'Pricing', p + 'pricing.html', '~/oplev/pricing'),
-        ('contact', 'Contact', p + 'start.html', '~/oplev/start'),
+        ('work', 'Work', p + 'work.html', '~/oplev/work', False),
+        ('engines', 'Engines', a('#engines'), '~/oplev/engines', False),
+        ('setups', 'Setups', p + 'setups.html', '~/oplev/setups', False),
+        ('pricing', 'Pricing', p + 'pricing.html', '~/oplev/pricing', False),
+        ('demo', 'Demo', p + 'app.html', '~/oplev/console', False),
+        ('contact', 'Contact', p + 'start.html', '~/oplev/start', True),
     ]
 
 
 def shell_top(p, home, active):
     items = nav_items(p, home)
     cur = lambda k: ' aria-current="page"' if k == active else ''
-    links = ''.join(f'\n      <a href="{h}"{cur(k)}>{t}</a>' for k, t, h, _ in items)
+    links = ''.join(f'\n      <a href="{h}"{cur(k)}>{t}</a>' for k, t, h, _, menu_only in items if not menu_only)
     menu = ''.join(
         f'\n        <li><a href="{h}"{cur(k)}><span class="mn">{i + 1:02d}</span>'
         f'<span class="mt">{t}</span><span class="mp">{pth}</span></a></li>'
-        for i, (k, t, h, pth) in enumerate(items))
+        for i, (k, t, h, pth, _m) in enumerate(items))
     brand = '#hero' if home else p + 'index.html'
     return f'''<div class="loader" id="loader" aria-hidden="true">
   <div class="ld-top">
@@ -355,26 +342,28 @@ def home(mode='full'):
         f'\n        <li class="ck" data-by="{E(by)}"><span class="b">[ ]</span><span class="txw"><span class="tx">“{E(t)}”</span></span><span class="by label"></span></li>'
         for t, by in PAINS)
     tabs = ''.join(
-        f'<button class="tab" type="button" role="tab" id="tab-{k}" aria-controls="panel-{k}" aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">{E(t)}</button>'
-        for i, (k, t, *_rest) in enumerate(FOR))
+        f'<button class="tab" type="button" role="tab" id="tab-{x["id"]}" aria-controls="panel-{x["id"]}" aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">{E(x["type"])}</button>'
+        for i, x in enumerate(SETUPS))
     panels = ''
-    for i, (k, t, pitch, items, cases, engs) in enumerate(FOR):
-        lis = ''.join(f'<li>{E(x)}</li>' for x in items)
+    for i, x in enumerate(SETUPS):
+        k = x['id']
+        lis = ''.join(f'<li>{E(u[2])}<span class="rl-tag">{etags([u[0]])}</span></li>' for u in x['uses'][:4])
         seen = ''.join(
             f'<a href="{case_href(BY_ID[cid])}">{mini(BY_ID[cid], SEED[cid], "")}<span class="h3">{E(BY_ID[cid]["name"])}</span><span class="go">{ARR_R}</span></a>'
-            for cid in cases if cid in BY_ID)
+            for cid in x['cases'] if cid in BY_ID)
+        L = LICENSES[x['license']]
         panels += f'''
       <div class="fpanel" role="tabpanel" id="panel-{k}" aria-labelledby="tab-{k}"{'' if i == 0 else ' hidden'}>
         <div class="fp-l">
-          <div class="fp-top"><span class="label">usually starts with</span>{etags(engs)}</div>
-          <h3 class="h3 fp-name">{E(t)}</h3>
-          <p class="fp-pitch">{E(pitch)}</p>
+          <div class="fp-top"><span class="label">{E(L['name'])} / {E(L['price'])} a month</span>{etags(x['engines'])}</div>
+          <h3 class="h3 fp-name">{E(x['name'])}</h3>
+          <p class="fp-pitch">{E(x['pitch'])}</p>
           <ul class="rowlist">{lis}</ul>
         </div>
         <div class="fp-r">
           <span class="label">seen in</span>
           <div class="seen">{seen}</div>
-          <a class="btn" href="start.html#{k}">Start a project {ARR_R}</a>
+          <div class="actions fp-act"><a class="btn" href="setups/{k}.html">See the setup {ARR_R}</a><a class="btn ghost" href="app.html#{k}">Try the demo {ARR_R}</a></div>
         </div>
       </div>'''
     engines = ''.join(f'''
@@ -512,8 +501,9 @@ def home(mode='full'):
       <div class="head-l">
         <p class="eyebrow">~/oplev/for</p>
         <h2 class="h2" id="for-h">Built for businesses like yours.</h2>
+        <p class="lede">Each setup is a set of engines and plays tuned for one kind of business. Pick yours, then try it in the demo.</p>
       </div>
-      <p class="label">pick yours</p>
+      <a class="btn ghost" href="setups.html">All setups {ARR_R}</a>
     </div>
     <div class="picker" data-tabs>
       <div class="tabs" role="tablist" aria-label="Business type">{tabs}</div>{panels}
@@ -583,6 +573,13 @@ def access(n):
         </div>'''
 
 
+def fits(slug, p=''):
+    xs = [x for x in SETUPS if x['license'] == slug]
+    if not xs:
+        return ''
+    return '\n        <p class="label fits">fits / ' + ' / '.join(f'<a href="{p}setups/{x["id"]}.html">{E(x["name"])}</a>' for x in xs) + '</p>'
+
+
 def plan(n, slug, name, amt, who, inc, btn):
     lis = ''.join(f'\n          <li>{E(x)}</li>' for x in inc)
     return f'''
@@ -592,7 +589,7 @@ def plan(n, slug, name, amt, who, inc, btn):
           <h3 class="h3" id="p{n}">{name}</h3>
           <p class="price"><span class="amt">{amt}</span><span class="per">/ month</span></p>
         </div>
-        <p class="for">{who}</p>{access(n)}
+        <p class="for">{who}</p>{access(n)}{fits(slug)}
         <ul class="inc">{lis}
         </ul>
         <a class="btn" href="start.html#{slug}">{btn} {ARR_R}</a>
@@ -796,6 +793,171 @@ def start():
                 inquiry('h1'), p='', active='contact')
 
 
+# ---------- setups ----------
+
+def access_for(keys):
+    rows = ''.join(
+        f'<li class="e-{k}{" inc" if k in keys else ""}"><span class="mk" aria-hidden="true"></span><span class="an">{E(name)}</span>'
+        f'<span class="at">{E(triad)}</span><span class="as">{"included" if k in keys else "add any time"}</span></li>'
+        for k, name, _i, triad, *_ in ENGINES)
+    meter = ''.join(f'<span class="seg{" on" if i < len(keys) else ""}"></span>' for i in range(3))
+    return f'''<div class="access"><div class="access-hd"><span class="label">engine access</span><span class="meter" aria-hidden="true">{meter}</span><span class="label">{len(keys)} of 3</span></div><ul class="access-list">{rows}</ul></div>'''
+
+
+def setups_index():
+    cards = ''
+    for i, x in enumerate(SETUPS):
+        L = LICENSES[x['license']]
+        uses = ''.join(f'<li>{E(u[2])}</li>' for u in x['uses'][:3])
+        cards += f'''
+      <a class="card setup-card" href="setups/{x['id']}.html">
+        <div class="card-top"><span class="label">{E(x['type'])}</span>{etags(x['engines'])}</div>
+        <h2 class="h3 card-name">{E(x['name'])}</h2>
+        <p class="card-line">{E(x['pitch'])}</p>
+        <ul class="rowlist">{uses}</ul>
+        <div class="card-foot"><span class="label">{E(L['name'])} / {E(L['price'])} a month</span><span class="label go">Open {ARR_R}</span></div>
+      </a>'''
+    cards += f'''
+      <a class="card setup-card custom" href="start.html">
+        <div class="card-top"><span class="label">something else</span></div>
+        <h2 class="h3 card-name">Custom setup</h2>
+        <p class="card-line">Your business doesn't fit a box? We build a setup around how you work, on any mix of engines.</p>
+        <div class="card-foot"><span class="label">from $5k a month</span><span class="label go">Talk to us {ARR_R}</span></div>
+      </a>'''
+    body = f'''
+<section class="top" aria-labelledby="h1">
+  <div class="wrap">
+    <div class="crumbs"><p class="eyebrow">~/oplev/setups</p><span class="label">{len(SETUPS):02d} setups</span></div>
+    <h1 class="h1" id="h1">A setup for your kind of business.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">Each setup is a set of engines and plays tuned for one kind of business. Start with one, open it in the demo, then make it yours.</p>
+    <div class="actions"><a class="btn" href="app.html">Open the demo {ARR_R}</a><a class="btn ghost" href="pricing.html">See licenses {ARR_R}</a></div>
+    <div class="cards">{cards}
+    </div>
+  </div>
+</section>''' + cta('Want to see yours running?', 'Tell us what still runs through you. We will pick the setup and show you where we would start.', '')
+    return page('OpLev Setups', 'Engine setups for clinics, product brands, agencies, creators and startups. Each one is a set of engines and plays you can try in the demo.',
+                body, p='', active='setups')
+
+
+def setup_page(i):
+    x = SETUPS[i]
+    p = '../'
+    L = LICENSES[x['license']]
+    n = len(SETUPS)
+    k = x['id']
+    uses = ''.join(f'''
+      <li class="play e-{e}" data-e="{e}"><div class="play-top">{etags([e])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3">{E(t)}</h3><p>{E(d)}</p></li>''' for e, trig, t, d in x['uses'])
+    seen = ''.join(
+        f'<a href="{case_href(BY_ID[cid], p)}">{mini(BY_ID[cid], SEED[cid], p)}<span class="h3">{E(BY_ID[cid]["name"])}</span><span class="go">{ARR_R}</span></a>'
+        for cid in x['cases'] if cid in BY_ID)
+    eng_names = ' + '.join(ENGINE_NAME[e] for e in x['engines'])
+    missing = [ENGINE_NAME[e] for e, *_ in ENGINES if e not in x['engines']]
+    prv, nxt = SETUPS[(i - 1) % n], SETUPS[(i + 1) % n]
+    day = json.dumps({'cmd': f'oplev log --setup {k}', 'run': x['day']}).replace('</', '<\\/')
+    body = f'''
+<section class="top" aria-labelledby="h1">
+  <div class="wrap">
+    <div class="crumbs"><a class="label" href="{p}setups.html">{ARR_L} All setups</a><span class="label">setup {i + 1:02d} / {n:02d}</span></div>
+    <p class="eyebrow">~/oplev/setups/{k}</p>
+    <h1 class="h1" id="h1">The {E(x['name'])}<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">{E(x['pitch'])}</p>
+    <dl class="facts f4">
+      <div><dt class="label">For</dt><dd>{E(x['for'])}</dd></div>
+      <div><dt class="label">Engines</dt><dd>{etags(x['engines'])}</dd></div>
+      <div><dt class="label">License</dt><dd>{E(L['name'])} / {E(L['price'])} a month</dd></div>
+      <div><dt class="label">Connects</dt><dd>{E(', '.join(x['connects']))}</dd></div>
+    </dl>
+    <div class="actions"><a class="btn" href="{p}start.html#{k}">Start with this setup {ARR_R}</a><a class="btn ghost" href="{p}app.html#{k}">Try the demo {ARR_R}</a></div>
+  </div>
+</section>
+
+<section class="sec" id="uses" aria-labelledby="uses-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">~/oplev/setups/{k}/plays</p>
+        <h2 class="h2" id="uses-h">What it runs.</h2>
+        <p class="lede">Six plays tuned for {E(x['type'].lower())}. We set each one up with you and change them as you go.</p>
+      </div>
+      <p class="label">{len(x['uses'])} use cases</p>
+    </div>
+    <ul class="plays plays-top">{uses}
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="day" aria-labelledby="day-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">~/oplev/setups/{k}/day</p>
+        <h2 class="h2" id="day-h">A day with the {E(x['name'])}.</h2>
+      </div>
+      <p class="label">sample day / illustrative</p>
+    </div>
+    <div class="pane" data-src="day-data" data-state="idle" style="max-width:none">
+      <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">~/oplev/setups/{k}/day</span><span class="label">sample day</span></div>
+      <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
+      <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
+    </div>
+    <script type="application/json" id="day-data">{day}</script>
+  </div>
+</section>
+
+<section class="sec band" id="access" aria-labelledby="access-h">
+  <div class="wrap split">
+    <div class="head-l">
+      <p class="eyebrow">~/oplev/setups/{k}/license</p>
+      <h2 class="h2" id="access-h">Runs on {E(eng_names)}.</h2>
+      <p class="lede">The {E(x['name'])} fits the {E(L['name'])} license at {E(L['price'])} a month, with hosting, maintenance and updates included.{(' Add ' + ' or '.join(missing) + ' any time.') if missing else ''}</p>
+      <div class="actions"><a class="btn" href="{p}pricing.html">See licenses {ARR_R}</a></div>
+    </div>
+    <div class="split-r">{access_for(x['engines'])}
+      <div class="tool-row"><span class="label">connects to</span>{''.join(f'<span class="tool">{E(c)}</span>' for c in x['connects'])}</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="demo" aria-labelledby="demo-h">
+  <div class="wrap split">
+    <div class="head-l">
+      <p class="eyebrow">~/oplev/console</p>
+      <h2 class="h2" id="demo-h">Try it with sample data.</h2>
+      <p class="lede">Open the Console as a sample {E(x['type'].lower().rstrip('s').replace(' + ', ' or '))} business. Approve drafts, switch plays on and off, and watch the engines run.</p>
+      <div class="actions"><a class="btn" href="{p}app.html#{k}">Open the demo {ARR_R}</a></div>
+    </div>
+    <div class="split-r">
+      <span class="label">seen in</span>
+      <div class="seen">{seen}</div>
+      <nav class="pager" aria-label="More setups">
+        <a class="pg prev" href="{prv['id']}.html"><span class="label">{ARR_L} Previous</span><span class="h3">{E(prv['name'])}</span></a>
+        <a class="pg next" href="{nxt['id']}.html"><span class="label">Next {ARR_R}</span><span class="h3">{E(nxt['name'])}</span></a>
+      </nav>
+    </div>
+  </div>
+</section>''' + cta(f'Start with the {E(x["name"])}.', 'Tell us about your business. We will tune the setup to how you work and show you where we would start.', p)
+    return page(f'{x["name"]} | OpLev', f'The OpLev {x["name"]} for {x["type"].lower()}: {x["pitch"]}', body, p=p, active='setups')
+
+
+# ---------- console app ----------
+
+def app_page():
+    data = {'engines': [{'id': k, 'name': n, 'triad': t, 'line': l, 'caps': c} for k, n, _i, t, l, c, _s in ENGINES],
+            'plays': PLAYS, 'setups': SETUPS, 'licenses': LICENSES}
+    blob = json.dumps(data).replace('</', '<\\/')
+    return ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+            '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+            '<title>OpLev Console</title>\n'
+            '<meta name="description" content="The OpLev Console: set up, monitor and work with your Ops, Agents and Leads engines. Demo with sample data.">\n'
+            '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+            '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+            f'<link rel="stylesheet" href="{FONTS}">\n'
+            f'<style>\n{CSS}\n{APP_CSS}</style>\n</head>\n<body>\n'
+            '<div id="app" class="app"><noscript><p style="padding:24px">The OpLev Console needs JavaScript.</p></noscript></div>\n'
+            f'<script type="application/json" id="app-data">{blob}</script>\n'
+            f'<script>\n{APP_JS}</script>\n</body>\n</html>\n')
+
+
 # ---------- work index ----------
 
 def work():
@@ -954,7 +1116,10 @@ def case(i):
 # ---------- write ----------
 
 def main():
-    out = {'index.html': home(), 'pricing.html': pricing(), 'work.html': work(), 'start.html': start()}
+    out = {'index.html': home(), 'pricing.html': pricing(), 'work.html': work(), 'start.html': start(),
+           'setups.html': setups_index(), 'app.html': app_page()}
+    for i, x in enumerate(SETUPS):
+        out[f'setups/{x["id"]}.html'] = setup_page(i)
     for i, c in enumerate(CASES):
         out[f'work/{c["id"]}.html'] = case(i)
     for rel, html in out.items():

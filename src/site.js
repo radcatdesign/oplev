@@ -347,7 +347,7 @@ if(!RM)once([$('.engines')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pix
 /* ---------- phone menu ---------- */
 (function(){
   const btn=$('#menu-btn'),menu=$('#menu');if(!btn||!menu)return;
-  const t=$('.mb-t',btn),wide=matchMedia('(min-width:900px)');
+  const t=$('.mb-t',btn),wide=matchMedia('(min-width:1000px)');
   function set(open){
     btn.setAttribute('aria-expanded',String(open));t.textContent=open?'Close':'Menu';
     menu.hidden=!open;document.documentElement.classList.toggle('menu-open',open);

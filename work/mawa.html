@@ -63,11 +63,11 @@ section[id]{scroll-margin-top:var(--nav)}
 /* nav */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--nav);background:rgba(7,7,8,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav .wrap{height:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px}
-@media (min-width:900px){.nav .wrap{grid-template-columns:1fr auto 1fr}}
+@media (min-width:1000px){.nav .wrap{grid-template-columns:1fr auto 1fr}}
 .brand{display:inline-flex;align-items:center;gap:10px;font:500 13px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--paper);text-decoration:none;justify-self:start}
 .mark{width:10px;height:10px;flex:none;display:block}
 .links{display:none}
-@media (min-width:900px){.links{display:flex;gap:28px}}
+@media (min-width:1000px){.links{display:flex;gap:26px}}
 .links a{font:400 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:8px 0;transition:color .18s}
 .links a:hover,.links a[aria-current="page"]{color:var(--paper)}
 .nav-r{display:flex;align-items:center;gap:12px;justify-self:end}
@@ -86,7 +86,7 @@ section[id]{scroll-margin-top:var(--nav)}
 .menu-btn .bars::after{bottom:1px}
 .menu-btn[aria-expanded="true"] .bars::before{top:4px;transform:rotate(45deg)}
 .menu-btn[aria-expanded="true"] .bars::after{bottom:4px;transform:rotate(-45deg)}
-@media (min-width:900px){.menu-btn{display:none}}
+@media (min-width:1000px){.menu-btn{display:none}}
 .menu{position:fixed;left:0;right:0;bottom:0;top:calc(var(--nav) + env(safe-area-inset-top,0px));z-index:45;background:var(--ink);overflow-y:auto;overscroll-behavior:contain}
 .menu .wrap{min-height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding-block:24px calc(28px + env(safe-area-inset-bottom,0px))}
 .menu-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
@@ -98,7 +98,7 @@ section[id]{scroll-margin-top:var(--nav)}
 .menu-list a[aria-current="page"] .mn,.menu-list a[aria-current="page"] .mp{color:var(--paper)}
 @media (max-width:379px){.menu-list .mp{display:none}}
 .menu-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px}
-@media (min-width:900px){.menu{display:none!important}}
+@media (min-width:1000px){.menu{display:none!important}}
 
 /* hero (home) */
 .hero{position:relative;overflow:hidden}
@@ -598,6 +598,21 @@ textarea.inp{min-height:132px;resize:vertical}
 .em-plays{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
 .em-plays li{font:400 11px/1 var(--display);letter-spacing:.03em;color:var(--ink);border:1px solid var(--on-paper-line);padding:6px 8px;background:var(--paper-2)}
 
+/* setups */
+.rowlist .rl-tag{display:inline-flex;margin-left:10px;vertical-align:1px}
+.fp-act{margin-top:auto}
+.fits{margin:0}
+.band .fits a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--on-paper-line)}
+.band .fits a:hover{border-color:var(--ink)}
+.setup-card .rowlist{margin-top:4px}
+.setup-card .rowlist li{font-size:15px;padding:10px 0}
+.setup-card.custom{background:var(--ink-2)}
+.plays-top{border-top:1px solid var(--line)}
+.tool-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.tool-row .label{margin-right:4px}
+.tool{font:400 11px/1 var(--display);letter-spacing:.03em;color:var(--ink);border:1px solid var(--on-paper-line);background:var(--paper-2);padding:7px 9px}
+.split-r>.label{margin-bottom:-14px}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -631,8 +646,9 @@ textarea.inp{min-height:132px;resize:vertical}
     <nav class="links" aria-label="Sections">
       <a href="../work.html" aria-current="page">Work</a>
       <a href="../index.html#engines">Engines</a>
+      <a href="../setups.html">Setups</a>
       <a href="../pricing.html">Pricing</a>
-      <a href="../start.html">Contact</a>
+      <a href="../app.html">Demo</a>
     </nav>
     <div class="nav-r">
       <span class="clock" data-clock></span>
@@ -648,8 +664,10 @@ textarea.inp{min-height:132px;resize:vertical}
       <ul class="menu-list">
         <li><a href="../work.html" aria-current="page"><span class="mn">01</span><span class="mt">Work</span><span class="mp">~/oplev/work</span></a></li>
         <li><a href="../index.html#engines"><span class="mn">02</span><span class="mt">Engines</span><span class="mp">~/oplev/engines</span></a></li>
-        <li><a href="../pricing.html"><span class="mn">03</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
-        <li><a href="../start.html"><span class="mn">04</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
+        <li><a href="../setups.html"><span class="mn">03</span><span class="mt">Setups</span><span class="mp">~/oplev/setups</span></a></li>
+        <li><a href="../pricing.html"><span class="mn">04</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
+        <li><a href="../app.html"><span class="mn">05</span><span class="mt">Demo</span><span class="mp">~/oplev/console</span></a></li>
+        <li><a href="../start.html"><span class="mn">06</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
       </ul>
     </nav>
     <div class="menu-foot label"><span>hello@oplev.com</span><span class="clock" data-clock></span></div>
@@ -1131,7 +1149,7 @@ if(!RM)once([$('.engines')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pix
 /* ---------- phone menu ---------- */
 (function(){
   const btn=$('#menu-btn'),menu=$('#menu');if(!btn||!menu)return;
-  const t=$('.mb-t',btn),wide=matchMedia('(min-width:900px)');
+  const t=$('.mb-t',btn),wide=matchMedia('(min-width:1000px)');
   function set(open){
     btn.setAttribute('aria-expanded',String(open));t.textContent=open?'Close':'Menu';
     menu.hidden=!open;document.documentElement.classList.toggle('menu-open',open);

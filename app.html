@@ -1,0 +1,1483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OpLev Console</title>
+<meta name="description" content="The OpLev Console: set up, monitor and work with your Ops, Agents and Leads engines. Demo with sample data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
+<style>
+/* OpLev, Bison system. Ink ground, paper type, hairline rules, square corners.
+   Layout: one column at 1360 max with hairline rules between sections. Grids use the 1px-gap hairline trick. */
+:root{
+  color-scheme:dark;
+  --ink:#070708;--ink-2:#0E0E10;--paper:#F2F2EF;--paper-2:#E5E5E1;
+  --soft:#B8B8BD;--dim:#8A8A90;--dim-2:#56565C;--line:#202024;--line-2:#36363C;
+  --on-paper-dim:#5C5C61;--on-paper-line:#C7C7C2;
+  --display:"Martian Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --body:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --num:"Doto","Martian Mono",ui-monospace,monospace;
+  --gut:16px;--nav:62px;--max:1360px;
+  --wipe:cubic-bezier(.77,0,.18,1);--strike:cubic-bezier(.7,0,.2,1);
+}
+@media (min-width:760px){:root{--gut:40px}}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 17px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+[hidden]{display:none!important}
+img{max-width:100%}
+html.is-loading body,html.menu-open body{overflow:hidden}
+::selection{background:var(--paper);color:var(--ink)}
+.band ::selection{background:var(--ink);color:var(--paper)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+a{color:inherit}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.wrap{width:100%;max-width:calc(var(--max) + 2*var(--gut));margin-inline:auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+section[id]{scroll-margin-top:var(--nav)}
+.stack{display:flex;flex-direction:column;gap:28px}
+
+/* type */
+.label{font:400 11px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0}
+.eyebrow{display:flex;align-items:center;gap:10px;margin:0;font:400 12px/1 var(--display);letter-spacing:.02em;color:var(--dim)}
+.eyebrow::before{content:"";width:6px;height:6px;background:var(--paper);flex:none}
+.h1,.h2,.h3{font-family:var(--display);font-weight:500;font-stretch:87.5%;margin:0;color:var(--paper);text-wrap:balance}
+.h1{font-size:clamp(32px,6vw,92px);line-height:1;letter-spacing:-.055em;max-width:16ch}
+.h2{font-size:clamp(28px,4.4vw,62px);line-height:1.04;letter-spacing:-.045em;max-width:18ch}
+.h3{font-size:clamp(18px,1.7vw,23px);line-height:1.2;letter-spacing:-.03em}
+.lede{color:var(--soft);max-width:54ch;margin:0}
+.cursor{display:inline-block;width:.52em;height:.8em;background:var(--paper);margin-left:.14em;vertical-align:-.02em;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{0%{opacity:1}50%{opacity:0}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:500 12px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;padding:15px 20px;border:1px solid var(--paper);background:var(--paper);color:var(--ink);text-decoration:none;cursor:pointer;border-radius:0;transition:background .18s,color .18s,border-color .18s;white-space:nowrap}
+.btn:hover{background:transparent;color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--paper);border-color:var(--line-2)}
+.btn.ghost:hover{border-color:var(--paper)}
+.btn svg{width:14px;height:14px;flex:none}
+.btn-sm{padding:11px 14px;font-size:11px}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--nav);background:rgba(7,7,8,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{height:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px}
+@media (min-width:1000px){.nav .wrap{grid-template-columns:1fr auto 1fr}}
+.brand{display:inline-flex;align-items:center;gap:10px;font:500 13px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--paper);text-decoration:none;justify-self:start}
+.mark{width:10px;height:10px;flex:none;display:block}
+.links{display:none}
+@media (min-width:1000px){.links{display:flex;gap:26px}}
+.links a{font:400 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:8px 0;transition:color .18s}
+.links a:hover,.links a[aria-current="page"]{color:var(--paper)}
+.nav-r{display:flex;align-items:center;gap:12px;justify-self:end}
+.clock{font:400 11px/1 var(--display);letter-spacing:.14em;color:var(--dim);font-variant-numeric:tabular-nums;text-transform:uppercase;white-space:nowrap}
+.clock .c{animation:blink 1.1s steps(1) infinite}
+.nav .clock{display:none;margin-right:4px}
+@media (min-width:520px){.nav .clock{display:inline}}
+@media (max-width:419px){.nav-cta{display:none}}
+
+/* phone menu */
+.menu-btn{display:inline-flex;align-items:center;gap:9px;appearance:none;-webkit-appearance:none;background:transparent;border:1px solid var(--line-2);border-radius:0;color:var(--paper);font:500 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;padding:11px 12px;cursor:pointer;transition:border-color .18s}
+.menu-btn:hover,.menu-btn[aria-expanded="true"]{border-color:var(--paper)}
+.menu-btn .bars{width:12px;height:9px;position:relative;display:block;flex:none}
+.menu-btn .bars::before,.menu-btn .bars::after{content:"";position:absolute;left:0;right:0;height:1px;background:currentColor;transition:transform .2s,top .2s,bottom .2s}
+.menu-btn .bars::before{top:1px}
+.menu-btn .bars::after{bottom:1px}
+.menu-btn[aria-expanded="true"] .bars::before{top:4px;transform:rotate(45deg)}
+.menu-btn[aria-expanded="true"] .bars::after{bottom:4px;transform:rotate(-45deg)}
+@media (min-width:1000px){.menu-btn{display:none}}
+.menu{position:fixed;left:0;right:0;bottom:0;top:calc(var(--nav) + env(safe-area-inset-top,0px));z-index:45;background:var(--ink);overflow-y:auto;overscroll-behavior:contain}
+.menu .wrap{min-height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding-block:24px calc(28px + env(safe-area-inset-bottom,0px))}
+.menu-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.menu-list a{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:baseline;gap:12px;padding:20px 0;border-bottom:1px solid var(--line);color:var(--paper);text-decoration:none;transition:background .18s}
+.menu-list a:hover{background:var(--ink-2)}
+.menu-list .mn{font:400 11px/1 var(--display);letter-spacing:.1em;color:var(--dim-2);font-variant-numeric:tabular-nums}
+.menu-list .mt{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(32px,9vw,56px);line-height:1;letter-spacing:-.05em}
+.menu-list .mp{font:400 11px/1 var(--display);color:var(--dim-2);white-space:nowrap}
+.menu-list a[aria-current="page"] .mn,.menu-list a[aria-current="page"] .mp{color:var(--paper)}
+@media (max-width:379px){.menu-list .mp{display:none}}
+.menu-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px}
+@media (min-width:1000px){.menu{display:none!important}}
+
+/* hero (home) */
+.hero{position:relative;overflow:hidden}
+.field{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 28%,#000 78%);mask-image:linear-gradient(90deg,transparent 28%,#000 78%)}
+@media (max-width:759px){.field{-webkit-mask-image:linear-gradient(to bottom left,#000 0%,transparent 58%);mask-image:linear-gradient(to bottom left,#000 0%,transparent 58%)}}
+.hero .wrap{position:relative;padding-block:clamp(48px,7vw,104px) clamp(28px,4vw,44px);display:flex;flex-direction:column;gap:28px}
+.readout{position:absolute;top:22px;right:max(var(--gut),env(safe-area-inset-right,0px));color:var(--dim-2);font-variant-numeric:tabular-nums;display:none}
+@media (min-width:760px){.readout{display:block}}
+.hindex{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;margin-top:clamp(16px,4vw,52px);padding-top:18px;border-top:1px solid var(--line);font:400 11px/1.5 var(--display);letter-spacing:.14em;text-transform:uppercase}
+.hindex .lab{color:var(--dim-2)}
+.hindex a{color:var(--soft);text-decoration:none;display:inline-flex;gap:8px;transition:color .18s}
+.hindex a span{color:var(--dim-2)}
+.hindex a:hover{color:var(--paper)}
+.hindex i{font-style:normal;color:var(--dim-2)}
+
+/* sections */
+.sec{border-top:1px solid var(--line)}
+.sec>.wrap{padding-block:clamp(84px,11vw,160px)}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 40px;margin-bottom:clamp(36px,5vw,64px)}
+.head-l{display:flex;flex-direction:column;gap:22px;min-width:0}
+.top .wrap{padding-block:clamp(48px,7vw,104px) clamp(56px,7vw,96px);display:flex;flex-direction:column;gap:28px}
+
+/* home work index + preview */
+.work{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:980px){.work{grid-template-columns:minmax(0,5fr) minmax(0,8fr)}}
+.cell{background:var(--ink);min-width:0}
+.rows{display:flex;flex-direction:column}
+.case-row{display:grid;grid-template-columns:34px 72px minmax(0,1fr) auto;grid-template-areas:"n th nm mt" "n th ln ln";gap:4px 14px;align-items:start;padding:20px clamp(16px,2vw,24px);border-bottom:1px solid var(--line);color:inherit;text-decoration:none;transition:background .18s}
+.case-row:hover,.case-row.on{background:var(--ink-2)}
+.case-row .n{grid-area:n;padding-top:8px;font:400 11px/1 var(--display);letter-spacing:.1em;color:var(--dim-2);display:inline-flex;align-items:center;gap:7px;font-variant-numeric:tabular-nums}
+.case-row .n::before{content:"";width:6px;height:6px;background:transparent;flex:none}
+.case-row.on .n{color:var(--paper)}
+.case-row.on .n::before{background:var(--paper)}
+.case-row .mini{grid-area:th;margin-top:3px}
+.case-row .nm{grid-area:nm;min-width:0}
+.case-row .mt{grid-area:mt;padding-top:7px;color:var(--dim-2);white-space:nowrap}
+.case-row .ln{grid-area:ln;font-size:15px;line-height:1.45;color:var(--dim)}
+.case-row:hover .mini,.case-row.on .mini{border-color:var(--dim)}
+@media (max-width:520px){
+  .case-row{grid-template-columns:28px 56px minmax(0,1fr);grid-template-areas:"n th nm" "n th ln";gap:4px 12px}
+  .case-row .n::before{display:none}
+  .case-row .mt{display:none}
+  .case-row .mini{width:56px}
+}
+.preview-cell{display:none}
+@media (min-width:980px){.preview-cell{display:block}}
+.preview{position:sticky;top:calc(var(--nav) + env(safe-area-inset-top,0px));padding:clamp(20px,3.2vw,44px);display:flex;flex-direction:column;gap:24px}
+.pv-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.pv-body{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.pv-name{font-size:clamp(28px,3.2vw,46px);line-height:1.02;letter-spacing:-.05em}
+.pv-sum{margin:0 0 6px;color:var(--soft);font-size:16px;max-width:58ch}
+
+/* thumbnails */
+.mini{position:relative;display:block;width:72px;max-width:100%;aspect-ratio:16/9;background:var(--ink-2);border:1px solid var(--line-2);overflow:hidden;transition:border-color .18s;flex:none}
+.mini canvas,.mini img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.thumb{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;margin:0;background:var(--ink-2);border:1px solid var(--line-2);overflow:hidden;transition:border-color .18s}
+.thumb canvas,.thumb img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.thumb .tag{position:absolute;background:var(--ink);padding:5px 7px;color:var(--dim);font-variant-numeric:tabular-nums}
+.thumb .tag.tl{top:12px;left:12px}
+.thumb .tag.br{bottom:12px;right:12px}
+.thumb .tk{position:absolute;width:12px;height:12px;border:0 solid var(--soft)}
+.thumb .tk.a{top:0;left:0;border-top-width:1px;border-left-width:1px}
+.thumb .tk.b{top:0;right:0;border-top-width:1px;border-right-width:1px}
+.thumb .tk.c{bottom:0;left:0;border-bottom-width:1px;border-left-width:1px}
+.thumb .tk.d{bottom:0;right:0;border-bottom-width:1px;border-right-width:1px}
+
+/* work page cards */
+.cards{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr);margin-top:clamp(20px,3vw,36px)}
+@media (min-width:760px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1200px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{background:var(--ink);color:inherit;text-decoration:none;display:flex;flex-direction:column;gap:20px;padding:clamp(16px,1.8vw,24px);min-width:0;transition:background .18s}
+.card:hover{background:var(--ink-2)}
+.card:hover .thumb{border-color:var(--dim)}
+.card-b{display:flex;flex-direction:column;gap:10px;flex:1}
+.card-top{display:flex;justify-content:space-between;gap:12px}
+.card-name{font-size:clamp(22px,2.2vw,30px);line-height:1.08;letter-spacing:-.045em}
+.card-line{margin:0;color:var(--soft);font-size:16px}
+.card-foot{margin-top:auto;padding-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--line)}
+.card-foot .go{display:inline-flex;align-items:center;gap:8px;transition:color .18s}
+.card-foot svg{width:14px;height:14px}
+.card:hover .card-foot .go{color:var(--paper)}
+
+/* case page */
+.crumbs{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.crumbs a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:color .18s}
+.crumbs a:hover{color:var(--paper)}
+.crumbs svg{width:14px;height:14px}
+.facts{margin:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.facts{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.facts div{background:var(--ink);padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.facts dd{margin:0;font:400 14px/1.45 var(--display);color:var(--paper)}
+.split{display:grid;gap:36px}
+@media (min-width:980px){.split{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px}}
+.split-r{display:flex;flex-direction:column;gap:28px;min-width:0}
+.check{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.ck{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.45}
+.ck .b{font:400 12px/1.45 var(--display);color:var(--dim);white-space:pre}
+.ck .txw{min-width:0}
+.ck .tx{color:var(--paper)}
+.ck .by{text-align:right;white-space:nowrap;color:var(--dim-2);transition:color .4s}
+.ck.done .b{color:var(--paper)}
+.ck .b{transition:color .3s}
+.ck.done .by{color:var(--soft)}
+.built{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.built{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.built li{background:var(--ink);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;transition:background .18s}
+.built li:hover{background:var(--ink-2)}
+.built .kind{display:inline-flex;align-items:center;gap:8px}
+.built .kind::before{content:"";width:6px;height:6px;background:var(--paper);flex:none}
+.built .kind.agent::before{background:transparent;border:1px solid var(--paper)}
+.built .kind.tool::before{background:linear-gradient(90deg,var(--paper) 50%,transparent 50%);border:1px solid var(--paper)}
+@media (min-width:760px){.built li:last-child:nth-child(odd){grid-column:1 / -1}}
+@media (min-width:760px){.facts.f4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.facts.f4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.case-note{color:var(--dim-2);max-width:80ch;text-transform:none;letter-spacing:.02em}
+@media (max-width:520px){.ck{grid-template-columns:auto minmax(0,1fr)}.ck .by{grid-column:2;text-align:left;white-space:normal}}
+.built p{margin:0;color:var(--soft);font-size:16px;max-width:52ch}
+.results{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.results{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.rcell{background:var(--ink);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:14px}
+.rcell-v{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(36px,4.2vw,64px);line-height:1;letter-spacing:-.05em;color:var(--paper)}
+.rcell.todo .rcell-v{color:var(--dim-2)}
+.pager{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.pager{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pg{background:var(--ink);padding:clamp(20px,2.4vw,32px);display:flex;flex-direction:column;gap:16px;text-decoration:none;color:inherit;transition:background .18s;min-width:0}
+.pg:hover{background:var(--ink-2)}
+.pg .label{display:inline-flex;align-items:center;gap:8px}
+.pg .label svg{width:14px;height:14px}
+.pg-row{display:flex;align-items:center;gap:16px;min-width:0}
+.pg .mini{width:96px}
+.pg:hover .mini{border-color:var(--dim)}
+@media (min-width:760px){.pg.next{align-items:flex-end;text-align:right}.pg.next .pg-row{flex-direction:row-reverse}}
+
+/* log pane */
+.pane{background:var(--ink-2);border:1px solid var(--line-2);font:400 12px/1.5 var(--display);min-width:0;max-width:980px}
+.pane-hd{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line-2)}
+.sq{width:9px;height:9px;border:1px solid var(--dim-2);flex:none}
+.pane-title{margin-left:8px;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.pane-bd{padding:16px 14px 18px;min-height:330px}
+.cmd{color:var(--paper);margin-bottom:12px;overflow-wrap:anywhere}
+.cmd .pr{color:var(--dim-2);margin-right:10px}
+.caret{display:inline-block;width:.62em;height:1.15em;background:var(--paper);vertical-align:-.22em;margin-left:2px;animation:blink 1.1s steps(1) infinite}
+.row{display:grid;grid-template-columns:68px 96px minmax(0,1fr) auto;gap:12px;padding:5px 0;align-items:baseline;animation:rise .25s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+.row .ts{color:var(--dim-2);font-variant-numeric:tabular-nums}
+.row .ac{color:var(--dim);white-space:nowrap;justify-self:start}
+.row .ac.need{background:var(--paper);color:var(--ink);padding:0 6px}
+.row .ac.me{color:var(--paper);font-weight:700}
+.row .msg{color:var(--paper);min-width:0}
+.row .res{color:var(--paper);text-align:right;white-space:nowrap}
+.row.wait .msg{color:var(--dim)}
+.end{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-2);display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;animation:rise .25s ease-out both}
+.chip{background:var(--paper);color:var(--ink);padding:1px 6px}
+.end .s{color:var(--dim)}
+.pane-ft{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line-2)}
+.dot{width:7px;height:7px;background:var(--dim-2);flex:none}
+.pane[data-state="running"] .dot{background:var(--paper);animation:blink 1.1s steps(1) infinite}
+.pane[data-state="waiting"] .dot{background:var(--paper);animation:blink .35s steps(1) infinite}
+.pane[data-state="complete"] .dot{background:var(--paper)}
+.replay{margin-left:auto;appearance:none;-webkit-appearance:none;background:transparent;border:1px solid var(--line-2);border-radius:0;color:var(--soft);font:400 10px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;padding:8px 10px;cursor:pointer;transition:border-color .18s,color .18s}
+.replay:hover{border-color:var(--paper);color:var(--paper)}
+@media (max-width:759px){
+  .row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"ac res" "msg msg";gap:2px 12px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .row .ts{display:none}
+  .row .ac{grid-area:ac}.row .msg{grid-area:msg}.row .res{grid-area:res}
+}
+
+/* ticker */
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding-block:16px;font:400 12px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.tk-track{display:flex;width:max-content;animation:tick 48s linear infinite}
+.tk-set{display:flex;align-items:center;gap:18px;padding-right:18px;white-space:nowrap}
+.tk-set b{font-weight:400;color:var(--paper)}
+.tk-set i{font-style:normal;color:var(--dim-2)}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker + .sec{border-top:0}
+
+/* method steps + pixel icons */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.step{background:var(--ink);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:14px;transition:background .18s}
+.step:hover{background:var(--ink-2)}
+.step-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:clamp(16px,4vw,56px)}
+.step .num{font:900 clamp(52px,5.4vw,80px)/.85 var(--num);color:var(--paper);font-variant-numeric:tabular-nums}
+.step p{margin:0;color:var(--soft);font-size:16px}
+.offer{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.offer{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.svc{background:var(--ink);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:14px;transition:background .18s}
+.svc:hover{background:var(--ink-2)}
+.svc .px{margin-bottom:clamp(12px,3vw,40px)}
+.svc p{margin:0;color:var(--soft);font-size:16px;max-width:46ch}
+.svc:hover .px rect:not(.on){fill:var(--line-2)}
+.px{width:50px;height:50px;flex:none;display:block;shape-rendering:crispEdges}
+.px rect{fill:var(--line);transition:fill .12s}
+.px rect.on{fill:var(--paper)}
+.step:hover .px rect:not(.on){fill:var(--line-2)}
+
+/* inverted band */
+.band{background:var(--paper);color:var(--ink);border-top:0}
+.band .eyebrow{color:var(--on-paper-dim)}
+.band .eyebrow::before{background:var(--ink)}
+.band .h2,.band .h3{color:var(--ink)}
+.band .label{color:var(--on-paper-dim)}
+.band .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.band .btn:hover{background:transparent;color:var(--ink)}
+.terms{border-top:1px solid var(--on-paper-line)}
+.term{display:grid;gap:8px 40px;padding:clamp(20px,2.4vw,30px) 0;border-bottom:1px solid var(--on-paper-line)}
+@media (min-width:760px){.term{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:baseline}}
+.term p{margin:0;color:var(--on-paper-dim);max-width:56ch}
+
+/* pricing */
+.plans{display:grid;gap:1px;background:var(--on-paper-line);border:1px solid var(--on-paper-line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.plans{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.plan{background:var(--paper);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:22px;min-width:0;transition:background .18s}
+.plan:hover{background:var(--paper-2)}
+.plan-id{display:flex;flex-direction:column;gap:16px}
+.price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;color:var(--ink)}
+.price .amt{font-size:clamp(52px,5.8vw,88px);line-height:.92;letter-spacing:-.055em;font-variant-numeric:tabular-nums}
+.price .per{font:400 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--on-paper-dim)}
+.plan .for{margin:0;color:var(--on-paper-dim);font-size:16px}
+@media (min-width:980px){.plan .for{min-height:3.1em}}
+.inc{list-style:none;margin:0;padding:0;border-top:1px solid var(--on-paper-line);flex:1}
+.inc li{display:grid;grid-template-columns:6px minmax(0,1fr);gap:14px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--on-paper-line);font-size:15px;line-height:1.45;color:var(--ink)}
+.inc li::before{content:"";width:6px;height:6px;background:var(--ink);transform:translateY(-1px)}
+.plan .btn{align-self:flex-start}
+.fine{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 24px}
+.lic{grid-column:1 / -1;background:var(--ink);color:var(--paper);padding:clamp(22px,2.6vw,36px);display:grid;gap:24px 48px;align-items:end}
+@media (min-width:980px){.lic{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
+.lic-l{display:flex;flex-direction:column;gap:16px;min-width:0}
+.lic-l p{margin:0;color:var(--soft);font-size:16px;max-width:52ch}
+.lic-r{display:flex;flex-direction:column;gap:20px;align-items:flex-start;min-width:0}
+@media (min-width:980px){.lic-r{align-items:flex-end}}
+.band .lic .h3,.lic .price{color:var(--paper)}
+.band .lic .label,.lic .price .per{color:var(--dim)}
+.lic .price .amt{font-size:clamp(40px,4.4vw,64px)}
+.band .lic .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.band .lic .btn:hover{background:transparent;color:var(--paper)}
+.band .lic ::selection{background:var(--paper);color:var(--ink)}
+.every{display:grid;column-gap:40px;border-top:1px solid var(--line)}
+@media (min-width:760px){.every{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ev{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.ev .b{font:400 12px/1 var(--display);color:var(--paper)}
+.ev p{grid-column:2;margin:0;color:var(--soft);font-size:16px}
+.qa{display:grid;gap:40px}
+@media (min-width:980px){.qa{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px}.qa .head{position:sticky;top:calc(var(--nav) + 32px);align-self:start;margin:0}}
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:22px 0}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"[+]";font:400 12px/1 var(--display);color:var(--dim)}
+.faq details[open] summary::after{content:"[-]";color:var(--paper)}
+.faq .h3{color:var(--soft);transition:color .18s}
+.faq summary:hover .h3,.faq details[open] .h3{color:var(--paper)}
+.faq .a{margin:0;padding:0 0 26px;color:var(--soft);max-width:60ch}
+
+/* contact */
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-top:12px;padding-top:28px;border-top:1px solid var(--line)}
+.addr{font:500 clamp(20px,3vw,40px)/1.1 var(--display);font-stretch:87.5%;letter-spacing:-.04em;color:var(--paper);-webkit-user-select:all;user-select:all;overflow-wrap:anywhere;min-width:0}
+
+/* footer */
+.foot{border-top:1px solid var(--line)}
+.foot .wrap{padding-block:clamp(48px,7vw,96px) 28px}
+.wm{font:900 clamp(76px,26vw,400px)/.8 var(--num);letter-spacing:-.02em;color:var(--paper);white-space:nowrap;overflow-x:clip;margin:0 0 clamp(28px,4vw,48px)}
+.wm span{display:inline-block}
+.frow{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;padding-top:18px;border-top:1px solid var(--line)}
+
+/* loader */
+.loader{display:none;position:fixed;inset:0;z-index:100;background:var(--ink);flex-direction:column;justify-content:space-between;padding-top:calc(20px + env(safe-area-inset-top,0px));padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px));-webkit-clip-path:inset(0 0 0 0);clip-path:inset(0 0 0 0);transition:clip-path .85s var(--wipe),-webkit-clip-path .85s var(--wipe)}
+html.is-loading .loader,.loader.out{display:flex}
+.loader.gone{-webkit-clip-path:inset(0 0 100% 0);clip-path:inset(0 0 100% 0)}
+.ld-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.ld-bot{display:flex;flex-direction:column;gap:16px}
+.ld-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.ld-log{margin:0;font:400 12px/1.7 var(--display);color:var(--dim);white-space:pre;min-height:calc(8 * 1.7em)}
+.ld-log b{font-weight:400;color:var(--paper)}
+.ld-n{font:900 clamp(96px,21vw,290px)/.8 var(--num);color:var(--paper);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.ld-track{height:1px;background:var(--line-2);position:relative;overflow:hidden}
+.ld-fill{position:absolute;inset:0;background:var(--paper);transform-origin:0 50%;transform:scaleX(0)}
+@media (max-width:600px){.ld-row{flex-direction:column;align-items:stretch}.ld-n{align-self:flex-end}}
+
+/* sound familiar */
+.pains .ck .tx{font-family:var(--display);font-stretch:87.5%;font-size:clamp(16px,1.5vw,20px);letter-spacing:-.02em;line-height:1.35}
+.pains .ck.done .by::before{content:"fixed by "}
+.pains .ck .by{min-height:1em}
+
+/* built for picker */
+.picker{display:flex;flex-direction:column}
+.tabs{display:flex;gap:1px;background:var(--line);border:1px solid var(--line);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+@media (max-width:699px){.tabs{flex-wrap:wrap;overflow:visible}.tab{flex:1 1 calc(50% - 1px);justify-content:flex-start;white-space:normal;text-align:left;line-height:1.3}}
+.tab{flex:1 0 auto;appearance:none;-webkit-appearance:none;border:0;border-radius:0;background:var(--ink);color:var(--dim);font:400 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;padding:18px 20px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s,color .18s}
+.tab::before{content:"";width:6px;height:6px;border:1px solid currentColor;flex:none}
+.tab:hover{background:var(--ink-2);color:var(--paper)}
+.tab[aria-selected="true"]{background:var(--paper);color:var(--ink)}
+.tab[aria-selected="true"]::before{background:var(--ink);border-color:var(--ink)}
+.fpanel{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-top:0}
+@media (min-width:900px){.fpanel{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
+.fp-l,.fp-r{background:var(--ink);padding:clamp(22px,2.6vw,40px);display:flex;flex-direction:column;gap:18px;min-width:0}
+.fp-name{font-size:clamp(24px,2.6vw,38px);line-height:1.05;letter-spacing:-.045em}
+.fp-pitch{margin:0;color:var(--soft);max-width:48ch}
+.rowlist{list-style:none;margin:6px 0 0;padding:0;border-top:1px solid var(--line)}
+.rowlist li{display:grid;grid-template-columns:6px minmax(0,1fr);gap:14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);color:var(--paper);font-size:16px;line-height:1.45}
+.rowlist li::before{content:"";width:6px;height:6px;background:var(--paper);transform:translateY(-2px)}
+.seen{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
+.seen a{display:flex;align-items:center;gap:14px;padding:14px;background:var(--ink);text-decoration:none;color:var(--paper);transition:background .18s;min-width:0}
+.seen a:hover{background:var(--ink-2)}
+.seen a:hover .mini{border-color:var(--dim)}
+.seen .h3{font-size:clamp(16px,1.4vw,19px);min-width:0}
+.go{display:inline-flex;margin-left:auto;color:var(--dim);transition:color .18s}
+.go svg{width:14px;height:14px}
+a:hover>.go{color:var(--paper)}
+.fp-r .btn{align-self:flex-start;margin-top:auto}
+
+/* run / grow / sell */
+.band .lede{color:var(--on-paper-dim)}
+.model{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--on-paper-line);border:1px solid var(--on-paper-line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.model{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.mcell{background:var(--paper);padding:clamp(22px,2.6vw,40px);display:flex;flex-direction:column;gap:14px;transition:background .18s}
+.mcell:hover{background:var(--paper-2)}
+.mcell .num{font:900 clamp(52px,5.4vw,80px)/.85 var(--num);color:var(--ink);font-variant-numeric:tabular-nums;margin-bottom:clamp(14px,3vw,44px)}
+.mcell .h3{font-size:clamp(22px,2.2vw,30px);letter-spacing:-.045em}
+.mcell p{margin:0;color:var(--on-paper-dim);font-size:16px;max-width:42ch}
+.kicker{margin-top:clamp(28px,4vw,48px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px 40px}
+.kicker-t{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(22px,2.8vw,40px);letter-spacing:-.045em;line-height:1.08;color:var(--ink);max-width:22ch;text-wrap:balance}
+.band .btn.ghost{background:transparent;color:var(--ink);border-color:var(--on-paper-line)}
+.band .btn.ghost:hover{border-color:var(--ink)}
+.model-row{margin-top:8px}
+@media (min-width:900px){.every.model-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.every.one-col{grid-template-columns:minmax(0,1fr)}
+
+/* compare */
+.cmp{border-top:1px solid var(--line)}
+.cmp-row{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(3,minmax(0,1fr));column-gap:24px;border-bottom:1px solid var(--line)}
+.cmp-row>span{padding:18px 0;min-width:0}
+.cmp-k{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:15px;line-height:1.35;letter-spacing:-.01em;color:var(--paper)}
+.cmp-v{color:var(--dim);font-size:15px;line-height:1.45}
+.cmp-row>.us{padding-left:16px;padding-right:16px;background:var(--ink-2);color:var(--paper)}
+.cmp-head>span{padding-block:14px}
+.cmp-h{font:400 11px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.cmp-head>.us{background:var(--paper);color:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:759px){
+  .cmp-head{display:none}
+  .cmp-row{grid-template-columns:minmax(0,1fr);padding:14px 0}
+  .cmp-row>span{padding:5px 0}
+  .cmp-row>.us{padding:10px 12px;margin-top:6px}
+  .cmp-v::before{content:attr(data-l);display:block;font:400 10px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim-2);margin-bottom:2px}
+  .cmp-v.us::before{color:var(--dim)}
+}
+
+/* resale example */
+.example{display:flex;align-items:center;gap:16px;margin-top:8px;padding:16px;border:1px solid var(--line-2);background:var(--ink);color:inherit;text-decoration:none;transition:background .18s,border-color .18s;min-width:0}
+.example:hover{background:var(--ink-2);border-color:var(--dim)}
+.example .mini{width:96px}
+.ex-b{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ex-t{color:var(--soft);font-size:15px;line-height:1.45}
+
+/* inquiry */
+.inq-page>.wrap{padding-block:clamp(48px,7vw,104px) clamp(84px,11vw,160px)}
+.inq-wrap{display:grid;gap:48px}
+@media (min-width:980px){.inq-wrap{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px}.inq-side{position:sticky;top:calc(var(--nav) + 32px);align-self:start}}
+.inq-side{display:flex;flex-direction:column;gap:24px;min-width:0}
+.next{list-style:none;margin:6px 0 0;padding:0;border-top:1px solid var(--line)}
+.next li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
+.nx-n{font:900 26px/1 var(--num);color:var(--paper);font-variant-numeric:tabular-nums}
+.next .h3{font-size:clamp(16px,1.4vw,19px)}
+.next p{margin:6px 0 0;color:var(--soft);font-size:15px;line-height:1.5}
+.sel{color:var(--paper);-webkit-user-select:all;user-select:all;text-transform:none;letter-spacing:.02em}
+.inq{position:relative;background:var(--ink-2);border:1px solid var(--line-2);padding:clamp(18px,2.6vw,36px);display:flex;flex-direction:column;gap:24px;min-width:0}
+.inq-hd{display:flex;align-items:center;gap:6px;padding-bottom:16px;border-bottom:1px solid var(--line-2)}
+.inq-grid{display:grid;gap:22px}
+@media (min-width:640px){.inq-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fl{display:flex;flex-direction:column;gap:9px;min-width:0}
+.inp{display:block;width:100%;appearance:none;-webkit-appearance:none;background:var(--ink);border:1px solid var(--line-2);border-radius:0;color:var(--paper);font:400 16px/1.45 var(--body);padding:13px 14px;transition:border-color .18s}
+.inp:hover{border-color:var(--dim-2)}
+.inp:focus{border-color:var(--paper);outline:none}
+.inp:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
+.inp::placeholder{color:var(--dim-2)}
+textarea.inp{min-height:132px;resize:vertical}
+.fl.bad .label{color:var(--paper)}
+.fl.bad .label::after{content:" / " attr(data-err)}
+.fl.bad .inp{border-color:var(--paper)}
+.fs{border:0;margin:0;padding:0;min-width:0}
+.fs legend{padding:0;margin:0 0 12px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative;display:inline-flex;cursor:pointer}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.opt span{display:inline-flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--line-2);background:var(--ink);color:var(--soft);font:400 12px/1.2 var(--display);letter-spacing:.03em;transition:border-color .15s,color .15s,background .15s}
+.opt span::before{content:"";width:7px;height:7px;border:1px solid currentColor;flex:none}
+.opt:hover span{border-color:var(--dim);color:var(--paper)}
+.opt input:checked+span{background:var(--paper);border-color:var(--paper);color:var(--ink)}
+.opt input:checked+span::before{background:var(--ink);border-color:var(--ink)}
+.opt input:focus-visible+span{outline:2px solid var(--paper);outline-offset:3px}
+.hp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+.inq-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px;padding-top:20px;border-top:1px solid var(--line-2)}
+.inq .btn[disabled]{opacity:.55;cursor:progress}
+.inq-status{font:400 12px/1.7 var(--display);color:var(--dim);background:var(--ink);border:1px solid var(--line-2);padding:14px;overflow-wrap:anywhere}
+.inq-status .ln{display:block;white-space:pre-wrap;animation:rise .25s ease-out both}
+.inq-status b{font-weight:400;color:var(--paper)}
+.inq-status pre{margin:12px 0;padding:12px;border:1px dashed var(--line-2);white-space:pre-wrap;color:var(--soft);font:inherit;max-height:240px;overflow:auto}
+
+/* engines */
+.engines{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.engines{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.eng{background:var(--ink);padding:clamp(22px,2.6vw,40px);display:flex;flex-direction:column;gap:14px;min-width:0;scroll-margin-top:calc(var(--nav) + 16px);transition:background .18s}
+.eng:hover{background:var(--ink-2)}
+.eng:hover .px rect:not(.on){fill:var(--line-2)}
+.eng-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:clamp(8px,2.4vw,28px)}
+.eng-name{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(44px,5vw,76px);line-height:.95;letter-spacing:-.055em;color:var(--paper)}
+.eng-triad{margin:0;font:500 12px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--paper)}
+.eng-line{margin:0;color:var(--soft);font-size:16px;max-width:40ch}
+.eng .rowlist{margin-top:8px}
+.eng-seen{margin-top:auto;padding-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.eng-seen a{font:400 12px/1.4 var(--display);color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line-2);transition:color .18s,border-color .18s}
+.eng-seen a:hover{color:var(--paper);border-color:var(--paper)}
+
+/* engine tags */
+.etags{display:inline-flex;flex-wrap:wrap;gap:6px}
+.etag{display:inline-flex;align-items:center;font:400 11px/1 var(--display);letter-spacing:.04em;color:var(--soft);border:1px solid var(--line-2);padding:5px 7px;white-space:nowrap}
+.case-tags{margin-top:-8px}
+.card .etags{margin-top:2px}
+.fp-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+
+/* plays */
+.filters{margin-bottom:0}
+.tab[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.tab[aria-pressed="true"]::before{background:var(--ink);border-color:var(--ink)}
+.plays{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.plays{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.plays{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.play{background:var(--ink);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:12px;min-width:0;transition:background .18s}
+#overnight .pane{max-width:none}
+.play:hover{background:var(--ink-2)}
+.play-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin-bottom:6px}
+.play-trig{color:var(--dim-2);text-align:right}
+.play-trig::before{content:"trigger / ";color:var(--dim-2)}
+.play p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
+
+/* engine accents: muted CRT phosphors, used only where an engine is named */
+:root{
+  --ops:#82B6EA;--agents:#8FDBA6;--leads:#F0AC66;
+  --ops-l:rgba(130,182,234,.45);--agents-l:rgba(143,219,166,.45);--leads-l:rgba(240,172,102,.45);
+}
+.e-ops{--e:var(--ops);--el:var(--ops-l)}
+.e-agents{--e:var(--agents);--el:var(--agents-l)}
+.e-leads{--e:var(--leads);--el:var(--leads-l)}
+.ec{color:var(--e)}
+.etag{color:var(--e,var(--soft));border-color:var(--el,var(--line-2))}
+.eng{border-top:1px solid var(--e)}
+.eng .eng-triad{color:var(--e)}
+.eng .px rect.on{fill:var(--e)}
+.eng .rowlist li::before{background:var(--e)}
+.eng-seen a:hover{border-color:var(--e)}
+.row .ac[class*="e-"]{color:var(--e)}
+.tk-set b[class*="e-"]{color:var(--e)}
+.filters .tab[class*="e-"]::before{border-color:var(--e)}
+.filters .tab[class*="e-"][aria-pressed="true"]{background:var(--e);color:var(--ink)}
+.filters .tab[class*="e-"][aria-pressed="true"]::before{background:var(--ink);border-color:var(--ink)}
+.play:hover .h3{color:var(--e,var(--paper))}
+#inq-build-ops+span{--e:var(--ops)}#inq-build-agents+span{--e:var(--agents)}#inq-build-leads+span{--e:var(--leads)}
+.opt input[id^="inq-build-"]+span::before{border-color:var(--e,currentColor)}
+.opt input[id^="inq-build-"]:checked+span{background:var(--e,var(--paper));border-color:var(--e,var(--paper))}
+
+/* engine access on the paper band: deeper tints so they read on paper */
+:root{--ops-d:#2A66A0;--agents-d:#22703F;--leads-d:#9C5414}
+.band .e-ops{--ed:var(--ops-d)}.band .e-agents{--ed:var(--agents-d)}.band .e-leads{--ed:var(--leads-d)}
+.access{border:1px solid var(--on-paper-line);background:var(--paper-2)}
+.plan:hover .access{background:var(--paper)}
+.access-hd{display:flex;align-items:center;gap:12px;padding:10px 12px;border-bottom:1px solid var(--on-paper-line)}
+.access-hd .label:last-child{margin-left:auto;text-align:right}
+.meter{display:inline-flex;gap:3px}
+.meter .seg{width:14px;height:6px;border:1px solid var(--ink)}
+.meter .seg.on{background:var(--ink)}
+.access-list{list-style:none;margin:0;padding:0}
+.access-list li{display:grid;grid-template-columns:10px auto minmax(0,1fr) auto;align-items:baseline;gap:10px;padding:9px 12px;border-bottom:1px solid var(--on-paper-line)}
+.access-list li:last-child{border-bottom:0}
+.access-list .mk{width:9px;height:9px;border:1.5px solid var(--ed);align-self:center}
+.access-list li.inc .mk{background:var(--ed)}
+.access-list .an{font:500 14px/1.2 var(--display);font-stretch:87.5%;color:var(--ink)}
+.access-list .at{font:400 10px/1.3 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--ed);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.access-list .as{font:400 10px/1.3 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--on-paper-dim);white-space:nowrap}
+.access-list li.inc .as{color:var(--ink)}
+.access-hd .label{white-space:nowrap}
+@media (max-width:519px){.access-list li{grid-template-columns:10px minmax(0,1fr) auto}.access-list .at{display:none}.access-hd .label:first-child{display:none}}
+.engmap-hd{display:flex;flex-direction:column;gap:14px;margin:clamp(48px,6vw,80px) 0 22px}
+.engmap{display:grid;gap:1px;background:var(--on-paper-line);border:1px solid var(--on-paper-line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.engmap{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.em{background:var(--paper);border-top:1px solid var(--ed);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;min-width:0}
+.em>.label:first-child{color:var(--ed)}
+.em-name{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(32px,3.4vw,52px);line-height:.95;letter-spacing:-.055em;color:var(--ink)}
+.em-triad{margin:0;font:500 11px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--ed)}
+.em-line{margin:0;color:var(--on-paper-dim);font-size:15px;line-height:1.5}
+.em-caps{list-style:none;margin:4px 0 0;padding:0;border-top:1px solid var(--on-paper-line)}
+.em-caps li{display:grid;grid-template-columns:6px minmax(0,1fr);gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--on-paper-line);font-size:15px;line-height:1.45;color:var(--ink)}
+.em-caps li::before{content:"";width:6px;height:6px;background:var(--ed);transform:translateY(-2px)}
+.em-pl{margin-top:10px}
+.em-plays{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.em-plays li{font:400 11px/1 var(--display);letter-spacing:.03em;color:var(--ink);border:1px solid var(--on-paper-line);padding:6px 8px;background:var(--paper-2)}
+
+/* setups */
+.rowlist .rl-tag{display:inline-flex;margin-left:10px;vertical-align:1px}
+.fp-act{margin-top:auto}
+.fits{margin:0}
+.band .fits a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--on-paper-line)}
+.band .fits a:hover{border-color:var(--ink)}
+.setup-card .rowlist{margin-top:4px}
+.setup-card .rowlist li{font-size:15px;padding:10px 0}
+.setup-card.custom{background:var(--ink-2)}
+.plays-top{border-top:1px solid var(--line)}
+.tool-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.tool-row .label{margin-right:4px}
+.tool{font:400 11px/1 var(--display);letter-spacing:.03em;color:var(--ink);border:1px solid var(--on-paper-line);background:var(--paper-2);padding:7px 9px}
+.split-r>.label{margin-bottom:-14px}
+
+/* phone: full-width buttons in page content (nav buttons keep their size) */
+@media (max-width:599px){
+  main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
+  .actions{flex-direction:column;align-items:stretch}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* OpLev Console. Same Bison tokens as the site (site.css loads first).
+   Layout: fixed sidebar + sticky top bar + scrolling view; cards use the 1px hairline grid. Drawer slides in from the right. */
+.app{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh;min-height:100dvh}
+.app main .btn{white-space:nowrap}
+@media (max-width:599px){.app main .btn{width:auto;justify-content:center}}
+
+/* sidebar */
+.side{position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto;border-right:1px solid var(--line);background:var(--ink);display:flex;flex-direction:column;z-index:60}
+.side-top{display:flex;align-items:center;justify-content:space-between;gap:10px;height:56px;padding:0 16px;border-bottom:1px solid var(--line);flex:none}
+.side-top .label{color:var(--dim-2)}
+.ws{position:relative;padding:12px;border-bottom:1px solid var(--line)}
+.ws-btn{appearance:none;-webkit-appearance:none;width:100%;display:flex;align-items:center;gap:10px;background:var(--ink-2);border:1px solid var(--line-2);border-radius:0;color:var(--paper);padding:10px 12px;cursor:pointer;text-align:left;transition:border-color .18s}
+.ws-btn:hover,.ws-btn[aria-expanded="true"]{border-color:var(--paper)}
+.ws-mark{width:28px;height:28px;flex:none;display:grid;place-items:center;background:var(--paper);color:var(--ink);font:900 14px/1 var(--num)}
+.ws-txt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.ws-name{font:500 13px/1.2 var(--display);font-stretch:87.5%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ws-type{font:400 10px/1.2 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.ws-caret{color:var(--dim);font:400 11px/1 var(--display)}
+.ws-menu{position:absolute;left:12px;right:12px;top:calc(100% - 4px);z-index:5;background:var(--ink-2);border:1px solid var(--line-2);padding:6px 0}
+.ws-menu .label{display:block;padding:8px 12px 6px;color:var(--dim-2)}
+.ws-opt{appearance:none;-webkit-appearance:none;width:100%;display:flex;justify-content:space-between;gap:10px;background:transparent;border:0;color:var(--soft);font:400 12px/1.3 var(--display);padding:9px 12px;text-align:left;cursor:pointer}
+.ws-opt:hover,.ws-opt[aria-current="true"]{background:var(--ink);color:var(--paper)}
+.ws-opt span:last-child{color:var(--dim-2);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.ws-sep{height:1px;background:var(--line-2);margin:6px 0}
+.side-nav{padding:10px 0 16px;flex:1}
+.nav-g{padding:10px 0 4px}
+.nav-g>.label{display:block;padding:0 16px 6px;color:var(--dim-2)}
+.nav-i{display:flex;align-items:center;gap:10px;padding:8px 16px;color:var(--soft);text-decoration:none;font:400 13px/1.2 var(--body);border-left:2px solid transparent;transition:background .15s,color .15s}
+.nav-i:hover{background:var(--ink-2);color:var(--paper)}
+.nav-i[aria-current="page"]{background:var(--ink-2);color:var(--paper);border-left-color:var(--paper)}
+.nav-i .ni-mk{width:7px;height:7px;flex:none;background:var(--dim-2)}
+.nav-i[class*="e-"] .ni-mk{background:var(--e)}
+.nav-i.locked{color:var(--dim-2)}
+.nav-i.locked .ni-mk{background:transparent;border:1px solid var(--dim-2)}
+.nav-i .ni-r{margin-left:auto;font:400 10px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--dim-2)}
+.badge{margin-left:auto;min-width:20px;height:18px;padding:0 6px;display:inline-grid;place-items:center;background:var(--paper);color:var(--ink);font:500 11px/1 var(--display)}
+.badge[data-n="0"]{display:none}
+.side-foot{padding:14px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.side-foot a{color:var(--soft);text-decoration:none}
+.side-foot a:hover{color:var(--paper)}
+.lic-mini{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.lic-mini b{font:500 13px/1.2 var(--display);font-stretch:87.5%;color:var(--paper)}
+.scrim{display:none}
+@media (max-width:899px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;left:0;top:0;bottom:0;width:min(86vw,300px);height:auto;transform:translateX(-102%);transition:transform .25s var(--wipe);padding-top:env(safe-area-inset-top,0px)}
+  .app.side-open .side{transform:none}
+  .app.side-open .scrim{display:block;position:fixed;inset:0;z-index:55;background:rgba(7,7,8,.7)}
+}
+
+/* top bar */
+.tbar{position:sticky;top:0;z-index:40;height:56px;display:flex;align-items:center;gap:14px;padding:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));background:rgba(7,7,8,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.tbar .crumb{font:400 12px/1 var(--display);color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.tbar .crumb b{font-weight:400;color:var(--paper)}
+.top-r{margin-left:auto;display:flex;align-items:center;gap:12px}
+.side-btn{display:none}
+@media (max-width:899px){.side-btn{display:inline-flex}}
+.live-btn{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line-2);border-radius:0;color:var(--soft);font:400 11px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;cursor:pointer}
+.live-btn:hover{border-color:var(--paper);color:var(--paper)}
+.live-btn .dot{width:7px;height:7px;background:var(--agents);animation:blink 1.1s steps(1) infinite}
+.live-btn[aria-pressed="false"] .dot{background:var(--dim-2);animation:none}
+.avatar{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--line-2);font:500 11px/1 var(--display);color:var(--paper)}
+@media (max-width:599px){.tbar .clock{display:none}.live-btn .lb-t{display:none}}
+.demo-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:9px max(16px,env(safe-area-inset-right,0px)) 9px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:var(--ink-2);font:400 11px/1.4 var(--display);letter-spacing:.06em;color:var(--dim)}
+.demo-bar b{font-weight:400;color:var(--paper)}
+.demo-bar a{color:var(--paper);margin-left:auto}
+
+/* view */
+.view{padding:clamp(20px,3vw,40px) clamp(16px,3vw,40px) 96px;max-width:1440px;display:flex;flex-direction:column;gap:clamp(20px,2.4vw,28px)}
+.v-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 32px}
+.v-head-l{display:flex;flex-direction:column;gap:12px;min-width:0}
+.v-title{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(28px,3.6vw,48px);line-height:1.02;letter-spacing:-.05em;color:var(--paper);text-wrap:balance}
+.v-title.ec{color:var(--e)}
+.v-sub{margin:0;color:var(--soft);max-width:62ch}
+.v-actions{display:flex;flex-wrap:wrap;gap:10px}
+.sec-t{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:8px 0 -8px}
+.sec-t h2{margin:0;font:500 15px/1.2 var(--display);font-stretch:87.5%;letter-spacing:-.01em;color:var(--paper)}
+
+/* cards + grids */
+.g{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.g>*{background:var(--ink);min-width:0}
+.g2{grid-template-columns:minmax(0,1fr)}
+.g3,.g4{grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cell{padding:clamp(16px,1.8vw,24px);display:flex;flex-direction:column;gap:12px}
+a.cell{color:inherit;text-decoration:none;transition:background .18s}
+a.cell:hover{background:var(--ink-2)}
+.pnl{border:1px solid var(--line);background:var(--ink);min-width:0}
+.pnl-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.pnl-hd a{color:var(--dim);text-decoration:none}
+.pnl-hd a:hover{color:var(--paper)}
+.pnl-bd{padding:16px}
+.ov-top{grid-template-columns:minmax(0,1fr)}
+@media (min-width:1100px){.ov-top{grid-template-columns:minmax(0,1.3fr) repeat(3,minmax(0,1fr))}}
+@media (min-width:700px) and (max-width:1099px){.ov-top{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.big-n{font:900 clamp(56px,6vw,88px)/.85 var(--num);color:var(--paper);font-variant-numeric:tabular-nums}
+.needs-l{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.needs-l li{border-bottom:1px solid var(--line)}
+.needs-l a{display:flex;align-items:center;gap:10px;padding:9px 0;color:var(--soft);text-decoration:none;font-size:14px;line-height:1.35}
+.needs-l a:hover{color:var(--paper)}
+.needs-l .nl-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.etile{border-top:1px solid var(--e)!important}
+.etile.locked{border-top-color:var(--line-2)!important}
+.et-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.et-top .label:first-child{color:var(--e)}
+.state{display:inline-flex;align-items:center;gap:7px;font:400 10px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.state::before{content:"";width:7px;height:7px;background:var(--dim-2)}
+.state.on{color:var(--paper)}
+.state.on::before{background:var(--e,var(--agents));animation:blink 1.1s steps(1) infinite}
+.state.lock::before{background:transparent;border:1px solid var(--dim-2)}
+.et-name{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(30px,2.8vw,40px);line-height:1;letter-spacing:-.05em;color:var(--paper)}
+.etile.locked .et-name{color:var(--dim-2)}
+.et-stats{display:flex;gap:24px}
+.et-stats>div{display:flex;flex-direction:column;gap:6px}
+.et-stats b{font:500 22px/1 var(--display);font-stretch:87.5%;color:var(--paper);font-variant-numeric:tabular-nums}
+.bars{display:flex;align-items:flex-end;gap:3px;height:34px;margin-top:auto}
+.bars i{flex:1;background:var(--e,var(--paper));opacity:.75;min-height:2px}
+.etile.locked .bars i{background:var(--line-2)}
+.kpi b{font:500 clamp(26px,2.4vw,34px)/1 var(--display);font-stretch:87.5%;letter-spacing:-.04em;color:var(--paper);font-variant-numeric:tabular-nums}
+.kpi .label:last-child{color:var(--dim-2)}
+.ov-bottom{display:grid;gap:clamp(20px,2.4vw,28px);grid-template-columns:minmax(0,1fr)}
+@media (min-width:1100px){.ov-bottom{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}}
+.feed{padding:6px 16px 12px;font:400 12px/1.5 var(--display);max-height:520px;overflow-y:auto}
+.feed .row{border-bottom:1px solid var(--line)}
+.feed .row:last-child{border-bottom:0}
+.feed-empty{padding:28px 0;color:var(--dim);text-align:center}
+.score-card{padding:16px;display:flex;flex-direction:column;gap:14px}
+.trend{display:flex;align-items:flex-end;gap:4px;height:64px}
+.trend i{flex:1;background:var(--line-2)}
+.trend i:last-child{background:var(--paper)}
+
+/* buttons + controls */
+.btn-xs{padding:8px 10px;font-size:10px;letter-spacing:.12em}
+.lnk{appearance:none;-webkit-appearance:none;background:none;border:0;padding:0;color:var(--soft);font:400 11px/1.4 var(--display);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.lnk:hover{color:var(--paper)}
+.sw{appearance:none;-webkit-appearance:none;position:relative;width:34px;height:18px;flex:none;border:1px solid var(--line-2);border-radius:0;background:var(--ink);cursor:pointer;padding:0;transition:background .18s,border-color .18s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;background:var(--dim);transition:transform .18s,background .18s}
+.sw[aria-checked="true"]{background:var(--e,var(--paper));border-color:var(--e,var(--paper))}
+.sw[aria-checked="true"]::after{transform:translateX(16px);background:var(--ink)}
+.sw:disabled{opacity:.4;cursor:not-allowed}
+.dd{appearance:none;-webkit-appearance:none;background:var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238A8A90' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid var(--line-2);border-radius:0;color:var(--paper);font:400 12px/1.3 var(--display);padding:8px 28px 8px 10px;max-width:100%;cursor:pointer}
+.dd:hover{border-color:var(--dim)}
+.ck-l{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:400 11px/1.3 var(--display);letter-spacing:.06em;color:var(--soft)}
+.ck-l input{appearance:none;-webkit-appearance:none;width:14px;height:14px;border:1px solid var(--line-2);background:var(--ink);margin:0;display:grid;place-items:center;cursor:pointer}
+.ck-l input:checked{background:var(--paper);border-color:var(--paper)}
+.ck-l input:checked::after{content:"";width:6px;height:6px;background:var(--ink)}
+.ck-l input:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.toolbar .tabs{flex:1 1 auto;min-width:0}
+.search{min-width:0;flex:0 1 260px}
+.search .inp{padding:10px 12px;font-size:14px}
+
+/* approvals */
+.ap-wrap{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.ap-wrap{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}}
+.ap-list,.ap-detail{background:var(--ink);min-width:0}
+.ap-item{appearance:none;-webkit-appearance:none;width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:14px 16px;border:0;border-bottom:1px solid var(--line);background:var(--ink);color:inherit;text-align:left;cursor:pointer;transition:background .15s}
+.ap-item:hover,.ap-item[aria-current="true"]{background:var(--ink-2)}
+.ap-item[aria-current="true"]{box-shadow:inset 2px 0 0 var(--paper)}
+.ap-item .api-t{font:500 14px/1.25 var(--display);font-stretch:87.5%;color:var(--paper);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ap-item .api-s{grid-column:2 / -1;font-size:13px;color:var(--dim)}
+.ap-item .label{color:var(--dim-2)}
+.ap-detail{padding:clamp(18px,2.2vw,28px);display:flex;flex-direction:column;gap:16px}
+.ap-d-t{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(22px,2vw,28px);letter-spacing:-.04em;color:var(--paper)}
+.why{display:flex;gap:10px;align-items:baseline;padding:10px 12px;border:1px solid var(--line-2);background:var(--ink-2);font-size:14px;color:var(--soft)}
+.why .label{color:var(--paper);white-space:nowrap}
+.ap-draft{min-height:180px;font:400 14px/1.6 var(--display)!important}
+.ap-btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.empty{padding:clamp(40px,6vw,72px) 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.empty .big-n{font-size:clamp(48px,5vw,72px)}
+.empty p{margin:0;color:var(--soft);max-width:44ch}
+
+/* tables */
+.tbl-w{overflow-x:auto;border:1px solid var(--line)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+.tbl th{text-align:left;font:400 10px/1.3 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:12px 14px;border-bottom:1px solid var(--line);background:var(--ink);white-space:nowrap}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--soft);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.n{color:var(--paper);font-weight:500}
+.tbl td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl tr.click{cursor:pointer;transition:background .15s}
+.tbl tr.click:hover{background:var(--ink-2)}
+.tbl tr.off td{color:var(--dim-2)}
+.tbl tr.off td.n{color:var(--dim)}
+.pt-title{display:flex;flex-direction:column;gap:3px;min-width:200px}
+.pt-title b{font-weight:500;color:var(--paper)}
+.pt-title span{font-size:13px;color:var(--dim)}
+.st-chip{display:inline-flex;align-items:center;gap:6px;font:400 10px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line-2);color:var(--soft);padding:5px 7px;white-space:nowrap}
+.st-chip.s-New{color:var(--paper);border-color:var(--paper)}
+.st-chip.s-Won{background:var(--agents);border-color:var(--agents);color:var(--ink)}
+.st-chip.s-Lost{color:var(--dim-2)}
+.stages{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:700px){.stages{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.stage{appearance:none;-webkit-appearance:none;border:0;border-radius:0;text-align:left;cursor:pointer;color:inherit;font:inherit;padding:14px 16px;display:flex;flex-direction:column;gap:8px;transition:background .15s}
+.stage:hover{background:var(--ink-2)}
+.stage[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.stage[aria-pressed="true"] .label{color:var(--on-paper-dim)}
+.stage b{font:500 22px/1 var(--display);font-stretch:87.5%;font-variant-numeric:tabular-nums}
+
+/* engine detail */
+.eh-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:14px 16px;border:1px solid var(--line);border-top:1px solid var(--e)}
+.eh-row .state{margin-right:auto}
+.lock-card{border:1px solid var(--line-2);background:var(--ink-2);padding:clamp(20px,3vw,40px);display:grid;gap:24px}
+@media (min-width:900px){.lock-card{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.lock-card h2{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(24px,2.4vw,34px);letter-spacing:-.045em;color:var(--paper)}
+.lock-card p{margin:0;color:var(--soft)}
+
+/* plays library */
+.plib{list-style:none;margin:0;padding:0;display:grid;border-left:1px solid var(--line);border-top:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.plib{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1200px){.plib{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.plib>li{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:10px;background:var(--ink)}
+.plib .pl-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.plib h3{margin:0;font:500 17px/1.2 var(--display);font-stretch:87.5%;letter-spacing:-.02em;color:var(--paper)}
+.plib p{margin:0;font-size:14px;line-height:1.5;color:var(--soft)}
+.plib .pl-ft{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.added{color:var(--e,var(--paper))}
+
+/* score */
+.score-top{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.score-top{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}}
+.score-top>*{background:var(--ink);padding:clamp(18px,2.2vw,28px);display:flex;flex-direction:column;gap:14px;min-width:0}
+.score-big{font:900 clamp(96px,11vw,160px)/.8 var(--num);color:var(--paper);font-variant-numeric:tabular-nums}
+.lvlbar{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.lvlbar span{height:6px;background:var(--line-2)}
+.lvlbar span.on{background:var(--paper)}
+.lvlbar-l{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.lvlbar-l span{font:400 9px/1.3 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--dim-2)}
+.mx-w{overflow-x:auto}
+.mx{border-collapse:collapse;width:100%;min-width:560px;font:400 11px/1.2 var(--display)}
+.mx th{font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:8px;text-align:left;white-space:nowrap}
+.mx td{padding:3px}
+.mx .cellv{height:30px;display:grid;place-items:center;color:var(--ink);font-size:10px;letter-spacing:.08em}
+.lv0 .cellv{background:var(--ink-2);color:var(--dim-2);border:1px solid var(--line-2)}
+.lv1 .cellv{background:rgba(242,242,239,.28);color:var(--paper)}
+.lv2 .cellv{background:rgba(242,242,239,.62)}
+.lv3 .cellv{background:var(--paper)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px}
+.legend span{display:inline-flex;align-items:center;gap:8px;font:400 10px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.legend i{width:14px;height:10px;display:inline-block}
+.next-l{list-style:none;margin:0;padding:0}
+.next-l li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.next-l li:last-child{border-bottom:0}
+.next-l b{font:500 15px/1.2 var(--display);font-stretch:87.5%;color:var(--paper)}
+.next-l p{margin:4px 0 0;font-size:14px;color:var(--soft)}
+.note{font:400 11px/1.5 var(--display);letter-spacing:.04em;color:var(--dim-2)}
+
+/* wizard */
+.wz-steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.wz-steps span{background:var(--ink);padding:12px;font:400 10px/1.3 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--dim-2);display:flex;flex-direction:column;gap:6px}
+.wz-steps span b{font:900 18px/1 var(--num);color:var(--dim-2)}
+.wz-steps span.done{color:var(--dim)}
+.wz-steps span.done b{color:var(--dim)}
+.wz-steps span.cur{background:var(--paper);color:var(--ink)}
+.wz-steps span.cur b{color:var(--ink)}
+@media (max-width:699px){.wz-steps span{font-size:0;gap:0;padding:10px;align-items:center}.wz-steps span b{font-size:16px}}
+.wz-body{border:1px solid var(--line);padding:clamp(18px,2.6vw,36px);display:flex;flex-direction:column;gap:24px}
+.wz-body h2{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(22px,2.2vw,30px);letter-spacing:-.04em;color:var(--paper)}
+.wz-body .v-sub{margin-top:-14px}
+.wz-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.choice{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:800px){.choice.c3{grid-template-columns:repeat(3,minmax(0,1fr))}.choice.c2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.choice label{background:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;cursor:pointer;position:relative;transition:background .15s}
+.choice label:hover{background:var(--ink-2)}
+.choice input{position:absolute;opacity:0;width:1px;height:1px}
+.choice label:has(input:checked){background:var(--paper);color:var(--ink)}
+.choice label:has(input:checked) .label,.choice label:has(input:checked) p{color:var(--on-paper-dim)}
+.choice label:has(input:checked) b{color:var(--ink)}
+.choice label:has(input:focus-visible){outline:2px solid var(--paper);outline-offset:-4px}
+.choice b{font:500 17px/1.2 var(--display);font-stretch:87.5%;color:var(--paper)}
+.choice p{margin:0;font-size:14px;color:var(--soft)}
+.choice .etags{margin-top:2px}
+.conn{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.conn{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.conn{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.conn>div{background:var(--ink);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.conn .cn-ic{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--line-2);font:500 12px/1 var(--display);color:var(--paper);flex:none}
+.conn .cn-n{flex:1;min-width:0;font-size:14px;color:var(--paper)}
+.conn .cn-s{font:400 10px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--dim-2)}
+.conn .on .cn-s{color:var(--agents)}
+.rules{border-top:1px solid var(--line)}
+.rule{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.rule .r-t{flex:1;min-width:0}
+.rule .r-t b{display:block;font-weight:500;color:var(--paper);font-size:15px}
+.rule .r-t span{font-size:13px;color:var(--dim)}
+.rule .inp{width:110px;padding:8px 10px;font-size:14px}
+.boot{background:var(--ink-2);border:1px solid var(--line-2);padding:16px;font:400 12px/1.7 var(--display);color:var(--dim);white-space:pre-wrap;min-height:220px}
+.boot b{font-weight:400;color:var(--paper)}
+
+/* drawer */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);z-index:80;background:var(--ink);border-left:1px solid var(--line-2);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .25s var(--wipe);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.open{transform:none}
+.drawer-scrim{position:fixed;inset:0;z-index:75;background:rgba(7,7,8,.6)}
+.dr-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.dr-bd{padding:18px;overflow-y:auto;display:flex;flex-direction:column;gap:18px}
+.dr-t{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:28px;letter-spacing:-.045em;color:var(--paper)}
+.kv{margin:0;display:grid;grid-template-columns:110px minmax(0,1fr);border-top:1px solid var(--line)}
+.kv dt,.kv dd{margin:0;padding:10px 0;border-bottom:1px solid var(--line)}
+.kv dt{font:400 10px/1.6 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.kv dd{color:var(--paper);font-size:14px}
+.tl{list-style:none;margin:0;padding:0;border-left:1px solid var(--line-2);margin-left:4px}
+.tl li{position:relative;padding:0 0 14px 16px;font-size:14px;color:var(--soft)}
+.tl li::before{content:"";position:absolute;left:-4px;top:6px;width:7px;height:7px;background:var(--e,var(--paper))}
+.tl li span{display:block;font:400 10px/1.4 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--dim-2)}
+
+/* settings */
+.stabs{margin-bottom:-1px}
+.set-card{border:1px solid var(--line);padding:clamp(18px,2.2vw,28px);display:flex;flex-direction:column;gap:18px}
+.set-card h2{margin:0;font:500 18px/1.2 var(--display);font-stretch:87.5%;color:var(--paper)}
+.invite{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.invite .inp{flex:1 1 200px;width:auto;padding:10px 12px;font-size:14px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:90;background:var(--paper);color:var(--ink);font:400 12px/1.4 var(--display);letter-spacing:.04em;padding:12px 16px;max-width:calc(100vw - 32px);display:flex;gap:10px;align-items:center;animation:rise .25s ease-out both}
+.toast::before{content:"[ok]";font-weight:500}
+.mainc{min-width:0;display:flex;flex-direction:column}
+.ck-box{appearance:none;-webkit-appearance:none;width:16px;height:16px;flex:none;border:1px solid var(--line-2);background:var(--ink);margin:0;display:grid;place-items:center;cursor:pointer}
+.ck-box:checked{background:var(--e,var(--paper));border-color:var(--e,var(--paper))}
+.ck-box:checked::after{content:"";width:6px;height:6px;background:var(--ink)}
+.ck-box:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
+label.rule{cursor:pointer}
+.app .eng-triad{margin:0;font:500 11px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div id="app" class="app"><noscript><p style="padding:24px">The OpLev Console needs JavaScript.</p></noscript></div>
+<script type="application/json" id="app-data">{"engines": [{"id": "ops", "name": "Ops", "triad": "Map. Build. Run.", "line": "Custom software for how your business runs.", "caps": ["Workflows, records and dashboards built around you", "One record for every client, order and job", "A searchable company knowledge base", "The OpLev Score, tracking what still leans on you"]}, {"id": "agents", "name": "Agents", "triad": "Watch. Act. Ask.", "line": "Agents that take the repeat work off your team.", "caps": ["Intake, booking and follow-up", "Inbox triage and drafted replies", "Reports and updates that draft themselves", "A person approves anything important, and every action is logged"]}, {"id": "leads", "name": "Leads", "triad": "Attract. Answer. Capture.", "line": "Tools that answer a buyer's question and capture the lead.", "caps": ["Calculators, visualizers and planners", "An AI guide on your site, any hour", "Quotes and estimates buyers can accept online", "Every lead lands in Ops with the full thread"]}], "plays": [["leads", "when a form or chat comes in", "Speed to lead", "Reply in minutes with the right answer and a booking link, any hour."], ["leads", "on your site", "Instant estimate", "Buyers price the job themselves, and the estimate becomes a lead."], ["leads", "on your site", "See it first", "Let buyers see the finished result before they ever call."], ["agents", "3 days after a quote", "Quote follow-up", "Nudge open quotes before they go cold."], ["agents", "when a client misses a booking", "No-show rescue", "Reach out and rebook before the slot is lost."], ["agents", "7 days after an invoice is due", "Invoice chaser", "Polite reminders first, then a flag for you."], ["agents", "after a job is done", "Review ask", "Ask happy clients for a review at the right moment."], ["agents", "first of the month", "Investor update", "Draft the update from the month's numbers, ready for your edit."], ["ops", "every morning at 6", "Owner brief", "What happened overnight and what needs you, on one screen."], ["ops", "every Monday", "Weekly numbers", "Revenue, pipeline and open work, without building a report."], ["ops", "when someone joins", "New hire setup", "Accounts, guides and first-week tasks, set up the same way every time."], ["ops", "when stock runs low", "Restock watch", "Draft the purchase order before you sell out, then wait for your OK."]], "setups": [{"id": "clinic", "name": "Practice Setup", "type": "Clinics + practices", "for": "Clinics, therapists, med spas and solo practitioners", "pitch": "Intake, booking and follow-up that run on their own, so you can stay with the client in front of you.", "engines": ["ops", "agents"], "license": "core", "connects": ["Google Calendar", "Gmail", "Stripe", "Intake forms", "SMS"], "uses": [["agents", "when a new inquiry comes in", "New client intake", "Reads the request, matches it to the right service and provider, and drafts a reply with open times."], ["agents", "24 hours before a visit", "Visit reminders", "Confirms the visit and sends the intake form if it's still missing."], ["agents", "when a client misses a visit", "No-show rescue", "Reaches out the same day and offers the next open slot."], ["ops", "after every visit", "Visit notes", "Turns your dictated findings into a structured note for you to review."], ["agents", "7 days after an invoice is due", "Invoice chaser", "Polite reminders first, then a flag for you."], ["ops", "every morning at 6", "Owner brief", "Today's schedule, open notes, unpaid invoices and anything waiting on you."]], "cases": ["adessa-mind", "art-of-practice"], "day": [["06:00:00", "@ops", "morning brief ready: 9 visits, 2 open notes", "ready"], ["07:12:40", "@agents", "new inquiry: back pain, wants a weekday slot", "matched"], ["07:12:44", "@agents", "drafted a reply with 3 open times", "drafted"], ["07:12:45", "you", "approve reply to a new client", "pending", "need"], ["07:20:03", "you", "approved", "ok", "me"], ["09:40:10", "@agents", "10:30 client missed their visit", "rebook sent"], ["11:05:22", "@ops", "visit note drafted from dictation", "ready"], ["16:00:00", "@agents", "reminders sent for tomorrow", "8 sent"]], "demo": {"biz": "Juniper Physio", "people": [["Dana Ruiz", "Owner"], ["Sam Lee", "Front desk"], ["Priya Shah", "Physio"]], "kpis": [["visits booked", "38", "this week"], ["inquiries answered", "27", "avg reply 6 min"], ["no-shows rebooked", "5", "of 7 this week"], ["unpaid invoices", "3", "$1,240 open"]], "approvals": [{"e": "agents", "kind": "Reply to a new client", "to": "Maya Chen", "why": "First message to a new client", "draft": "Hi Maya, thanks for reaching out about your lower back. We have openings Tuesday at 9:00, Wednesday at 2:30 and Thursday at 11:00. Reply with the time that works and I'll send your intake form.\n\nDana, Juniper Physio"}, {"e": "agents", "kind": "Invoice reminder", "to": "Leo Park", "why": "Second reminder on a $180 invoice", "draft": "Hi Leo, a quick reminder that invoice #1042 for $180 is now 9 days past due. You can pay at the link below. Let us know if anything looks off.\n\nJuniper Physio"}, {"e": "ops", "kind": "Visit note", "to": "Ana Ortiz", "why": "Clinical notes need provider sign-off", "draft": "Subjective: less morning stiffness, 3/10 pain on stairs.\nObjective: knee flexion 118, up from 105.\nPlan: progress to step-downs, review in 2 weeks."}], "leads": [["Maya Chen", "Website form", "New", 540, "Sam Lee", "7 min ago"], ["Tom Becker", "Phone", "In conversation", 360, "Sam Lee", "1 hr ago"], ["Grace Kim", "Referral", "Booked", 720, "Priya Shah", "Yesterday"], ["Omar Haddad", "Google", "Booked", 540, "Priya Shah", "Yesterday"], ["Lily Tran", "Website form", "Won", 900, "Dana Ruiz", "2 days ago"], ["Ben Ross", "Instagram", "Lost", 180, "Sam Lee", "4 days ago"], ["Nina Patel", "Referral", "In conversation", 540, "Dana Ruiz", "3 hrs ago"]], "records": [["Ana Ortiz", "Client", "Active plan", "Priya Shah", "Today"], ["Leo Park", "Client", "Invoice overdue", "Sam Lee", "Today"], ["Grace Kim", "Client", "First visit Thu", "Priya Shah", "Yesterday"], ["Invoice #1047", "Invoice", "Paid", "Sam Lee", "Today"], ["Knee rehab, 6 weeks", "Care plan", "Template", "Priya Shah", "Last week"], ["Front desk handbook", "Guide", "Current", "Dana Ruiz", "Last month"]], "feed": [["@agents", "reminder confirmed by Ana Ortiz", "confirmed"], ["@ops", "invoice #1047 paid, record updated", "reconciled"], ["@agents", "new inquiry from the website", "matched"], ["@agents", "intake form returned by Tom Becker", "filed"], ["@ops", "open slot found Thursday 3:00", "offered"], ["@agents", "rebooked a missed visit", "booked"], ["@ops", "visit note drafted from dictation", "ready"], ["@agents", "answered a parking question", "closed"]], "score": [48, 61]}}, {"id": "brand", "name": "Storefront Setup", "type": "Product brands", "for": "Product brands, makers and direct-to-customer shops", "pitch": "A store that answers questions, lets buyers price the job and hands every lead to your team.", "engines": ["leads", "agents", "ops"], "license": "company", "connects": ["Shopify or Stripe", "ShipStation", "Gmail", "HubSpot", "Slack"], "uses": [["leads", "on your site", "Instant estimate", "Buyers work out how much they need and get a price, and the estimate becomes a lead."], ["leads", "on your site", "See it first", "A visualizer that shows the finished result on the buyer's own photo."], ["agents", "when a form or chat comes in", "Speed to lead", "Answers in minutes with the right product info and a clear next step."], ["agents", "when a store applies", "Wholesale qualifier", "Checks fit, sends the line sheet and terms, and books a call with the good ones."], ["agents", "when an order question comes in", "Order status answers", "Looks up the order and replies with tracking, any hour."], ["ops", "when stock runs low", "Restock watch", "Drafts the purchase order before you sell out, then waits for your OK."]], "cases": ["element-glo", "mawa"], "day": [["21:14:02", "@leads", "buyer priced a 400 sq ft project", "estimate saved"], ["21:14:05", "@agents", "sent the estimate and install guide", "sent"], ["23:40:18", "@agents", "answered 6 order status emails", "6 closed"], ["02:10:00", "@ops", "stock check: 2 colors running low", "po drafted"], ["02:10:01", "you", "approve purchase order to supplier", "pending", "need"], ["07:45:12", "you", "approved", "ok", "me"], ["08:02:30", "@agents", "new wholesale application qualified", "call booked"]], "demo": {"biz": "Fieldstone Tile Co.", "people": [["Jordan Wells", "Founder"], ["Ivy Moreno", "Sales"], ["Kai Brooks", "Fulfillment"]], "kpis": [["estimates created", "64", "this week"], ["leads from tools", "41", "64% of all leads"], ["order questions answered", "118", "no person needed"], ["first reply", "4 min", "average, any hour"]], "approvals": [{"e": "ops", "kind": "Purchase order", "to": "Coastline Clay Supply", "why": "Spends money with a supplier", "draft": "PO #3311\n\nSage matte 4x4: 1,200 sq ft\nBone gloss 3x6: 800 sq ft\n\nDeliver by Nov 12 to the Bend warehouse. Net 30."}, {"e": "agents", "kind": "Wholesale terms", "to": "Harbor Home Goods", "why": "Sends pricing terms to a new store", "draft": "Hi Erin, thanks for applying. Our line sheet and wholesale terms are attached: 50% off retail, $1,500 opening order, net 30 after the first order. Want to set up a call this week?\n\nIvy, Fieldstone Tile Co."}, {"e": "agents", "kind": "Large quote", "to": "Marcus Lee", "why": "Quote over $5,000", "draft": "Hi Marcus, here's the estimate for your 620 sq ft patio in Sage matte: $7,440 including trim and shipping. It's good for 30 days. Happy to send samples first."}], "leads": [["Marcus Lee", "Estimate tool", "New", 7440, "Ivy Moreno", "12 min ago"], ["Harbor Home Goods", "Wholesale form", "In conversation", 1500, "Ivy Moreno", "2 hrs ago"], ["Dee Alvarez", "Visualizer", "New", 2100, "Ivy Moreno", "40 min ago"], ["Pine & Co. Builders", "Estimate tool", "Booked", 12800, "Jordan Wells", "Yesterday"], ["Rosa Kim", "Chat", "Won", 3150, "Ivy Moreno", "2 days ago"], ["Lakeside Remodel", "Referral", "In conversation", 9600, "Jordan Wells", "5 hrs ago"], ["Chris Dunn", "Visualizer", "Lost", 980, "Ivy Moreno", "6 days ago"]], "records": [["Order #5520", "Order", "Shipped", "Kai Brooks", "Today"], ["Order #5521", "Order", "Packing", "Kai Brooks", "Today"], ["Pine & Co. Builders", "Trade account", "Approved", "Jordan Wells", "Yesterday"], ["PO #3311", "Purchase order", "Waiting on you", "Jordan Wells", "Today"], ["Sage matte 4x4", "Product", "Low stock", "Kai Brooks", "Today"], ["Install guide", "Guide", "Current", "Ivy Moreno", "Last month"]], "feed": [["@leads", "buyer priced a project with the estimate tool", "lead saved"], ["@leads", "visualizer design saved by a visitor", "lead saved"], ["@agents", "answered an order status email", "closed"], ["@agents", "sent a sample kit offer", "sent"], ["@ops", "order #5522 synced from the store", "logged"], ["@agents", "qualified a wholesale application", "qualified"], ["@ops", "stock check passed", "ok"], ["@leads", "chat visitor asked about install", "answered"]], "score": [52, 66]}}, {"id": "agency", "name": "Delivery Setup", "type": "Agencies + service firms", "for": "Agencies, studios, consultancies and service firms", "pitch": "Onboarding, launch checks and reporting that run the same way every time, without you in every thread.", "engines": ["ops", "agents"], "license": "core", "connects": ["Slack", "Google Drive", "Asana or ClickUp", "Gmail", "QuickBooks"], "uses": [["agents", "when a contract is signed", "Client onboarding", "Sends the welcome, intake form and asset request, and chases anything missing."], ["ops", "before anything goes live", "Launch check", "Runs your launch checklist against pages, forms and tracking, and flags what's off."], ["agents", "every Friday", "Weekly client report", "Builds each client's report from live data, ready for your review."], ["ops", "when a request is out of scope", "Scope watch", "Spots asks outside the agreement and drafts a change order."], ["agents", "7 days after an invoice is due", "Invoice chaser", "Polite reminders first, then a flag for you."], ["ops", "every Monday", "Weekly numbers", "Revenue, team load and open work across every client."]], "cases": ["fit-funnels"], "day": [["08:00:00", "@ops", "weekly numbers ready: 11 clients, 2 at risk", "ready"], ["09:15:44", "@agents", "new client signed, onboarding sent", "sent"], ["11:30:10", "@ops", "launch check on a landing page", "1 issue"], ["11:30:12", "@ops", "flagged a missing thank-you redirect", "flagged"], ["13:02:00", "@ops", "request outside scope from a client", "change order drafted"], ["13:02:01", "you", "approve change order", "pending", "need"], ["13:20:40", "you", "approved", "ok", "me"], ["16:00:00", "@agents", "drafted 11 weekly client reports", "ready"]], "demo": {"biz": "Brightside Studio", "people": [["Alex Romero", "Founder"], ["Jess Wu", "Account lead"], ["Theo Grant", "Designer"]], "kpis": [["active clients", "11", "2 at risk"], ["reports drafted", "11", "every Friday"], ["launch issues caught", "6", "this month"], ["hours back", "9", "per week, sample"]], "approvals": [{"e": "ops", "kind": "Change order", "to": "Northwind Fitness", "why": "Adds billable scope", "draft": "Change order #18\n\nAdd 3 location landing pages with booking forms.\nEstimate: 14 hours, $2,100.\nTimeline: live within 2 weeks of approval."}, {"e": "agents", "kind": "Weekly report", "to": "Peak Dental", "why": "Client-facing report", "draft": "This week: 212 leads (+18%), cost per lead $14.20 (down $1.10). Top ad: 'New patient special'. Next week we test a shorter form on the booking page."}, {"e": "agents", "kind": "Invoice reminder", "to": "Harvest Bakery", "why": "Third reminder", "draft": "Hi Marta, invoice #221 for $3,400 is now 16 days past due. Could you let us know when to expect payment? Happy to jump on a call if anything's unclear.\n\nAlex, Brightside Studio"}], "leads": [["Summit Physical Therapy", "Referral", "In conversation", 4500, "Alex Romero", "1 hr ago"], ["Copper Kettle Cafe", "Website form", "New", 1800, "Jess Wu", "20 min ago"], ["Vista Realty", "LinkedIn", "Booked", 6000, "Alex Romero", "Yesterday"], ["Ridge Climbing Gym", "Referral", "Won", 3200, "Jess Wu", "3 days ago"], ["Bloom Florals", "Website form", "Lost", 1200, "Jess Wu", "1 week ago"], ["Atlas Legal", "Event", "In conversation", 8000, "Alex Romero", "4 hrs ago"]], "records": [["Northwind Fitness", "Client", "Change order pending", "Jess Wu", "Today"], ["Peak Dental", "Client", "Report ready", "Jess Wu", "Today"], ["Harvest Bakery", "Client", "Invoice overdue", "Alex Romero", "Today"], ["Launch checklist", "Guide", "Current", "Theo Grant", "Last week"], ["Onboarding kit", "Template", "Current", "Jess Wu", "Last month"], ["Invoice #224", "Invoice", "Paid", "Alex Romero", "Yesterday"]], "feed": [["@agents", "asset request answered by a client", "filed"], ["@ops", "launch check passed on 2 pages", "ok"], ["@agents", "chased a missing logo file", "sent"], ["@ops", "time logged against Peak Dental", "logged"], ["@agents", "drafted a weekly client report", "ready"], ["@ops", "flagged a client nearing budget", "flagged"], ["@agents", "invoice #224 paid", "reconciled"], ["@ops", "new task created from a client email", "created"]], "score": [41, 54]}}, {"id": "creator", "name": "Studio Setup", "type": "Creators + media", "for": "Creators, podcasters, writers and media brands", "pitch": "Keep making things. Releases, the inbox and partnership requests run themselves.", "engines": ["agents"], "license": "one", "connects": ["YouTube", "Spotify for Creators", "Gmail", "Notion", "Stripe"], "uses": [["agents", "when a release is ready", "Release pipeline", "Writes titles, descriptions and tags, and queues the drop across every channel."], ["agents", "every hour", "Inbox triage", "Sorts messages into fans, partners and noise, with drafts ready."], ["agents", "when a brand reaches out", "Partnership routing", "Checks fit and rates, then routes the good deals to you with a summary."], ["agents", "when a licensing request comes in", "Licensing replies", "Sends standard terms and routes anything custom."], ["agents", "when a fan asks a common question", "Fan replies", "Answers from your FAQ in your voice, for your review."], ["agents", "first of the month", "Sponsor report", "Drafts the month's numbers for each sponsor."]], "cases": ["jason-stephenson"], "day": [["05:45:00", "@agents", "pulled final audio and artwork", "ready"], ["05:45:08", "@agents", "wrote titles, descriptions and tags", "drafted"], ["05:45:09", "you", "approve release copy", "pending", "need"], ["06:20:31", "you", "approved", "ok", "me"], ["06:20:33", "@agents", "release queued on 4 channels", "queued"], ["09:00:00", "@agents", "sorted 61 overnight messages", "sorted"], ["10:12:40", "@agents", "brand request matched your rates", "routed to you"]], "demo": {"biz": "Low Tide Audio", "people": [["Riley Shore", "Creator"], ["Mo Carter", "Producer"]], "kpis": [["messages sorted", "412", "this week"], ["releases shipped", "3", "on 4 channels"], ["partner requests", "9", "3 routed to you"], ["fan replies drafted", "58", "you approved 54"]], "approvals": [{"e": "agents", "kind": "Release copy", "to": "Episode 112", "why": "Public release copy", "draft": "Title: Slow Mornings, Low Tides\nDescription: A 20-minute wind-down with rain on a tin roof. Headphones on, lights low.\nTags: sleep, rain sounds, wind down, calm"}, {"e": "agents", "kind": "Partnership reply", "to": "Driftwood Tea", "why": "Pricing sent to a brand", "draft": "Hi Sasha, thanks for thinking of Low Tide. Our standard host-read rate is $1,800 per episode, with a 3-episode minimum. Here's the media kit. Want to find a time this week?\n\nRiley"}, {"e": "agents", "kind": "Licensing request", "to": "Harbor Spa", "why": "Custom terms requested", "draft": "Hi Lena, we'd love to have our tracks in your spa. Standard in-venue licensing is $40 a month per location. You asked about 12 locations and a 2-year term, so I'll send a custom quote by Friday."}], "leads": [["Driftwood Tea", "Email", "In conversation", 5400, "Riley Shore", "30 min ago"], ["Harbor Spa", "Licensing form", "New", 5760, "Riley Shore", "2 hrs ago"], ["Calm Fit App", "Email", "Booked", 3600, "Riley Shore", "Yesterday"], ["North Sleep Co.", "Agency", "Won", 7200, "Riley Shore", "4 days ago"], ["Pillow Brand X", "DM", "Lost", 900, "Mo Carter", "1 week ago"]], "records": [["Episode 112", "Release", "Waiting on you", "Mo Carter", "Today"], ["Episode 111", "Release", "Live on 4 channels", "Mo Carter", "Last week"], ["North Sleep Co.", "Sponsor", "Active", "Riley Shore", "4 days ago"], ["Standard licensing terms", "Template", "Current", "Riley Shore", "Last month"], ["Fan FAQ", "Guide", "Current", "Riley Shore", "Last month"]], "feed": [["@agents", "sorted 14 new messages", "sorted"], ["@agents", "drafted 3 fan replies", "drafted"], ["@agents", "brand request didn't match your rates", "declined politely"], ["@agents", "licensing request sent standard terms", "sent"], ["@agents", "comment flagged for you", "flagged"], ["@agents", "episode 111 stats pulled", "logged"]], "score": [33, 47]}}, {"id": "startup", "name": "Launch Setup", "type": "Startups", "for": "Early-stage startups and new ventures", "pitch": "Run lean from day one: every lead captured, every number in one place, and a system you could license to others.", "engines": ["ops", "leads"], "license": "core", "connects": ["Stripe", "HubSpot", "Slack", "Google Workspace", "Linear"], "uses": [["leads", "on your site", "Waitlist and demo booking", "Captures signups, qualifies them and books demos with the right ones."], ["leads", "when a form or chat comes in", "Speed to lead", "Answers in minutes with a clear next step, any hour."], ["ops", "every Monday", "Weekly numbers", "Revenue, pipeline, burn and open work on one screen."], ["ops", "every morning at 6", "Owner brief", "What happened overnight and what needs you, on one screen."], ["ops", "when someone joins", "New hire setup", "Accounts, guides and first-week tasks, set up the same way every time."], ["ops", "first of the month", "Investor update draft", "Pulls the month's numbers into a draft update for you to edit."]], "cases": ["mawa", "art-of-practice"], "day": [["06:00:00", "@ops", "owner brief ready: 4 demos, 1 hire starting", "ready"], ["07:30:12", "@leads", "14 waitlist signups overnight", "qualified 5"], ["07:30:15", "@leads", "demos booked with 3 qualified signups", "booked"], ["09:00:00", "@ops", "new hire accounts and guides set up", "done"], ["12:00:00", "@ops", "investor update drafted from this month's numbers", "drafted"], ["12:00:01", "you", "approve investor update", "pending", "need"], ["12:40:18", "you", "approved with edits", "ok", "me"]], "demo": {"biz": "Parcel Labs", "people": [["Sam Okafor", "Founder"], ["Lena Fischer", "Ops"], ["Raj Mehta", "Engineering"]], "kpis": [["waitlist signups", "312", "this month"], ["demos booked", "18", "from qualified signups"], ["mrr", "$24.6k", "sample"], ["runway", "14 mo", "sample"]], "approvals": [{"e": "ops", "kind": "Investor update", "to": "Investor list", "why": "Goes to 22 people", "draft": "October update\n\nMRR $24.6k (+11%). 18 demos booked from the waitlist, 6 pilots live. Hired our first ops lead. Ask: intros to logistics leads at mid-size retailers."}, {"e": "leads", "kind": "Demo follow-up", "to": "Tidal Outfitters", "why": "First message to a qualified lead", "draft": "Hi Jo, thanks for joining the waitlist. Based on your volume (about 2,000 parcels a month) you're a great fit for our pilot. Want to grab 20 minutes Thursday?\n\nSam, Parcel Labs"}, {"e": "ops", "kind": "New hire access", "to": "Chris Yoon", "why": "Grants access to finance tools", "draft": "Create accounts: Google Workspace, Slack, Linear, HubSpot (sales seat), Stripe (read only).\nAssign: first-week onboarding guide and 3 intro calls."}], "leads": [["Tidal Outfitters", "Waitlist", "New", 9600, "Sam Okafor", "15 min ago"], ["Northgate Goods", "Demo form", "Booked", 14400, "Sam Okafor", "Yesterday"], ["Cobalt Supply", "Waitlist", "In conversation", 7200, "Lena Fischer", "3 hrs ago"], ["Fern & Fox", "Chat", "Won", 4800, "Sam Okafor", "2 days ago"], ["Bolt Bikes", "Waitlist", "Lost", 2400, "Lena Fischer", "5 days ago"], ["Harbor Pet", "Referral", "In conversation", 6000, "Sam Okafor", "1 hr ago"]], "records": [["Fern & Fox", "Pilot", "Live", "Lena Fischer", "Today"], ["Chris Yoon", "New hire", "Starts Monday", "Lena Fischer", "Today"], ["October update", "Investor update", "Waiting on you", "Sam Okafor", "Today"], ["Pricing v2", "Doc", "Draft", "Sam Okafor", "Last week"], ["Onboarding guide", "Guide", "Current", "Lena Fischer", "Last month"]], "feed": [["@leads", "new waitlist signup qualified", "qualified"], ["@leads", "demo booked from the waitlist", "booked"], ["@ops", "stripe payout synced", "reconciled"], ["@ops", "pilot usage report updated", "updated"], ["@leads", "chat visitor asked about pricing", "answered"], ["@ops", "weekly numbers refreshed", "ready"], ["@leads", "signup didn't fit the profile", "nurture list"]], "score": [39, 52]}}], "licenses": {"one": {"name": "One engine", "price": "$5k", "count": 1}, "core": {"name": "Two engines", "price": "$10k", "count": 2}, "company": {"name": "All three", "price": "$15k+", "count": 3}}}</script>
+<script>
+(function(){
+'use strict';
+/* ================= data + helpers ================= */
+const D=JSON.parse(document.getElementById('app-data').textContent);
+const ENG=D.engines, ENGN=Object.fromEntries(ENG.map(e=>[e.id,e]));
+const SETS=D.setups, SET=Object.fromEntries(SETS.map(s=>[s.id,s]));
+const LIC=D.licenses, TIER=['one','core','company'];
+const FUNCS=['Direction','Demand','Delivery','Team','Operations','Finance','Customer','Governance'];
+const DIMS=['Definition','Standards','Sequence','Transferability','Resilience'];
+const LEVELS=['Undefined','Person-dependent','Documented','Engineered'];
+const FUNC_E={Direction:'ops',Demand:'leads',Delivery:'ops',Team:'ops',Operations:'ops',Finance:'agents',Customer:'agents',Governance:'ops'};
+const FUNC_TIP={Direction:'Put goals and weekly numbers on one screen.',Demand:'Capture every lead and answer it in minutes.',Delivery:'Make delivery run the same way every time.',Team:'Set up every new person the same way.',Operations:'Move routine work off people and onto plays.',Finance:'Chase invoices and reconcile payments automatically.',Customer:'Follow up with every client without someone remembering to.',Governance:'Decide what needs a person, and log everything else.'};
+const STAGES=['New','In conversation','Booked','Won','Lost'];
+const TRIGGERS=['when a form or chat comes in','when a new inquiry comes in','on your site','every hour','every morning at 6','every Monday','every Friday','first of the month','after every visit','after a job is done','24 hours before a visit','3 days after a quote','7 days after an invoice is due','when a client misses a visit','when a client misses a booking','when stock runs low','when someone joins','when a contract is signed'];
+let RM=false;try{RM=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad2=n=>String(n).padStart(2,'0');
+const clock=()=>{const d=new Date();return pad2(d.getHours())+':'+pad2(d.getMinutes())+':'+pad2(d.getSeconds());};
+const money=v=>'$'+Math.round(Number(v)||0).toLocaleString('en-US');
+const first=n=>String(n||'').trim().split(/\s+/)[0]||'there';
+const initials=n=>String(n||'?').split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const tag=e=>ENGN[e]?`<span class="etag e-${e}">@${e}</span>`:'';
+const actorCls=a=>/^@[a-z]+$/.test(a)?' e-'+a.slice(1):'';
+
+/* ================= decode (headline scramble) ================= */
+const UP='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=/<>[]{}_', LO='abcdefghijklmnopqrstuvwxyz0123456789#%&*+=/<>_';
+function decode(el,dur){
+  if(RM||!el)return;
+  const nodes=[],w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+  while(w.nextNode())if(w.currentNode.nodeValue.trim())nodes.push(w.currentNode);
+  const fin=nodes.map(n=>n.nodeValue),total=fin.join('').length;if(!total)return;
+  el.setAttribute('aria-label',fin.join('').replace(/\s+/g,' ').trim());
+  dur=dur||Math.min(1100,320+total*18);let off=0;
+  const at=fin.map(s=>{const a=[];for(let i=0;i<s.length;i++)a.push(((off+i)/total)*dur*.62+Math.random()*dur*.38);off+=s.length;return a;});
+  const cur=fin.map(s=>s.split('')),t0=performance.now();let last=0;
+  const pick=s=>s[Math.random()*s.length|0];
+  (function f(now){
+    if(!el.isConnected)return;
+    const e=now-t0,swap=now-last>50;if(swap)last=now;let done=true;
+    fin.forEach((s,k)=>{for(let i=0;i<s.length;i++){const c=s[i];if(/\s/.test(c)||e>=at[k][i])cur[k][i]=c;else{done=false;if(swap||cur[k][i]===c)cur[k][i]=c>='a'&&c<='z'?pick(LO):pick(UP);}}nodes[k].nodeValue=cur[k].join('');});
+    if(!done)requestAnimationFrame(f);
+  })(t0);
+}
+
+/* ================= state ================= */
+const KEY='oplev-console-v1';
+let S=null, route='overview', drawer=null;
+const ui={apSel:null,actF:'all',actQ:'',playF:'all',pipeF:'all',recQ:'',setTab:'team',wz:null};
+
+function init(type,o){
+  o=o||{};
+  const s=SET[type]||SETS[0], d=s.demo, r=rng(hashStr(type+(o.biz||'')));
+  const licensed=(o.engines||s.engines).slice();
+  const license=o.license||TIER[Math.max(0,licensed.length-1)];
+  let seq=1;const id=()=>'i'+(seq++);
+  const plays=[];
+  s.uses.forEach(([e,trig,title,desc],i)=>{
+    const on=licensed.includes(e)&&(!o.plays||o.plays.includes(title));
+    plays.push({id:id(),e,trig,title,desc,added:on,on,appr:i%2===0,runs:on?8+Math.floor(r()*40):0,last:on?(2+Math.floor(r()*55))+' min ago':'never',setup:true});
+  });
+  D.plays.forEach(([e,trig,title,desc])=>{
+    if(plays.some(p=>p.title===title))return;
+    const on=!!(o.plays&&o.plays.includes(title)&&licensed.includes(e));
+    plays.push({id:id(),e,trig,title,desc,added:on,on,appr:true,runs:0,last:'never'});
+  });
+  const approvals=d.approvals.filter(a=>licensed.includes(a.e)).map((a,i)=>Object.assign({},a,{id:id(),age:(4+i*17)+' min ago'}));
+  const log=s.day.map(x=>({t:x[0],a:x[1],m:x[2],r:x[3],f:x[4]||''})).filter(x=>x.a==='you'||licensed.includes(x.a.slice(1)));
+  const leads=d.leads.map(([n,src,stage,val,owner,last])=>({id:id(),n,src,stage,val,owner,last}));
+  const records=d.records.map(([n,kind,status,owner,upd])=>({id:id(),n,kind,status,owner,upd}));
+  const extra=['Slack','Zapier','QuickBooks','Google Drive','Calendly'].filter(x=>!s.connects.includes(x)).slice(0,3);
+  const integrations=s.connects.map(n=>({n,on:o.conns?!!o.conns[n]:true})).concat(extra.map(n=>({n,on:false})));
+  const counts={},running={};
+  ENG.forEach(e=>{counts[e.id]=licensed.includes(e.id)?9+Math.floor(r()*36):0;running[e.id]=true;});
+  const [prev,now]=d.score;
+  const m=FUNCS.map(()=>DIMS.map(()=>Math.max(0,Math.min(3,Math.round(now/100*3+(r()-.5)*1.7)))));
+  const trend=Array.from({length:8},(_,i)=>Math.round(prev+(now-prev)*(i/7)+(i&&i<7?(r()-.5)*4:0)));
+  const people=(o.owner?[[o.owner,'Owner']].concat(d.people.slice(1)):d.people).map(([name,role])=>({name,role}));
+  return {v:1,type:s.id,biz:o.biz||d.biz,people,license,licensed,running,plays,approvals,log,leads,records,kpis:d.kpis,integrations,
+    rules:Object.assign({newClient:true,money:true,amt:500,contracts:true,bulk:true,refunds:true},o.rules||{}),
+    counts,score:{prev,now,m,trend},live:true,seq,tick:0};
+}
+function nid(){return 'i'+(S.seq++);}
+let saveT=0;
+function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}},150);}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&x.v===1&&SET[x.type])return x;}catch(e){}return null;}
+const owner=()=>(S.people[0]&&S.people[0].name)||'there';
+const setup=()=>SET[S.type];
+const has=e=>S.licensed.includes(e);
+const isOn=e=>has(e)&&S.running[e];
+function pushLog(a,m,r,f){
+  const entry={t:clock(),a,m,r,f:f||''};S.log.push(entry);if(S.log.length>300)S.log.splice(0,S.log.length-300);
+  if(/^@/.test(a)&&S.counts[a.slice(1)]!=null)S.counts[a.slice(1)]++;
+  liveInsert(entry);return entry;
+}
+
+/* ================= shell ================= */
+const NAV=[
+  [null,[['overview','Overview'],['approvals','Approvals','badge'],['activity','Activity']]],
+  ['Engines',[['engine-ops','Ops','e'],['engine-agents','Agents','e'],['engine-leads','Leads','e'],['plays','Plays']]],
+  ['Data',[['pipeline','Pipeline'],['records','Records'],['score','OpLev Score']]],
+  ['Manage',[['setup','Setup'],['settings','Settings']]]
+];
+function shell(){
+  const app=$('#app');
+  app.innerHTML=`
+  <aside class="side" id="side" aria-label="Console navigation">
+    <div class="side-top"><a class="brand" href="index.html" aria-label="OpLev site"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span>OPLEV</span></a><span class="label">console</span></div>
+    <div class="ws" id="ws"></div>
+    <nav class="side-nav" id="side-nav"></nav>
+    <div class="side-foot" id="side-foot"></div>
+  </aside>
+  <div class="scrim" data-act="side-close"></div>
+  <div class="mainc">
+    <header class="tbar">
+      <button class="menu-btn side-btn" type="button" data-act="side-open" aria-label="Open navigation"><span class="bars" aria-hidden="true"></span><span class="mb-t">Menu</span></button>
+      <span class="crumb" id="crumb"></span>
+      <div class="top-r">
+        <button class="live-btn" type="button" data-act="live" id="live-btn"><span class="dot" aria-hidden="true"></span><span class="lb-t">live</span></button>
+        <span class="clock label" id="clk"></span>
+        <span class="avatar" id="avatar" title=""></span>
+      </div>
+    </header>
+    <div class="demo-bar"><span><b>Sample workspace.</b> Everything here is example data, and changes stay in this browser.</span><a href="start.html">Get this for your business &rarr;</a></div>
+    <main class="view" id="view" tabindex="-1"></main>
+  </div>
+  <div id="drawer-root"></div>
+  <div id="toast-root"></div>`;
+}
+function renderSide(){
+  const s=setup(),L=LIC[S.license];
+  $('#ws').innerHTML=`<button class="ws-btn" type="button" data-act="ws" aria-expanded="false" aria-controls="ws-menu"><span class="ws-mark">${esc(initials(S.biz))}</span><span class="ws-txt"><span class="ws-name">${esc(S.biz)}</span><span class="ws-type">${esc(s.name)}</span></span><span class="ws-caret">&#9662;</span></button>
+  <div class="ws-menu" id="ws-menu" hidden><span class="label">sample workspaces</span>${SETS.map(x=>`<button class="ws-opt" type="button" data-act="ws-pick" data-id="${x.id}" aria-current="${x.id===S.type}"><span>${esc(x.demo.biz)}</span><span>${esc(x.type.split(' ')[0])}</span></button>`).join('')}<div class="ws-sep"></div><button class="ws-opt" type="button" data-act="reset"><span>Reset this demo</span><span></span></button><button class="ws-opt" type="button" data-act="go" data-r="setup"><span>Set up a new workspace</span><span></span></button></div>`;
+  $('#side-nav').innerHTML=NAV.map(([g,items])=>`<div class="nav-g">${g?`<span class="label">${g}</span>`:''}${items.map(([r,t,x])=>{
+    let cls='nav-i',right='';
+    if(x==='e'){const e=r.slice(7);cls+=' e-'+e+(has(e)?'':' locked');right=has(e)?(S.running[e]?'':'<span class="ni-r">paused</span>'):'<span class="ni-r">add</span>';return `<a class="${cls}" href="#${r}"${route===r?' aria-current="page"':''}><span class="ni-mk"></span>${t}${right}</a>`;}
+    if(x==='badge')right=`<span class="badge" data-n="${S.approvals.length}" id="ap-badge">${S.approvals.length}</span>`;
+    return `<a class="${cls}" href="#${r}"${route===r||(r==='engine-ops'&&false)?' aria-current="page"':''}>${t}${right}</a>`;
+  }).join('')}</div>`).join('');
+  $('#side-foot').innerHTML=`<div class="lic-mini"><span class="label">license</span><b>${esc(L.name)} / ${esc(L.price)}</b></div><div class="etags">${S.licensed.map(tag).join('')}</div><a class="label" href="pricing.html">Licenses &rarr;</a><a class="label" href="index.html">&larr; Back to site</a>`;
+  const lb=$('#live-btn');lb.setAttribute('aria-pressed',String(S.live));lb.title=S.live?'Pause live activity':'Resume live activity';
+  $('#avatar').textContent=initials(owner());$('#avatar').title=owner();
+}
+function setCrumb(){const parts=route.replace('engine-','engines/');$('#crumb').innerHTML=`~/console/<b>${esc(parts)}</b>`;}
+
+/* ================= views ================= */
+function greet(){const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening';}
+function bars(seed,n){const r=rng(hashStr(seed));return Array.from({length:n||14},()=>`<i style="height:${12+Math.round(r()*88)}%"></i>`).join('');}
+function rowHTML(x){return `<div class="row"><span class="ts">${esc(x.t)}</span><span class="ac${x.f?' '+x.f:''}${actorCls(x.a)}">${esc(x.a)}</span><span class="msg">${esc(x.m)}</span><span class="res">${esc(x.r)}</span></div>`;}
+function feedRows(list,max){const rows=list.slice(-max).reverse();return rows.length?rows.map(rowHTML).join(''):'<div class="feed-empty">Nothing yet.</div>';}
+function head(path,title,sub,actions,cls){return `<div class="v-head"><div class="v-head-l"><p class="eyebrow">~/console/${path}</p><h1 class="v-title${cls?' '+cls:''}">${title}</h1>${sub?`<p class="v-sub">${sub}</p>`:''}</div>${actions?`<div class="v-actions">${actions}</div>`:''}</div>`;}
+const playsOn=e=>S.plays.filter(p=>p.e===e&&p.added&&p.on).length;
+
+function vOverview(){
+  const n=S.approvals.length;
+  const sub=n?`${n} thing${n===1?' needs':'s need'} you. Everything else is handled.`:'Nothing needs you. Your engines are handling the rest.';
+  const needs=S.approvals.slice(0,4).map(a=>`<li><a href="#approvals" data-act="ap-go" data-id="${a.id}">${tag(a.e)}<span class="nl-t">${esc(a.kind)}: ${esc(a.to)}</span></a></li>`).join('');
+  const tiles=ENG.map(e=>{
+    const L=!has(e.id),st=L?'<span class="state lock">not licensed</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>');
+    return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">@${e.id}</span>${st}</div><div class="et-name">${esc(e.name)}</div>
+    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">actions today</span></div><div><b>${playsOn(e.id)}</b><span class="label">plays on</span></div></div><div class="bars" aria-hidden="true">${bars(S.type+e.id)}</div></a>`;}).join('');
+  const kp=S.kpis.map(([l,v,s])=>`<div class="cell kpi"><span class="label">${esc(l)}</span><b>${esc(v)}</b><span class="label">${esc(s)}</span></div>`).join('');
+  const sc=S.score,d=sc.now-sc.prev;
+  return head('overview',`${greet()}, ${esc(first(owner()))}.`,sub,n?`<a class="btn" href="#approvals">Review approvals</a>`:`<a class="btn ghost" href="#activity">See activity</a>`)+`
+  <div class="g ov-top">
+    <div class="cell"><div class="et-top"><span class="label">needs you</span><a class="lnk" href="#approvals">open &rarr;</a></div><div class="big-n" data-k="ap-count">${n}</div>${n?`<ul class="needs-l">${needs}</ul>`:'<p class="v-sub">Inbox zero.</p>'}</div>
+    ${tiles}
+  </div>
+  <div class="g g4">${kp}</div>
+  <div class="ov-bottom">
+    <section class="pnl"><div class="pnl-hd"><span class="label">live activity</span><a class="label" href="#activity">all activity &rarr;</a></div><div class="feed" data-live data-max="14">${feedRows(S.log,14)}</div></section>
+    <section class="pnl score-card"><div class="et-top"><span class="label">oplev score</span><a class="lnk" href="#score">details &rarr;</a></div><div class="big-n">${sc.now}</div><span class="label">${d>=0?'+':''}${d} since you started</span><div class="trend" aria-hidden="true">${sc.trend.map(v=>`<i style="height:${Math.max(8,v)}%"></i>`).join('')}</div><p class="v-sub" style="font-size:14px">${esc(levelOf(sc.now))}. ${esc(FUNC_TIP[weakest()[0].f])}</p></section>
+  </div>`;
+}
+
+function vApprovals(){
+  const list=S.approvals;
+  if(!list.length)return head('approvals','Approvals','Your engines ask before anything important goes out.')+`<div class="pnl empty"><div class="big-n">0</div><p>Nothing needs you right now. When an engine wants to send, spend or promise something, it lands here first.</p><a class="btn ghost" href="#activity">See what ran</a></div>`;
+  if(!list.some(a=>a.id===ui.apSel))ui.apSel=list[0].id;
+  return head('approvals','Approvals','Your engines ask before anything important goes out. Edit anything before you approve it.')+`
+  <div class="ap-wrap"><div class="ap-list" id="ap-list">${apList()}</div><div class="ap-detail" id="ap-detail">${apDetail()}</div></div>`;
+}
+function apList(){return S.approvals.map(a=>`<button class="ap-item" type="button" data-act="ap-sel" data-id="${a.id}" aria-current="${a.id===ui.apSel}">${tag(a.e)}<span class="api-t">${esc(a.kind)}</span><span class="label">${esc(a.age)}</span><span class="api-s">${esc(a.to)}</span></button>`).join('');}
+function apDetail(){
+  const a=S.approvals.find(x=>x.id===ui.apSel);if(!a)return '';
+  return `<div class="et-top">${tag(a.e)}<span class="label">${esc(a.age)}</span></div>
+  <h2 class="ap-d-t">${esc(a.kind)}</h2><dl class="kv"><dt>to</dt><dd>${esc(a.to)}</dd><dt>engine</dt><dd>${esc(ENGN[a.e].name)}</dd></dl>
+  <div class="why"><span class="label">needs you</span><span>${esc(a.why)}</span></div>
+  <label class="fl"><span class="label">draft</span><textarea class="inp ap-draft" id="ap-draft" rows="7">${esc(a.draft)}</textarea></label>
+  <div class="ap-btns"><button class="btn" type="button" data-act="ap-ok" data-id="${a.id}">Approve and send</button><button class="btn ghost" type="button" data-act="ap-no" data-id="${a.id}">Reject</button><span class="label" style="margin-left:auto">nothing is sent until you approve</span></div>`;
+}
+
+function filteredLog(){
+  const q=ui.actQ.trim().toLowerCase();
+  return S.log.filter(x=>(ui.actF==='all'||(ui.actF==='you'?x.a==='you':x.a==='@'+ui.actF))&&(!q||(x.m+' '+x.r+' '+x.a).toLowerCase().includes(q)));
+}
+function vActivity(){
+  const f=[['all','All'],['ops','Ops'],['agents','Agents'],['leads','Leads'],['you','You']];
+  return head('activity','Activity','Every action every engine takes, as it happens.')+`
+  <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter by engine">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="act-f" data-f="${k}" aria-pressed="${ui.actF===k}">${t}</button>`).join('')}</div>
+  <label class="search"><span class="sr">Search activity</span><input class="inp" id="act-q" type="search" placeholder="Search activity" value="${esc(ui.actQ)}" autocomplete="off"></label></div>
+  <section class="pnl"><div class="pnl-hd"><span class="label" id="act-count">${filteredLog().length} events</span><span class="label">${S.live?'live':'paused'}</span></div><div class="feed" data-live data-filter data-max="200" style="max-height:none">${feedRows(filteredLog(),200)}</div></section>`;
+}
+
+function vEngines(){
+  return head('engines','Engines','Three engines that feed each other. Your license decides which ones run.')+`<div class="g g3">${ENG.map(e=>{
+    const L=!has(e.id);
+    return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">@${e.id}</span>${L?'<span class="state lock">not licensed</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>')}</div><div class="et-name">${esc(e.name)}</div><p class="eng-triad ec" style="margin:0">${esc(e.triad)}</p><p class="v-sub" style="font-size:15px">${esc(e.line)}</p>
+    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">actions today</span></div><div><b>${playsOn(e.id)}</b><span class="label">plays on</span></div></div><span class="lnk">${L?'Add to license':'Open'} &rarr;</span></a>`;}).join('')}</div>`;
+}
+function triggerSel(p){const opts=TRIGGERS.includes(p.trig)?TRIGGERS:[p.trig].concat(TRIGGERS);return `<select class="dd" data-act="play-trig" data-id="${p.id}" aria-label="Trigger for ${esc(p.title)}">${opts.map(t=>`<option${t===p.trig?' selected':''}>${esc(t)}</option>`).join('')}</select>`;}
+function vEngine(eid){
+  const e=ENGN[eid];
+  if(!has(eid)){
+    const next=TIER[Math.min(2,S.licensed.length)],L=LIC[next];
+    const preview=S.plays.filter(p=>p.e===eid).slice(0,5);
+    return head('engines/'+eid,esc(e.name),esc(e.triad)+' '+esc(e.line),'',`ec e-${eid}`)+`
+    <div class="lock-card e-${eid}"><div style="display:flex;flex-direction:column;gap:16px"><span class="label">not in your license yet</span><h2>Add ${esc(e.name)} and move to ${esc(L.name)}, ${esc(L.price)} a month.</h2><p>${esc(e.line)} It connects to the engines you already run, so nothing gets set up twice.</p><div class="v-actions"><button class="btn" type="button" data-act="lic-add" data-e="${eid}">Add ${esc(e.name)} to this demo</button><a class="btn ghost" href="start.html#${next}">Talk to us</a></div></div>
+    <div><ul class="rowlist">${e.caps.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><p class="label" style="margin:18px 0 10px">plays you'd get</p><div class="etags">${preview.map(p=>`<span class="etag e-${eid}">${esc(p.title)}</span>`).join('')}</div></div></div>`;
+  }
+  const mine=S.plays.filter(p=>p.e===eid&&p.added);
+  const waiting=S.approvals.filter(a=>a.e===eid).length;
+  const lastE=[...S.log].reverse().find(x=>x.a==='@'+eid);
+  const rows=mine.map(p=>`<tr class="${p.on&&S.running[eid]?'':'off'}"><td><button class="sw e-${eid}" type="button" role="switch" aria-checked="${p.on}" data-act="play-on" data-id="${p.id}" aria-label="Turn ${esc(p.title)} ${p.on?'off':'on'}"></button></td>
+    <td><div class="pt-title"><b>${esc(p.title)}</b><span>${esc(p.desc)}</span></div></td><td>${triggerSel(p)}</td>
+    <td><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>ask first</label></td>
+    <td class="num">${p.runs}</td><td class="num">${esc(p.last)}</td><td><button class="btn ghost btn-xs" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[eid]?'':' disabled'}>Run now</button></td></tr>`).join('');
+  return head('engines/'+eid,esc(e.name),esc(e.triad)+' '+esc(e.line),`<button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Add plays</button>`,`ec e-${eid}`)+`
+  <div class="e-${eid}"><div class="eh-row"><span class="state${S.running[eid]?' on':''}">${S.running[eid]?'running':'paused'}</span><span class="label">${S.running[eid]?'pause the whole engine':'resume the engine'}</span><button class="sw" type="button" role="switch" aria-checked="${S.running[eid]}" data-act="eng-run" data-e="${eid}" aria-label="${S.running[eid]?'Pause':'Resume'} ${esc(e.name)}"></button></div>
+  <div class="g g4" style="border-top:0"><div class="cell kpi"><span class="label">actions today</span><b data-k="count-${eid}">${S.counts[eid]}</b></div><div class="cell kpi"><span class="label">plays on</span><b>${playsOn(eid)}</b></div><div class="cell kpi"><span class="label">waiting on you</span><b>${waiting}</b></div><div class="cell kpi"><span class="label">last action</span><b style="font-size:20px">${lastE?esc(lastE.t.slice(0,5)):'none'}</b></div></div></div>
+  <div class="sec-t"><h2>Plays</h2><span class="label">${mine.length} in this engine</span></div>
+  ${mine.length?`<div class="tbl-w"><table class="tbl"><thead><tr><th>On</th><th>Play</th><th>Trigger</th><th>Approval</th><th>Runs</th><th>Last run</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="pnl empty"><p>No plays in ${esc(e.name)} yet.</p><button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Browse plays</button></div>`}
+  <div class="sec-t"><h2>Recent activity</h2><a class="label" href="#activity" data-act="act-pre" data-f="${eid}">all &rarr;</a></div>
+  <section class="pnl"><div class="feed" data-live data-engine="${eid}" data-max="10">${feedRows(S.log.filter(x=>x.a==='@'+eid),10)}</div></section>`;
+}
+
+function vPlays(){
+  const f=[['all','All'],['ops','Ops'],['agents','Agents'],['leads','Leads']];
+  const list=S.plays.filter(p=>ui.playF==='all'||p.e===ui.playF);
+  return head('plays','Plays','The moves your best operator would make, running on a trigger. Add any play to an engine in your license.')+`
+  <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter plays">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="play-f" data-f="${k}" aria-pressed="${ui.playF===k}">${t}</button>`).join('')}</div></div>
+  <ul class="plib">${list.map(p=>{
+    let ft;
+    if(!has(p.e))ft=`<span class="label">needs ${esc(ENGN[p.e].name)}</span><a class="lnk" href="#engine-${p.e}">add engine &rarr;</a>`;
+    else if(p.added)ft=`<span class="label added e-${p.e}">in ${esc(ENGN[p.e].name)}${p.on?'':' / off'}</span><a class="lnk" href="#engine-${p.e}">open &rarr;</a>`;
+    else ft=`<span class="label">${p.setup?'part of your setup':'library'}</span><button class="btn btn-xs" type="button" data-act="play-add" data-id="${p.id}">Add play</button>`;
+    return `<li class="e-${p.e}"><div class="pl-top">${tag(p.e)}<span class="label">${esc(p.trig)}</span></div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="pl-ft">${ft}</div></li>`;}).join('')}</ul>`;
+}
+
+function vPipeline(){
+  const by=st=>S.leads.filter(l=>l.stage===st);
+  const list=S.leads.filter(l=>ui.pipeF==='all'||l.stage===ui.pipeF);
+  return head('pipeline','Pipeline','Every lead in one place, wherever it came from.',`<button class="btn ghost" type="button" data-act="pipe-f" data-f="all">Show all</button>`)+`
+  <div class="g stages">${STAGES.map(st=>`<button class="stage" type="button" data-act="pipe-f" data-f="${st}" aria-pressed="${ui.pipeF===st}"><span class="label">${st}</span><b>${by(st).length}</b><span class="label">${money(by(st).reduce((a,l)=>a+l.val,0))}</span></button>`).join('')}</div>
+  <div class="tbl-w"><table class="tbl"><thead><tr><th>Name</th><th>Source</th><th>Stage</th><th>Value</th><th>Owner</th><th>Last touch</th></tr></thead><tbody>${list.map(l=>`<tr class="click" data-act="lead-open" data-id="${l.id}" tabindex="0"><td class="n">${esc(l.n)}</td><td>${esc(l.src)}</td><td><span class="st-chip s-${l.stage.split(' ')[0]}">${esc(l.stage)}</span></td><td class="num">${money(l.val)}</td><td>${esc(l.owner)}</td><td class="num">${esc(l.last)}</td></tr>`).join('')||'<tr><td colspan="6">No leads in this stage.</td></tr>'}</tbody></table></div>`;
+}
+
+function vRecords(){
+  const q=ui.recQ.trim().toLowerCase();
+  const list=S.records.filter(r=>!q||(r.n+' '+r.kind+' '+r.status+' '+r.owner).toLowerCase().includes(q));
+  return head('records','Records','One record for every client, order and job. Engines keep them current.')+`
+  <div class="toolbar"><label class="search" style="flex:1 1 260px"><span class="sr">Search records</span><input class="inp" id="rec-q" type="search" placeholder="Search records" value="${esc(ui.recQ)}" autocomplete="off"></label><span class="label">${S.records.length} records</span></div>
+  <div class="tbl-w"><table class="tbl"><thead><tr><th>Name</th><th>Type</th><th>Status</th><th>Owner</th><th>Updated</th></tr></thead><tbody id="rec-body">${recRows(list)}</tbody></table></div>`;
+}
+function recRows(list){return list.map(r=>`<tr class="click" data-act="rec-open" data-id="${r.id}" tabindex="0"><td class="n">${esc(r.n)}</td><td>${esc(r.kind)}</td><td>${esc(r.status)}</td><td>${esc(r.owner)}</td><td class="num">${esc(r.upd)}</td></tr>`).join('')||'<tr><td colspan="5">No matching records.</td></tr>';}
+
+function levelOf(v){return v<25?LEVELS[0]:v<50?LEVELS[1]:v<75?LEVELS[2]:LEVELS[3];}
+function weakest(){return FUNCS.map((f,i)=>({f,v:S.score.m[i].reduce((a,b)=>a+b,0)})).sort((a,b)=>a.v-b.v);}
+function vScore(){
+  const sc=S.score,d=sc.now-sc.prev,li=LEVELS.indexOf(levelOf(sc.now));
+  const mx=`<table class="mx"><thead><tr><th></th>${DIMS.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${FUNCS.map((f,i)=>`<tr><th>${f}</th>${sc.m[i].map((v,j)=>`<td class="lv${v}"><div class="cellv" title="${f} / ${DIMS[j]}: ${LEVELS[v]}">${v}</div></td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  const nx=weakest().slice(0,3).map(w=>{const e=FUNC_E[w.f];return `<li class="e-${e}">${tag(e)}<div><b>${w.f}</b><p>${esc(FUNC_TIP[w.f])}</p></div><a class="lnk" href="#engine-${e}">${has(e)?'open':'add'} &rarr;</a></li>`;}).join('');
+  return head('score','OpLev Score','How much of the business runs without leaning on one person.')+`
+  <div class="score-top"><div><span class="label">score / 100</span><div class="score-big">${sc.now}</div><span class="label">${d>=0?'+':''}${d} since you started / ${esc(levelOf(sc.now))}</span>
+    <div class="lvlbar">${LEVELS.map((_,i)=>`<span class="${i<=li?'on':''}"></span>`).join('')}</div><div class="lvlbar-l">${LEVELS.map(l=>`<span>${l}</span>`).join('')}</div>
+    <div class="trend" aria-hidden="true">${sc.trend.map(v=>`<i style="height:${Math.max(8,v)}%"></i>`).join('')}</div><span class="label">last 8 weeks</span></div>
+  <div><div class="et-top"><span class="label">8 functions x 5 dimensions</span><div class="legend">${LEVELS.map((l,i)=>`<span class="lv${i}"><i class="cellv" style="height:10px"></i>${l}</span>`).join('')}</div></div><div class="mx-w">${mx}</div></div></div>
+  <div class="sec-t"><h2>Where to build next</h2><span class="label">your weakest functions</span></div>
+  <section class="pnl"><ul class="next-l">${nx}</ul></section>
+  <p class="note">Sample score. A real score comes from short interviews with your team through Mira, and team answers count more than the founder's.</p>`;
+}
+
+/* ---------- setup wizard ---------- */
+const WZ=['Business','License','Connect','Plays','Rules','Go live'];
+function wzInit(){const s=setup();ui.wz={step:0,name:'',owner:'',type:S.type,lic:s.license,engines:s.engines.slice(),conns:{},plays:null,rules:Object.assign({},S.rules),booted:false};}
+function wzSetup(){return SET[ui.wz.type];}
+function wzPlays(){const w=ui.wz,s=wzSetup();const list=s.uses.filter(u=>w.engines.includes(u[0])).map(u=>({e:u[0],trig:u[1],title:u[2],rec:true}));D.plays.forEach(p=>{if(w.engines.includes(p[0])&&!list.some(x=>x.title===p[2]))list.push({e:p[0],trig:p[1],title:p[2],rec:false});});return list;}
+function vSetup(){
+  if(!ui.wz)wzInit();
+  const w=ui.wz,s=wzSetup(),need=TIER.indexOf(w.lic)+1;
+  const steps=`<div class="wz-steps">${WZ.map((t,i)=>`<span class="${i<w.step?'done':i===w.step?'cur':''}"><b>${pad2(i+1)}</b>${t}</span>`).join('')}</div>`;
+  let body='';
+  if(w.step===0)body=`<h2>Tell us about the business.</h2><p class="v-sub">We use this to pick a setup and sample data. Nothing leaves this browser.</p>
+    <div class="inq-grid"><label class="fl"><span class="label">Business name *</span><input class="inp" id="wz-name" value="${esc(w.name)}" placeholder="Juniper Physio" autocomplete="organization"></label><label class="fl"><span class="label">Your name</span><input class="inp" id="wz-owner" value="${esc(w.owner)}" placeholder="Dana Ruiz" autocomplete="name"></label></div>
+    <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="choice c3">${SETS.map(x=>`<label><input type="radio" name="wz-type" value="${x.id}" data-act="wz-type"${x.id===w.type?' checked':''}><span class="label">${esc(x.type)}</span><b>${esc(x.name)}</b><p>${esc(x.pitch)}</p><span class="etags">${x.engines.map(tag).join('')}</span></label>`).join('')}</div></fieldset>`;
+  if(w.step===1)body=`<h2>Pick a license and your engines.</h2><p class="v-sub">The ${esc(s.name)} usually runs on ${s.engines.map(e=>ENGN[e].name).join(' + ')}.</p>
+    <div class="choice c3">${TIER.map((t,i)=>`<label><input type="radio" name="wz-lic" value="${t}" data-act="wz-lic"${t===w.lic?' checked':''}><span class="label">license ${pad2(i+1)}</span><b>${esc(LIC[t].name)}</b><p>${esc(LIC[t].price)} a month / ${i+1} of 3 engines</p></label>`).join('')}</div>
+    <fieldset class="fs"><legend class="label">Choose ${need} engine${need>1?'s':''} (${w.engines.length} picked)</legend><div class="choice c3">${ENG.map(e=>`<label class="e-${e.id}"><input type="checkbox" value="${e.id}" data-act="wz-eng"${w.engines.includes(e.id)?' checked':''}>${tag(e.id)}<b>${esc(e.name)}</b><p>${esc(e.line)}</p></label>`).join('')}</div></fieldset>`;
+  if(w.step===2){const all=s.connects.concat(['Slack','Zapier','QuickBooks'].filter(x=>!s.connects.includes(x)));
+    body=`<h2>Connect your tools.</h2><p class="v-sub">Engines work inside the software you already use. In this demo, connecting just flips the switch.</p>
+    <div class="conn">${all.map(n=>{const on=!!w.conns[n];return `<div class="${on?'on':''}"><span class="cn-ic">${esc(n[0])}</span><span class="cn-n">${esc(n)}</span><span class="cn-s">${on?'connected':''}</span><button class="btn ${on?'ghost ':''}btn-xs" type="button" data-act="wz-conn" data-n="${esc(n)}">${on?'Disconnect':'Connect'}</button></div>`;}).join('')}</div>`;}
+  if(w.step===3){const list=wzPlays();if(!w.plays)w.plays=list.filter(p=>p.rec).map(p=>p.title);
+    body=`<h2>Choose your plays.</h2><p class="v-sub">The ${esc(s.name)} plays are picked for you. Add or drop any of them.</p>
+    <div class="rules">${list.map(p=>`<label class="rule e-${p.e}"><span>${tag(p.e)}</span><span class="r-t"><b>${esc(p.title)}</b><span>${esc(p.trig)}${p.rec?' / recommended':''}</span></span><input class="ck-box" type="checkbox" data-act="wz-play" value="${esc(p.title)}"${w.plays.includes(p.title)?' checked':''} aria-label="${esc(p.title)}"></label>`).join('')}</div>`;}
+  if(w.step===4)body=`<h2>Decide what needs a person.</h2><p class="v-sub">Anything that matches a rule waits in Approvals until someone says yes.</p>${rulesHTML(w.rules,'wz')}`;
+  if(w.step===5)body=`<h2>Ready to start your engines.</h2>
+    <dl class="kv"><dt>business</dt><dd>${esc(w.name||'Untitled')}</dd><dt>setup</dt><dd>${esc(s.name)}</dd><dt>license</dt><dd>${esc(LIC[w.lic].name)} / ${esc(LIC[w.lic].price)} a month</dd><dt>engines</dt><dd><span class="etags">${w.engines.map(tag).join('')}</span></dd><dt>plays</dt><dd>${(w.plays||[]).length} on</dd><dt>tools</dt><dd>${Object.keys(w.conns).filter(k=>w.conns[k]).join(', ')||'none yet'}</dd></dl>
+    <pre class="boot" id="boot" aria-live="polite">${w.booted?'':'> waiting to start'}</pre>`;
+  const last=w.step===5;
+  return head('setup','Set up a workspace','Six steps from nothing to running engines.')+steps+`<div class="wz-body">${body}<div class="wz-nav"><button class="btn ghost" type="button" data-act="wz-back"${w.step?'':' disabled'}>Back</button><button class="btn" type="button" data-act="${last?'wz-go':'wz-next'}">${last?'Start engines':'Next'}</button></div></div>`;
+}
+function rulesHTML(r,p){
+  const R=[['newClient','First message to a new client or lead','Every first reply waits for you.'],['money','Anything that spends or charges money','Purchase orders, refunds and charges over the limit.'],['contracts','Contracts, terms and pricing','Anything that commits the business.'],['bulk','Messages to more than 20 people','Newsletters, investor updates and announcements.'],['refunds','Refunds and credits','Always ask before money goes back out.']];
+  return `<div class="rules">${R.map(([k,t,s])=>`<div class="rule"><span class="r-t"><b>${t}</b><span>${s}</span></span>${k==='money'?`<label class="fl" style="gap:4px"><span class="label">over $</span><input class="inp" type="number" min="0" step="50" data-act="${p}-amt" value="${r.amt}" aria-label="Money limit"></label>`:''}<button class="sw" type="button" role="switch" aria-checked="${!!r[k]}" data-act="${p}-rule" data-k="${k}" aria-label="${esc(t)}"></button></div>`).join('')}</div>`;
+}
+function wzNext(){
+  const w=ui.wz;
+  if(w.step===0){const n=($('#wz-name')||{}).value||'';w.name=n.trim();w.owner=(($('#wz-owner')||{}).value||'').trim();if(!w.name){toast('Add a business name to continue.');$('#wz-name').focus();return;}}
+  if(w.step===1){const need=TIER.indexOf(w.lic)+1;if(w.engines.length!==need){toast(`Pick exactly ${need} engine${need>1?'s':''} for ${LIC[w.lic].name}.`);return;}w.plays=null;}
+  w.step=Math.min(5,w.step+1);render();
+}
+async function wzGo(){
+  const w=ui.wz,s=wzSetup(),b=$('#boot');if(w.booting)return;w.booting=true;
+  const lines=['> oplev init --workspace "'+esc(w.name)+'"','  license ........... <b>'+LIC[w.lic].name.toLowerCase()+'</b>'].concat(w.engines.map(e=>'  @'+e+' '+'.'.repeat(Math.max(3,17-e.length))+' <b>running</b>')).concat(['  plays ............. <b>'+(w.plays||[]).length+' on</b>','  approvals ......... <b>armed</b>','> ready']);
+  const sl=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
+  b.innerHTML='';for(const l of lines){b.innerHTML+=(b.innerHTML?'\n':'')+l;await sl(240);}
+  await sl(500);
+  S=init(w.type,{biz:w.name,owner:w.owner||null,engines:w.engines,license:w.lic,plays:w.plays,conns:w.conns,rules:w.rules});
+  S.log=[];pushLog('@'+w.engines[0],'workspace started with '+w.engines.length+' engine'+(w.engines.length>1?'s':''),'ready');
+  save();ui.wz=null;toast('Engines started for '+S.biz+'.');location.hash='overview';
+}
+
+/* ---------- settings ---------- */
+function vSettings(){
+  const T=[['team','Team'],['license','License'],['tools','Tools'],['rules','Rules'],['data','Data']];
+  let body='';
+  if(ui.setTab==='team')body=`<div class="set-card"><h2>Team</h2><div class="tbl-w"><table class="tbl" style="min-width:420px"><thead><tr><th>Name</th><th>Role</th><th>Can approve</th></tr></thead><tbody>${S.people.map((p,i)=>`<tr><td class="n">${esc(p.name)}</td><td><select class="dd" data-act="role" data-i="${i}">${['Owner','Admin','Approver','Member'].concat([p.role]).filter((v,j,a)=>a.indexOf(v)===j).map(r=>`<option${r===p.role?' selected':''}>${esc(r)}</option>`).join('')}</select></td><td>${/Owner|Admin|Approver|Founder/.test(p.role)?'yes':'no'}</td></tr>`).join('')}</tbody></table></div>
+    <div class="invite"><input class="inp" id="inv-name" placeholder="Name or email" autocomplete="off"><select class="dd" id="inv-role"><option>Member</option><option>Approver</option><option>Admin</option></select><button class="btn" type="button" data-act="invite">Invite</button></div></div>`;
+  if(ui.setTab==='license'){const L=LIC[S.license];body=`<div class="set-card"><h2>${esc(L.name)} / ${esc(L.price)} a month</h2><p class="v-sub">${S.licensed.length} of 3 engines. Hosting, maintenance and updates included.</p>
+    <div class="g g3">${ENG.map(e=>`<div class="cell etile e-${e.id}${has(e.id)?'':' locked'}"><div class="et-top"><span class="label">@${e.id}</span>${has(e.id)?'<span class="state on">included</span>':'<span class="state lock">not included</span>'}</div><div class="et-name">${esc(e.name)}</div>${has(e.id)?'':`<button class="btn btn-xs" type="button" data-act="lic-add" data-e="${e.id}">Add ${esc(e.name)}</button>`}</div>`).join('')}</div></div>
+    <div class="set-card"><h2>Commercial license</h2><p class="v-sub">Not active. If the ${esc(setup().name)} works for you, a commercial license lets you sell it to businesses like yours. We keep it running for every customer you sign.</p><div class="v-actions"><a class="btn ghost" href="start.html#resale">Ask about resale</a></div></div>`;}
+  if(ui.setTab==='tools')body=`<div class="set-card"><h2>Tools</h2><div class="conn">${S.integrations.map((t,i)=>`<div class="${t.on?'on':''}"><span class="cn-ic">${esc(t.n[0])}</span><span class="cn-n">${esc(t.n)}</span><span class="cn-s">${t.on?'connected':''}</span><button class="btn ${t.on?'ghost ':''}btn-xs" type="button" data-act="tool" data-i="${i}">${t.on?'Disconnect':'Connect'}</button></div>`).join('')}</div></div>`;
+  if(ui.setTab==='rules')body=`<div class="set-card"><h2>Approval rules</h2><p class="v-sub">Anything that matches a rule waits in Approvals. Plays can also ask first on their own.</p>${rulesHTML(S.rules,'set')}</div>`;
+  if(ui.setTab==='data')body=`<div class="set-card"><h2>Your data</h2><p class="v-sub">OpLev owns the software. Your business data stays yours, and you can export all of it at any time.</p><div class="v-actions"><button class="btn ghost" type="button" data-act="export">Export all data</button><button class="btn ghost" type="button" data-act="reset">Reset this demo</button></div></div>`;
+  return head('settings','Settings','Team, license, tools and the rules your engines follow.')+`<div class="tabs filters stabs" role="tablist" aria-label="Settings">${T.map(([k,t])=>`<button class="tab" type="button" role="tab" data-act="set-tab" data-t="${k}" aria-selected="${ui.setTab===k}" aria-pressed="${ui.setTab===k}">${t}</button>`).join('')}</div>${body}`;
+}
+
+/* ---------- drawer ---------- */
+function openDrawer(html){
+  closeDrawer(true);
+  const root=$('#drawer-root');root.innerHTML=`<div class="drawer-scrim" data-act="dr-close"></div><aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-t">${html}</aside>`;
+  const d=$('.drawer',root);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('open')));
+  drawer=document.activeElement;setTimeout(()=>{const f=$('[data-act="dr-close"].lnk',root);if(f)f.focus();},60);
+}
+function closeDrawer(quick){const root=$('#drawer-root');if(!root||!root.firstChild)return;const d=$('.drawer',root);if(quick||RM){root.innerHTML='';}else{d.classList.remove('open');setTimeout(()=>{root.innerHTML='';},260);}if(drawer&&drawer.focus&&!quick)drawer.focus();}
+function leadDrawer(id){
+  const l=S.leads.find(x=>x.id===id);if(!l)return;
+  const tl=[['@leads',`captured from ${l.src}`,'2 days ago']];
+  if(l.stage!=='New')tl.push(['@agents','first reply sent after your approval','2 days ago']);
+  if(['Booked','Won'].includes(l.stage))tl.push(['@ops','call booked and added to the calendar','yesterday']);
+  if(l.stage==='Won')tl.push(['you','marked won',l.last]);
+  if(l.stage==='Lost')tl.push(['@agents','no reply after 3 follow-ups',l.last]);
+  openDrawer(`<div class="dr-hd"><span class="label">lead</span><button class="lnk" type="button" data-act="dr-close">close &times;</button></div><div class="dr-bd">
+  <h2 class="dr-t" id="dr-t">${esc(l.n)}</h2>
+  <dl class="kv"><dt>source</dt><dd>${esc(l.src)}</dd><dt>value</dt><dd>${money(l.val)}</dd><dt>owner</dt><dd>${esc(l.owner)}</dd><dt>stage</dt><dd><select class="dd" data-act="lead-stage" data-id="${l.id}">${STAGES.map(s=>`<option${s===l.stage?' selected':''}>${s}</option>`).join('')}</select></dd></dl>
+  <p class="label">timeline</p><ul class="tl">${tl.map(([a,m,t])=>`<li class="${actorCls(a).trim()}"><span>${esc(a)} / ${esc(t)}</span>${esc(m)}</li>`).join('')}</ul>
+  <div class="v-actions"><button class="btn" type="button" data-act="lead-follow" data-id="${l.id}">Draft a follow-up</button><button class="btn ghost" type="button" data-act="lead-won" data-id="${l.id}">Mark won</button></div></div>`);
+}
+function recDrawer(id){
+  const r=S.records.find(x=>x.id===id);if(!r)return;
+  const rel=S.log.filter(x=>x.m.toLowerCase().includes(first(r.n).toLowerCase())).slice(-5).reverse();
+  openDrawer(`<div class="dr-hd"><span class="label">${esc(r.kind)}</span><button class="lnk" type="button" data-act="dr-close">close &times;</button></div><div class="dr-bd">
+  <h2 class="dr-t" id="dr-t">${esc(r.n)}</h2><dl class="kv"><dt>type</dt><dd>${esc(r.kind)}</dd><dt>status</dt><dd>${esc(r.status)}</dd><dt>owner</dt><dd>${esc(r.owner)}</dd><dt>updated</dt><dd>${esc(r.upd)}</dd></dl>
+  <p class="label">related activity</p>${rel.length?`<div class="feed" style="padding:0">${rel.map(rowHTML).join('')}</div>`:'<p class="v-sub" style="font-size:14px">Nothing logged against this record today.</p>'}
+  <p class="note">Records stay in your accounts. Engines update them and log every change.</p></div>`);
+}
+
+/* ================= render + routing ================= */
+const VIEWS={overview:vOverview,approvals:vApprovals,activity:vActivity,engines:vEngines,'engine-ops':()=>vEngine('ops'),'engine-agents':()=>vEngine('agents'),'engine-leads':()=>vEngine('leads'),plays:vPlays,pipeline:vPipeline,records:vRecords,score:vScore,setup:vSetup,settings:vSettings};
+function render(keepScroll){
+  renderSide();setCrumb();
+  const v=$('#view');const y=window.scrollY;
+  v.innerHTML=VIEWS[route]();
+  decode($('.v-title',v));
+  if(keepScroll)window.scrollTo(0,y);
+  document.title=($('.v-title',v)?$('.v-title',v).getAttribute('aria-label')||$('.v-title',v).textContent:'Console')+' | OpLev Console';
+}
+function onRoute(){
+  const h=(location.hash||'').slice(1).toLowerCase();
+  if(SET[h]){S=init(h);save();ui.apSel=null;ui.wz=null;try{history.replaceState(null,'','#overview');}catch(e){}route='overview';render();window.scrollTo(0,0);toast('Opened the '+SET[h].name+' demo.');return;}
+  const next=VIEWS[h]?h:'overview';
+  const changed=next!==route;route=next;closeDrawer(true);
+  document.querySelector('.app').classList.remove('side-open');
+  render();if(changed)window.scrollTo(0,0);
+}
+
+/* live inserts without re-rendering the view */
+function liveInsert(x){
+  const n=S.approvals.length;
+  $$('[data-k="ap-count"]').forEach(el=>el.textContent=n);
+  const b=$('#ap-badge');if(b){b.textContent=n;b.dataset.n=n;}
+  if(/^@/.test(x.a))$$(`[data-k="count-${x.a.slice(1)}"]`).forEach(el=>el.textContent=S.counts[x.a.slice(1)]);
+  $$('.feed[data-live]').forEach(f=>{
+    if(f.dataset.engine&&x.a!=='@'+f.dataset.engine)return;
+    if(f.hasAttribute('data-filter')&&!filteredLog().includes(x))return;
+    const empty=$('.feed-empty',f);if(empty)empty.remove();
+    f.insertAdjacentHTML('afterbegin',rowHTML(x));
+    const max=+f.dataset.max||14;while(f.children.length>max)f.lastElementChild.remove();
+  });
+  const c=$('#act-count');if(c)c.textContent=filteredLog().length+' events';
+}
+
+/* ================= live simulation ================= */
+function tick(){
+  if(!S||!S.live||document.hidden)return;
+  const active=S.licensed.filter(e=>S.running[e]);if(!active.length)return;
+  const s=setup(),pool=s.demo.feed.filter(f=>active.includes(f[0].slice(1)));if(!pool.length)return;
+  S.tick=(S.tick||0)+1;
+  const [a,m,r]=pool[Math.floor(Math.random()*pool.length)];
+  const plays=S.plays.filter(p=>p.e===a.slice(1)&&p.added&&p.on);
+  if(plays.length){const p=plays[Math.floor(Math.random()*plays.length)];p.runs++;p.last='just now';}
+  pushLog(a,m,r);
+  if(S.tick%5===0&&S.approvals.length<6&&has('agents')&&S.running.agents){
+    const l=S.leads[Math.floor(Math.random()*S.leads.length)];
+    S.approvals.unshift({id:nid(),e:'agents',kind:'Reply to a lead',to:l.n,why:'First message to a new contact',age:'just now',draft:`Hi ${first(l.n)}, thanks for getting in touch with ${S.biz}. Happy to help. Do you have 15 minutes this week? Here are a few times that work: Tuesday 10:00, Wednesday 2:30 or Thursday 9:00.\n\n${first(owner())}, ${S.biz}`});
+    pushLog('@agents','drafted a reply to '+l.n,'waiting on you');
+    if(route==='approvals'){const L=$('#ap-list');if(L)L.innerHTML=apList();else render(true);}
+    if(route==='overview'&&!(document.activeElement||document.body).closest('#view input,#view textarea,#view select'))render(true);
+  }
+  save();
+}
+
+/* ================= toast ================= */
+let toastT=0;
+function toast(msg){const r=$('#toast-root');r.innerHTML=`<div class="toast" role="status">${esc(msg)}</div>`;clearTimeout(toastT);toastT=setTimeout(()=>{r.innerHTML='';},2800);}
+
+/* ================= actions ================= */
+const ACT={
+  'side-open'(){$('.app').classList.add('side-open');},
+  'side-close'(){$('.app').classList.remove('side-open');},
+  ws(el){const m=$('#ws-menu');const open=m.hidden;m.hidden=!open;el.setAttribute('aria-expanded',String(open));},
+  'ws-pick'(el){location.hash=el.dataset.id;},
+  reset(){S=init(S.type);ui.apSel=null;ui.wz=null;save();toast('Demo reset.');location.hash='overview';render();},
+  go(el){location.hash=el.dataset.r;},
+  live(){S.live=!S.live;save();renderSide();toast(S.live?'Live activity resumed.':'Live activity paused.');},
+  'ap-go'(el){ui.apSel=el.dataset.id;},
+  'ap-sel'(el){ui.apSel=el.dataset.id;$$('.ap-item').forEach(b=>b.setAttribute('aria-current',String(b.dataset.id===ui.apSel)));$('#ap-detail').innerHTML=apDetail();if(innerWidth<1000)$('#ap-detail').scrollIntoView({block:'start',behavior:RM?'auto':'smooth'});},
+  'ap-ok'(el){const a=S.approvals.find(x=>x.id===el.dataset.id);if(!a)return;const t=$('#ap-draft');if(t)a.draft=t.value;
+    S.approvals=S.approvals.filter(x=>x!==a);ui.apSel=null;pushLog('you','approved '+a.kind.toLowerCase()+' for '+a.to,'ok','me');pushLog('@'+a.e,'sent '+a.kind.toLowerCase()+' to '+a.to,'sent');save();render(true);toast('Approved. Sent to '+a.to+'.');},
+  'ap-no'(el){const a=S.approvals.find(x=>x.id===el.dataset.id);if(!a)return;S.approvals=S.approvals.filter(x=>x!==a);ui.apSel=null;pushLog('you','rejected '+a.kind.toLowerCase()+' for '+a.to,'nothing sent','me');save();render(true);toast('Rejected. Nothing was sent.');},
+  'act-f'(el){ui.actF=el.dataset.f;render(true);},
+  'act-pre'(el){ui.actF=el.dataset.f;},
+  'play-f'(el){ui.playF=el.dataset.f;render(true);},
+  'go-plays'(el){ui.playF=el.dataset.e;location.hash='plays';},
+  'play-add'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p||!has(p.e))return;p.added=true;p.on=true;pushLog('you','added '+p.title+' to '+ENGN[p.e].name,'added','me');save();render(true);toast(p.title+' added to '+ENGN[p.e].name+'.');},
+  'play-on'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.on=!p.on;pushLog('you',(p.on?'turned on ':'turned off ')+p.title,p.on?'on':'off','me');save();render(true);},
+  'play-run'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.runs++;p.last='just now';pushLog('@'+p.e,'ran '+p.title.toLowerCase()+' on request','done');save();render(true);toast(p.title+' ran.');},
+  'eng-run'(el){const e=el.dataset.e;S.running[e]=!S.running[e];pushLog('you',(S.running[e]?'resumed ':'paused ')+ENGN[e].name,S.running[e]?'running':'paused','me');save();render(true);},
+  'lic-add'(el){const e=el.dataset.e;if(has(e))return;S.licensed.push(e);S.license=TIER[Math.min(2,S.licensed.length-1)];S.running[e]=true;S.counts[e]=0;
+    S.plays.filter(p=>p.e===e).slice(0,3).forEach(p=>{p.added=true;p.on=true;});pushLog('@'+e,ENGN[e].name+' engine started','running');save();render(true);toast(ENGN[e].name+' added. License is now '+LIC[S.license].name+', '+LIC[S.license].price+' a month.');},
+  'pipe-f'(el){ui.pipeF=el.dataset.f;render(true);},
+  'lead-open'(el){leadDrawer(el.dataset.id);},
+  'rec-open'(el){recDrawer(el.dataset.id);},
+  'dr-close'(){closeDrawer();},
+  'lead-follow'(el){const l=S.leads.find(x=>x.id===el.dataset.id);if(!l)return;
+    if(!has('agents')){toast('Add the Agents engine to draft follow-ups.');return;}
+    S.approvals.unshift({id:nid(),e:'agents',kind:'Follow-up',to:l.n,why:'You asked for a follow-up draft',age:'just now',draft:`Hi ${first(l.n)}, following up on your note to ${S.biz}. Is this still something you're looking at? I can hold a time for you this week.\n\n${first(owner())}`});
+    pushLog('@agents','drafted a follow-up to '+l.n,'waiting on you');save();closeDrawer();render(true);toast('Draft ready in Approvals.');},
+  'lead-won'(el){const l=S.leads.find(x=>x.id===el.dataset.id);if(!l)return;l.stage='Won';l.last='just now';pushLog('you','marked '+l.n+' won',money(l.val),'me');save();closeDrawer();render(true);toast(l.n+' marked won.');},
+  'set-tab'(el){ui.setTab=el.dataset.t;render(true);},
+  invite(){const n=$('#inv-name'),r=$('#inv-role');const v=(n.value||'').trim();if(!v){n.focus();toast('Add a name or email.');return;}S.people.push({name:v,role:r.value});pushLog('you','invited '+v+' as '+r.value.toLowerCase(),'invited','me');save();render(true);toast('Invite sent to '+v+' (sample).');},
+  tool(el){const t=S.integrations[+el.dataset.i];if(!t)return;t.on=!t.on;pushLog('you',(t.on?'connected ':'disconnected ')+t.n,t.on?'connected':'off','me');save();render(true);},
+  'set-rule'(el){const k=el.dataset.k;S.rules[k]=!S.rules[k];save();render(true);},
+  'wz-rule'(el){const k=el.dataset.k;ui.wz.rules[k]=!ui.wz.rules[k];render(true);},
+  export(){toast('In the live product this emails you a full export.');},
+  'wz-next'(){wzNext();},
+  'wz-back'(){if(ui.wz.step>0){ui.wz.step--;render(true);}},
+  'wz-conn'(el){const n=el.dataset.n;ui.wz.conns[n]=!ui.wz.conns[n];render(true);},
+  'wz-go'(){wzGo();}
+};
+const CHANGE={
+  'play-trig'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.trig=el.value;pushLog('you','moved '+p.title+' to '+el.value,'saved','me');save();},
+  'play-appr'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.appr=el.checked;pushLog('you',(p.appr?'turned on approval for ':'turned off approval for ')+p.title,'saved','me');save();},
+  'lead-stage'(el){const l=S.leads.find(x=>x.id===el.dataset.id);if(!l)return;l.stage=el.value;l.last='just now';pushLog('you','moved '+l.n+' to '+l.stage.toLowerCase(),'saved','me');save();render(true);},
+  role(el){const p=S.people[+el.dataset.i];if(p){p.role=el.value;save();render(true);}},
+  'set-amt'(el){S.rules.amt=Math.max(0,+el.value||0);save();},
+  'wz-amt'(el){ui.wz.rules.amt=Math.max(0,+el.value||0);},
+  'wz-type'(el){ui.wz.type=el.value;const s=SET[el.value];ui.wz.engines=s.engines.slice();ui.wz.lic=s.license;ui.wz.plays=null;const n=$('#wz-name');if(n)ui.wz.name=n.value;const o=$('#wz-owner');if(o)ui.wz.owner=o.value;render(true);},
+  'wz-lic'(el){const w=ui.wz;w.lic=el.value;const need=TIER.indexOf(w.lic)+1;const rec=SET[w.type].engines.concat(ENG.map(e=>e.id)).filter((v,i,a)=>a.indexOf(v)===i);w.engines=rec.slice(0,need);render(true);},
+  'wz-eng'(el){const w=ui.wz;const need=TIER.indexOf(w.lic)+1;if(el.checked){if(w.engines.length>=need){w.engines.shift();}w.engines.push(el.value);}else w.engines=w.engines.filter(e=>e!==el.value);render(true);},
+  'wz-play'(el){const w=ui.wz;if(!w.plays)w.plays=[];if(el.checked){if(!w.plays.includes(el.value))w.plays.push(el.value);}else w.plays=w.plays.filter(t=>t!==el.value);}
+};
+
+/* ================= boot ================= */
+function boot(){
+  shell();
+  S=load()||init('clinic');
+  document.addEventListener('click',e=>{
+    const el=e.target.closest('[data-act]');
+    const wsm=$('#ws-menu');if(wsm&&!wsm.hidden&&!e.target.closest('#ws')){wsm.hidden=true;$('.ws-btn').setAttribute('aria-expanded','false');}
+    if(!el||!ACT[el.dataset.act])return;
+    if(el.tagName==='SELECT'||(el.tagName==='INPUT'&&el.type!=='button'))return;
+    if(el.tagName==='LABEL')return;
+    if(el.tagName==='A'&&el.getAttribute('href')&&el.dataset.act!=='ap-go'&&el.dataset.act!=='act-pre')e.preventDefault();
+    ACT[el.dataset.act](el,e);
+  });
+  document.addEventListener('change',e=>{const el=e.target.closest('[data-act]');if(el&&CHANGE[el.dataset.act])CHANGE[el.dataset.act](el,e);});
+  document.addEventListener('input',e=>{
+    if(e.target.id==='act-q'){ui.actQ=e.target.value;const f=$('.feed[data-filter]');if(f)f.innerHTML=feedRows(filteredLog(),200);const c=$('#act-count');if(c)c.textContent=filteredLog().length+' events';}
+    if(e.target.id==='rec-q'){ui.recQ=e.target.value;const q=ui.recQ.trim().toLowerCase();$('#rec-body').innerHTML=recRows(S.records.filter(r=>!q||(r.n+' '+r.kind+' '+r.status+' '+r.owner).toLowerCase().includes(q)));}
+    if(e.target.id==='wz-name')ui.wz.name=e.target.value;
+    if(e.target.id==='wz-owner')ui.wz.owner=e.target.value;
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){if($('#drawer-root').firstChild)closeDrawer();$('.app').classList.remove('side-open');const m=$('#ws-menu');if(m&&!m.hidden)m.hidden=true;}
+    if((e.key==='Enter'||e.key===' ')&&e.target.matches('tr.click')){e.preventDefault();ACT[e.target.dataset.act](e.target);}
+  });
+  window.addEventListener('hashchange',onRoute);
+  const clk=()=>{const el=$('#clk');if(el){const d=new Date();el.textContent=pad2(d.getHours())+':'+pad2(d.getMinutes());}};clk();setInterval(clk,10000);
+  setInterval(tick,6500);
+  onRoute();
+}
+boot();
+})();
+</script>
+</body>
+</html>

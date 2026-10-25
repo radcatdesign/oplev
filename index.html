@@ -63,11 +63,11 @@ section[id]{scroll-margin-top:var(--nav)}
 /* nav */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--nav);background:rgba(7,7,8,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav .wrap{height:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px}
-@media (min-width:900px){.nav .wrap{grid-template-columns:1fr auto 1fr}}
+@media (min-width:1000px){.nav .wrap{grid-template-columns:1fr auto 1fr}}
 .brand{display:inline-flex;align-items:center;gap:10px;font:500 13px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--paper);text-decoration:none;justify-self:start}
 .mark{width:10px;height:10px;flex:none;display:block}
 .links{display:none}
-@media (min-width:900px){.links{display:flex;gap:28px}}
+@media (min-width:1000px){.links{display:flex;gap:26px}}
 .links a{font:400 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:8px 0;transition:color .18s}
 .links a:hover,.links a[aria-current="page"]{color:var(--paper)}
 .nav-r{display:flex;align-items:center;gap:12px;justify-self:end}
@@ -86,7 +86,7 @@ section[id]{scroll-margin-top:var(--nav)}
 .menu-btn .bars::after{bottom:1px}
 .menu-btn[aria-expanded="true"] .bars::before{top:4px;transform:rotate(45deg)}
 .menu-btn[aria-expanded="true"] .bars::after{bottom:4px;transform:rotate(-45deg)}
-@media (min-width:900px){.menu-btn{display:none}}
+@media (min-width:1000px){.menu-btn{display:none}}
 .menu{position:fixed;left:0;right:0;bottom:0;top:calc(var(--nav) + env(safe-area-inset-top,0px));z-index:45;background:var(--ink);overflow-y:auto;overscroll-behavior:contain}
 .menu .wrap{min-height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding-block:24px calc(28px + env(safe-area-inset-bottom,0px))}
 .menu-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
@@ -98,7 +98,7 @@ section[id]{scroll-margin-top:var(--nav)}
 .menu-list a[aria-current="page"] .mn,.menu-list a[aria-current="page"] .mp{color:var(--paper)}
 @media (max-width:379px){.menu-list .mp{display:none}}
 .menu-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px}
-@media (min-width:900px){.menu{display:none!important}}
+@media (min-width:1000px){.menu{display:none!important}}
 
 /* hero (home) */
 .hero{position:relative;overflow:hidden}
@@ -598,6 +598,21 @@ textarea.inp{min-height:132px;resize:vertical}
 .em-plays{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
 .em-plays li{font:400 11px/1 var(--display);letter-spacing:.03em;color:var(--ink);border:1px solid var(--on-paper-line);padding:6px 8px;background:var(--paper-2)}
 
+/* setups */
+.rowlist .rl-tag{display:inline-flex;margin-left:10px;vertical-align:1px}
+.fp-act{margin-top:auto}
+.fits{margin:0}
+.band .fits a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--on-paper-line)}
+.band .fits a:hover{border-color:var(--ink)}
+.setup-card .rowlist{margin-top:4px}
+.setup-card .rowlist li{font-size:15px;padding:10px 0}
+.setup-card.custom{background:var(--ink-2)}
+.plays-top{border-top:1px solid var(--line)}
+.tool-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.tool-row .label{margin-right:4px}
+.tool{font:400 11px/1 var(--display);letter-spacing:.03em;color:var(--ink);border:1px solid var(--on-paper-line);background:var(--paper-2);padding:7px 9px}
+.split-r>.label{margin-bottom:-14px}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -631,8 +646,9 @@ textarea.inp{min-height:132px;resize:vertical}
     <nav class="links" aria-label="Sections">
       <a href="work.html">Work</a>
       <a href="#engines">Engines</a>
+      <a href="setups.html">Setups</a>
       <a href="pricing.html">Pricing</a>
-      <a href="start.html">Contact</a>
+      <a href="app.html">Demo</a>
     </nav>
     <div class="nav-r">
       <span class="clock" data-clock></span>
@@ -648,8 +664,10 @@ textarea.inp{min-height:132px;resize:vertical}
       <ul class="menu-list">
         <li><a href="work.html"><span class="mn">01</span><span class="mt">Work</span><span class="mp">~/oplev/work</span></a></li>
         <li><a href="#engines"><span class="mn">02</span><span class="mt">Engines</span><span class="mp">~/oplev/engines</span></a></li>
-        <li><a href="pricing.html"><span class="mn">03</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
-        <li><a href="start.html"><span class="mn">04</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
+        <li><a href="setups.html"><span class="mn">03</span><span class="mt">Setups</span><span class="mp">~/oplev/setups</span></a></li>
+        <li><a href="pricing.html"><span class="mn">04</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
+        <li><a href="app.html"><span class="mn">05</span><span class="mt">Demo</span><span class="mp">~/oplev/console</span></a></li>
+        <li><a href="start.html"><span class="mn">06</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
       </ul>
     </nav>
     <div class="menu-foot label"><span>hello@oplev.com</span><span class="clock" data-clock></span></div>
@@ -843,74 +861,75 @@ textarea.inp{min-height:132px;resize:vertical}
       <div class="head-l">
         <p class="eyebrow">~/oplev/for</p>
         <h2 class="h2" id="for-h">Built for businesses like yours.</h2>
+        <p class="lede">Each setup is a set of engines and plays tuned for one kind of business. Pick yours, then try it in the demo.</p>
       </div>
-      <p class="label">pick yours</p>
+      <a class="btn ghost" href="setups.html">All setups <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
     </div>
     <div class="picker" data-tabs>
       <div class="tabs" role="tablist" aria-label="Business type"><button class="tab" type="button" role="tab" id="tab-clinic" aria-controls="panel-clinic" aria-selected="true" tabindex="0">Clinics + practices</button><button class="tab" type="button" role="tab" id="tab-brand" aria-controls="panel-brand" aria-selected="false" tabindex="-1">Product brands</button><button class="tab" type="button" role="tab" id="tab-agency" aria-controls="panel-agency" aria-selected="false" tabindex="-1">Agencies + service firms</button><button class="tab" type="button" role="tab" id="tab-creator" aria-controls="panel-creator" aria-selected="false" tabindex="-1">Creators + media</button><button class="tab" type="button" role="tab" id="tab-startup" aria-controls="panel-startup" aria-selected="false" tabindex="-1">Startups</button></div>
       <div class="fpanel" role="tabpanel" id="panel-clinic" aria-labelledby="tab-clinic">
         <div class="fp-l">
-          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-agents">@agents</span></span></div>
-          <h3 class="h3 fp-name">Clinics + practices</h3>
-          <p class="fp-pitch">Smoother visits for clients. Less admin for you.</p>
-          <ul class="rowlist"><li>Intake, booking and follow-up that run on their own</li><li>Notes, records and reports in one place</li><li>An assistant trained on your own material</li></ul>
+          <div class="fp-top"><span class="label">Two engines / $10k a month</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-agents">@agents</span></span></div>
+          <h3 class="h3 fp-name">Practice Setup</h3>
+          <p class="fp-pitch">Intake, booking and follow-up that run on their own, so you can stay with the client in front of you.</p>
+          <ul class="rowlist"><li>New client intake<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>Visit reminders<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>No-show rescue<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>Visit notes<span class="rl-tag"><span class="etags"><span class="etag e-ops">@ops</span></span></span></li></ul>
         </div>
         <div class="fp-r">
           <span class="label">seen in</span>
           <div class="seen"><a href="work/adessa-mind.html"><span class="mini" aria-hidden="true"><canvas data-seed="1"></canvas></span><span class="h3">Adessa Mind</span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a><a href="work/art-of-practice.html"><span class="mini" aria-hidden="true"><canvas data-seed="2"></canvas></span><span class="h3">Art of Practice</span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a></div>
-          <a class="btn" href="start.html#clinic">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+          <div class="actions fp-act"><a class="btn" href="setups/clinic.html">See the setup <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="app.html#clinic">Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
         </div>
       </div>
       <div class="fpanel" role="tabpanel" id="panel-brand" aria-labelledby="tab-brand" hidden>
         <div class="fp-l">
-          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-leads">@leads</span><span class="etag e-agents">@agents</span></span></div>
-          <h3 class="h3 fp-name">Product brands</h3>
-          <p class="fp-pitch">Answer every buyer&#x27;s question and capture the order.</p>
-          <ul class="rowlist"><li>A store that answers questions and takes orders</li><li>Tools that let buyers see it and price it</li><li>Orders, stock and wholesale handled by agents</li></ul>
+          <div class="fp-top"><span class="label">All three / $15k+ a month</span><span class="etags"><span class="etag e-leads">@leads</span><span class="etag e-agents">@agents</span><span class="etag e-ops">@ops</span></span></div>
+          <h3 class="h3 fp-name">Storefront Setup</h3>
+          <p class="fp-pitch">A store that answers questions, lets buyers price the job and hands every lead to your team.</p>
+          <ul class="rowlist"><li>Instant estimate<span class="rl-tag"><span class="etags"><span class="etag e-leads">@leads</span></span></span></li><li>See it first<span class="rl-tag"><span class="etags"><span class="etag e-leads">@leads</span></span></span></li><li>Speed to lead<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>Wholesale qualifier<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li></ul>
         </div>
         <div class="fp-r">
           <span class="label">seen in</span>
           <div class="seen"><a href="work/element-glo.html"><span class="mini" aria-hidden="true"><canvas data-seed="3"></canvas></span><span class="h3">Element Glo</span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a><a href="work/mawa.html"><span class="mini" aria-hidden="true"><canvas data-seed="6"></canvas></span><span class="h3">MaWa!</span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a></div>
-          <a class="btn" href="start.html#brand">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+          <div class="actions fp-act"><a class="btn" href="setups/brand.html">See the setup <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="app.html#brand">Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
         </div>
       </div>
       <div class="fpanel" role="tabpanel" id="panel-agency" aria-labelledby="tab-agency" hidden>
         <div class="fp-l">
-          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-agents">@agents</span></span></div>
-          <h3 class="h3 fp-name">Agencies + service firms</h3>
-          <p class="fp-pitch">Deliver the same great work without you in every thread.</p>
-          <ul class="rowlist"><li>Client onboarding that runs itself</li><li>Launch checks and reports your team can trust</li><li>Your method, packaged so you can sell it</li></ul>
+          <div class="fp-top"><span class="label">Two engines / $10k a month</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-agents">@agents</span></span></div>
+          <h3 class="h3 fp-name">Delivery Setup</h3>
+          <p class="fp-pitch">Onboarding, launch checks and reporting that run the same way every time, without you in every thread.</p>
+          <ul class="rowlist"><li>Client onboarding<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>Launch check<span class="rl-tag"><span class="etags"><span class="etag e-ops">@ops</span></span></span></li><li>Weekly client report<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>Scope watch<span class="rl-tag"><span class="etags"><span class="etag e-ops">@ops</span></span></span></li></ul>
         </div>
         <div class="fp-r">
           <span class="label">seen in</span>
           <div class="seen"><a href="work/fit-funnels.html"><span class="mini" aria-hidden="true"><canvas data-seed="4"></canvas></span><span class="h3">Fit Funnels</span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a></div>
-          <a class="btn" href="start.html#agency">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+          <div class="actions fp-act"><a class="btn" href="setups/agency.html">See the setup <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="app.html#agency">Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
         </div>
       </div>
       <div class="fpanel" role="tabpanel" id="panel-creator" aria-labelledby="tab-creator" hidden>
         <div class="fp-l">
-          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-agents">@agents</span><span class="etag e-ops">@ops</span></span></div>
-          <h3 class="h3 fp-name">Creators + media</h3>
-          <p class="fp-pitch">Keep making things. Let the busywork run itself.</p>
-          <ul class="rowlist"><li>A release pipeline for every channel</li><li>An inbox sorted into fans, partners and deals</li><li>Licensing and partnership requests routed</li></ul>
+          <div class="fp-top"><span class="label">One engine / $5k a month</span><span class="etags"><span class="etag e-agents">@agents</span></span></div>
+          <h3 class="h3 fp-name">Studio Setup</h3>
+          <p class="fp-pitch">Keep making things. Releases, the inbox and partnership requests run themselves.</p>
+          <ul class="rowlist"><li>Release pipeline<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>Inbox triage<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>Partnership routing<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li><li>Licensing replies<span class="rl-tag"><span class="etags"><span class="etag e-agents">@agents</span></span></span></li></ul>
         </div>
         <div class="fp-r">
           <span class="label">seen in</span>
           <div class="seen"><a href="work/jason-stephenson.html"><span class="mini" aria-hidden="true"><canvas data-seed="5"></canvas></span><span class="h3">Jason Stephenson</span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a></div>
-          <a class="btn" href="start.html#creator">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+          <div class="actions fp-act"><a class="btn" href="setups/creator.html">See the setup <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="app.html#creator">Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
         </div>
       </div>
       <div class="fpanel" role="tabpanel" id="panel-startup" aria-labelledby="tab-startup" hidden>
         <div class="fp-l">
-          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-leads">@leads</span></span></div>
-          <h3 class="h3 fp-name">Startups</h3>
-          <p class="fp-pitch">Run lean from day one, and turn what works into a product.</p>
-          <ul class="rowlist"><li>Ops that scale before your headcount does</li><li>Investor updates that draft themselves</li><li>Software you can license to others</li></ul>
+          <div class="fp-top"><span class="label">Two engines / $10k a month</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-leads">@leads</span></span></div>
+          <h3 class="h3 fp-name">Launch Setup</h3>
+          <p class="fp-pitch">Run lean from day one: every lead captured, every number in one place, and a system you could license to others.</p>
+          <ul class="rowlist"><li>Waitlist and demo booking<span class="rl-tag"><span class="etags"><span class="etag e-leads">@leads</span></span></span></li><li>Speed to lead<span class="rl-tag"><span class="etags"><span class="etag e-leads">@leads</span></span></span></li><li>Weekly numbers<span class="rl-tag"><span class="etags"><span class="etag e-ops">@ops</span></span></span></li><li>Owner brief<span class="rl-tag"><span class="etags"><span class="etag e-ops">@ops</span></span></span></li></ul>
         </div>
         <div class="fp-r">
           <span class="label">seen in</span>
           <div class="seen"><a href="work/mawa.html"><span class="mini" aria-hidden="true"><canvas data-seed="6"></canvas></span><span class="h3">MaWa!</span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a><a href="work/art-of-practice.html"><span class="mini" aria-hidden="true"><canvas data-seed="2"></canvas></span><span class="h3">Art of Practice</span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a></div>
-          <a class="btn" href="start.html#startup">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+          <div class="actions fp-act"><a class="btn" href="setups/startup.html">See the setup <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="app.html#startup">Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
         </div>
       </div>
     </div>
@@ -1356,7 +1375,7 @@ if(!RM)once([$('.engines')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pix
 /* ---------- phone menu ---------- */
 (function(){
   const btn=$('#menu-btn'),menu=$('#menu');if(!btn||!menu)return;
-  const t=$('.mb-t',btn),wide=matchMedia('(min-width:900px)');
+  const t=$('.mb-t',btn),wide=matchMedia('(min-width:1000px)');
   function set(open){
     btn.setAttribute('aria-expanded',String(open));t.textContent=open?'Close':'Menu';
     menu.hidden=!open;document.documentElement.classList.toggle('menu-open',open);
