@@ -317,3 +317,35 @@ a.cell:hover{background:var(--ink-2)}
 .ck-box:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
 label.rule{cursor:pointer}
 .app .eng-triad{margin:0;font:500 11px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase}
+
+/* automation walkthrough */
+.plib>li{position:relative}
+.pl-open,.pt-open{appearance:none;-webkit-appearance:none;background:none;border:0;border-radius:0;padding:0;margin:0;font:inherit;color:inherit;letter-spacing:inherit;text-align:left;cursor:pointer}
+.pl-open::after{content:"";position:absolute;inset:0;z-index:1}
+.pl-open:focus{outline:none}
+.pl-open:focus-visible::after{outline:2px solid var(--e,var(--paper));outline-offset:-2px}
+.plib .pl-ft{position:relative;z-index:2}
+.plib>li:hover{background:var(--ink-2)}
+.plib>li:hover h3{color:var(--e,var(--paper))}
+.pl-how{color:var(--dim)}
+.plib>li:hover .pl-how{color:var(--e,var(--paper))}
+.pt-open{text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:4px}
+.pt-open:hover,.pt-open:focus-visible{color:var(--e,var(--paper));text-decoration-color:currentColor;outline:none}
+.job-run{border:1px solid var(--line-2);background:var(--ink-2)}
+.job-hd{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line-2)}
+.job-ex{margin:0;padding:12px 14px 4px;font:400 12px/1.5 var(--display);color:var(--paper)}
+.job-ex span{color:var(--dim-2)}
+.job-run .feed{padding:4px 14px 6px}
+.job-run .row{grid-template-columns:62px 72px minmax(0,1fr) auto}
+.job-run .row .ac:not([class*="e-"]):not(.need):not(.me){color:var(--soft)}
+.job-run.still .row{animation:none}
+.job-sum{margin:0;padding:10px 14px;border-top:1px dashed var(--line-2);color:var(--dim)}
+.job-kv dt{color:var(--e,var(--dim))}
+@media (max-width:759px){
+  .job-run .row{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ac ts res" "msg msg msg"}
+  .job-run .row .ts{display:block;grid-area:ts}
+}
+.dr-bd .pl-top{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap}
+.job-kv{grid-template-columns:minmax(0,1fr)}
+.job-kv dt{border-bottom:0;padding-bottom:2px}
+.job-kv dd{padding-top:0;font-size:15px;line-height:1.5}

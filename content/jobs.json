@@ -1,0 +1,1454 @@
+{
+ "Fast replies to new leads": {
+  "ex": "Someone asks about your services at 9:40pm",
+  "steps": [
+   [
+    "9:40pm",
+    "Customer",
+    "fills in the contact form on your website",
+    "received"
+   ],
+   [
+    "9:40pm",
+    "@leads",
+    "saves their name, email and what they asked",
+    "saved"
+   ],
+   [
+    "9:41pm",
+    "@agents",
+    "writes a reply with prices and a link to book",
+    "drafted"
+   ],
+   [
+    "9:41pm",
+    "you",
+    "reply sent to your phone for an OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "9:44pm",
+    "you",
+    "approve it from the couch",
+    "ok",
+    "me"
+   ],
+   [
+    "9:44pm",
+    "@agents",
+    "sends the reply",
+    "sent"
+   ],
+   [
+    "9:58pm",
+    "Customer",
+    "books a call from the link",
+    "booked"
+   ]
+  ],
+  "you": "You approve the first reply to anyone new. Once you trust it, you can let it send on its own.",
+  "get": "New leads hear back in minutes instead of the next morning."
+ },
+ "Instant price quotes": {
+  "ex": "A homeowner prices a patio project on your website",
+  "steps": [
+   [
+    "8:12pm",
+    "Customer",
+    "opens the price calculator on your website",
+    "started"
+   ],
+   [
+    "8:14pm",
+    "Customer",
+    "enters the size, material and finish",
+    "entered"
+   ],
+   [
+    "8:14pm",
+    "@leads",
+    "shows a price range on the spot",
+    "priced"
+   ],
+   [
+    "8:15pm",
+    "Customer",
+    "adds their email to get the full quote",
+    "lead"
+   ],
+   [
+    "8:15pm",
+    "@leads",
+    "emails the quote",
+    "sent"
+   ],
+   [
+    "8:15pm",
+    "@ops",
+    "saves the lead with the quote attached",
+    "saved"
+   ]
+  ],
+  "you": "You set your prices and rules once. Change them any time and the calculator updates.",
+  "get": "People get a price without calling, and you get their details and the job size up front."
+ },
+ "brand:Instant price quotes": {
+  "ex": "A buyer works out a tile order on your website",
+  "steps": [
+   [
+    "7:30pm",
+    "Customer",
+    "enters the room size and picks a tile",
+    "started"
+   ],
+   [
+    "7:31pm",
+    "@leads",
+    "works out how many boxes they need, plus extra for cuts",
+    "counted"
+   ],
+   [
+    "7:31pm",
+    "@leads",
+    "shows the price for the full order",
+    "priced"
+   ],
+   [
+    "7:32pm",
+    "Customer",
+    "adds their email to save the estimate",
+    "lead"
+   ],
+   [
+    "7:32pm",
+    "@leads",
+    "emails the estimate with a link to order",
+    "sent"
+   ],
+   [
+    "7:32pm",
+    "@ops",
+    "saves the lead with the estimate attached",
+    "saved"
+   ]
+  ],
+  "you": "You set prices and box sizes once. Change them any time and the calculator updates.",
+  "get": "Buyers order the right amount, and every estimate becomes a lead you can follow up."
+ },
+ "Preview before buying": {
+  "ex": "A customer wants to see it before they buy",
+  "steps": [
+   [
+    "2:20pm",
+    "Customer",
+    "uploads a photo of their space",
+    "uploaded"
+   ],
+   [
+    "2:20pm",
+    "@leads",
+    "shows your product on their photo",
+    "preview"
+   ],
+   [
+    "2:22pm",
+    "Customer",
+    "tries three colors and saves a favorite",
+    "saved"
+   ],
+   [
+    "2:23pm",
+    "Customer",
+    "enters their email to keep the preview",
+    "lead"
+   ],
+   [
+    "2:23pm",
+    "@leads",
+    "sends the preview with a link to order",
+    "sent"
+   ],
+   [
+    "2:23pm",
+    "@ops",
+    "saves the lead with their pick",
+    "saved"
+   ]
+  ],
+  "you": "Nothing. It runs on your website day and night.",
+  "get": "Buyers stop guessing, and you know exactly what they want before you talk."
+ },
+ "Quote follow-ups": {
+  "ex": "A quote has been sitting for 3 days",
+  "steps": [
+   [
+    "day 1",
+    "@ops",
+    "notes a $4,800 quote sent to Taylor",
+    "sent"
+   ],
+   [
+    "day 4",
+    "@agents",
+    "sees no reply and writes a short check-in",
+    "drafted"
+   ],
+   [
+    "day 4",
+    "@agents",
+    "sends it from your email",
+    "sent"
+   ],
+   [
+    "day 5",
+    "Customer",
+    "replies with a question about timing",
+    "replied"
+   ],
+   [
+    "day 5",
+    "@agents",
+    "drafts an answer for you",
+    "drafted"
+   ],
+   [
+    "day 5",
+    "you",
+    "answer sent to you for an OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "day 5",
+    "you",
+    "change one line and send it",
+    "sent",
+    "me"
+   ]
+  ],
+  "you": "You handle the real questions. The check-ins go out on their own.",
+  "get": "No quote goes quiet because someone forgot to follow up."
+ },
+ "Missed appointment rebooking": {
+  "ex": "A customer misses their 10am",
+  "steps": [
+   [
+    "10:15am",
+    "@ops",
+    "marks the 10am as a no-show",
+    "missed"
+   ],
+   [
+    "10:16am",
+    "@agents",
+    "texts a friendly note with two open times",
+    "sent"
+   ],
+   [
+    "11:02am",
+    "Customer",
+    "picks Thursday at 2pm",
+    "picked"
+   ],
+   [
+    "11:02am",
+    "@ops",
+    "books it and updates the calendar",
+    "booked"
+   ],
+   [
+    "11:03am",
+    "@agents",
+    "sends a confirmation",
+    "confirmed"
+   ]
+  ],
+  "you": "Nothing, unless they ask something unusual. Then it comes to you.",
+  "get": "Missed appointments turn into rebooked ones the same day."
+ },
+ "Missed visit rebooking": {
+  "ex": "A client misses their 10am visit",
+  "steps": [
+   [
+    "10:15am",
+    "@ops",
+    "marks the 10am visit as missed",
+    "missed"
+   ],
+   [
+    "10:16am",
+    "@agents",
+    "texts a kind note with two open times",
+    "sent"
+   ],
+   [
+    "11:02am",
+    "Client",
+    "picks Thursday at 2pm",
+    "picked"
+   ],
+   [
+    "11:02am",
+    "@ops",
+    "books it with the same provider",
+    "booked"
+   ],
+   [
+    "11:03am",
+    "@agents",
+    "sends a confirmation and a reminder",
+    "confirmed"
+   ]
+  ],
+  "you": "Nothing, unless they ask something only you can answer.",
+  "get": "Missed visits get rebooked the same day instead of falling off."
+ },
+ "Unpaid invoice reminders": {
+  "ex": "An invoice is a week overdue",
+  "steps": [
+   [
+    "day 7",
+    "@ops",
+    "sees invoice #1047 is 7 days late",
+    "late"
+   ],
+   [
+    "day 7",
+    "@agents",
+    "sends a polite reminder with a pay link",
+    "sent"
+   ],
+   [
+    "day 12",
+    "@agents",
+    "sends a second, firmer reminder",
+    "sent"
+   ],
+   [
+    "day 14",
+    "@agents",
+    "still unpaid, so it lets you know",
+    "flagged"
+   ],
+   [
+    "day 14",
+    "you",
+    "make a quick call",
+    "called"
+   ],
+   [
+    "day 15",
+    "@ops",
+    "payment comes in and the invoice closes",
+    "paid"
+   ]
+  ],
+  "you": "You only step in if two reminders don't work.",
+  "get": "You get paid faster without chasing anyone yourself."
+ },
+ "Review requests": {
+  "ex": "A job wraps up and the customer is happy",
+  "steps": [
+   [
+    "day 1",
+    "@ops",
+    "marks the job done",
+    "done"
+   ],
+   [
+    "day 2",
+    "@agents",
+    "texts a thank-you and asks how it went",
+    "sent"
+   ],
+   [
+    "day 2",
+    "Customer",
+    "replies \"Loved it\"",
+    "happy"
+   ],
+   [
+    "day 2",
+    "@agents",
+    "sends your Google review link",
+    "sent"
+   ],
+   [
+    "day 3",
+    "Customer",
+    "leaves a 5-star review",
+    "review"
+   ]
+  ],
+  "you": "If someone sounds unhappy, it comes to you instead of asking for a review.",
+  "get": "More reviews from your happiest customers, without you remembering to ask."
+ },
+ "Monthly investor update": {
+  "ex": "It's the first of the month",
+  "steps": [
+   [
+    "1st 6am",
+    "@ops",
+    "pulls last month's revenue, spending and cash",
+    "pulled"
+   ],
+   [
+    "1st 6am",
+    "@ops",
+    "adds deals won and your key numbers",
+    "added"
+   ],
+   [
+    "1st 6am",
+    "@agents",
+    "writes a draft update in your voice",
+    "drafted"
+   ],
+   [
+    "1st 9am",
+    "you",
+    "draft sent to you for review",
+    "waiting",
+    "need"
+   ],
+   [
+    "1st 9am",
+    "you",
+    "add two lines and approve",
+    "ok",
+    "me"
+   ],
+   [
+    "1st 9am",
+    "@agents",
+    "sends it to your investor list",
+    "sent"
+   ]
+  ],
+  "you": "You read it, add what only you know, and approve.",
+  "get": "The update goes out on time every month, and it takes minutes instead of an afternoon."
+ },
+ "Morning summary": {
+  "ex": "Every morning at 6",
+  "steps": [
+   [
+    "6:00am",
+    "@ops",
+    "checks what happened overnight",
+    "checked"
+   ],
+   [
+    "6:00am",
+    "@ops",
+    "counts new leads, payments and messages",
+    "counted"
+   ],
+   [
+    "6:01am",
+    "@ops",
+    "lists anything waiting for your OK",
+    "listed"
+   ],
+   [
+    "6:01am",
+    "@ops",
+    "puts today's schedule at the top",
+    "added"
+   ],
+   [
+    "6:02am",
+    "@ops",
+    "sends it to your phone",
+    "sent"
+   ],
+   [
+    "7:05am",
+    "you",
+    "read it in two minutes",
+    "read"
+   ]
+  ],
+  "you": "You read one message instead of checking five apps.",
+  "get": "You start the day knowing what needs you and what is already handled."
+ },
+ "clinic:Morning summary": {
+  "ex": "Every morning at 6",
+  "steps": [
+   [
+    "6:00am",
+    "@ops",
+    "pulls today's schedule for each provider",
+    "pulled"
+   ],
+   [
+    "6:00am",
+    "@ops",
+    "finds 2 visit notes still to sign",
+    "found"
+   ],
+   [
+    "6:01am",
+    "@ops",
+    "lists 3 unpaid invoices",
+    "listed"
+   ],
+   [
+    "6:01am",
+    "@ops",
+    "adds anything waiting for your OK",
+    "added"
+   ],
+   [
+    "6:02am",
+    "@ops",
+    "sends it to your phone",
+    "sent"
+   ],
+   [
+    "7:05am",
+    "you",
+    "read it before the first client",
+    "read"
+   ]
+  ],
+  "you": "You read one message instead of checking five apps.",
+  "get": "You walk in knowing the day, and nothing slips."
+ },
+ "Weekly numbers": {
+  "ex": "Every Monday morning",
+  "steps": [
+   [
+    "Mon 6am",
+    "@ops",
+    "pulls last week's sales",
+    "pulled"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "counts open jobs and anything overdue",
+    "counted"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "compares it all to the week before",
+    "compared"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "points out anything that moved a lot",
+    "flagged"
+   ],
+   [
+    "Mon 7am",
+    "@ops",
+    "sends one page to you and your team",
+    "sent"
+   ]
+  ],
+  "you": "Nothing to build. You just read it.",
+  "get": "Your numbers every Monday, without opening a spreadsheet."
+ },
+ "agency:Weekly numbers": {
+  "ex": "Every Monday morning",
+  "steps": [
+   [
+    "Mon 6am",
+    "@ops",
+    "pulls last week's revenue by client",
+    "pulled"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "checks how booked each person is",
+    "checked"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "lists open work and what is running late",
+    "listed"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "points out anyone with too much on",
+    "flagged"
+   ],
+   [
+    "Mon 7am",
+    "@ops",
+    "sends one page to you",
+    "sent"
+   ]
+  ],
+  "you": "Nothing to build. You just read it.",
+  "get": "You see money, workload and late work across every client in one place."
+ },
+ "startup:Weekly numbers": {
+  "ex": "Every Monday morning",
+  "steps": [
+   [
+    "Mon 6am",
+    "@ops",
+    "pulls last week's revenue",
+    "pulled"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "adds deals in progress and what they're worth",
+    "added"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "adds spending and how many months of cash are left",
+    "added"
+   ],
+   [
+    "Mon 6am",
+    "@ops",
+    "lists open work from the team",
+    "listed"
+   ],
+   [
+    "Mon 7am",
+    "@ops",
+    "posts it in your team chat",
+    "posted"
+   ]
+  ],
+  "you": "Nothing to build. You just read it.",
+  "get": "The whole team sees the same numbers every Monday."
+ },
+ "New hire setup": {
+  "ex": "Someone new starts on Monday",
+  "steps": [
+   [
+    "Thu",
+    "you",
+    "add their name and role",
+    "added"
+   ],
+   [
+    "Thu",
+    "@ops",
+    "creates their email and app accounts",
+    "created"
+   ],
+   [
+    "Thu",
+    "@ops",
+    "shares the guides for their role",
+    "shared"
+   ],
+   [
+    "Fri",
+    "@agents",
+    "sends a welcome note with the first-week plan",
+    "sent"
+   ],
+   [
+    "Mon",
+    "@ops",
+    "gives them their first tasks",
+    "assigned"
+   ],
+   [
+    "next Fri",
+    "@ops",
+    "checks what is done and what is stuck",
+    "checked"
+   ]
+  ],
+  "you": "You add their name and role. Everything else is set up the same way every time.",
+  "get": "New people are ready on day one, and nothing gets missed."
+ },
+ "Low stock alerts": {
+  "ex": "A best seller is running low",
+  "steps": [
+   [
+    "2:10pm",
+    "@ops",
+    "sees only 40 boxes left of a best seller",
+    "low"
+   ],
+   [
+    "2:10pm",
+    "@ops",
+    "checks how fast it sells: about 3 weeks left",
+    "checked"
+   ],
+   [
+    "2:11pm",
+    "@ops",
+    "drafts a reorder with your usual supplier",
+    "drafted"
+   ],
+   [
+    "2:11pm",
+    "you",
+    "reorder sent to you for an OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "2:30pm",
+    "you",
+    "approve it",
+    "ok",
+    "me"
+   ],
+   [
+    "2:30pm",
+    "@ops",
+    "sends the order and tracks delivery",
+    "ordered"
+   ]
+  ],
+  "you": "You approve every order before it goes out.",
+  "get": "You reorder before you sell out, not after."
+ },
+ "New client intake": {
+  "ex": "A new client asks to book at 8:50pm",
+  "steps": [
+   [
+    "8:50pm",
+    "Client",
+    "asks for help with a sore shoulder",
+    "received"
+   ],
+   [
+    "8:50pm",
+    "@agents",
+    "matches it to a shoulder assessment",
+    "matched"
+   ],
+   [
+    "8:51pm",
+    "@agents",
+    "drafts a reply with three open times",
+    "drafted"
+   ],
+   [
+    "8:51pm",
+    "you",
+    "reply waiting for your OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "7:10am",
+    "you",
+    "approve it",
+    "ok",
+    "me"
+   ],
+   [
+    "7:10am",
+    "@agents",
+    "sends the reply and the intake form",
+    "sent"
+   ],
+   [
+    "7:42am",
+    "Client",
+    "books Tuesday at 9am",
+    "booked"
+   ]
+  ],
+  "you": "You approve the first reply to every new client.",
+  "get": "New clients get a real answer and open times, even after hours."
+ },
+ "Visit reminders": {
+  "ex": "A visit is booked for tomorrow at 9am",
+  "steps": [
+   [
+    "Mon 9am",
+    "@agents",
+    "texts a reminder for Tuesday at 9am",
+    "sent"
+   ],
+   [
+    "Mon 9am",
+    "@ops",
+    "sees the intake form is still missing",
+    "missing"
+   ],
+   [
+    "Mon 9am",
+    "@agents",
+    "sends the form with the reminder",
+    "sent"
+   ],
+   [
+    "Mon 11am",
+    "Client",
+    "confirms and fills in the form",
+    "confirmed"
+   ],
+   [
+    "Mon 11am",
+    "@ops",
+    "adds the form to their file",
+    "saved"
+   ]
+  ],
+  "you": "Nothing. If someone needs to move their visit, it offers new times.",
+  "get": "Fewer no-shows, and forms are done before people walk in."
+ },
+ "Visit notes": {
+  "ex": "Right after a visit",
+  "steps": [
+   [
+    "9:50am",
+    "you",
+    "say your findings into your phone",
+    "recorded"
+   ],
+   [
+    "9:51am",
+    "@ops",
+    "turns it into a note in your usual format",
+    "drafted"
+   ],
+   [
+    "9:51am",
+    "@ops",
+    "adds the exercises and the next visit",
+    "added"
+   ],
+   [
+    "9:52am",
+    "you",
+    "note waiting for your review",
+    "waiting",
+    "need"
+   ],
+   [
+    "12:30pm",
+    "you",
+    "fix one line and sign it",
+    "signed",
+    "me"
+   ],
+   [
+    "12:30pm",
+    "@ops",
+    "saves it to the client's file",
+    "saved"
+   ]
+  ],
+  "you": "You review and sign every note. Nothing is filed without you.",
+  "get": "Notes get done in minutes between visits, not at night."
+ },
+ "Preview on their own photo": {
+  "ex": "A homeowner wants to see the tile in their kitchen",
+  "steps": [
+   [
+    "3:05pm",
+    "Customer",
+    "uploads a photo of their kitchen wall",
+    "uploaded"
+   ],
+   [
+    "3:05pm",
+    "@leads",
+    "shows your tile on their wall",
+    "preview"
+   ],
+   [
+    "3:07pm",
+    "Customer",
+    "tries three colors and picks one",
+    "picked"
+   ],
+   [
+    "3:08pm",
+    "Customer",
+    "enters their email to save it",
+    "lead"
+   ],
+   [
+    "3:08pm",
+    "@leads",
+    "sends the preview with a link to order samples",
+    "sent"
+   ],
+   [
+    "3:08pm",
+    "@ops",
+    "saves the lead with their pick",
+    "saved"
+   ]
+  ],
+  "you": "Nothing. It runs on your website day and night.",
+  "get": "Buyers see the result first, and you know exactly what they want."
+ },
+ "Wholesale applications": {
+  "ex": "A store applies to carry your products",
+  "steps": [
+   [
+    "10:20am",
+    "Store",
+    "fills in the wholesale form",
+    "received"
+   ],
+   [
+    "10:21am",
+    "@agents",
+    "checks the location, type of store and order size",
+    "checked"
+   ],
+   [
+    "10:21am",
+    "@agents",
+    "good fit, so it sends the line sheet and terms",
+    "sent"
+   ],
+   [
+    "10:22am",
+    "@agents",
+    "offers times for a call",
+    "sent"
+   ],
+   [
+    "1:40pm",
+    "Store",
+    "books Thursday at 11am",
+    "booked"
+   ],
+   [
+    "1:40pm",
+    "@ops",
+    "adds the store to your list with notes",
+    "saved"
+   ]
+  ],
+  "you": "You take the call. Stores that don't fit get a polite no, and you can check those first.",
+  "get": "Good stores hear back the same day, and you only talk to the right ones."
+ },
+ "\"Where's my order?\" answers": {
+  "ex": "A customer asks where their order is at 11pm",
+  "steps": [
+   [
+    "11:02pm",
+    "Customer",
+    "asks \"Where's my order?\" in chat",
+    "received"
+   ],
+   [
+    "11:02pm",
+    "@agents",
+    "finds order #2291 from their email",
+    "found"
+   ],
+   [
+    "11:02pm",
+    "@agents",
+    "checks the shipping status",
+    "checked"
+   ],
+   [
+    "11:03pm",
+    "@agents",
+    "replies with tracking and the delivery date",
+    "sent"
+   ],
+   [
+    "11:03pm",
+    "Customer",
+    "says thanks",
+    "done"
+   ]
+  ],
+  "you": "Anything unusual, like a damaged box or a refund, comes to you.",
+  "get": "Customers get an answer right away, and you get fewer emails."
+ },
+ "Client onboarding": {
+  "ex": "A new client signs the contract",
+  "steps": [
+   [
+    "2:00pm",
+    "Client",
+    "signs the contract",
+    "signed"
+   ],
+   [
+    "2:01pm",
+    "@agents",
+    "sends a welcome email and kickoff times",
+    "sent"
+   ],
+   [
+    "2:01pm",
+    "@ops",
+    "creates the project, folders and tasks",
+    "created"
+   ],
+   [
+    "2:02pm",
+    "@agents",
+    "sends the intake form and asset list",
+    "sent"
+   ],
+   [
+    "day 3",
+    "@agents",
+    "logo files still missing, so it sends a reminder",
+    "sent"
+   ],
+   [
+    "day 4",
+    "Client",
+    "uploads everything",
+    "received"
+   ]
+  ],
+  "you": "You run the kickoff call. The paperwork and chasing happen on their own.",
+  "get": "Every client starts the same way, and nothing waits on a missing file."
+ },
+ "Pre-launch checks": {
+  "ex": "A client site is about to go live",
+  "steps": [
+   [
+    "9:00am",
+    "you",
+    "mark the site ready to launch",
+    "ready"
+   ],
+   [
+    "9:01am",
+    "@ops",
+    "checks every page for broken links",
+    "checked"
+   ],
+   [
+    "9:03am",
+    "@ops",
+    "tests each form and where it sends",
+    "tested"
+   ],
+   [
+    "9:04am",
+    "@ops",
+    "confirms tracking is installed",
+    "checked"
+   ],
+   [
+    "9:05am",
+    "@ops",
+    "finds one form going to an old email",
+    "flagged"
+   ],
+   [
+    "9:05am",
+    "you",
+    "launch held for your OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "9:20am",
+    "you",
+    "fix the form and approve the launch",
+    "ok",
+    "me"
+   ]
+  ],
+  "you": "You fix what it finds and give the final go.",
+  "get": "Sites go live without the embarrassing mistakes."
+ },
+ "Weekly client report": {
+  "ex": "Every Friday morning",
+  "steps": [
+   [
+    "Fri 7am",
+    "@ops",
+    "pulls each client's numbers for the week",
+    "pulled"
+   ],
+   [
+    "Fri 7am",
+    "@agents",
+    "writes a short summary of what changed",
+    "drafted"
+   ],
+   [
+    "Fri 7am",
+    "@agents",
+    "adds what is planned for next week",
+    "added"
+   ],
+   [
+    "Fri 8am",
+    "you",
+    "reports waiting for your review",
+    "waiting",
+    "need"
+   ],
+   [
+    "Fri 9am",
+    "you",
+    "tweak two and approve",
+    "ok",
+    "me"
+   ],
+   [
+    "Fri 9am",
+    "@agents",
+    "sends each report to its client",
+    "sent"
+   ]
+  ],
+  "you": "You review every report before it goes out.",
+  "get": "Reports go out every Friday without anyone losing a morning to them."
+ },
+ "Extra work alerts": {
+  "ex": "A client asks for something new",
+  "steps": [
+   [
+    "11:30am",
+    "Client",
+    "asks for three extra pages",
+    "received"
+   ],
+   [
+    "11:31am",
+    "@ops",
+    "checks the request against the agreement",
+    "checked"
+   ],
+   [
+    "11:31am",
+    "@ops",
+    "it isn't in the agreement, so it flags it",
+    "flagged"
+   ],
+   [
+    "11:32am",
+    "@agents",
+    "drafts a change order with price and timing",
+    "drafted"
+   ],
+   [
+    "11:32am",
+    "you",
+    "change order waiting for your OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "12:10pm",
+    "you",
+    "approve it",
+    "ok",
+    "me"
+   ],
+   [
+    "12:10pm",
+    "@agents",
+    "sends it to the client to sign",
+    "sent"
+   ]
+  ],
+  "you": "You approve the price before anything goes to the client.",
+  "get": "Extra work gets paid for instead of quietly added on."
+ },
+ "New episode publishing": {
+  "ex": "A new episode is ready",
+  "steps": [
+   [
+    "4:00pm",
+    "you",
+    "drop the final file in your folder",
+    "uploaded"
+   ],
+   [
+    "4:02pm",
+    "@agents",
+    "writes a title, description and tags",
+    "drafted"
+   ],
+   [
+    "4:03pm",
+    "@agents",
+    "picks a thumbnail frame",
+    "picked"
+   ],
+   [
+    "4:05pm",
+    "you",
+    "release waiting for your OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "4:30pm",
+    "you",
+    "approve it",
+    "ok",
+    "me"
+   ],
+   [
+    "6:00pm",
+    "@agents",
+    "posts it to every channel at your usual time",
+    "posted"
+   ]
+  ],
+  "you": "You approve the title and description. The posting happens on its own.",
+  "get": "Episodes go out on schedule everywhere, without the copy and paste."
+ },
+ "Inbox sorting": {
+  "ex": "Every hour",
+  "steps": [
+   [
+    "10:00am",
+    "@agents",
+    "reads 23 new messages",
+    "read"
+   ],
+   [
+    "10:00am",
+    "@agents",
+    "sorts them: 9 fans, 3 partners, 11 junk",
+    "sorted"
+   ],
+   [
+    "10:01am",
+    "@agents",
+    "drafts replies to fans and partners",
+    "drafted"
+   ],
+   [
+    "10:01am",
+    "@agents",
+    "moves the junk out of the way",
+    "archived"
+   ],
+   [
+    "10:02am",
+    "@agents",
+    "puts partner messages at the top for you",
+    "flagged"
+   ]
+  ],
+  "you": "You read what matters and send the drafts you like.",
+  "get": "Your inbox shows what matters first, with replies ready."
+ },
+ "Sponsor requests": {
+  "ex": "A brand wants to sponsor the show",
+  "steps": [
+   [
+    "1:15pm",
+    "Brand",
+    "emails about sponsoring three episodes",
+    "received"
+   ],
+   [
+    "1:16pm",
+    "@agents",
+    "checks the brand against your rules",
+    "checked"
+   ],
+   [
+    "1:16pm",
+    "@agents",
+    "compares the offer to your rates",
+    "compared"
+   ],
+   [
+    "1:17pm",
+    "you",
+    "good fit, summary sent to you",
+    "waiting",
+    "need"
+   ],
+   [
+    "1:40pm",
+    "you",
+    "say yes to a call",
+    "ok",
+    "me"
+   ],
+   [
+    "1:41pm",
+    "@agents",
+    "sends them times and your media kit",
+    "sent"
+   ]
+  ],
+  "you": "You decide on every deal. It only sorts and prepares.",
+  "get": "Good deals reach you fast, and the wrong ones never take your time."
+ },
+ "Licensing requests": {
+  "ex": "Someone wants to use your music in a film",
+  "steps": [
+   [
+    "3:20pm",
+    "Filmmaker",
+    "asks to use a track in a short film",
+    "received"
+   ],
+   [
+    "3:21pm",
+    "@agents",
+    "checks it is a standard request",
+    "checked"
+   ],
+   [
+    "3:21pm",
+    "@agents",
+    "sends your standard terms and price",
+    "sent"
+   ],
+   [
+    "5:02pm",
+    "Filmmaker",
+    "signs and pays",
+    "paid"
+   ],
+   [
+    "5:02pm",
+    "@ops",
+    "sends the license and the files",
+    "sent"
+   ]
+  ],
+  "you": "Anything custom, like a big brand or an unusual use, comes to you.",
+  "get": "Standard requests turn into income without the back and forth."
+ },
+ "Fan replies": {
+  "ex": "A fan asks a common question",
+  "steps": [
+   [
+    "8:30pm",
+    "Fan",
+    "asks where to find the full playlist",
+    "received"
+   ],
+   [
+    "8:30pm",
+    "@agents",
+    "finds the answer in your FAQ",
+    "found"
+   ],
+   [
+    "8:31pm",
+    "@agents",
+    "drafts a reply in your voice",
+    "drafted"
+   ],
+   [
+    "8:31pm",
+    "you",
+    "reply waiting for your review",
+    "waiting",
+    "need"
+   ],
+   [
+    "9:10pm",
+    "you",
+    "approve it",
+    "ok",
+    "me"
+   ],
+   [
+    "9:10pm",
+    "@agents",
+    "sends it",
+    "sent"
+   ]
+  ],
+  "you": "You review replies, and you can let common answers send on their own.",
+  "get": "Fans get quick answers that sound like you."
+ },
+ "Sponsor report": {
+  "ex": "It's the first of the month",
+  "steps": [
+   [
+    "1st 6am",
+    "@ops",
+    "pulls downloads and views for each sponsored episode",
+    "pulled"
+   ],
+   [
+    "1st 6am",
+    "@agents",
+    "writes a one-page report for each sponsor",
+    "drafted"
+   ],
+   [
+    "1st 9am",
+    "you",
+    "reports waiting for your review",
+    "waiting",
+    "need"
+   ],
+   [
+    "1st 9am",
+    "you",
+    "approve them",
+    "ok",
+    "me"
+   ],
+   [
+    "1st 9am",
+    "@agents",
+    "sends each sponsor their report",
+    "sent"
+   ]
+  ],
+  "you": "You check the numbers before they go out.",
+  "get": "Sponsors get clear reports on time, which makes renewals easier."
+ },
+ "Waitlist and demo booking": {
+  "ex": "Someone joins your waitlist",
+  "steps": [
+   [
+    "2:10pm",
+    "Visitor",
+    "joins the waitlist on your website",
+    "joined"
+   ],
+   [
+    "2:10pm",
+    "@leads",
+    "asks two quick questions: team size and use",
+    "asked"
+   ],
+   [
+    "2:11pm",
+    "@leads",
+    "good fit, so it offers a demo",
+    "qualified"
+   ],
+   [
+    "2:12pm",
+    "Visitor",
+    "books a demo for Thursday",
+    "booked"
+   ],
+   [
+    "2:12pm",
+    "@ops",
+    "adds them to your contacts with their answers",
+    "saved"
+   ],
+   [
+    "2:12pm",
+    "@agents",
+    "sends a confirmation and a short prep note",
+    "sent"
+   ]
+  ],
+  "you": "You take the demos. Everyone else stays on the waitlist and gets updates.",
+  "get": "Your calendar fills with the right demos, not every signup."
+ }
+}

@@ -265,10 +265,9 @@ $$('.check[data-anim]').forEach(list=>{
 });
 
 /* ---------- log pane ---------- */
-$$('.pane[data-src]').forEach(p=>{
-  const src=document.getElementById(p.dataset.src);if(!src)return;
-  let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
+function makePane(p,c){
   function summary(){
+    if(c.sum)return c.sum;
     const toS=t=>{const q=t.split(':').map(Number);return q[0]*3600+q[1]*60+q[2]};
     let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
@@ -277,19 +276,21 @@ $$('.pane[data-src]').forEach(p=>{
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(WHO[r[1]]||r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    const eng=/^@[a-z]+$/.test(r[1]),who=WHO[r[1]]||r[1];
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(eng?' e-'+r[1].slice(1):'')+(!eng&&!WHO[r[1]]?' ext':'')+'">'+esc(who)+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}
   function setState(s,l){p.dataset.state=s;$('.st',p).textContent=l||s;}
   const tx=$('.cmd-tx',p),caret=$('.caret',p),rows=$('.rows',p);
   function finish(){p._run=null;tx.textContent=c.cmd;caret.hidden=true;rows.innerHTML='';c.run.forEach(r=>rows.appendChild(rowEl(r)));rows.appendChild(endEl());setState('complete');}
+  function stop(){p._run=null;}
   async function run(){
     if(RM){finish();return;}
     const id={};p._run=id;const alive=()=>p._run===id;
     tx.textContent='';rows.innerHTML='';caret.hidden=false;setState('running');
-    for(const ch of c.cmd){if(!alive())return;tx.textContent+=ch;await sleep(16+Math.random()*26);}
-    await sleep(320);if(!alive())return;caret.hidden=true;
+    for(const ch of c.cmd){if(!alive())return;tx.textContent+=ch;await sleep(c.fast?10+Math.random()*14:16+Math.random()*26);}
+    await sleep(c.fast?220:320);if(!alive())return;caret.hidden=true;
     for(const r of c.run){
       if(r[4]==='me'){
         setState('waiting','waiting on '+(WHO[r[1]]||r[1]));
@@ -300,15 +301,68 @@ $$('.pane[data-src]').forEach(p=>{
         while(performance.now()<until){await sleep(105);if(!alive())return;sp.textContent=fr[++k%4];}
         w.remove();setState('running');
       }else{
-        await sleep(360+Math.random()*300);if(!alive())return;
+        await sleep((c.fast?420:360)+Math.random()*300);if(!alive())return;
       }
       const el=rowEl(r);rows.appendChild(el);decode($('.res',el),300);
     }
     await sleep(420);if(!alive())return;
     rows.appendChild(endEl());setState('complete');
   }
-  $('.replay',p).addEventListener('click',run);
-  if(RM)finish();else once([p],run,.3);
+  return {run,finish,stop,set(n){c=n;}};
+}
+$$('.pane[data-src]').forEach(p=>{
+  const src=document.getElementById(p.dataset.src);if(!src)return;
+  let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
+  const ctl=makePane(p,c);
+  $('.replay',p).addEventListener('click',ctl.run);
+  if(RM)ctl.finish();else once([p],ctl.run,.3);
+});
+
+/* ---------- job walkthrough sheet ---------- */
+$$('[data-jobs]').forEach(list=>{
+  const src=document.getElementById(list.dataset.jobs);if(!src)return;
+  let J;try{J=JSON.parse(src.textContent)}catch(e){return;}
+  let dlg=$('#job-sheet'),ctl=null,opener=null;
+  function build(){
+    dlg=document.createElement('dialog');dlg.className='sheet';dlg.id='job-sheet';dlg.setAttribute('aria-labelledby','js-t');
+    dlg.innerHTML='<div class="sheet-hd"><span class="etags"><span class="etag" id="js-tag"></span></span><span class="label" id="js-trig"></span><button class="sheet-x label" type="button">close &times;</button></div>'
+      +'<div class="sheet-bd"><h2 class="sheet-t" id="js-t"></h2><p class="sheet-d" id="js-d"></p>'
+      +'<div class="pane" data-state="idle"><div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">What happens</span><span class="label">example</span></div>'
+      +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
+      +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
+      +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
+      +'<div class="actions"><a class="btn" id="js-start">Start a project</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+    document.body.appendChild(dlg);
+    $('.sheet-x',dlg).addEventListener('click',close);
+    dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
+    dlg.addEventListener('close',()=>{if(ctl)ctl.stop();document.documentElement.classList.remove('sheet-open');if(opener&&opener.focus)opener.focus();});
+    $('.replay',dlg).addEventListener('click',()=>ctl&&ctl.run());
+  }
+  function close(){if(dlg&&dlg.open)dlg.close();}
+  function open(i,btn){
+    const j=J.jobs[i];if(!j)return;
+    if(!dlg)build();
+    opener=btn;
+    dlg.className='sheet e-'+j.e;
+    const tg=$('#js-tag',dlg);tg.className='etag e-'+j.e;tg.textContent=j.name;
+    $('#js-trig',dlg).textContent='runs '+j.trig;
+    $('#js-t',dlg).textContent=j.title;$('#js-d',dlg).textContent=j.desc;
+    $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
+    const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
+    st.href=J.start;st.innerHTML='Start a project <span aria-hidden="true">&rarr;</span>';
+    dm.href=J.demo;dm.innerHTML='Try the demo <span aria-hidden="true">&rarr;</span>';
+    const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
+    const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
+    const pane=$('.pane',dlg);
+    if(ctl)ctl.stop();ctl=makePane(pane,c);
+    document.documentElement.classList.add('sheet-open');
+    if(typeof dlg.showModal==='function')dlg.showModal();else dlg.setAttribute('open','');
+    $('.sheet-bd',dlg).scrollTop=0;
+    $('.sheet-x',dlg).focus();
+    const tt=$('#js-t',dlg);recs.delete(tt);tt.removeAttribute('aria-label');decode(tt,520);
+    if(RM)ctl.finish();else ctl.run();
+  }
+  $$('.play-open',list).forEach(b=>b.addEventListener('click',()=>open(+b.dataset.job,b)));
 });
 
 /* ---------- plays filter + engine hovers ---------- */

@@ -226,7 +226,7 @@ function vEngine(eid){
   const waiting=S.approvals.filter(a=>a.e===eid).length;
   const lastE=[...S.log].reverse().find(x=>x.a==='@'+eid);
   const rows=mine.map(p=>`<tr class="${p.on&&S.running[eid]?'':'off'}"><td><button class="sw e-${eid}" type="button" role="switch" aria-checked="${p.on}" data-act="play-on" data-id="${p.id}" aria-label="Turn ${esc(p.title)} ${p.on?'off':'on'}"></button></td>
-    <td><div class="pt-title"><b>${esc(p.title)}</b><span>${esc(p.desc)}</span></div></td><td>${triggerSel(p)}</td>
+    <td><div class="pt-title"><b><button class="pt-open" type="button" data-act="job-open" data-id="${p.id}" aria-haspopup="dialog">${esc(p.title)}</button></b><span>${esc(p.desc)}</span></div></td><td>${triggerSel(p)}</td>
     <td><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>check with me</label></td>
     <td class="num">${p.runs}</td><td class="num">${esc(p.last)}</td><td><button class="btn ghost btn-xs" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[eid]?'':' disabled'}>Run now</button></td></tr>`).join('');
   return head('engines/'+eid,esc(e.name),esc(e.triad)+' '+esc(e.line),`<button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Add automations</button>`,`ec e-${eid}`)+`
@@ -248,7 +248,7 @@ function vPlays(){
     if(!has(p.e))ft=`<span class="label">needs the ${esc(ENGN[p.e].name)} engine</span><a class="lnk" href="#engine-${p.e}">add it &rarr;</a>`;
     else if(p.added)ft=`<span class="label added e-${p.e}">in ${esc(ENGN[p.e].name)}${p.on?'':' / off'}</span><a class="lnk" href="#engine-${p.e}">open &rarr;</a>`;
     else ft=`<span class="label">available</span><button class="btn btn-xs" type="button" data-act="play-add" data-id="${p.id}">Add</button>`;
-    return `<li class="e-${p.e}"><div class="pl-top">${tag(p.e)}<span class="label">runs ${esc(p.trig)}</span></div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="pl-ft">${ft}</div></li>`;}).join('')}</ul>`;
+    return `<li class="e-${p.e}"><div class="pl-top">${tag(p.e)}<span class="label">runs ${esc(p.trig)}</span></div><h3><button class="pl-open" type="button" data-act="job-open" data-id="${p.id}" aria-haspopup="dialog">${esc(p.title)}</button></h3><p>${esc(p.desc)}</p><span class="pl-how label" aria-hidden="true">see how it works &rarr;</span><div class="pl-ft">${ft}</div></li>`;}).join('')}</ul>`;
 }
 
 function vPipeline(){
@@ -351,6 +351,39 @@ function vSettings(){
   return head('settings','Settings','Your team, plan, tools and what needs your OK.')+`<div class="tabs filters stabs" role="tablist" aria-label="Settings">${T.map(([k,t])=>`<button class="tab" type="button" role="tab" data-act="set-tab" data-t="${k}" aria-selected="${ui.setTab===k}" aria-pressed="${ui.setTab===k}">${t}</button>`).join('')}</div>${body}`;
 }
 
+/* ---------- automation walkthrough ---------- */
+const JOBS=D.jobs||{};
+const jobFor=p=>JOBS[S.type+':'+p.title]||JOBS[p.title]||null;
+function jobHTML(p,still){
+  const j=jobFor(p),e=ENGN[p.e];
+  const steps=j?j.steps.map((r,i)=>rowHTML({t:r[0],a:r[1],m:r[2],r:r[3],f:r[4]||''}).replace('<div class="row"',`<div class="row" style="animation-delay:${still?0:220+i*170}ms"`)).join(''):'';
+  const checks=j?j.steps.filter(r=>r[4]==='need').length:0;
+  let acts;
+  if(!has(p.e))acts=`<a class="btn" href="#engine-${p.e}" data-act="dr-close-go">Add the ${esc(e.name)} engine &rarr;</a>`;
+  else if(!p.added)acts=`<button class="btn" type="button" data-act="play-add" data-id="${p.id}">Add to ${esc(e.name)}</button>`;
+  else acts=`<button class="btn" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[p.e]?'':' disabled'}>Run now</button><button class="btn ghost" type="button" data-act="play-on" data-id="${p.id}">${p.on?'Turn off':'Turn on'}</button>`;
+  const settings=has(p.e)&&p.added?`<p class="label">your settings</p><dl class="kv"><dt>status</dt><dd>${p.on&&S.running[p.e]?'on':'off'}</dd><dt>when it runs</dt><dd>${triggerSel(p)}</dd><dt>your OK</dt><dd><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>check with me first</label></dd><dt>times run</dt><dd>${p.runs}</dd><dt>last run</dt><dd>${esc(p.last)}</dd></dl>`:'';
+  return `<div class="dr-hd"><span class="label">automation</span><button class="lnk" type="button" data-act="dr-close">close &times;</button></div><div class="dr-bd e-${p.e}">
+  <div class="pl-top">${tag(p.e)}<span class="label">runs ${esc(p.trig)}</span></div>
+  <h2 class="dr-t" id="dr-t">${esc(p.title)}</h2><p class="v-sub" style="font-size:15px;margin-top:-6px">${esc(p.desc)}</p>
+  ${j?`<div class="job-run${still?' still':''}"><div class="job-hd"><span class="label">what happens</span><span class="label">example</span></div><p class="job-ex"><span aria-hidden="true">$ </span>${esc(j.ex)}</p><div class="feed">${steps}</div><p class="job-sum label">${j.steps.filter(r=>!r[4]).length} steps / ${checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own'}</p></div>
+  <dl class="kv job-kv"><dt>where you come in</dt><dd>${esc(j.you)}</dd><dt>what you get</dt><dd>${esc(j.get)}</dd></dl>`:''}
+  ${settings}
+  <div class="v-actions">${acts}</div></div>`;
+}
+function jobDrawer(){
+  const p=S.plays.find(x=>x.id===ui.job);if(!p)return;
+  const id=ui.job;openDrawer(jobHTML(p,RM));ui.job=id;
+}
+function refreshJob(){
+  if(!ui.job)return;const d=$('#drawer-root .drawer');if(!d)return;
+  const p=S.plays.find(x=>x.id===ui.job);if(!p)return;
+  const a=document.activeElement;if(a&&a.tagName==='SELECT'&&d.contains(a))return;const k=a&&d.contains(a)?a.dataset.act:null;
+  const y=($('.dr-bd',d)||{}).scrollTop||0;
+  d.innerHTML=jobHTML(p,true);const b=$('.dr-bd',d);if(b)b.scrollTop=y;
+  if(k){const f=$(`[data-act="${k}"]`,d)||$('[data-act="dr-close"]',d);if(f)f.focus();}
+}
+
 /* ---------- drawer ---------- */
 function openDrawer(html){
   closeDrawer(true);
@@ -358,7 +391,7 @@ function openDrawer(html){
   const d=$('.drawer',root);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('open')));
   drawer=document.activeElement;setTimeout(()=>{const f=$('[data-act="dr-close"].lnk',root);if(f)f.focus();},60);
 }
-function closeDrawer(quick){const root=$('#drawer-root');if(!root||!root.firstChild)return;const d=$('.drawer',root);if(quick||RM){root.innerHTML='';}else{d.classList.remove('open');setTimeout(()=>{root.innerHTML='';},260);}if(drawer&&drawer.focus&&!quick)drawer.focus();}
+function closeDrawer(quick){ui.job=null;const root=$('#drawer-root');if(!root||!root.firstChild)return;const d=$('.drawer',root);if(quick||RM){root.innerHTML='';}else{d.classList.remove('open');setTimeout(()=>{root.innerHTML='';},260);}if(drawer&&drawer.focus&&!quick)drawer.focus();}
 function leadDrawer(id){
   const l=S.leads.find(x=>x.id===id);if(!l)return;
   const tl=[['@leads',`came in from ${l.src}`,'2 days ago']];
@@ -390,6 +423,7 @@ function render(keepScroll){
   decode($('.v-title',v));
   if(keepScroll)window.scrollTo(0,y);
   document.title=($('.v-title',v)?$('.v-title',v).getAttribute('aria-label')||$('.v-title',v).textContent:'Console')+' | OpLev Console';
+  refreshJob();
 }
 function onRoute(){
   const h=(location.hash||'').slice(1).toLowerCase();
@@ -468,6 +502,8 @@ const ACT={
   'lead-open'(el){leadDrawer(el.dataset.id);},
   'rec-open'(el){recDrawer(el.dataset.id);},
   'dr-close'(){closeDrawer();},
+  'dr-close-go'(el){const h=el.getAttribute('href');closeDrawer(true);location.hash=h.slice(1);},
+  'job-open'(el){ui.job=el.dataset.id;jobDrawer();},
   'lead-follow'(el){const l=S.leads.find(x=>x.id===el.dataset.id);if(!l)return;
     if(!has('agents')){toast('Add the Agents engine to draft follow-ups.');return;}
     S.approvals.unshift({id:nid(),e:'agents',kind:'Follow-up',to:l.n,why:'You asked for a follow-up draft',age:'just now',draft:`Hi ${first(l.n)}, following up on your note to ${S.biz}. Is this still something you're looking at? I can hold a time for you this week.\n\n${first(owner())}`});

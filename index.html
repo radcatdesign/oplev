@@ -623,6 +623,44 @@ textarea.inp{min-height:132px;resize:vertical}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* ---------- job cards + walkthrough sheet ---------- */
+.play{position:relative}
+.play .h3{margin:0}
+.play-open{appearance:none;-webkit-appearance:none;background:none;border:0;border-radius:0;padding:0;margin:0;font:inherit;color:inherit;letter-spacing:inherit;text-align:left;cursor:pointer}
+.play-open::after{content:"";position:absolute;inset:0;z-index:1}
+.play-open:focus{outline:none}
+.play-open:focus-visible::after{outline:2px solid var(--e,var(--paper));outline-offset:-2px}
+.play-go{margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:8px;color:var(--dim)}
+.play-go svg{width:12px;height:12px;transition:transform .18s}
+.play:hover .play-go{color:var(--e,var(--paper))}
+.play:hover .play-go svg{transform:translateX(3px)}
+html.sheet-open{overflow:hidden}
+.sheet{position:fixed;inset:0 0 0 auto;margin:0;padding:0;width:min(720px,100vw);max-width:100vw;height:100%;max-height:none;border:0;border-left:1px solid var(--line-2);background:var(--ink);color:var(--paper)}
+.sheet[open]{display:flex;flex-direction:column;animation:sheet-in .26s var(--wipe,cubic-bezier(.2,.7,.2,1)) both}
+.sheet::backdrop{background:rgba(7,7,8,.72)}
+@keyframes sheet-in{from{transform:translateX(32px);opacity:0}to{transform:none;opacity:1}}
+.sheet-hd{display:flex;align-items:center;gap:12px;padding:14px clamp(16px,2.4vw,28px);border-bottom:1px solid var(--line);padding-top:max(14px,env(safe-area-inset-top,0px))}
+.sheet-hd #js-trig{color:var(--dim);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet-x{margin-left:auto;appearance:none;-webkit-appearance:none;background:none;border:1px solid var(--line-2);border-radius:0;color:var(--soft);padding:8px 10px;cursor:pointer;white-space:nowrap}
+.sheet-x:hover,.sheet-x:focus-visible{border-color:var(--paper);color:var(--paper);outline:none}
+.sheet-bd{flex:1;overflow-y:auto;padding:clamp(20px,3vw,36px) clamp(16px,2.4vw,28px) max(28px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:22px}
+.sheet-t{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(30px,4vw,44px);line-height:1;letter-spacing:-.045em;color:var(--paper)}
+.sheet-d{margin:-8px 0 0;color:var(--soft);font-size:17px;line-height:1.5;max-width:52ch}
+.sheet .pane{max-width:none}
+.sheet .pane-bd{min-height:0}
+.sheet .row .ac.ext{color:var(--soft)}
+.sheet-kv{margin:0;display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid var(--line)}
+.sheet-kv>div{padding:16px 0;border-bottom:1px solid var(--line);display:grid;gap:8px}
+.sheet-kv dt{color:var(--e,var(--dim))}
+.sheet-kv dd{margin:0;color:var(--paper);font-size:16px;line-height:1.5}
+@media (min-width:640px){.sheet-kv{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}}
+.sheet .actions{margin-top:0}
+@media (max-width:759px){
+  .sheet .row{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ac ts res" "msg msg msg"}
+  .sheet .row .ts{display:block;grid-area:ts}
+}
+@media (prefers-reduced-motion:reduce){.sheet[open]{animation:none}}
 </style>
 </head>
 <body>
@@ -833,25 +871,26 @@ textarea.inp{min-height:132px;resize:vertical}
       <div class="head-l">
         <p class="eyebrow">What it handles</p>
         <h2 class="h2" id="plays-h">Jobs it takes off your plate.</h2>
-        <p class="lede">A few of the jobs the engines handle for you. Each one runs at the right moment, and we set it up around how you work.</p>
+        <p class="lede">A few of the jobs the engines handle for you. Tap any one to see exactly what happens, step by step.</p>
       </div>
       <p class="label">12 examples</p>
     </div>
     <div class="tabs filters" role="group" aria-label="Filter by engine"><button class="tab" type="button" aria-pressed="true" data-f="all">All</button><button class="tab e-ops" type="button" aria-pressed="false" data-f="ops">Ops</button><button class="tab e-agents" type="button" aria-pressed="false" data-f="agents">Agents</button><button class="tab e-leads" type="button" aria-pressed="false" data-f="leads">Leads</button></div>
-    <ul class="plays">
-      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">Leads</span></span><span class="label play-trig">when a form or chat comes in</span></div><h3 class="h3">Fast replies to new leads</h3><p>Answers in minutes with the right info and a link to book, day or night.</p></li>
-      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">Leads</span></span><span class="label play-trig">on your website</span></div><h3 class="h3">Instant price quotes</h3><p>Customers price the job themselves, and you get their details.</p></li>
-      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">Leads</span></span><span class="label play-trig">on your website</span></div><h3 class="h3">Preview before buying</h3><p>Customers see what the finished result will look like before they call.</p></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">3 days after a quote</span></div><h3 class="h3">Quote follow-ups</h3><p>Checks in on open quotes before they go cold.</p></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">when someone misses an appointment</span></div><h3 class="h3">Missed appointment rebooking</h3><p>Reaches out the same day and offers a new time.</p></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">7 days after an invoice is due</span></div><h3 class="h3">Unpaid invoice reminders</h3><p>Polite reminders first, then a heads-up to you.</p></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">after a job is done</span></div><h3 class="h3">Review requests</h3><p>Asks happy customers for a review at the right moment.</p></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">first of the month</span></div><h3 class="h3">Monthly investor update</h3><p>Drafts the update from the month&#x27;s numbers for you to edit.</p></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">every morning at 6</span></div><h3 class="h3">Morning summary</h3><p>What happened overnight and what needs you, on one screen.</p></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">every Monday</span></div><h3 class="h3">Weekly numbers</h3><p>Sales, open jobs and money in, without building a report.</p></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">when someone joins</span></div><h3 class="h3">New hire setup</h3><p>Accounts, guides and first-week tasks, set up the same way every time.</p></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">when stock runs low</span></div><h3 class="h3">Low stock alerts</h3><p>Drafts the reorder before you run out, then waits for your OK.</p></li>
+    <ul class="plays" data-jobs="jobs-data">
+      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">Leads</span></span><span class="label play-trig">when a form or chat comes in</span></div><h3 class="h3"><button class="play-open" type="button" data-job="0" aria-haspopup="dialog">Fast replies to new leads</button></h3><p>Answers in minutes with the right info and a link to book, day or night.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">Leads</span></span><span class="label play-trig">on your website</span></div><h3 class="h3"><button class="play-open" type="button" data-job="1" aria-haspopup="dialog">Instant price quotes</button></h3><p>Customers price the job themselves, and you get their details.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">Leads</span></span><span class="label play-trig">on your website</span></div><h3 class="h3"><button class="play-open" type="button" data-job="2" aria-haspopup="dialog">Preview before buying</button></h3><p>Customers see what the finished result will look like before they call.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">3 days after a quote</span></div><h3 class="h3"><button class="play-open" type="button" data-job="3" aria-haspopup="dialog">Quote follow-ups</button></h3><p>Checks in on open quotes before they go cold.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">when someone misses an appointment</span></div><h3 class="h3"><button class="play-open" type="button" data-job="4" aria-haspopup="dialog">Missed appointment rebooking</button></h3><p>Reaches out the same day and offers a new time.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">7 days after an invoice is due</span></div><h3 class="h3"><button class="play-open" type="button" data-job="5" aria-haspopup="dialog">Unpaid invoice reminders</button></h3><p>Polite reminders first, then a heads-up to you.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">after a job is done</span></div><h3 class="h3"><button class="play-open" type="button" data-job="6" aria-haspopup="dialog">Review requests</button></h3><p>Asks happy customers for a review at the right moment.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">first of the month</span></div><h3 class="h3"><button class="play-open" type="button" data-job="7" aria-haspopup="dialog">Monthly investor update</button></h3><p>Drafts the update from the month&#x27;s numbers for you to edit.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">every morning at 6</span></div><h3 class="h3"><button class="play-open" type="button" data-job="8" aria-haspopup="dialog">Morning summary</button></h3><p>What happened overnight and what needs you, on one screen.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">every Monday</span></div><h3 class="h3"><button class="play-open" type="button" data-job="9" aria-haspopup="dialog">Weekly numbers</button></h3><p>Sales, open jobs and money in, without building a report.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">when someone joins</span></div><h3 class="h3"><button class="play-open" type="button" data-job="10" aria-haspopup="dialog">New hire setup</button></h3><p>Accounts, guides and first-week tasks, set up the same way every time.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">when stock runs low</span></div><h3 class="h3"><button class="play-open" type="button" data-job="11" aria-haspopup="dialog">Low stock alerts</button></h3><p>Drafts the reorder before you run out, then waits for your OK.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
     </ul>
+    <script type="application/json" id="jobs-data">{"start": "start.html", "demo": "app.html", "jobs": [{"e": "leads", "name": "Leads", "trig": "when a form or chat comes in", "title": "Fast replies to new leads", "desc": "Answers in minutes with the right info and a link to book, day or night.", "ex": "Someone asks about your services at 9:40pm", "steps": [["9:40pm", "Customer", "fills in the contact form on your website", "received"], ["9:40pm", "@leads", "saves their name, email and what they asked", "saved"], ["9:41pm", "@agents", "writes a reply with prices and a link to book", "drafted"], ["9:41pm", "you", "reply sent to your phone for an OK", "waiting", "need"], ["9:44pm", "you", "approve it from the couch", "ok", "me"], ["9:44pm", "@agents", "sends the reply", "sent"], ["9:58pm", "Customer", "books a call from the link", "booked"]], "you": "You approve the first reply to anyone new. Once you trust it, you can let it send on its own.", "get": "New leads hear back in minutes instead of the next morning."}, {"e": "leads", "name": "Leads", "trig": "on your website", "title": "Instant price quotes", "desc": "Customers price the job themselves, and you get their details.", "ex": "A homeowner prices a patio project on your website", "steps": [["8:12pm", "Customer", "opens the price calculator on your website", "started"], ["8:14pm", "Customer", "enters the size, material and finish", "entered"], ["8:14pm", "@leads", "shows a price range on the spot", "priced"], ["8:15pm", "Customer", "adds their email to get the full quote", "lead"], ["8:15pm", "@leads", "emails the quote", "sent"], ["8:15pm", "@ops", "saves the lead with the quote attached", "saved"]], "you": "You set your prices and rules once. Change them any time and the calculator updates.", "get": "People get a price without calling, and you get their details and the job size up front."}, {"e": "leads", "name": "Leads", "trig": "on your website", "title": "Preview before buying", "desc": "Customers see what the finished result will look like before they call.", "ex": "A customer wants to see it before they buy", "steps": [["2:20pm", "Customer", "uploads a photo of their space", "uploaded"], ["2:20pm", "@leads", "shows your product on their photo", "preview"], ["2:22pm", "Customer", "tries three colors and saves a favorite", "saved"], ["2:23pm", "Customer", "enters their email to keep the preview", "lead"], ["2:23pm", "@leads", "sends the preview with a link to order", "sent"], ["2:23pm", "@ops", "saves the lead with their pick", "saved"]], "you": "Nothing. It runs on your website day and night.", "get": "Buyers stop guessing, and you know exactly what they want before you talk."}, {"e": "agents", "name": "Agents", "trig": "3 days after a quote", "title": "Quote follow-ups", "desc": "Checks in on open quotes before they go cold.", "ex": "A quote has been sitting for 3 days", "steps": [["day 1", "@ops", "notes a $4,800 quote sent to Taylor", "sent"], ["day 4", "@agents", "sees no reply and writes a short check-in", "drafted"], ["day 4", "@agents", "sends it from your email", "sent"], ["day 5", "Customer", "replies with a question about timing", "replied"], ["day 5", "@agents", "drafts an answer for you", "drafted"], ["day 5", "you", "answer sent to you for an OK", "waiting", "need"], ["day 5", "you", "change one line and send it", "sent", "me"]], "you": "You handle the real questions. The check-ins go out on their own.", "get": "No quote goes quiet because someone forgot to follow up."}, {"e": "agents", "name": "Agents", "trig": "when someone misses an appointment", "title": "Missed appointment rebooking", "desc": "Reaches out the same day and offers a new time.", "ex": "A customer misses their 10am", "steps": [["10:15am", "@ops", "marks the 10am as a no-show", "missed"], ["10:16am", "@agents", "texts a friendly note with two open times", "sent"], ["11:02am", "Customer", "picks Thursday at 2pm", "picked"], ["11:02am", "@ops", "books it and updates the calendar", "booked"], ["11:03am", "@agents", "sends a confirmation", "confirmed"]], "you": "Nothing, unless they ask something unusual. Then it comes to you.", "get": "Missed appointments turn into rebooked ones the same day."}, {"e": "agents", "name": "Agents", "trig": "7 days after an invoice is due", "title": "Unpaid invoice reminders", "desc": "Polite reminders first, then a heads-up to you.", "ex": "An invoice is a week overdue", "steps": [["day 7", "@ops", "sees invoice #1047 is 7 days late", "late"], ["day 7", "@agents", "sends a polite reminder with a pay link", "sent"], ["day 12", "@agents", "sends a second, firmer reminder", "sent"], ["day 14", "@agents", "still unpaid, so it lets you know", "flagged"], ["day 14", "you", "make a quick call", "called"], ["day 15", "@ops", "payment comes in and the invoice closes", "paid"]], "you": "You only step in if two reminders don't work.", "get": "You get paid faster without chasing anyone yourself."}, {"e": "agents", "name": "Agents", "trig": "after a job is done", "title": "Review requests", "desc": "Asks happy customers for a review at the right moment.", "ex": "A job wraps up and the customer is happy", "steps": [["day 1", "@ops", "marks the job done", "done"], ["day 2", "@agents", "texts a thank-you and asks how it went", "sent"], ["day 2", "Customer", "replies \"Loved it\"", "happy"], ["day 2", "@agents", "sends your Google review link", "sent"], ["day 3", "Customer", "leaves a 5-star review", "review"]], "you": "If someone sounds unhappy, it comes to you instead of asking for a review.", "get": "More reviews from your happiest customers, without you remembering to ask."}, {"e": "agents", "name": "Agents", "trig": "first of the month", "title": "Monthly investor update", "desc": "Drafts the update from the month's numbers for you to edit.", "ex": "It's the first of the month", "steps": [["1st 6am", "@ops", "pulls last month's revenue, spending and cash", "pulled"], ["1st 6am", "@ops", "adds deals won and your key numbers", "added"], ["1st 6am", "@agents", "writes a draft update in your voice", "drafted"], ["1st 9am", "you", "draft sent to you for review", "waiting", "need"], ["1st 9am", "you", "add two lines and approve", "ok", "me"], ["1st 9am", "@agents", "sends it to your investor list", "sent"]], "you": "You read it, add what only you know, and approve.", "get": "The update goes out on time every month, and it takes minutes instead of an afternoon."}, {"e": "ops", "name": "Ops", "trig": "every morning at 6", "title": "Morning summary", "desc": "What happened overnight and what needs you, on one screen.", "ex": "Every morning at 6", "steps": [["6:00am", "@ops", "checks what happened overnight", "checked"], ["6:00am", "@ops", "counts new leads, payments and messages", "counted"], ["6:01am", "@ops", "lists anything waiting for your OK", "listed"], ["6:01am", "@ops", "puts today's schedule at the top", "added"], ["6:02am", "@ops", "sends it to your phone", "sent"], ["7:05am", "you", "read it in two minutes", "read"]], "you": "You read one message instead of checking five apps.", "get": "You start the day knowing what needs you and what is already handled."}, {"e": "ops", "name": "Ops", "trig": "every Monday", "title": "Weekly numbers", "desc": "Sales, open jobs and money in, without building a report.", "ex": "Every Monday morning", "steps": [["Mon 6am", "@ops", "pulls last week's sales", "pulled"], ["Mon 6am", "@ops", "counts open jobs and anything overdue", "counted"], ["Mon 6am", "@ops", "compares it all to the week before", "compared"], ["Mon 6am", "@ops", "points out anything that moved a lot", "flagged"], ["Mon 7am", "@ops", "sends one page to you and your team", "sent"]], "you": "Nothing to build. You just read it.", "get": "Your numbers every Monday, without opening a spreadsheet."}, {"e": "ops", "name": "Ops", "trig": "when someone joins", "title": "New hire setup", "desc": "Accounts, guides and first-week tasks, set up the same way every time.", "ex": "Someone new starts on Monday", "steps": [["Thu", "you", "add their name and role", "added"], ["Thu", "@ops", "creates their email and app accounts", "created"], ["Thu", "@ops", "shares the guides for their role", "shared"], ["Fri", "@agents", "sends a welcome note with the first-week plan", "sent"], ["Mon", "@ops", "gives them their first tasks", "assigned"], ["next Fri", "@ops", "checks what is done and what is stuck", "checked"]], "you": "You add their name and role. Everything else is set up the same way every time.", "get": "New people are ready on day one, and nothing gets missed."}, {"e": "ops", "name": "Ops", "trig": "when stock runs low", "title": "Low stock alerts", "desc": "Drafts the reorder before you run out, then waits for your OK.", "ex": "A best seller is running low", "steps": [["2:10pm", "@ops", "sees only 40 boxes left of a best seller", "low"], ["2:10pm", "@ops", "checks how fast it sells: about 3 weeks left", "checked"], ["2:11pm", "@ops", "drafts a reorder with your usual supplier", "drafted"], ["2:11pm", "you", "reorder sent to you for an OK", "waiting", "need"], ["2:30pm", "you", "approve it", "ok", "me"], ["2:30pm", "@ops", "sends the order and tracks delivery", "ordered"]], "you": "You approve every order before it goes out.", "get": "You reorder before you sell out, not after."}]}</script>
   </div>
 </section>
 
@@ -1293,10 +1332,9 @@ $$('.check[data-anim]').forEach(list=>{
 });
 
 /* ---------- log pane ---------- */
-$$('.pane[data-src]').forEach(p=>{
-  const src=document.getElementById(p.dataset.src);if(!src)return;
-  let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
+function makePane(p,c){
   function summary(){
+    if(c.sum)return c.sum;
     const toS=t=>{const q=t.split(':').map(Number);return q[0]*3600+q[1]*60+q[2]};
     let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
@@ -1305,19 +1343,21 @@ $$('.pane[data-src]').forEach(p=>{
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(WHO[r[1]]||r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    const eng=/^@[a-z]+$/.test(r[1]),who=WHO[r[1]]||r[1];
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(eng?' e-'+r[1].slice(1):'')+(!eng&&!WHO[r[1]]?' ext':'')+'">'+esc(who)+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}
   function setState(s,l){p.dataset.state=s;$('.st',p).textContent=l||s;}
   const tx=$('.cmd-tx',p),caret=$('.caret',p),rows=$('.rows',p);
   function finish(){p._run=null;tx.textContent=c.cmd;caret.hidden=true;rows.innerHTML='';c.run.forEach(r=>rows.appendChild(rowEl(r)));rows.appendChild(endEl());setState('complete');}
+  function stop(){p._run=null;}
   async function run(){
     if(RM){finish();return;}
     const id={};p._run=id;const alive=()=>p._run===id;
     tx.textContent='';rows.innerHTML='';caret.hidden=false;setState('running');
-    for(const ch of c.cmd){if(!alive())return;tx.textContent+=ch;await sleep(16+Math.random()*26);}
-    await sleep(320);if(!alive())return;caret.hidden=true;
+    for(const ch of c.cmd){if(!alive())return;tx.textContent+=ch;await sleep(c.fast?10+Math.random()*14:16+Math.random()*26);}
+    await sleep(c.fast?220:320);if(!alive())return;caret.hidden=true;
     for(const r of c.run){
       if(r[4]==='me'){
         setState('waiting','waiting on '+(WHO[r[1]]||r[1]));
@@ -1328,15 +1368,68 @@ $$('.pane[data-src]').forEach(p=>{
         while(performance.now()<until){await sleep(105);if(!alive())return;sp.textContent=fr[++k%4];}
         w.remove();setState('running');
       }else{
-        await sleep(360+Math.random()*300);if(!alive())return;
+        await sleep((c.fast?420:360)+Math.random()*300);if(!alive())return;
       }
       const el=rowEl(r);rows.appendChild(el);decode($('.res',el),300);
     }
     await sleep(420);if(!alive())return;
     rows.appendChild(endEl());setState('complete');
   }
-  $('.replay',p).addEventListener('click',run);
-  if(RM)finish();else once([p],run,.3);
+  return {run,finish,stop,set(n){c=n;}};
+}
+$$('.pane[data-src]').forEach(p=>{
+  const src=document.getElementById(p.dataset.src);if(!src)return;
+  let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
+  const ctl=makePane(p,c);
+  $('.replay',p).addEventListener('click',ctl.run);
+  if(RM)ctl.finish();else once([p],ctl.run,.3);
+});
+
+/* ---------- job walkthrough sheet ---------- */
+$$('[data-jobs]').forEach(list=>{
+  const src=document.getElementById(list.dataset.jobs);if(!src)return;
+  let J;try{J=JSON.parse(src.textContent)}catch(e){return;}
+  let dlg=$('#job-sheet'),ctl=null,opener=null;
+  function build(){
+    dlg=document.createElement('dialog');dlg.className='sheet';dlg.id='job-sheet';dlg.setAttribute('aria-labelledby','js-t');
+    dlg.innerHTML='<div class="sheet-hd"><span class="etags"><span class="etag" id="js-tag"></span></span><span class="label" id="js-trig"></span><button class="sheet-x label" type="button">close &times;</button></div>'
+      +'<div class="sheet-bd"><h2 class="sheet-t" id="js-t"></h2><p class="sheet-d" id="js-d"></p>'
+      +'<div class="pane" data-state="idle"><div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">What happens</span><span class="label">example</span></div>'
+      +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
+      +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
+      +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
+      +'<div class="actions"><a class="btn" id="js-start">Start a project</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+    document.body.appendChild(dlg);
+    $('.sheet-x',dlg).addEventListener('click',close);
+    dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
+    dlg.addEventListener('close',()=>{if(ctl)ctl.stop();document.documentElement.classList.remove('sheet-open');if(opener&&opener.focus)opener.focus();});
+    $('.replay',dlg).addEventListener('click',()=>ctl&&ctl.run());
+  }
+  function close(){if(dlg&&dlg.open)dlg.close();}
+  function open(i,btn){
+    const j=J.jobs[i];if(!j)return;
+    if(!dlg)build();
+    opener=btn;
+    dlg.className='sheet e-'+j.e;
+    const tg=$('#js-tag',dlg);tg.className='etag e-'+j.e;tg.textContent=j.name;
+    $('#js-trig',dlg).textContent='runs '+j.trig;
+    $('#js-t',dlg).textContent=j.title;$('#js-d',dlg).textContent=j.desc;
+    $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
+    const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
+    st.href=J.start;st.innerHTML='Start a project <span aria-hidden="true">&rarr;</span>';
+    dm.href=J.demo;dm.innerHTML='Try the demo <span aria-hidden="true">&rarr;</span>';
+    const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
+    const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
+    const pane=$('.pane',dlg);
+    if(ctl)ctl.stop();ctl=makePane(pane,c);
+    document.documentElement.classList.add('sheet-open');
+    if(typeof dlg.showModal==='function')dlg.showModal();else dlg.setAttribute('open','');
+    $('.sheet-bd',dlg).scrollTop=0;
+    $('.sheet-x',dlg).focus();
+    const tt=$('#js-t',dlg);recs.delete(tt);tt.removeAttribute('aria-label');decode(tt,520);
+    if(RM)ctl.finish();else ctl.run();
+  }
+  $$('.play-open',list).forEach(b=>b.addEventListener('click',()=>open(+b.dataset.job,b)));
 });
 
 /* ---------- plays filter + engine hovers ---------- */

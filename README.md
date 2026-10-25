@@ -6,6 +6,7 @@ Static site. Every page is a self-contained HTML file, so Vercel serves the repo
 
 - Case studies: `content/cases.json`
 - Setups and Console sample data: `content/setups.json`
+- Job walkthroughs (what happens when a job runs): `content/jobs.json`, keyed by job title. Use `setupid:Title` for a version specific to one setup.
 - Console: `src/app.css`, `src/app.js`
 - Styles: `src/site.css`
 - Behavior: `src/site.js`

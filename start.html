@@ -623,6 +623,44 @@ textarea.inp{min-height:132px;resize:vertical}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* ---------- job cards + walkthrough sheet ---------- */
+.play{position:relative}
+.play .h3{margin:0}
+.play-open{appearance:none;-webkit-appearance:none;background:none;border:0;border-radius:0;padding:0;margin:0;font:inherit;color:inherit;letter-spacing:inherit;text-align:left;cursor:pointer}
+.play-open::after{content:"";position:absolute;inset:0;z-index:1}
+.play-open:focus{outline:none}
+.play-open:focus-visible::after{outline:2px solid var(--e,var(--paper));outline-offset:-2px}
+.play-go{margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:8px;color:var(--dim)}
+.play-go svg{width:12px;height:12px;transition:transform .18s}
+.play:hover .play-go{color:var(--e,var(--paper))}
+.play:hover .play-go svg{transform:translateX(3px)}
+html.sheet-open{overflow:hidden}
+.sheet{position:fixed;inset:0 0 0 auto;margin:0;padding:0;width:min(720px,100vw);max-width:100vw;height:100%;max-height:none;border:0;border-left:1px solid var(--line-2);background:var(--ink);color:var(--paper)}
+.sheet[open]{display:flex;flex-direction:column;animation:sheet-in .26s var(--wipe,cubic-bezier(.2,.7,.2,1)) both}
+.sheet::backdrop{background:rgba(7,7,8,.72)}
+@keyframes sheet-in{from{transform:translateX(32px);opacity:0}to{transform:none;opacity:1}}
+.sheet-hd{display:flex;align-items:center;gap:12px;padding:14px clamp(16px,2.4vw,28px);border-bottom:1px solid var(--line);padding-top:max(14px,env(safe-area-inset-top,0px))}
+.sheet-hd #js-trig{color:var(--dim);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet-x{margin-left:auto;appearance:none;-webkit-appearance:none;background:none;border:1px solid var(--line-2);border-radius:0;color:var(--soft);padding:8px 10px;cursor:pointer;white-space:nowrap}
+.sheet-x:hover,.sheet-x:focus-visible{border-color:var(--paper);color:var(--paper);outline:none}
+.sheet-bd{flex:1;overflow-y:auto;padding:clamp(20px,3vw,36px) clamp(16px,2.4vw,28px) max(28px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:22px}
+.sheet-t{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(30px,4vw,44px);line-height:1;letter-spacing:-.045em;color:var(--paper)}
+.sheet-d{margin:-8px 0 0;color:var(--soft);font-size:17px;line-height:1.5;max-width:52ch}
+.sheet .pane{max-width:none}
+.sheet .pane-bd{min-height:0}
+.sheet .row .ac.ext{color:var(--soft)}
+.sheet-kv{margin:0;display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid var(--line)}
+.sheet-kv>div{padding:16px 0;border-bottom:1px solid var(--line);display:grid;gap:8px}
+.sheet-kv dt{color:var(--e,var(--dim))}
+.sheet-kv dd{margin:0;color:var(--paper);font-size:16px;line-height:1.5}
+@media (min-width:640px){.sheet-kv{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}}
+.sheet .actions{margin-top:0}
+@media (max-width:759px){
+  .sheet .row{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ac ts res" "msg msg msg"}
+  .sheet .row .ts{display:block;grid-area:ts}
+}
+@media (prefers-reduced-motion:reduce){.sheet[open]{animation:none}}
 </style>
 </head>
 <body>
@@ -993,10 +1031,9 @@ $$('.check[data-anim]').forEach(list=>{
 });
 
 /* ---------- log pane ---------- */
-$$('.pane[data-src]').forEach(p=>{
-  const src=document.getElementById(p.dataset.src);if(!src)return;
-  let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
+function makePane(p,c){
   function summary(){
+    if(c.sum)return c.sum;
     const toS=t=>{const q=t.split(':').map(Number);return q[0]*3600+q[1]*60+q[2]};
     let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
@@ -1005,19 +1042,21 @@ $$('.pane[data-src]').forEach(p=>{
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(WHO[r[1]]||r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    const eng=/^@[a-z]+$/.test(r[1]),who=WHO[r[1]]||r[1];
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(eng?' e-'+r[1].slice(1):'')+(!eng&&!WHO[r[1]]?' ext':'')+'">'+esc(who)+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}
   function setState(s,l){p.dataset.state=s;$('.st',p).textContent=l||s;}
   const tx=$('.cmd-tx',p),caret=$('.caret',p),rows=$('.rows',p);
   function finish(){p._run=null;tx.textContent=c.cmd;caret.hidden=true;rows.innerHTML='';c.run.forEach(r=>rows.appendChild(rowEl(r)));rows.appendChild(endEl());setState('complete');}
+  function stop(){p._run=null;}
   async function run(){
     if(RM){finish();return;}
     const id={};p._run=id;const alive=()=>p._run===id;
     tx.textContent='';rows.innerHTML='';caret.hidden=false;setState('running');
-    for(const ch of c.cmd){if(!alive())return;tx.textContent+=ch;await sleep(16+Math.random()*26);}
-    await sleep(320);if(!alive())return;caret.hidden=true;
+    for(const ch of c.cmd){if(!alive())return;tx.textContent+=ch;await sleep(c.fast?10+Math.random()*14:16+Math.random()*26);}
+    await sleep(c.fast?220:320);if(!alive())return;caret.hidden=true;
     for(const r of c.run){
       if(r[4]==='me'){
         setState('waiting','waiting on '+(WHO[r[1]]||r[1]));
@@ -1028,15 +1067,68 @@ $$('.pane[data-src]').forEach(p=>{
         while(performance.now()<until){await sleep(105);if(!alive())return;sp.textContent=fr[++k%4];}
         w.remove();setState('running');
       }else{
-        await sleep(360+Math.random()*300);if(!alive())return;
+        await sleep((c.fast?420:360)+Math.random()*300);if(!alive())return;
       }
       const el=rowEl(r);rows.appendChild(el);decode($('.res',el),300);
     }
     await sleep(420);if(!alive())return;
     rows.appendChild(endEl());setState('complete');
   }
-  $('.replay',p).addEventListener('click',run);
-  if(RM)finish();else once([p],run,.3);
+  return {run,finish,stop,set(n){c=n;}};
+}
+$$('.pane[data-src]').forEach(p=>{
+  const src=document.getElementById(p.dataset.src);if(!src)return;
+  let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
+  const ctl=makePane(p,c);
+  $('.replay',p).addEventListener('click',ctl.run);
+  if(RM)ctl.finish();else once([p],ctl.run,.3);
+});
+
+/* ---------- job walkthrough sheet ---------- */
+$$('[data-jobs]').forEach(list=>{
+  const src=document.getElementById(list.dataset.jobs);if(!src)return;
+  let J;try{J=JSON.parse(src.textContent)}catch(e){return;}
+  let dlg=$('#job-sheet'),ctl=null,opener=null;
+  function build(){
+    dlg=document.createElement('dialog');dlg.className='sheet';dlg.id='job-sheet';dlg.setAttribute('aria-labelledby','js-t');
+    dlg.innerHTML='<div class="sheet-hd"><span class="etags"><span class="etag" id="js-tag"></span></span><span class="label" id="js-trig"></span><button class="sheet-x label" type="button">close &times;</button></div>'
+      +'<div class="sheet-bd"><h2 class="sheet-t" id="js-t"></h2><p class="sheet-d" id="js-d"></p>'
+      +'<div class="pane" data-state="idle"><div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">What happens</span><span class="label">example</span></div>'
+      +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
+      +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
+      +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
+      +'<div class="actions"><a class="btn" id="js-start">Start a project</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+    document.body.appendChild(dlg);
+    $('.sheet-x',dlg).addEventListener('click',close);
+    dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
+    dlg.addEventListener('close',()=>{if(ctl)ctl.stop();document.documentElement.classList.remove('sheet-open');if(opener&&opener.focus)opener.focus();});
+    $('.replay',dlg).addEventListener('click',()=>ctl&&ctl.run());
+  }
+  function close(){if(dlg&&dlg.open)dlg.close();}
+  function open(i,btn){
+    const j=J.jobs[i];if(!j)return;
+    if(!dlg)build();
+    opener=btn;
+    dlg.className='sheet e-'+j.e;
+    const tg=$('#js-tag',dlg);tg.className='etag e-'+j.e;tg.textContent=j.name;
+    $('#js-trig',dlg).textContent='runs '+j.trig;
+    $('#js-t',dlg).textContent=j.title;$('#js-d',dlg).textContent=j.desc;
+    $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
+    const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
+    st.href=J.start;st.innerHTML='Start a project <span aria-hidden="true">&rarr;</span>';
+    dm.href=J.demo;dm.innerHTML='Try the demo <span aria-hidden="true">&rarr;</span>';
+    const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
+    const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
+    const pane=$('.pane',dlg);
+    if(ctl)ctl.stop();ctl=makePane(pane,c);
+    document.documentElement.classList.add('sheet-open');
+    if(typeof dlg.showModal==='function')dlg.showModal();else dlg.setAttribute('open','');
+    $('.sheet-bd',dlg).scrollTop=0;
+    $('.sheet-x',dlg).focus();
+    const tt=$('#js-t',dlg);recs.delete(tt);tt.removeAttribute('aria-label');decode(tt,520);
+    if(RM)ctl.finish();else ctl.run();
+  }
+  $$('.play-open',list).forEach(b=>b.addEventListener('click',()=>open(+b.dataset.job,b)));
 });
 
 /* ---------- plays filter + engine hovers ---------- */

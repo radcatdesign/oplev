@@ -344,13 +344,13 @@
     "uses": [
       [
         "leads",
-        "on your site",
+        "on your website",
         "Instant price quotes",
         "Buyers work out how much they need and get a price, and the estimate becomes a lead."
       ],
       [
         "leads",
-        "on your site",
+        "on your website",
         "Preview on their own photo",
         "A visualizer that shows the finished result on the buyer's own photo."
       ],
@@ -1253,7 +1253,7 @@
     "uses": [
       [
         "leads",
-        "on your site",
+        "on your website",
         "Waitlist and demo booking",
         "Captures signups, qualifies them and books demos with the right ones."
       ],

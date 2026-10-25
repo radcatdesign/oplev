@@ -623,6 +623,44 @@ textarea.inp{min-height:132px;resize:vertical}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* ---------- job cards + walkthrough sheet ---------- */
+.play{position:relative}
+.play .h3{margin:0}
+.play-open{appearance:none;-webkit-appearance:none;background:none;border:0;border-radius:0;padding:0;margin:0;font:inherit;color:inherit;letter-spacing:inherit;text-align:left;cursor:pointer}
+.play-open::after{content:"";position:absolute;inset:0;z-index:1}
+.play-open:focus{outline:none}
+.play-open:focus-visible::after{outline:2px solid var(--e,var(--paper));outline-offset:-2px}
+.play-go{margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:8px;color:var(--dim)}
+.play-go svg{width:12px;height:12px;transition:transform .18s}
+.play:hover .play-go{color:var(--e,var(--paper))}
+.play:hover .play-go svg{transform:translateX(3px)}
+html.sheet-open{overflow:hidden}
+.sheet{position:fixed;inset:0 0 0 auto;margin:0;padding:0;width:min(720px,100vw);max-width:100vw;height:100%;max-height:none;border:0;border-left:1px solid var(--line-2);background:var(--ink);color:var(--paper)}
+.sheet[open]{display:flex;flex-direction:column;animation:sheet-in .26s var(--wipe,cubic-bezier(.2,.7,.2,1)) both}
+.sheet::backdrop{background:rgba(7,7,8,.72)}
+@keyframes sheet-in{from{transform:translateX(32px);opacity:0}to{transform:none;opacity:1}}
+.sheet-hd{display:flex;align-items:center;gap:12px;padding:14px clamp(16px,2.4vw,28px);border-bottom:1px solid var(--line);padding-top:max(14px,env(safe-area-inset-top,0px))}
+.sheet-hd #js-trig{color:var(--dim);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet-x{margin-left:auto;appearance:none;-webkit-appearance:none;background:none;border:1px solid var(--line-2);border-radius:0;color:var(--soft);padding:8px 10px;cursor:pointer;white-space:nowrap}
+.sheet-x:hover,.sheet-x:focus-visible{border-color:var(--paper);color:var(--paper);outline:none}
+.sheet-bd{flex:1;overflow-y:auto;padding:clamp(20px,3vw,36px) clamp(16px,2.4vw,28px) max(28px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:22px}
+.sheet-t{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(30px,4vw,44px);line-height:1;letter-spacing:-.045em;color:var(--paper)}
+.sheet-d{margin:-8px 0 0;color:var(--soft);font-size:17px;line-height:1.5;max-width:52ch}
+.sheet .pane{max-width:none}
+.sheet .pane-bd{min-height:0}
+.sheet .row .ac.ext{color:var(--soft)}
+.sheet-kv{margin:0;display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid var(--line)}
+.sheet-kv>div{padding:16px 0;border-bottom:1px solid var(--line);display:grid;gap:8px}
+.sheet-kv dt{color:var(--e,var(--dim))}
+.sheet-kv dd{margin:0;color:var(--paper);font-size:16px;line-height:1.5}
+@media (min-width:640px){.sheet-kv{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}}
+.sheet .actions{margin-top:0}
+@media (max-width:759px){
+  .sheet .row{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ac ts res" "msg msg msg"}
+  .sheet .row .ts{display:block;grid-area:ts}
+}
+@media (prefers-reduced-motion:reduce){.sheet[open]{animation:none}}
 </style>
 </head>
 <body>
@@ -685,7 +723,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <dl class="facts f4">
       <div><dt class="label">For</dt><dd>Clinics, therapists, med spas and solo practitioners</dd></div>
       <div><dt class="label">Engines</dt><dd><span class="etags"><span class="etag e-ops">Ops</span><span class="etag e-agents">Agents</span></span></dd></div>
-      <div><dt class="label">License</dt><dd>Two engines / $10k a month</dd></div>
+      <div><dt class="label">Plan</dt><dd>Two engines / $10k a month</dd></div>
       <div><dt class="label">Connects</dt><dd>Google Calendar, Gmail, Stripe, Intake forms, SMS</dd></div>
     </dl>
     <div class="actions"><a class="btn" href="../start.html#clinic">Start with this setup <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="../app.html#clinic">Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
@@ -698,18 +736,19 @@ textarea.inp{min-height:132px;resize:vertical}
       <div class="head-l">
         <p class="eyebrow">What it handles</p>
         <h2 class="h2" id="uses-h">Jobs it takes off your plate.</h2>
-        <p class="lede">We set each one up with you and adjust them as you go.</p>
+        <p class="lede">We set each one up with you and adjust them as you go. Tap any job to see what happens, step by step.</p>
       </div>
       <p class="label">6 jobs</p>
     </div>
-    <ul class="plays plays-top">
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">when a new inquiry comes in</span></div><h3 class="h3">New client intake</h3><p>Reads the request, matches it to the right service and provider, and drafts a reply with open times.</p></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">24 hours before a visit</span></div><h3 class="h3">Visit reminders</h3><p>Confirms the visit and sends the intake form if it&#x27;s still missing.</p></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">when a client misses a visit</span></div><h3 class="h3">Missed visit rebooking</h3><p>Reaches out the same day and offers the next open slot.</p></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">after every visit</span></div><h3 class="h3">Visit notes</h3><p>Turns your dictated findings into a structured note for you to review.</p></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">7 days after an invoice is due</span></div><h3 class="h3">Unpaid invoice reminders</h3><p>Polite reminders first, then a flag for you.</p></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">every morning at 6</span></div><h3 class="h3">Morning summary</h3><p>Today&#x27;s schedule, open notes, unpaid invoices and anything waiting on you.</p></li>
+    <ul class="plays plays-top" data-jobs="jobs-data">
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">when a new inquiry comes in</span></div><h3 class="h3"><button class="play-open" type="button" data-job="0" aria-haspopup="dialog">New client intake</button></h3><p>Reads the request, matches it to the right service and provider, and drafts a reply with open times.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">24 hours before a visit</span></div><h3 class="h3"><button class="play-open" type="button" data-job="1" aria-haspopup="dialog">Visit reminders</button></h3><p>Confirms the visit and sends the intake form if it&#x27;s still missing.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">when a client misses a visit</span></div><h3 class="h3"><button class="play-open" type="button" data-job="2" aria-haspopup="dialog">Missed visit rebooking</button></h3><p>Reaches out the same day and offers the next open slot.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">after every visit</span></div><h3 class="h3"><button class="play-open" type="button" data-job="3" aria-haspopup="dialog">Visit notes</button></h3><p>Turns your dictated findings into a structured note for you to review.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">7 days after an invoice is due</span></div><h3 class="h3"><button class="play-open" type="button" data-job="4" aria-haspopup="dialog">Unpaid invoice reminders</button></h3><p>Polite reminders first, then a flag for you.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">every morning at 6</span></div><h3 class="h3"><button class="play-open" type="button" data-job="5" aria-haspopup="dialog">Morning summary</button></h3><p>Today&#x27;s schedule, open notes, unpaid invoices and anything waiting on you.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
     </ul>
+    <script type="application/json" id="jobs-data">{"start": "../start.html#clinic", "demo": "../app.html#clinic", "jobs": [{"e": "agents", "name": "Agents", "trig": "when a new inquiry comes in", "title": "New client intake", "desc": "Reads the request, matches it to the right service and provider, and drafts a reply with open times.", "ex": "A new client asks to book at 8:50pm", "steps": [["8:50pm", "Client", "asks for help with a sore shoulder", "received"], ["8:50pm", "@agents", "matches it to a shoulder assessment", "matched"], ["8:51pm", "@agents", "drafts a reply with three open times", "drafted"], ["8:51pm", "you", "reply waiting for your OK", "waiting", "need"], ["7:10am", "you", "approve it", "ok", "me"], ["7:10am", "@agents", "sends the reply and the intake form", "sent"], ["7:42am", "Client", "books Tuesday at 9am", "booked"]], "you": "You approve the first reply to every new client.", "get": "New clients get a real answer and open times, even after hours."}, {"e": "agents", "name": "Agents", "trig": "24 hours before a visit", "title": "Visit reminders", "desc": "Confirms the visit and sends the intake form if it's still missing.", "ex": "A visit is booked for tomorrow at 9am", "steps": [["Mon 9am", "@agents", "texts a reminder for Tuesday at 9am", "sent"], ["Mon 9am", "@ops", "sees the intake form is still missing", "missing"], ["Mon 9am", "@agents", "sends the form with the reminder", "sent"], ["Mon 11am", "Client", "confirms and fills in the form", "confirmed"], ["Mon 11am", "@ops", "adds the form to their file", "saved"]], "you": "Nothing. If someone needs to move their visit, it offers new times.", "get": "Fewer no-shows, and forms are done before people walk in."}, {"e": "agents", "name": "Agents", "trig": "when a client misses a visit", "title": "Missed visit rebooking", "desc": "Reaches out the same day and offers the next open slot.", "ex": "A client misses their 10am visit", "steps": [["10:15am", "@ops", "marks the 10am visit as missed", "missed"], ["10:16am", "@agents", "texts a kind note with two open times", "sent"], ["11:02am", "Client", "picks Thursday at 2pm", "picked"], ["11:02am", "@ops", "books it with the same provider", "booked"], ["11:03am", "@agents", "sends a confirmation and a reminder", "confirmed"]], "you": "Nothing, unless they ask something only you can answer.", "get": "Missed visits get rebooked the same day instead of falling off."}, {"e": "ops", "name": "Ops", "trig": "after every visit", "title": "Visit notes", "desc": "Turns your dictated findings into a structured note for you to review.", "ex": "Right after a visit", "steps": [["9:50am", "you", "say your findings into your phone", "recorded"], ["9:51am", "@ops", "turns it into a note in your usual format", "drafted"], ["9:51am", "@ops", "adds the exercises and the next visit", "added"], ["9:52am", "you", "note waiting for your review", "waiting", "need"], ["12:30pm", "you", "fix one line and sign it", "signed", "me"], ["12:30pm", "@ops", "saves it to the client's file", "saved"]], "you": "You review and sign every note. Nothing is filed without you.", "get": "Notes get done in minutes between visits, not at night."}, {"e": "agents", "name": "Agents", "trig": "7 days after an invoice is due", "title": "Unpaid invoice reminders", "desc": "Polite reminders first, then a flag for you.", "ex": "An invoice is a week overdue", "steps": [["day 7", "@ops", "sees invoice #1047 is 7 days late", "late"], ["day 7", "@agents", "sends a polite reminder with a pay link", "sent"], ["day 12", "@agents", "sends a second, firmer reminder", "sent"], ["day 14", "@agents", "still unpaid, so it lets you know", "flagged"], ["day 14", "you", "make a quick call", "called"], ["day 15", "@ops", "payment comes in and the invoice closes", "paid"]], "you": "You only step in if two reminders don't work.", "get": "You get paid faster without chasing anyone yourself."}, {"e": "ops", "name": "Ops", "trig": "every morning at 6", "title": "Morning summary", "desc": "Today's schedule, open notes, unpaid invoices and anything waiting on you.", "ex": "Every morning at 6", "steps": [["6:00am", "@ops", "pulls today's schedule for each provider", "pulled"], ["6:00am", "@ops", "finds 2 visit notes still to sign", "found"], ["6:01am", "@ops", "lists 3 unpaid invoices", "listed"], ["6:01am", "@ops", "adds anything waiting for your OK", "added"], ["6:02am", "@ops", "sends it to your phone", "sent"], ["7:05am", "you", "read it before the first client", "read"]], "you": "You read one message instead of checking five apps.", "get": "You walk in knowing the day, and nothing slips."}]}</script>
   </div>
 </section>
 
@@ -1057,10 +1096,9 @@ $$('.check[data-anim]').forEach(list=>{
 });
 
 /* ---------- log pane ---------- */
-$$('.pane[data-src]').forEach(p=>{
-  const src=document.getElementById(p.dataset.src);if(!src)return;
-  let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
+function makePane(p,c){
   function summary(){
+    if(c.sum)return c.sum;
     const toS=t=>{const q=t.split(':').map(Number);return q[0]*3600+q[1]*60+q[2]};
     let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
@@ -1069,19 +1107,21 @@ $$('.pane[data-src]').forEach(p=>{
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(WHO[r[1]]||r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    const eng=/^@[a-z]+$/.test(r[1]),who=WHO[r[1]]||r[1];
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(eng?' e-'+r[1].slice(1):'')+(!eng&&!WHO[r[1]]?' ext':'')+'">'+esc(who)+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}
   function setState(s,l){p.dataset.state=s;$('.st',p).textContent=l||s;}
   const tx=$('.cmd-tx',p),caret=$('.caret',p),rows=$('.rows',p);
   function finish(){p._run=null;tx.textContent=c.cmd;caret.hidden=true;rows.innerHTML='';c.run.forEach(r=>rows.appendChild(rowEl(r)));rows.appendChild(endEl());setState('complete');}
+  function stop(){p._run=null;}
   async function run(){
     if(RM){finish();return;}
     const id={};p._run=id;const alive=()=>p._run===id;
     tx.textContent='';rows.innerHTML='';caret.hidden=false;setState('running');
-    for(const ch of c.cmd){if(!alive())return;tx.textContent+=ch;await sleep(16+Math.random()*26);}
-    await sleep(320);if(!alive())return;caret.hidden=true;
+    for(const ch of c.cmd){if(!alive())return;tx.textContent+=ch;await sleep(c.fast?10+Math.random()*14:16+Math.random()*26);}
+    await sleep(c.fast?220:320);if(!alive())return;caret.hidden=true;
     for(const r of c.run){
       if(r[4]==='me'){
         setState('waiting','waiting on '+(WHO[r[1]]||r[1]));
@@ -1092,15 +1132,68 @@ $$('.pane[data-src]').forEach(p=>{
         while(performance.now()<until){await sleep(105);if(!alive())return;sp.textContent=fr[++k%4];}
         w.remove();setState('running');
       }else{
-        await sleep(360+Math.random()*300);if(!alive())return;
+        await sleep((c.fast?420:360)+Math.random()*300);if(!alive())return;
       }
       const el=rowEl(r);rows.appendChild(el);decode($('.res',el),300);
     }
     await sleep(420);if(!alive())return;
     rows.appendChild(endEl());setState('complete');
   }
-  $('.replay',p).addEventListener('click',run);
-  if(RM)finish();else once([p],run,.3);
+  return {run,finish,stop,set(n){c=n;}};
+}
+$$('.pane[data-src]').forEach(p=>{
+  const src=document.getElementById(p.dataset.src);if(!src)return;
+  let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
+  const ctl=makePane(p,c);
+  $('.replay',p).addEventListener('click',ctl.run);
+  if(RM)ctl.finish();else once([p],ctl.run,.3);
+});
+
+/* ---------- job walkthrough sheet ---------- */
+$$('[data-jobs]').forEach(list=>{
+  const src=document.getElementById(list.dataset.jobs);if(!src)return;
+  let J;try{J=JSON.parse(src.textContent)}catch(e){return;}
+  let dlg=$('#job-sheet'),ctl=null,opener=null;
+  function build(){
+    dlg=document.createElement('dialog');dlg.className='sheet';dlg.id='job-sheet';dlg.setAttribute('aria-labelledby','js-t');
+    dlg.innerHTML='<div class="sheet-hd"><span class="etags"><span class="etag" id="js-tag"></span></span><span class="label" id="js-trig"></span><button class="sheet-x label" type="button">close &times;</button></div>'
+      +'<div class="sheet-bd"><h2 class="sheet-t" id="js-t"></h2><p class="sheet-d" id="js-d"></p>'
+      +'<div class="pane" data-state="idle"><div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">What happens</span><span class="label">example</span></div>'
+      +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
+      +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
+      +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
+      +'<div class="actions"><a class="btn" id="js-start">Start a project</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+    document.body.appendChild(dlg);
+    $('.sheet-x',dlg).addEventListener('click',close);
+    dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
+    dlg.addEventListener('close',()=>{if(ctl)ctl.stop();document.documentElement.classList.remove('sheet-open');if(opener&&opener.focus)opener.focus();});
+    $('.replay',dlg).addEventListener('click',()=>ctl&&ctl.run());
+  }
+  function close(){if(dlg&&dlg.open)dlg.close();}
+  function open(i,btn){
+    const j=J.jobs[i];if(!j)return;
+    if(!dlg)build();
+    opener=btn;
+    dlg.className='sheet e-'+j.e;
+    const tg=$('#js-tag',dlg);tg.className='etag e-'+j.e;tg.textContent=j.name;
+    $('#js-trig',dlg).textContent='runs '+j.trig;
+    $('#js-t',dlg).textContent=j.title;$('#js-d',dlg).textContent=j.desc;
+    $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
+    const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
+    st.href=J.start;st.innerHTML='Start a project <span aria-hidden="true">&rarr;</span>';
+    dm.href=J.demo;dm.innerHTML='Try the demo <span aria-hidden="true">&rarr;</span>';
+    const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
+    const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
+    const pane=$('.pane',dlg);
+    if(ctl)ctl.stop();ctl=makePane(pane,c);
+    document.documentElement.classList.add('sheet-open');
+    if(typeof dlg.showModal==='function')dlg.showModal();else dlg.setAttribute('open','');
+    $('.sheet-bd',dlg).scrollTop=0;
+    $('.sheet-x',dlg).focus();
+    const tt=$('#js-t',dlg);recs.delete(tt);tt.removeAttribute('aria-label');decode(tt,520);
+    if(RM)ctl.finish();else ctl.run();
+  }
+  $$('.play-open',list).forEach(b=>b.addEventListener('click',()=>open(+b.dataset.job,b)));
 });
 
 /* ---------- plays filter + engine hovers ---------- */

@@ -18,6 +18,7 @@ APP_CSS = (ROOT / 'src' / 'app.css').read_text()
 APP_JS = (ROOT / 'src' / 'app.js').read_text()
 SETUPS = json.loads((ROOT / 'content' / 'setups.json').read_text())
 SETUP = {x['id']: x for x in SETUPS}
+JOBS = json.loads((ROOT / 'content' / 'jobs.json').read_text())
 LICENSES = {'one': {'name': 'One engine', 'price': '$5k', 'count': 1},
             'core': {'name': 'Two engines', 'price': '$10k', 'count': 2},
             'company': {'name': 'All three', 'price': '$15k+', 'count': 3}}
@@ -256,6 +257,29 @@ def etags(keys, extra=''):
         f'<span class="etag e-{k}">{ENGINE_NAME[k]}</span>' for k in keys if k in ENGINE_NAME) + '</span>'
 
 
+def job_of(title, sid=None):
+    j = JOBS.get(f'{sid}:{title}') if sid else None
+    j = j or JOBS.get(title)
+    assert j, f'no walkthrough for job: {title}'
+    return j
+
+
+def job_cards(items, sid=None, p='', extra_cls=''):
+    """Clickable job cards plus the data the walkthrough sheet plays."""
+    cards, data = [], []
+    for i, (e, trig, title, desc) in enumerate(items):
+        j = job_of(title, sid)
+        data.append({'e': e, 'name': ENGINE_NAME[e], 'trig': trig, 'title': title, 'desc': desc,
+                     'ex': j['ex'], 'steps': j['steps'], 'you': j['you'], 'get': j['get']})
+        cards.append(f'''
+      <li class="play e-{e}" data-e="{e}"><div class="play-top">{etags([e])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3"><button class="play-open" type="button" data-job="{i}" aria-haspopup="dialog">{E(title)}</button></h3><p>{E(desc)}</p><span class="play-go label" aria-hidden="true">see how it works {ARR_R}</span></li>''')
+    start = f'{p}start.html' + (f'#{sid}' if sid else '')
+    demo = f'{p}app.html' + (f'#{sid}' if sid else '')
+    blob = json.dumps({'start': start, 'demo': demo, 'jobs': data}).replace('</', '<\\/')
+    return (f'<ul class="plays{extra_cls}" data-jobs="jobs-data">' + ''.join(cards) + '\n    </ul>\n'
+            f'    <script type="application/json" id="jobs-data">{blob}</script>')
+
+
 def cta(title, text, p):
     return f'''
 <section class="sec" id="next" aria-labelledby="next-h">
@@ -377,9 +401,7 @@ def home(mode='full'):
       </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
     filters = '<button class="tab" type="button" aria-pressed="true" data-f="all">All</button>' + ''.join(
         f'<button class="tab e-{k}" type="button" aria-pressed="false" data-f="{k}">{E(name)}</button>' for k, name, *_ in ENGINES)
-    plays = ''.join(f'''
-      <li class="play e-{k}" data-e="{k}"><div class="play-top">{etags([k])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3">{E(title)}</h3><p>{E(desc)}</p></li>'''
-                    for k, trig, title, desc in PLAYS)
+    plays = job_cards(PLAYS)
     night = json.dumps(NIGHT).replace('</', '<\\/')
     body = f'''
 <section class="hero" id="hero">
@@ -485,13 +507,12 @@ def home(mode='full'):
       <div class="head-l">
         <p class="eyebrow">What it handles</p>
         <h2 class="h2" id="plays-h">Jobs it takes off your plate.</h2>
-        <p class="lede">A few of the jobs the engines handle for you. Each one runs at the right moment, and we set it up around how you work.</p>
+        <p class="lede">A few of the jobs the engines handle for you. Tap any one to see exactly what happens, step by step.</p>
       </div>
       <p class="label">{len(PLAYS)} examples</p>
     </div>
     <div class="tabs filters" role="group" aria-label="Filter by engine">{filters}</div>
-    <ul class="plays">{plays}
-    </ul>
+    {plays}
   </div>
 </section>
 
@@ -845,8 +866,7 @@ def setup_page(i):
     L = LICENSES[x['license']]
     n = len(SETUPS)
     k = x['id']
-    uses = ''.join(f'''
-      <li class="play e-{e}" data-e="{e}"><div class="play-top">{etags([e])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3">{E(t)}</h3><p>{E(d)}</p></li>''' for e, trig, t, d in x['uses'])
+    uses = job_cards([tuple(u) for u in x['uses']], sid=k, p=p, extra_cls=' plays-top')
     seen = ''.join(
         f'<a href="{case_href(BY_ID[cid], p)}">{mini(BY_ID[cid], SEED[cid], p)}<span class="h3">{E(BY_ID[cid]["name"])}</span><span class="go">{ARR_R}</span></a>'
         for cid in x['cases'] if cid in BY_ID)
@@ -864,7 +884,7 @@ def setup_page(i):
     <dl class="facts f4">
       <div><dt class="label">For</dt><dd>{E(x['for'])}</dd></div>
       <div><dt class="label">Engines</dt><dd>{etags(x['engines'])}</dd></div>
-      <div><dt class="label">License</dt><dd>{E(L['name'])} / {E(L['price'])} a month</dd></div>
+      <div><dt class="label">Plan</dt><dd>{E(L['name'])} / {E(L['price'])} a month</dd></div>
       <div><dt class="label">Connects</dt><dd>{E(', '.join(x['connects']))}</dd></div>
     </dl>
     <div class="actions"><a class="btn" href="{p}start.html#{k}">Start with this setup {ARR_R}</a><a class="btn ghost" href="{p}app.html#{k}">Try the demo {ARR_R}</a></div>
@@ -877,12 +897,11 @@ def setup_page(i):
       <div class="head-l">
         <p class="eyebrow">What it handles</p>
         <h2 class="h2" id="uses-h">Jobs it takes off your plate.</h2>
-        <p class="lede">We set each one up with you and adjust them as you go.</p>
+        <p class="lede">We set each one up with you and adjust them as you go. Tap any job to see what happens, step by step.</p>
       </div>
       <p class="label">{len(x['uses'])} jobs</p>
     </div>
-    <ul class="plays plays-top">{uses}
-    </ul>
+    {uses}
   </div>
 </section>
 
@@ -943,7 +962,7 @@ def setup_page(i):
 
 def app_page():
     data = {'engines': [{'id': k, 'name': n, 'triad': t, 'line': l, 'caps': c} for k, n, _i, t, l, c, _s in ENGINES],
-            'plays': PLAYS, 'setups': SETUPS, 'licenses': LICENSES}
+            'plays': PLAYS, 'setups': SETUPS, 'licenses': LICENSES, 'jobs': JOBS}
     blob = json.dumps(data).replace('</', '<\\/')
     return ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
