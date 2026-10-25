@@ -325,6 +325,18 @@ section[id]{scroll-margin-top:var(--nav)}
 .inc li::before{content:"";width:6px;height:6px;background:var(--ink);transform:translateY(-1px)}
 .plan .btn{align-self:flex-start}
 .fine{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 24px}
+.lic{grid-column:1 / -1;background:var(--ink);color:var(--paper);padding:clamp(22px,2.6vw,36px);display:grid;gap:24px 48px;align-items:end}
+@media (min-width:980px){.lic{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
+.lic-l{display:flex;flex-direction:column;gap:16px;min-width:0}
+.lic-l p{margin:0;color:var(--soft);font-size:16px;max-width:52ch}
+.lic-r{display:flex;flex-direction:column;gap:20px;align-items:flex-start;min-width:0}
+@media (min-width:980px){.lic-r{align-items:flex-end}}
+.band .lic .h3,.lic .price{color:var(--paper)}
+.band .lic .label,.lic .price .per{color:var(--dim)}
+.lic .price .amt{font-size:clamp(40px,4.4vw,64px)}
+.band .lic .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.band .lic .btn:hover{background:transparent;color:var(--paper)}
+.band .lic ::selection{background:var(--paper);color:var(--ink)}
 .every{display:grid;column-gap:40px;border-top:1px solid var(--line)}
 @media (min-width:760px){.every{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ev{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
@@ -534,20 +546,21 @@ html.is-loading .loader,.loader.out{display:flex}
   </div>
 </section>
 
-<section class="sec band" id="ownership" aria-labelledby="own-h">
+<section class="sec band" id="license" aria-labelledby="lic-home-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/ownership</p>
-        <h2 class="h2" id="own-h">You own everything we build.</h2>
+        <p class="eyebrow">~/oplev/license</p>
+        <h2 class="h2" id="lic-home-h">We build it. We keep it running.</h2>
       </div>
-      <p class="label">no lock-in</p>
+      <a class="btn" href="pricing.html">See licenses <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
     </div>
     <div class="terms">
-      <div class="term"><h3 class="h3">It lives in your accounts.</h3><p>Docs, workflows and agents run in your tools, under your logins.</p></div>
+      <div class="term"><h3 class="h3">We own the software.</h3><p>OpLev builds it, owns the code and keeps improving it.</p></div>
+      <div class="term"><h3 class="h3">You license it.</h3><p>One monthly license covers use, hosting, maintenance and updates.</p></div>
+      <div class="term"><h3 class="h3">Resell it if you want.</h3><p>A commercial license lets you sell the software to other businesses.</p></div>
       <div class="term"><h3 class="h3">Agents ask before they act.</h3><p>Anything that touches a customer, money or a contract waits for a person to approve it.</p></div>
       <div class="term"><h3 class="h3">Every action leaves a log.</h3><p>You can see what each agent did, when it did it and what it was working from.</p></div>
-      <div class="term"><h3 class="h3">Stay because it works.</h3><p>After the build, support is month to month. Leave when it stops being useful. The system stays yours.</p></div>
     </div>
   </div>
 </section>

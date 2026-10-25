@@ -277,20 +277,21 @@ def home(mode='full'):
   </div>
 </section>
 
-<section class="sec band" id="ownership" aria-labelledby="own-h">
+<section class="sec band" id="license" aria-labelledby="lic-home-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/ownership</p>
-        <h2 class="h2" id="own-h">You own everything we build.</h2>
+        <p class="eyebrow">~/oplev/license</p>
+        <h2 class="h2" id="lic-home-h">We build it. We keep it running.</h2>
       </div>
-      <p class="label">no lock-in</p>
+      <a class="btn" href="pricing.html">See licenses {ARR_R}</a>
     </div>
     <div class="terms">
-      <div class="term"><h3 class="h3">It lives in your accounts.</h3><p>Docs, workflows and agents run in your tools, under your logins.</p></div>
+      <div class="term"><h3 class="h3">We own the software.</h3><p>OpLev builds it, owns the code and keeps improving it.</p></div>
+      <div class="term"><h3 class="h3">You license it.</h3><p>One monthly license covers use, hosting, maintenance and updates.</p></div>
+      <div class="term"><h3 class="h3">Resell it if you want.</h3><p>A commercial license lets you sell the software to other businesses.</p></div>
       <div class="term"><h3 class="h3">Agents ask before they act.</h3><p>Anything that touches a customer, money or a contract waits for a person to approve it.</p></div>
       <div class="term"><h3 class="h3">Every action leaves a log.</h3><p>You can see what each agent did, when it did it and what it was working from.</p></div>
-      <div class="term"><h3 class="h3">Stay because it works.</h3><p>After the build, support is month to month. Leave when it stops being useful. The system stays yours.</p></div>
     </div>
   </div>
 </section>
@@ -317,7 +318,7 @@ def plan(n, name, amt, who, inc, btn):
     lis = ''.join(f'\n          <li>{E(x)}</li>' for x in inc)
     return f'''
       <article class="plan" aria-labelledby="p{n}">
-        <div class="plan-top"><span class="label">plan {n:02d} / 03</span></div>
+        <div class="plan-top"><span class="label">license {n:02d} / 03</span></div>
         <div class="plan-id">
           <h3 class="h3" id="p{n}">{name}</h3>
           <p class="price"><span class="amt">{amt}</span><span class="per">/ month</span></p>
@@ -331,25 +332,38 @@ def plan(n, name, amt, who, inc, btn):
 
 def pricing():
     plans = (plan(1, 'One function', '$5k', 'One part of the business needs to stop running through you.',
-                  ['One function written down and built out', 'Up to 2 work agents', 'Playbooks for that function',
+                  ['License for one custom system', 'Up to 2 work agents', 'Hosting, maintenance and updates',
                    'Monthly OpLev Score', 'Monthly working session', 'Async support, reply within a business day'],
                   'Start with one')
              + plan(2, 'Core ops', '$10k', "A growing team where the work lives in a few people's heads.",
-                    ['Up to 3 functions written down and built out', 'Up to 6 work agents', 'Team interviews with Mira',
-                     'Dashboards for each function', 'Monthly OpLev Score, scored with your team',
+                    ['License for up to 3 custom systems', 'Up to 6 work agents', 'Team interviews with Mira',
+                     'Monthly OpLev Score with your team', 'Hosting, maintenance and updates',
                      'Weekly working session', 'Same-day support'],
                     'Start core ops')
-             + plan(3, 'Whole company', '$15k+', 'You want the whole operation written down and running.',
-                    ['Every function', 'Custom agents, scoped with you', 'A searchable company knowledge base',
-                     'OpLev Score across teams and roles', 'Weekly sessions and on-call support',
+             + plan(3, 'Whole company', '$15k+', 'You want the whole operation running on one platform.',
+                    ['License for every system we build you', 'Custom agents, scoped with you',
+                     'A searchable company knowledge base', 'OpLev Score across teams and roles',
+                     'Hosting, maintenance and updates', 'Weekly sessions and on-call support',
                      'Priced by team size and scope'],
                     'Talk to us'))
+    lic = f'''
+      <article class="lic" aria-labelledby="lic-h">
+        <div class="lic-l">
+          <span class="label">add-on / any license</span>
+          <h3 class="h3" id="lic-h">Commercial license</h3>
+          <p>Built something other businesses would pay for? A commercial license gives you the right to resell the software to them.</p>
+        </div>
+        <div class="lic-r">
+          <p class="price"><span class="amt">Quoted</span><span class="per">/ per deal</span></p>
+          <a class="btn" href="index.html#contact">Ask about resale {ARR_R}</a>
+        </div>
+      </article>'''
     body = f'''
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">~/oplev/pricing</p>
-    <h1 class="h1" id="h1">One monthly fee. No lock-in.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">Every plan covers the build, the agents and the two of us keeping them running. Plans are month to month, and everything we build is yours.</p>
+    <h1 class="h1" id="h1">One license. We keep it running.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">OpLev builds and owns the software. Your monthly license covers using it, plus the hosting, maintenance and updates. Want to sell it to other businesses? Add a commercial license.</p>
   </div>
 </section>
 
@@ -357,34 +371,35 @@ def pricing():
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/plans</p>
-        <h2 class="h2" id="plans-h">Pick the scope. We do the work.</h2>
+        <p class="eyebrow">~/oplev/licenses</p>
+        <h2 class="h2" id="plans-h">Pick the scope. We run the software.</h2>
       </div>
       <p class="label">usd / billed monthly</p>
     </div>
-    <div class="plans">{plans}
+    <div class="plans">{plans}{lic}
     </div>
     <div class="fine">
-      <p class="label">month to month</p>
-      <p class="label">switch plans any month</p>
-      <p class="label">you own all of it</p>
+      <p class="label">license billed monthly</p>
+      <p class="label">hosting + maintenance included</p>
+      <p class="label">resale by commercial license</p>
     </div>
   </div>
 </section>
 
-<section class="sec" id="every" aria-labelledby="every-h">
+<section class="sec" id="license" aria-labelledby="license-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/plans/all</p>
-        <h2 class="h2" id="every-h">In every plan.</h2>
+        <p class="eyebrow">~/oplev/license</p>
+        <h2 class="h2" id="license-h">How the license works.</h2>
       </div>
+      <p class="label">build / own / license / resell</p>
     </div>
     <div class="every">
-      <div class="ev"><span class="b" aria-hidden="true">[x]</span><h3 class="h3">Built in your tools</h3><p>We work in the software you already pay for. No new platform to learn.</p></div>
-      <div class="ev"><span class="b" aria-hidden="true">[x]</span><h3 class="h3">Agents ask first</h3><p>Anything that touches a customer, money or a contract waits for a person to approve it.</p></div>
-      <div class="ev"><span class="b" aria-hidden="true">[x]</span><h3 class="h3">You own it</h3><p>Docs, workflows and agents live in your accounts and keep running if you leave.</p></div>
-      <div class="ev"><span class="b" aria-hidden="true">[x]</span><h3 class="h3">Founders on the work</h3><p>Andre and Matt do the work themselves. No account managers in between.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">We build it</h3><p>Custom software, agents and tools, made for how your business runs.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">We own it</h3><p>OpLev owns the code and keeps improving it.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">03</span><h3 class="h3">You license it</h3><p>One monthly license covers use, hosting, maintenance and updates.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">04</span><h3 class="h3">Resell it, if you want</h3><p>A commercial license lets you sell the software to other businesses.</p></div>
     </div>
   </div>
 </section>
@@ -400,40 +415,44 @@ def pricing():
     <div class="faq">
       <details open>
         <summary><span class="h3">Where do we start?</span></summary>
-        <p class="a">With the OpLev Score. Your team answers a short set of questions with Mira, and we show you where the business leans on one person. That tells us which plan fits.</p>
+        <p class="a">With the OpLev Score. Your team answers a short set of questions with Mira, and we show you where the business leans on one person. That tells us which license fits.</p>
       </details>
       <details>
-        <summary><span class="h3">Do we even need this?</span></summary>
-        <p class="a">Maybe not. If the business runs fine while you take two weeks off, keep your money. We'll tell you that on the first call.</p>
+        <summary><span class="h3">Who owns the software?</span></summary>
+        <p class="a">OpLev does. You license it, and we host, maintain and improve it while you use it. Your business data stays yours.</p>
+      </details>
+      <details>
+        <summary><span class="h3">What is a commercial license?</span></summary>
+        <p class="a">It gives you the right to sell the software to other businesses. You can add it to any license, and we price it per deal based on how you plan to sell.</p>
       </details>
       <details>
         <summary><span class="h3">What does the + on Whole company mean?</span></summary>
-        <p class="a">It starts at $15k a month and goes up with team size and the number of functions we take on. We quote it after the OpLev Score, so you know the number before you commit.</p>
+        <p class="a">It starts at $15k a month and goes up with team size and the number of systems we build. We quote it after the OpLev Score, so you know the number before you commit.</p>
       </details>
       <details>
         <summary><span class="h3">Can we change plans?</span></summary>
         <p class="a">Yes. Move up or down at the start of any month.</p>
       </details>
       <details>
-        <summary><span class="h3">What happens if we stop?</span></summary>
-        <p class="a">Everything stays. The playbooks, workflows and agents live in your accounts, so they keep running without us.</p>
+        <summary><span class="h3">Do we even need this?</span></summary>
+        <p class="a">Maybe not. If the business runs fine while you take two weeks off, keep your money. We'll tell you that on the first call.</p>
       </details>
     </div>
   </div>
 </section>
-''' + f'''
+
 <section class="sec" id="start" aria-labelledby="start-h">
   <div class="wrap stack">
     <p class="eyebrow">~/oplev/start</p>
-    <h2 class="h2" id="start-h">Not sure which plan fits?</h2>
-    <p class="lede">Start with the OpLev Score. We'll tell you which plan fits, even if the answer is none of them.</p>
+    <h2 class="h2" id="start-h">Not sure which license fits?</h2>
+    <p class="lede">Start with the OpLev Score. We'll tell you which license fits, even if the answer is none of them.</p>
     <div class="actions">
       <a class="btn" href="index.html#contact">Start a project {ARR_R}</a>
       <a class="btn ghost" href="work.html">See the work {ARR_R}</a>
     </div>
   </div>
 </section>'''
-    return page('OpLev Pricing', 'OpLev plans start at $5k a month. Month to month, and you own everything we build.',
+    return page('OpLev Pricing', 'OpLev software is licensed from $5k a month, with hosting and maintenance included. Commercial licenses are available for resale.',
                 body, p='', active='pricing')
 
 

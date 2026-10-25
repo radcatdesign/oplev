@@ -325,6 +325,18 @@ section[id]{scroll-margin-top:var(--nav)}
 .inc li::before{content:"";width:6px;height:6px;background:var(--ink);transform:translateY(-1px)}
 .plan .btn{align-self:flex-start}
 .fine{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 24px}
+.lic{grid-column:1 / -1;background:var(--ink);color:var(--paper);padding:clamp(22px,2.6vw,36px);display:grid;gap:24px 48px;align-items:end}
+@media (min-width:980px){.lic{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
+.lic-l{display:flex;flex-direction:column;gap:16px;min-width:0}
+.lic-l p{margin:0;color:var(--soft);font-size:16px;max-width:52ch}
+.lic-r{display:flex;flex-direction:column;gap:20px;align-items:flex-start;min-width:0}
+@media (min-width:980px){.lic-r{align-items:flex-end}}
+.band .lic .h3,.lic .price{color:var(--paper)}
+.band .lic .label,.lic .price .per{color:var(--dim)}
+.lic .price .amt{font-size:clamp(40px,4.4vw,64px)}
+.band .lic .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.band .lic .btn:hover{background:transparent;color:var(--paper)}
+.band .lic ::selection{background:var(--paper);color:var(--ink)}
 .every{display:grid;column-gap:40px;border-top:1px solid var(--line)}
 @media (min-width:760px){.every{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ev{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
