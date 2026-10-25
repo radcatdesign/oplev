@@ -568,6 +568,21 @@ def home(mode='full'):
 
 # ---------- pricing ----------
 
+def access(n):
+    status = {1: 'your pick', 2: 'your pick', 3: 'included'}[n]
+    hint = {1: 'choose 1', 2: 'choose 2', 3: 'all three'}[n]
+    meter = ''.join(f'<span class="seg{" on" if i < n else ""}"></span>' for i in range(3))
+    rows = ''.join(
+        f'<li class="e-{k}{" inc" if n == 3 else ""}"><span class="mk" aria-hidden="true"></span><span class="an">{E(name)}</span>'
+        f'<span class="at">{E(triad)}</span><span class="as">{status}</span></li>'
+        for k, name, _icon, triad, *_ in ENGINES)
+    return f'''
+        <div class="access" aria-label="Engine access: {n} of 3">
+          <div class="access-hd"><span class="label">engine access</span><span class="meter" aria-hidden="true">{meter}</span><span class="label">{n} of 3 / {hint}</span></div>
+          <ul class="access-list">{rows}</ul>
+        </div>'''
+
+
 def plan(n, slug, name, amt, who, inc, btn):
     lis = ''.join(f'\n          <li>{E(x)}</li>' for x in inc)
     return f'''
@@ -577,26 +592,46 @@ def plan(n, slug, name, amt, who, inc, btn):
           <h3 class="h3" id="p{n}">{name}</h3>
           <p class="price"><span class="amt">{amt}</span><span class="per">/ month</span></p>
         </div>
-        <p class="for">{who}</p>
+        <p class="for">{who}</p>{access(n)}
         <ul class="inc">{lis}
         </ul>
         <a class="btn" href="start.html#{slug}">{btn} {ARR_R}</a>
       </article>'''
 
 
+def engmap():
+    cols = ''
+    for k, name, _icon, triad, line, caps, _seen in ENGINES:
+        plays = ''.join(f'<li>{E(t)}</li>' for e, _trig, t, _d in PLAYS if e == k)
+        cols += f'''
+      <div class="em e-{k}">
+        <span class="label">@{k}</span>
+        <h3 class="em-name">{E(name)}</h3>
+        <p class="em-triad">{E(triad)}</p>
+        <p class="em-line">{E(line)}</p>
+        <ul class="em-caps">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul>
+        <p class="label em-pl">plays included</p>
+        <ul class="em-plays">{plays}</ul>
+      </div>'''
+    return f'''
+    <div class="engmap-hd"><p class="eyebrow">~/oplev/licenses/engines</p><h3 class="h3">What each engine gives you.</h3></div>
+    <div class="engmap">{cols}
+    </div>'''
+
+
 def pricing():
     plans = (plan(1, 'one', 'One engine', '$5k', 'Start with the engine closest to your biggest bottleneck.',
-                  ['Ops, Agents or Leads, built for your business', 'Plays tuned to how you work',
+                  ['Built around your business', 'Plays tuned to how you work',
                    'Hosting, maintenance and updates', 'Monthly OpLev Score', 'Monthly working session',
                    'Async support, reply within a business day'],
                   'Start with one')
              + plan(2, 'core', 'Two engines', '$10k', 'Two engines that feed each other, so nothing falls between them.',
-                    ['Any two engines, connected', 'Plays across both engines', 'Team interviews with Mira',
+                    ['Your two engines, connected', 'Plays across both engines', 'Team interviews with Mira',
                      'Monthly OpLev Score with your team', 'Hosting, maintenance and updates',
                      'Weekly working session', 'Same-day support'],
                     'Start with two')
              + plan(3, 'company', 'All three', '$15k+', 'The full system, built around your whole business.',
-                    ['Ops, Agents and Leads, connected', 'Custom agents and tools, scoped with you',
+                    ['All three engines, connected', 'Custom agents and tools, scoped with you',
                      'A searchable company knowledge base', 'OpLev Score across teams and roles',
                      'Hosting, maintenance and updates', 'Weekly sessions and on-call support',
                      'Priced by team size and scope'],
@@ -653,7 +688,7 @@ def pricing():
       <p class="label">license billed monthly</p>
       <p class="label">hosting + maintenance included</p>
       <p class="label">resale by commercial license</p>
-    </div>
+    </div>{engmap()}
   </div>
 </section>
 

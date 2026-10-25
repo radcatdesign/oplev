@@ -562,6 +562,42 @@ textarea.inp{min-height:132px;resize:vertical}
 .opt input[id^="inq-build-"]+span::before{border-color:var(--e,currentColor)}
 .opt input[id^="inq-build-"]:checked+span{background:var(--e,var(--paper));border-color:var(--e,var(--paper))}
 
+/* engine access on the paper band: deeper tints so they read on paper */
+:root{--ops-d:#2A66A0;--agents-d:#22703F;--leads-d:#9C5414}
+.band .e-ops{--ed:var(--ops-d)}.band .e-agents{--ed:var(--agents-d)}.band .e-leads{--ed:var(--leads-d)}
+.access{border:1px solid var(--on-paper-line);background:var(--paper-2)}
+.plan:hover .access{background:var(--paper)}
+.access-hd{display:flex;align-items:center;gap:12px;padding:10px 12px;border-bottom:1px solid var(--on-paper-line)}
+.access-hd .label:last-child{margin-left:auto;text-align:right}
+.meter{display:inline-flex;gap:3px}
+.meter .seg{width:14px;height:6px;border:1px solid var(--ink)}
+.meter .seg.on{background:var(--ink)}
+.access-list{list-style:none;margin:0;padding:0}
+.access-list li{display:grid;grid-template-columns:10px auto minmax(0,1fr) auto;align-items:baseline;gap:10px;padding:9px 12px;border-bottom:1px solid var(--on-paper-line)}
+.access-list li:last-child{border-bottom:0}
+.access-list .mk{width:9px;height:9px;border:1.5px solid var(--ed);align-self:center}
+.access-list li.inc .mk{background:var(--ed)}
+.access-list .an{font:500 14px/1.2 var(--display);font-stretch:87.5%;color:var(--ink)}
+.access-list .at{font:400 10px/1.3 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--ed);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.access-list .as{font:400 10px/1.3 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--on-paper-dim);white-space:nowrap}
+.access-list li.inc .as{color:var(--ink)}
+.access-hd .label{white-space:nowrap}
+@media (max-width:519px){.access-list li{grid-template-columns:10px minmax(0,1fr) auto}.access-list .at{display:none}.access-hd .label:first-child{display:none}}
+.engmap-hd{display:flex;flex-direction:column;gap:14px;margin:clamp(48px,6vw,80px) 0 22px}
+.engmap{display:grid;gap:1px;background:var(--on-paper-line);border:1px solid var(--on-paper-line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.engmap{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.em{background:var(--paper);border-top:1px solid var(--ed);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;min-width:0}
+.em>.label:first-child{color:var(--ed)}
+.em-name{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(32px,3.4vw,52px);line-height:.95;letter-spacing:-.055em;color:var(--ink)}
+.em-triad{margin:0;font:500 11px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--ed)}
+.em-line{margin:0;color:var(--on-paper-dim);font-size:15px;line-height:1.5}
+.em-caps{list-style:none;margin:4px 0 0;padding:0;border-top:1px solid var(--on-paper-line)}
+.em-caps li{display:grid;grid-template-columns:6px minmax(0,1fr);gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--on-paper-line);font-size:15px;line-height:1.45;color:var(--ink)}
+.em-caps li::before{content:"";width:6px;height:6px;background:var(--ed);transform:translateY(-2px)}
+.em-pl{margin-top:10px}
+.em-plays{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.em-plays li{font:400 11px/1 var(--display);letter-spacing:.03em;color:var(--ink);border:1px solid var(--on-paper-line);padding:6px 8px;background:var(--paper-2)}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -652,8 +688,12 @@ textarea.inp{min-height:132px;resize:vertical}
           <p class="price"><span class="amt">$5k</span><span class="per">/ month</span></p>
         </div>
         <p class="for">Start with the engine closest to your biggest bottleneck.</p>
+        <div class="access" aria-label="Engine access: 1 of 3">
+          <div class="access-hd"><span class="label">engine access</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg"></span><span class="seg"></span></span><span class="label">1 of 3 / choose 1</span></div>
+          <ul class="access-list"><li class="e-ops"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Map. Build. Run.</span><span class="as">your pick</span></li><li class="e-agents"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Watch. Act. Ask.</span><span class="as">your pick</span></li><li class="e-leads"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Attract. Answer. Capture.</span><span class="as">your pick</span></li></ul>
+        </div>
         <ul class="inc">
-          <li>Ops, Agents or Leads, built for your business</li>
+          <li>Built around your business</li>
           <li>Plays tuned to how you work</li>
           <li>Hosting, maintenance and updates</li>
           <li>Monthly OpLev Score</li>
@@ -669,8 +709,12 @@ textarea.inp{min-height:132px;resize:vertical}
           <p class="price"><span class="amt">$10k</span><span class="per">/ month</span></p>
         </div>
         <p class="for">Two engines that feed each other, so nothing falls between them.</p>
+        <div class="access" aria-label="Engine access: 2 of 3">
+          <div class="access-hd"><span class="label">engine access</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg on"></span><span class="seg"></span></span><span class="label">2 of 3 / choose 2</span></div>
+          <ul class="access-list"><li class="e-ops"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Map. Build. Run.</span><span class="as">your pick</span></li><li class="e-agents"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Watch. Act. Ask.</span><span class="as">your pick</span></li><li class="e-leads"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Attract. Answer. Capture.</span><span class="as">your pick</span></li></ul>
+        </div>
         <ul class="inc">
-          <li>Any two engines, connected</li>
+          <li>Your two engines, connected</li>
           <li>Plays across both engines</li>
           <li>Team interviews with Mira</li>
           <li>Monthly OpLev Score with your team</li>
@@ -687,8 +731,12 @@ textarea.inp{min-height:132px;resize:vertical}
           <p class="price"><span class="amt">$15k+</span><span class="per">/ month</span></p>
         </div>
         <p class="for">The full system, built around your whole business.</p>
+        <div class="access" aria-label="Engine access: 3 of 3">
+          <div class="access-hd"><span class="label">engine access</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span></span><span class="label">3 of 3 / all three</span></div>
+          <ul class="access-list"><li class="e-ops inc"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Map. Build. Run.</span><span class="as">included</span></li><li class="e-agents inc"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Watch. Act. Ask.</span><span class="as">included</span></li><li class="e-leads inc"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Attract. Answer. Capture.</span><span class="as">included</span></li></ul>
+        </div>
         <ul class="inc">
-          <li>Ops, Agents and Leads, connected</li>
+          <li>All three engines, connected</li>
           <li>Custom agents and tools, scoped with you</li>
           <li>A searchable company knowledge base</li>
           <li>OpLev Score across teams and roles</li>
@@ -714,6 +762,36 @@ textarea.inp{min-height:132px;resize:vertical}
       <p class="label">license billed monthly</p>
       <p class="label">hosting + maintenance included</p>
       <p class="label">resale by commercial license</p>
+    </div>
+    <div class="engmap-hd"><p class="eyebrow">~/oplev/licenses/engines</p><h3 class="h3">What each engine gives you.</h3></div>
+    <div class="engmap">
+      <div class="em e-ops">
+        <span class="label">@ops</span>
+        <h3 class="em-name">Ops</h3>
+        <p class="em-triad">Map. Build. Run.</p>
+        <p class="em-line">Custom software for how your business runs.</p>
+        <ul class="em-caps"><li>Workflows, records and dashboards built around you</li><li>One record for every client, order and job</li><li>A searchable company knowledge base</li><li>The OpLev Score, tracking what still leans on you</li></ul>
+        <p class="label em-pl">plays included</p>
+        <ul class="em-plays"><li>Owner brief</li><li>Weekly numbers</li><li>New hire setup</li><li>Restock watch</li></ul>
+      </div>
+      <div class="em e-agents">
+        <span class="label">@agents</span>
+        <h3 class="em-name">Agents</h3>
+        <p class="em-triad">Watch. Act. Ask.</p>
+        <p class="em-line">Agents that take the repeat work off your team.</p>
+        <ul class="em-caps"><li>Intake, booking and follow-up</li><li>Inbox triage and drafted replies</li><li>Reports and updates that draft themselves</li><li>A person approves anything important, and every action is logged</li></ul>
+        <p class="label em-pl">plays included</p>
+        <ul class="em-plays"><li>Quote follow-up</li><li>No-show rescue</li><li>Invoice chaser</li><li>Review ask</li><li>Investor update</li></ul>
+      </div>
+      <div class="em e-leads">
+        <span class="label">@leads</span>
+        <h3 class="em-name">Leads</h3>
+        <p class="em-triad">Attract. Answer. Capture.</p>
+        <p class="em-line">Tools that answer a buyer&#x27;s question and capture the lead.</p>
+        <ul class="em-caps"><li>Calculators, visualizers and planners</li><li>An AI guide on your site, any hour</li><li>Quotes and estimates buyers can accept online</li><li>Every lead lands in Ops with the full thread</li></ul>
+        <p class="label em-pl">plays included</p>
+        <ul class="em-plays"><li>Speed to lead</li><li>Instant estimate</li><li>See it first</li></ul>
+      </div>
     </div>
   </div>
 </section>
