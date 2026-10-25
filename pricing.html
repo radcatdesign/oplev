@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OpLev Pricing</title>
-<meta name="description" content="Custom software for one monthly license, from $5k a month with hosting, maintenance and updates included. Add a commercial license to sell it to others.">
+<meta name="description" content="License one engine from $5k a month, two for $10k or all three from $15k, with hosting, maintenance and updates included. Add a commercial license to sell it to others.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
@@ -500,6 +500,43 @@ textarea.inp{min-height:132px;resize:vertical}
 .inq-status b{font-weight:400;color:var(--paper)}
 .inq-status pre{margin:12px 0;padding:12px;border:1px dashed var(--line-2);white-space:pre-wrap;color:var(--soft);font:inherit;max-height:240px;overflow:auto}
 
+/* engines */
+.engines{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.engines{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.eng{background:var(--ink);padding:clamp(22px,2.6vw,40px);display:flex;flex-direction:column;gap:14px;min-width:0;scroll-margin-top:calc(var(--nav) + 16px);transition:background .18s}
+.eng:hover{background:var(--ink-2)}
+.eng:hover .px rect:not(.on){fill:var(--line-2)}
+.eng-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:clamp(8px,2.4vw,28px)}
+.eng-name{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(44px,5vw,76px);line-height:.95;letter-spacing:-.055em;color:var(--paper)}
+.eng-triad{margin:0;font:500 12px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--paper)}
+.eng-line{margin:0;color:var(--soft);font-size:16px;max-width:40ch}
+.eng .rowlist{margin-top:8px}
+.eng-seen{margin-top:auto;padding-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.eng-seen a{font:400 12px/1.4 var(--display);color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line-2);transition:color .18s,border-color .18s}
+.eng-seen a:hover{color:var(--paper);border-color:var(--paper)}
+
+/* engine tags */
+.etags{display:inline-flex;flex-wrap:wrap;gap:6px}
+.etag{display:inline-flex;align-items:center;font:400 11px/1 var(--display);letter-spacing:.04em;color:var(--soft);border:1px solid var(--line-2);padding:5px 7px;white-space:nowrap}
+.case-tags{margin-top:-8px}
+.card .etags{margin-top:2px}
+.fp-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+
+/* plays */
+.filters{margin-bottom:0}
+.tab[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.tab[aria-pressed="true"]::before{background:var(--ink);border-color:var(--ink)}
+.plays{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.plays{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.plays{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.play{background:var(--ink);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:12px;min-width:0;transition:background .18s}
+#overnight .pane{max-width:none}
+.play:hover{background:var(--ink-2)}
+.play-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin-bottom:6px}
+.play-trig{color:var(--dim-2);text-align:right}
+.play-trig::before{content:"trigger / ";color:var(--dim-2)}
+.play p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -532,7 +569,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <a class="brand" href="index.html" aria-label="OpLev home"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span class="brand-t">OPLEV</span></a>
     <nav class="links" aria-label="Sections">
       <a href="work.html">Work</a>
-      <a href="index.html#model">How it works</a>
+      <a href="index.html#engines">Engines</a>
       <a href="pricing.html" aria-current="page">Pricing</a>
       <a href="start.html">Contact</a>
     </nav>
@@ -549,7 +586,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <nav aria-label="Menu">
       <ul class="menu-list">
         <li><a href="work.html"><span class="mn">01</span><span class="mt">Work</span><span class="mp">~/oplev/work</span></a></li>
-        <li><a href="index.html#model"><span class="mn">02</span><span class="mt">How it works</span><span class="mp">~/oplev/model</span></a></li>
+        <li><a href="index.html#engines"><span class="mn">02</span><span class="mt">Engines</span><span class="mp">~/oplev/engines</span></a></li>
         <li><a href="pricing.html" aria-current="page"><span class="mn">03</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
         <li><a href="start.html"><span class="mn">04</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
       </ul>
@@ -563,11 +600,11 @@ textarea.inp{min-height:132px;resize:vertical}
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">~/oplev/pricing</p>
-    <h1 class="h1" id="h1">Custom software. One monthly license.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">We build software around how your business works. We own the code, host it, fix it and keep improving it, so it never goes stale. You pay one monthly license. And if other businesses want what you have, a commercial license lets you sell it to them.</p>
+    <h1 class="h1" id="h1">Three engines. One monthly license.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">License one engine or all three. We build them around how your business works, then host, fix and keep improving them, so they never go stale. And if other businesses want what you have, a commercial license lets you sell it to them.</p>
     <div class="every model-row">
-      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your software, built and kept running by us.</p></div>
-      <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates included. Move up a license as you grow.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your engines, built and kept running by us.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates included. Add engines as you grow.</p></div>
       <div class="ev"><span class="b" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>Add a commercial license and sell it to others.</p></div>
     </div>
   </div>
@@ -578,7 +615,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <div class="head">
       <div class="head-l">
         <p class="eyebrow">~/oplev/licenses</p>
-        <h2 class="h2" id="plans-h">Pick the scope. We run the software.</h2>
+        <h2 class="h2" id="plans-h">Pick your engines. We run them.</h2>
       </div>
       <p class="label">usd / billed monthly</p>
     </div>
@@ -586,13 +623,13 @@ textarea.inp{min-height:132px;resize:vertical}
       <article class="plan" aria-labelledby="p1">
         <div class="plan-top"><span class="label">license 01 / 03</span></div>
         <div class="plan-id">
-          <h3 class="h3" id="p1">One function</h3>
+          <h3 class="h3" id="p1">One engine</h3>
           <p class="price"><span class="amt">$5k</span><span class="per">/ month</span></p>
         </div>
-        <p class="for">One part of the business needs to stop running through you.</p>
+        <p class="for">Start with the engine closest to your biggest bottleneck.</p>
         <ul class="inc">
-          <li>License for one custom system</li>
-          <li>Up to 2 work agents</li>
+          <li>Ops, Agents or Leads, built for your business</li>
+          <li>Plays tuned to how you work</li>
           <li>Hosting, maintenance and updates</li>
           <li>Monthly OpLev Score</li>
           <li>Monthly working session</li>
@@ -603,31 +640,31 @@ textarea.inp{min-height:132px;resize:vertical}
       <article class="plan" aria-labelledby="p2">
         <div class="plan-top"><span class="label">license 02 / 03</span></div>
         <div class="plan-id">
-          <h3 class="h3" id="p2">Core ops</h3>
+          <h3 class="h3" id="p2">Two engines</h3>
           <p class="price"><span class="amt">$10k</span><span class="per">/ month</span></p>
         </div>
-        <p class="for">A growing team where the work lives in a few people's heads.</p>
+        <p class="for">Two engines that feed each other, so nothing falls between them.</p>
         <ul class="inc">
-          <li>License for up to 3 custom systems</li>
-          <li>Up to 6 work agents</li>
+          <li>Any two engines, connected</li>
+          <li>Plays across both engines</li>
           <li>Team interviews with Mira</li>
           <li>Monthly OpLev Score with your team</li>
           <li>Hosting, maintenance and updates</li>
           <li>Weekly working session</li>
           <li>Same-day support</li>
         </ul>
-        <a class="btn" href="start.html#core">Start core ops <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+        <a class="btn" href="start.html#core">Start with two <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
       </article>
       <article class="plan" aria-labelledby="p3">
         <div class="plan-top"><span class="label">license 03 / 03</span></div>
         <div class="plan-id">
-          <h3 class="h3" id="p3">Whole company</h3>
+          <h3 class="h3" id="p3">All three</h3>
           <p class="price"><span class="amt">$15k+</span><span class="per">/ month</span></p>
         </div>
-        <p class="for">You want the whole operation running on one platform.</p>
+        <p class="for">The full system, built around your whole business.</p>
         <ul class="inc">
-          <li>License for every system we build you</li>
-          <li>Custom agents, scoped with you</li>
+          <li>Ops, Agents and Leads, connected</li>
+          <li>Custom agents and tools, scoped with you</li>
           <li>A searchable company knowledge base</li>
           <li>OpLev Score across teams and roles</li>
           <li>Hosting, maintenance and updates</li>
@@ -721,16 +758,20 @@ textarea.inp{min-height:132px;resize:vertical}
         <p class="a">It gives you the right to sell the software to businesses like yours. Add it to any license. We price it per deal, based on how you plan to sell.</p>
       </details>
       <details>
+        <summary><span class="h3">Which engine should we start with?</span></summary>
+        <p class="a">The one closest to your biggest bottleneck. If leads slip, Leads. If your team is buried in follow-up, Agents. If nobody else knows how things run, Ops. The OpLev Score tells us for sure.</p>
+      </details>
+      <details>
         <summary><span class="h3">Where do we start?</span></summary>
         <p class="a">Send us a note. We set up a short call, then run the OpLev Score with your team to find where to build first and which license fits.</p>
       </details>
       <details>
-        <summary><span class="h3">What does the + on Whole company mean?</span></summary>
-        <p class="a">It starts at $15k a month and goes up with team size and the number of systems we build. We quote it after the OpLev Score, so you know the number before you commit.</p>
+        <summary><span class="h3">What does the + on All three mean?</span></summary>
+        <p class="a">It starts at $15k a month and goes up with team size and how much we build into each engine. We quote it after the OpLev Score, so you know the number before you commit.</p>
       </details>
       <details>
         <summary><span class="h3">Can we change licenses?</span></summary>
-        <p class="a">Yes. Move up or down at the start of any month.</p>
+        <p class="a">Yes. Add an engine or move down at the start of any month.</p>
       </details>
       <details>
         <summary><span class="h3">Do we even need this?</span></summary>
@@ -758,7 +799,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <p class="wm" id="wm"><span id="wm-t">OPLEV</span></p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>Custom software, licensed</span>
+      <span>Ops / Agents / Leads</span>
       <span>Bend, Oregon</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -1033,14 +1074,15 @@ $$('.check[data-anim]').forEach(list=>{
 });
 
 /* ---------- log pane ---------- */
-(function(){
-  const p=$('#pane'),src=$('#case-data');if(!p||!src)return;
+$$('.pane[data-src]').forEach(p=>{
+  const src=document.getElementById(p.dataset.src);if(!src)return;
   let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
   function summary(){
     const toS=t=>{const q=t.split(':').map(Number);return q[0]*3600+q[1]*60+q[2]};
-    const d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);
+    let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
-    return 'run '+Math.floor(d/60)+'m '+pad2(d%60)+'s / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
+    const dur=d>=3600?Math.floor(d/3600)+'h '+pad2(Math.floor(d%3600/60))+'m':Math.floor(d/60)+'m '+pad2(d%60)+'s';
+    return 'run '+dur+' / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
@@ -1076,7 +1118,23 @@ $$('.check[data-anim]').forEach(list=>{
   }
   $('.replay',p).addEventListener('click',run);
   if(RM)finish();else once([p],run,.3);
-})();
+});
+
+/* ---------- plays filter + engine hovers ---------- */
+$$('.filters').forEach(bar=>{
+  const list=bar.nextElementSibling;if(!list)return;
+  const btns=$$('button[data-f]',bar),items=$$('[data-e]',list);
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    const f=b.dataset.f;
+    btns.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    let k=0;
+    items.forEach(it=>{const on=f==='all'||it.dataset.e===f;it.hidden=!on;if(on&&!RM){const h=$('.h3',it);setTimeout(()=>decode(h,360),k++*50);}});
+  }));
+  btns.forEach(b=>onHover(b,()=>decode(b,300)));
+});
+$$('.play').forEach(pl=>pl.addEventListener('mouseenter',()=>decode($('.h3',pl),360)));
+$$('.eng').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng-name',e),420,CAPS+'abcdefghijklmnopqrstuvwxyz');pixDecode($('.px',e),420);}));
+if(!RM)once([$('.engines')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pixDecode(svg,900),i*160)));
 
 /* ---------- ticker ---------- */
 (function(){

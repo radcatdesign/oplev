@@ -264,14 +264,15 @@ $$('.check[data-anim]').forEach(list=>{
 });
 
 /* ---------- log pane ---------- */
-(function(){
-  const p=$('#pane'),src=$('#case-data');if(!p||!src)return;
+$$('.pane[data-src]').forEach(p=>{
+  const src=document.getElementById(p.dataset.src);if(!src)return;
   let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
   function summary(){
     const toS=t=>{const q=t.split(':').map(Number);return q[0]*3600+q[1]*60+q[2]};
-    const d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);
+    let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
-    return 'run '+Math.floor(d/60)+'m '+pad2(d%60)+'s / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
+    const dur=d>=3600?Math.floor(d/3600)+'h '+pad2(Math.floor(d%3600/60))+'m':Math.floor(d/60)+'m '+pad2(d%60)+'s';
+    return 'run '+dur+' / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
@@ -307,7 +308,23 @@ $$('.check[data-anim]').forEach(list=>{
   }
   $('.replay',p).addEventListener('click',run);
   if(RM)finish();else once([p],run,.3);
-})();
+});
+
+/* ---------- plays filter + engine hovers ---------- */
+$$('.filters').forEach(bar=>{
+  const list=bar.nextElementSibling;if(!list)return;
+  const btns=$$('button[data-f]',bar),items=$$('[data-e]',list);
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    const f=b.dataset.f;
+    btns.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    let k=0;
+    items.forEach(it=>{const on=f==='all'||it.dataset.e===f;it.hidden=!on;if(on&&!RM){const h=$('.h3',it);setTimeout(()=>decode(h,360),k++*50);}});
+  }));
+  btns.forEach(b=>onHover(b,()=>decode(b,300)));
+});
+$$('.play').forEach(pl=>pl.addEventListener('mouseenter',()=>decode($('.h3',pl),360)));
+$$('.eng').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng-name',e),420,CAPS+'abcdefghijklmnopqrstuvwxyz');pixDecode($('.px',e),420);}));
+if(!RM)once([$('.engines')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pixDecode(svg,900),i*160)));
 
 /* ---------- ticker ---------- */
 (function(){

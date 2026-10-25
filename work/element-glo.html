@@ -500,6 +500,43 @@ textarea.inp{min-height:132px;resize:vertical}
 .inq-status b{font-weight:400;color:var(--paper)}
 .inq-status pre{margin:12px 0;padding:12px;border:1px dashed var(--line-2);white-space:pre-wrap;color:var(--soft);font:inherit;max-height:240px;overflow:auto}
 
+/* engines */
+.engines{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.engines{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.eng{background:var(--ink);padding:clamp(22px,2.6vw,40px);display:flex;flex-direction:column;gap:14px;min-width:0;scroll-margin-top:calc(var(--nav) + 16px);transition:background .18s}
+.eng:hover{background:var(--ink-2)}
+.eng:hover .px rect:not(.on){fill:var(--line-2)}
+.eng-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:clamp(8px,2.4vw,28px)}
+.eng-name{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(44px,5vw,76px);line-height:.95;letter-spacing:-.055em;color:var(--paper)}
+.eng-triad{margin:0;font:500 12px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--paper)}
+.eng-line{margin:0;color:var(--soft);font-size:16px;max-width:40ch}
+.eng .rowlist{margin-top:8px}
+.eng-seen{margin-top:auto;padding-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.eng-seen a{font:400 12px/1.4 var(--display);color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line-2);transition:color .18s,border-color .18s}
+.eng-seen a:hover{color:var(--paper);border-color:var(--paper)}
+
+/* engine tags */
+.etags{display:inline-flex;flex-wrap:wrap;gap:6px}
+.etag{display:inline-flex;align-items:center;font:400 11px/1 var(--display);letter-spacing:.04em;color:var(--soft);border:1px solid var(--line-2);padding:5px 7px;white-space:nowrap}
+.case-tags{margin-top:-8px}
+.card .etags{margin-top:2px}
+.fp-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+
+/* plays */
+.filters{margin-bottom:0}
+.tab[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.tab[aria-pressed="true"]::before{background:var(--ink);border-color:var(--ink)}
+.plays{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.plays{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.plays{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.play{background:var(--ink);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:12px;min-width:0;transition:background .18s}
+#overnight .pane{max-width:none}
+.play:hover{background:var(--ink-2)}
+.play-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin-bottom:6px}
+.play-trig{color:var(--dim-2);text-align:right}
+.play-trig::before{content:"trigger / ";color:var(--dim-2)}
+.play p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -532,7 +569,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <a class="brand" href="../index.html" aria-label="OpLev home"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span class="brand-t">OPLEV</span></a>
     <nav class="links" aria-label="Sections">
       <a href="../work.html" aria-current="page">Work</a>
-      <a href="../index.html#model">How it works</a>
+      <a href="../index.html#engines">Engines</a>
       <a href="../pricing.html">Pricing</a>
       <a href="../start.html">Contact</a>
     </nav>
@@ -549,7 +586,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <nav aria-label="Menu">
       <ul class="menu-list">
         <li><a href="../work.html" aria-current="page"><span class="mn">01</span><span class="mt">Work</span><span class="mp">~/oplev/work</span></a></li>
-        <li><a href="../index.html#model"><span class="mn">02</span><span class="mt">How it works</span><span class="mp">~/oplev/model</span></a></li>
+        <li><a href="../index.html#engines"><span class="mn">02</span><span class="mt">Engines</span><span class="mp">~/oplev/engines</span></a></li>
         <li><a href="../pricing.html"><span class="mn">03</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
         <li><a href="../start.html"><span class="mn">04</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
       </ul>
@@ -566,6 +603,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <p class="eyebrow">~/oplev/work/element-glo</p>
     <h1 class="h1" id="h1">Element Glo<span class="cursor" aria-hidden="true"></span></h1>
     <p class="lede">One platform to sell, market and service a glow pool brand.</p>
+    <span class="etags case-tags"><span class="etag e-leads">@leads</span><span class="etag e-agents">@agents</span><span class="etag e-ops">@ops</span></span>
     <dl class="facts f4">
       <div><dt class="label">Focus</dt><dd>store + lead tools</dd></div>
       <div><dt class="label">Built</dt><dd>Site, store, AI guide, portal + design tools</dd></div>
@@ -617,7 +655,7 @@ textarea.inp{min-height:132px;resize:vertical}
       </div>
       <p class="label">sample run / illustrative</p>
     </div>
-    <div class="pane" id="pane" data-state="idle">
+    <div class="pane" id="pane" data-src="case-data" data-state="idle">
       <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">~/oplev/work/element-glo/run</span><span class="label">sample run</span></div>
       <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
       <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
@@ -668,7 +706,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <p class="wm" id="wm"><span id="wm-t">OPLEV</span></p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>Custom software, licensed</span>
+      <span>Ops / Agents / Leads</span>
       <span>Bend, Oregon</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -944,14 +982,15 @@ $$('.check[data-anim]').forEach(list=>{
 });
 
 /* ---------- log pane ---------- */
-(function(){
-  const p=$('#pane'),src=$('#case-data');if(!p||!src)return;
+$$('.pane[data-src]').forEach(p=>{
+  const src=document.getElementById(p.dataset.src);if(!src)return;
   let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
   function summary(){
     const toS=t=>{const q=t.split(':').map(Number);return q[0]*3600+q[1]*60+q[2]};
-    const d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);
+    let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
-    return 'run '+Math.floor(d/60)+'m '+pad2(d%60)+'s / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
+    const dur=d>=3600?Math.floor(d/3600)+'h '+pad2(Math.floor(d%3600/60))+'m':Math.floor(d/60)+'m '+pad2(d%60)+'s';
+    return 'run '+dur+' / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
@@ -987,7 +1026,23 @@ $$('.check[data-anim]').forEach(list=>{
   }
   $('.replay',p).addEventListener('click',run);
   if(RM)finish();else once([p],run,.3);
-})();
+});
+
+/* ---------- plays filter + engine hovers ---------- */
+$$('.filters').forEach(bar=>{
+  const list=bar.nextElementSibling;if(!list)return;
+  const btns=$$('button[data-f]',bar),items=$$('[data-e]',list);
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    const f=b.dataset.f;
+    btns.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    let k=0;
+    items.forEach(it=>{const on=f==='all'||it.dataset.e===f;it.hidden=!on;if(on&&!RM){const h=$('.h3',it);setTimeout(()=>decode(h,360),k++*50);}});
+  }));
+  btns.forEach(b=>onHover(b,()=>decode(b,300)));
+});
+$$('.play').forEach(pl=>pl.addEventListener('mouseenter',()=>decode($('.h3',pl),360)));
+$$('.eng').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng-name',e),420,CAPS+'abcdefghijklmnopqrstuvwxyz');pixDecode($('.px',e),420);}));
+if(!RM)once([$('.engines')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pixDecode(svg,900),i*160)));
 
 /* ---------- ticker ---------- */
 (function(){

@@ -4,6 +4,10 @@
     "name": "Adessa Mind",
     "focus": "clinic platform",
     "line": "The clinic system behind the Adessa Quotient.",
+    "engines": [
+      "ops",
+      "agents"
+    ],
     "summary": "Adessa Mind gives clients a score for how their mind is working today, from a single clinic visit. We built the platform that runs that visit from check-in to the plan they leave with. Every number traces back to its source.",
     "built": "Clinic platform + AI assistant",
     "includes": "In-clinic tests, data import, scoring, client reports, AI assistant, staff console",
@@ -120,6 +124,10 @@
     "name": "Art of Practice",
     "focus": "practice platform",
     "line": "The operating system for the solo clinical professional.",
+    "engines": [
+      "ops",
+      "agents"
+    ],
     "summary": "Solo clinical professionals pay for a stack of apps and still can't answer a simple question: am I making money? We designed and built Art of Practice, one platform for the schedule, notes, client files, payments and credentials, plus the investor overview and product demo.",
     "built": "Practice platform + investor deck",
     "includes": "Today view, charting, AI-assisted notes, practice reports, professional vault, investor overview",
@@ -228,6 +236,11 @@
     "name": "Element Glo",
     "focus": "store + lead tools",
     "line": "One platform to sell, market and service a glow pool brand.",
+    "engines": [
+      "leads",
+      "agents",
+      "ops"
+    ],
     "summary": "Element Glo makes pool finishes that glow after dark, but the business ran on phone calls, PDFs and inboxes. We built a site and store that sell the product, an AI guide that answers questions at any hour, a portal that runs sales and marketing, and free design tools that make glow an easy yes for pool builders.",
     "built": "Site, store, AI guide, portal + design tools",
     "includes": "Online store, Aggro the AI guide, staff portal, Element Glo Studio, UV light planner",
@@ -366,6 +379,10 @@
     "name": "Fit Funnels",
     "focus": "launches",
     "line": "Client launches for a fitness marketing team, on rails.",
+    "engines": [
+      "ops",
+      "agents"
+    ],
     "summary": "Each new gym client meant a week of setup and a checklist nobody could find. We turned launch into a written system and built agents for onboarding, pre-launch checks and the weekly report.",
     "built": "Operating system + 3 agents",
     "includes": "Onboarding, launch QA and reporting agents",
@@ -466,6 +483,10 @@
     "name": "Jason Stephenson",
     "focus": "publishing",
     "line": "Publishing and inbox ops for a meditation creator.",
+    "engines": [
+      "agents",
+      "ops"
+    ],
     "summary": "A large audience means a steady stream of releases, messages and licensing requests. We wrote down the release pipeline and built agents that prep each drop, sort the inbox and route licensing requests to the right person.",
     "built": "Operating system + 3 agents",
     "includes": "Publishing, inbox and licensing agents",
@@ -560,6 +581,10 @@
     "name": "MaWa!",
     "focus": "launch ops",
     "line": "Launch ops for a matcha water brand.",
+    "engines": [
+      "ops",
+      "agents"
+    ],
     "summary": "A beverage launch runs on store outreach, orders and investor updates at the same time. We built the launch system and agents that work the retail pipeline, reconcile orders and draft the monthly update.",
     "built": "Operating system + 3 agents",
     "includes": "Retail, orders and investor update agents",

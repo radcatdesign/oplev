@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OpLev</title>
-<meta name="description" content="OpLev builds custom software, work agents and lead capture tools for small businesses and startups. License it monthly, and sell it to others if you want.">
+<meta name="description" content="Three engines for small businesses and startups: Ops, Agents and Leads. Built around you, licensed monthly, and yours to sell to others.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
@@ -500,6 +500,43 @@ textarea.inp{min-height:132px;resize:vertical}
 .inq-status b{font-weight:400;color:var(--paper)}
 .inq-status pre{margin:12px 0;padding:12px;border:1px dashed var(--line-2);white-space:pre-wrap;color:var(--soft);font:inherit;max-height:240px;overflow:auto}
 
+/* engines */
+.engines{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:980px){.engines{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.eng{background:var(--ink);padding:clamp(22px,2.6vw,40px);display:flex;flex-direction:column;gap:14px;min-width:0;scroll-margin-top:calc(var(--nav) + 16px);transition:background .18s}
+.eng:hover{background:var(--ink-2)}
+.eng:hover .px rect:not(.on){fill:var(--line-2)}
+.eng-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:clamp(8px,2.4vw,28px)}
+.eng-name{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(44px,5vw,76px);line-height:.95;letter-spacing:-.055em;color:var(--paper)}
+.eng-triad{margin:0;font:500 12px/1.4 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--paper)}
+.eng-line{margin:0;color:var(--soft);font-size:16px;max-width:40ch}
+.eng .rowlist{margin-top:8px}
+.eng-seen{margin-top:auto;padding-top:14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.eng-seen a{font:400 12px/1.4 var(--display);color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line-2);transition:color .18s,border-color .18s}
+.eng-seen a:hover{color:var(--paper);border-color:var(--paper)}
+
+/* engine tags */
+.etags{display:inline-flex;flex-wrap:wrap;gap:6px}
+.etag{display:inline-flex;align-items:center;font:400 11px/1 var(--display);letter-spacing:.04em;color:var(--soft);border:1px solid var(--line-2);padding:5px 7px;white-space:nowrap}
+.case-tags{margin-top:-8px}
+.card .etags{margin-top:2px}
+.fp-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+
+/* plays */
+.filters{margin-bottom:0}
+.tab[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.tab[aria-pressed="true"]::before{background:var(--ink);border-color:var(--ink)}
+.plays{list-style:none;margin:0;padding:0;display:grid;gap:0;border-left:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.plays{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.plays{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.play{background:var(--ink);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:12px;min-width:0;transition:background .18s}
+#overnight .pane{max-width:none}
+.play:hover{background:var(--ink-2)}
+.play-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin-bottom:6px}
+.play-trig{color:var(--dim-2);text-align:right}
+.play-trig::before{content:"trigger / ";color:var(--dim-2)}
+.play p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -532,7 +569,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <a class="brand" href="#hero" aria-label="OpLev home"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span class="brand-t">OPLEV</span></a>
     <nav class="links" aria-label="Sections">
       <a href="work.html">Work</a>
-      <a href="#model">How it works</a>
+      <a href="#engines">Engines</a>
       <a href="pricing.html">Pricing</a>
       <a href="start.html">Contact</a>
     </nav>
@@ -549,7 +586,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <nav aria-label="Menu">
       <ul class="menu-list">
         <li><a href="work.html"><span class="mn">01</span><span class="mt">Work</span><span class="mp">~/oplev/work</span></a></li>
-        <li><a href="#model"><span class="mn">02</span><span class="mt">How it works</span><span class="mp">~/oplev/model</span></a></li>
+        <li><a href="#engines"><span class="mn">02</span><span class="mt">Engines</span><span class="mp">~/oplev/engines</span></a></li>
         <li><a href="pricing.html"><span class="mn">03</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
         <li><a href="start.html"><span class="mn">04</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
       </ul>
@@ -564,14 +601,14 @@ textarea.inp{min-height:132px;resize:vertical}
   <canvas class="field" id="field" aria-hidden="true"></canvas>
   <div class="wrap">
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
-    <p class="eyebrow">~/oplev/systems</p>
-    <h1 class="h1" id="h1">We build the systems your business runs on.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">OpLev builds custom software, work agents and lead capture tools for small businesses and startups. You license it monthly, we keep it running and improving, and if it works for you, you can sell it to others.</p>
+    <p class="eyebrow">~/oplev/engines</p>
+    <h1 class="h1" id="h1">Your business shouldn't need you for everything.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">OpLev builds three engines, Ops, Agents and Leads, that run the work, chase every lead and keep the business moving. Built around you, licensed monthly and kept running by us. If it works for you, you can sell it to others.</p>
     <div class="actions">
       <a class="btn" href="#work">See the work <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a>
       <a class="btn ghost" href="#start">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
     </div>
-    <nav class="hindex" aria-label="Case index"><span class="lab">index /</span><a href="work/adessa-mind.html"><span>01</span>Adessa Mind</a><i aria-hidden="true">/</i><a href="work/art-of-practice.html"><span>02</span>Art of Practice</a><i aria-hidden="true">/</i><a href="work/element-glo.html"><span>03</span>Element Glo</a><i aria-hidden="true">/</i><a href="work/fit-funnels.html"><span>04</span>Fit Funnels</a><i aria-hidden="true">/</i><a href="work/jason-stephenson.html"><span>05</span>Jason Stephenson</a><i aria-hidden="true">/</i><a href="work/mawa.html"><span>06</span>MaWa!</a></nav>
+    <nav class="hindex" aria-label="Case index"><span class="lab">built for /</span><a href="work/adessa-mind.html"><span>01</span>Adessa Mind</a><i aria-hidden="true">/</i><a href="work/art-of-practice.html"><span>02</span>Art of Practice</a><i aria-hidden="true">/</i><a href="work/element-glo.html"><span>03</span>Element Glo</a><i aria-hidden="true">/</i><a href="work/fit-funnels.html"><span>04</span>Fit Funnels</a><i aria-hidden="true">/</i><a href="work/jason-stephenson.html"><span>05</span>Jason Stephenson</a><i aria-hidden="true">/</i><a href="work/mawa.html"><span>06</span>MaWa!</a></nav>
   </div>
 </section>
 
@@ -628,7 +665,7 @@ textarea.inp{min-height:132px;resize:vertical}
 
 <div class="ticker" aria-hidden="true">
   <div class="tk-track" id="tk-track">
-    <div class="tk-set"><b>custom software</b><i>/</i><span>intake</span><i>/</i><span>booking</span><i>/</i><span>onboarding</span><i>/</i><span>dashboards</span><i>/</i><b>work agents</b><i>/</i><span>approvals</span><i>/</i><span>reporting</span><i>/</i><span>inbox triage</span><i>/</i><b>lead capture tools</b><i>/</i><span>calculators</span><i>/</i><span>visualizers</span><i>/</i><b>commercial licenses</b><i>/</i></div>
+    <div class="tk-set"><b>@ops</b><i>/</i><span>map</span><i>/</i><span>build</span><i>/</i><span>run</span><i>/</i><b>@agents</b><i>/</i><span>watch</span><i>/</i><span>act</span><i>/</i><span>ask</span><i>/</i><b>@leads</b><i>/</i><span>attract</span><i>/</i><span>answer</span><i>/</i><span>capture</span><i>/</i><b>licensed monthly</b><i>/</i><span>sell it to others</span><i>/</i></div>
   </div>
 </div>
 
@@ -636,7 +673,7 @@ textarea.inp{min-height:132px;resize:vertical}
   <div class="wrap split">
     <div class="head-l">
       <p class="eyebrow">~/oplev/familiar</p>
-      <h2 class="h2" id="familiar-h">Sound familiar?</h2>
+      <h2 class="h2" id="familiar-h">You started a business. Then it became a job.</h2>
       <p class="lede">If you've said any of these this month, we should talk.</p>
       <div class="actions"><a class="btn ghost" href="#start">Tell us yours <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
     </div>
@@ -653,19 +690,88 @@ textarea.inp{min-height:132px;resize:vertical}
   </div>
 </section>
 
-<section class="sec" id="build" aria-labelledby="build-h">
+<section class="sec" id="engines" aria-labelledby="engines-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/build</p>
-        <h2 class="h2" id="build-h">What we build.</h2>
+        <p class="eyebrow">~/oplev/engines</p>
+        <h2 class="h2" id="engines-h">One system. Three engines.</h2>
+        <p class="lede">Each engine feeds the others. Leads land in Ops, Agents follow them up, and the OpLev Score shows what changed.</p>
       </div>
-      <p class="label">systems / agents / tools</p>
+      <p class="label">@ops / @agents / @leads</p>
     </div>
-    <ul class="offer">
-      <li class="svc"><svg class="px" data-icon="system" viewBox="0 0 50 50" aria-hidden="true"></svg><h3 class="h3">Operating systems</h3><p>Custom software for how your business runs: workflows, records and dashboards your team uses every day.</p></li>
-      <li class="svc"><svg class="px" data-icon="agent" viewBox="0 0 50 50" aria-hidden="true"></svg><h3 class="h3">Work agents</h3><p>Agents that take the repeat work off your team and ask a person before anything important goes out.</p></li>
-      <li class="svc"><svg class="px" data-icon="lead" viewBox="0 0 50 50" aria-hidden="true"></svg><h3 class="h3">Lead capture tools</h3><p>Calculators, visualizers and planners that answer a buyer's question on your site and capture the lead while they use it.</p></li>
+    <div class="engines">
+      <article class="eng" id="engine-ops">
+        <div class="eng-top"><svg class="px" data-icon="system" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine 01 / @ops</span></div>
+        <h3 class="eng-name">Ops</h3>
+        <p class="eng-triad">Map. Build. Run.</p>
+        <p class="eng-line">Custom software for how your business runs.</p>
+        <ul class="rowlist"><li>Workflows, records and dashboards built around you</li><li>One record for every client, order and job</li><li>A searchable company knowledge base</li><li>The OpLev Score, tracking what still leans on you</li></ul>
+        <div class="eng-seen"><span class="label">seen in</span><a href="work/adessa-mind.html">Adessa Mind</a><a href="work/art-of-practice.html">Art of Practice</a></div>
+      </article>
+      <article class="eng" id="engine-agents">
+        <div class="eng-top"><svg class="px" data-icon="agent" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine 02 / @agents</span></div>
+        <h3 class="eng-name">Agents</h3>
+        <p class="eng-triad">Watch. Act. Ask.</p>
+        <p class="eng-line">Agents that take the repeat work off your team.</p>
+        <ul class="rowlist"><li>Intake, booking and follow-up</li><li>Inbox triage and drafted replies</li><li>Reports and updates that draft themselves</li><li>A person approves anything important, and every action is logged</li></ul>
+        <div class="eng-seen"><span class="label">seen in</span><a href="work/adessa-mind.html">Adessa Mind</a><a href="work/jason-stephenson.html">Jason Stephenson</a></div>
+      </article>
+      <article class="eng" id="engine-leads">
+        <div class="eng-top"><svg class="px" data-icon="lead" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine 03 / @leads</span></div>
+        <h3 class="eng-name">Leads</h3>
+        <p class="eng-triad">Attract. Answer. Capture.</p>
+        <p class="eng-line">Tools that answer a buyer&#x27;s question and capture the lead.</p>
+        <ul class="rowlist"><li>Calculators, visualizers and planners</li><li>An AI guide on your site, any hour</li><li>Quotes and estimates buyers can accept online</li><li>Every lead lands in Ops with the full thread</li></ul>
+        <div class="eng-seen"><span class="label">seen in</span><a href="work/element-glo.html">Element Glo</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="overnight" aria-labelledby="night-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">~/oplev/overnight</p>
+        <h2 class="h2" id="night-h">You slept. Your engines didn't.</h2>
+        <p class="lede">A night with all three engines running. Anything that matters waits for you in the morning brief.</p>
+      </div>
+      <p class="label">sample night / illustrative</p>
+    </div>
+    <div class="pane" data-src="night-data" data-state="idle">
+      <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">~/oplev/overnight</span><span class="label">sample night</span></div>
+      <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
+      <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
+    </div>
+    <script type="application/json" id="night-data">{"cmd": "oplev log --since 22:00", "run": [["22:41:07", "@leads", "visitor priced a project with the calculator", "lead saved"], ["22:41:09", "@ops", "lead added to the pipeline with the estimate", "linked"], ["22:43:30", "@agents", "drafted a reply with the estimate", "drafted"], ["23:58:12", "@agents", "sorted 14 messages into clients, vendors and noise", "sorted"], ["01:12:40", "@ops", "invoice paid, client record updated", "reconciled"], ["03:30:00", "@agents", "flagged a late invoice for follow-up", "queued"], ["05:45:00", "@ops", "morning brief ready: 1 approval, 2 new leads", "ready"], ["06:58:21", "you", "approve reply to the new lead", "pending", "need"], ["07:04:02", "you", "approved over coffee", "ok", "me"], ["07:04:04", "@agents", "sent the reply and a booking link", "sent"]]}</script>
+  </div>
+</section>
+
+<section class="sec" id="plays" aria-labelledby="plays-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">~/oplev/plays</p>
+        <h2 class="h2" id="plays-h">Plays that run themselves.</h2>
+        <p class="lede">Every engine ships with plays: the moves your best operator would make, running on a trigger. We tune each one to how you work.</p>
+      </div>
+      <p class="label">12 examples</p>
+    </div>
+    <div class="tabs filters" role="group" aria-label="Filter plays by engine"><button class="tab" type="button" aria-pressed="true" data-f="all">All plays</button><button class="tab" type="button" aria-pressed="false" data-f="ops">Ops</button><button class="tab" type="button" aria-pressed="false" data-f="agents">Agents</button><button class="tab" type="button" aria-pressed="false" data-f="leads">Leads</button></div>
+    <ul class="plays">
+      <li class="play" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">when a form or chat comes in</span></div><h3 class="h3">Speed to lead</h3><p>Reply in minutes with the right answer and a booking link, any hour.</p></li>
+      <li class="play" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">on your site</span></div><h3 class="h3">Instant estimate</h3><p>Buyers price the job themselves, and the estimate becomes a lead.</p></li>
+      <li class="play" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">on your site</span></div><h3 class="h3">See it first</h3><p>Let buyers see the finished result before they ever call.</p></li>
+      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">3 days after a quote</span></div><h3 class="h3">Quote follow-up</h3><p>Nudge open quotes before they go cold.</p></li>
+      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">when a client misses a booking</span></div><h3 class="h3">No-show rescue</h3><p>Reach out and rebook before the slot is lost.</p></li>
+      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">7 days after an invoice is due</span></div><h3 class="h3">Invoice chaser</h3><p>Polite reminders first, then a flag for you.</p></li>
+      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">after a job is done</span></div><h3 class="h3">Review ask</h3><p>Ask happy clients for a review at the right moment.</p></li>
+      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">first of the month</span></div><h3 class="h3">Investor update</h3><p>Draft the update from the month&#x27;s numbers, ready for your edit.</p></li>
+      <li class="play" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">every morning at 6</span></div><h3 class="h3">Owner brief</h3><p>What happened overnight and what needs you, on one screen.</p></li>
+      <li class="play" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">every Monday</span></div><h3 class="h3">Weekly numbers</h3><p>Revenue, pipeline and open work, without building a report.</p></li>
+      <li class="play" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">when someone joins</span></div><h3 class="h3">New hire setup</h3><p>Accounts, guides and first-week tasks, set up the same way every time.</p></li>
+      <li class="play" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">when stock runs low</span></div><h3 class="h3">Restock watch</h3><p>Draft the purchase order before you sell out, then wait for your OK.</p></li>
     </ul>
   </div>
 </section>
@@ -683,7 +789,7 @@ textarea.inp{min-height:132px;resize:vertical}
       <div class="tabs" role="tablist" aria-label="Business type"><button class="tab" type="button" role="tab" id="tab-clinic" aria-controls="panel-clinic" aria-selected="true" tabindex="0">Clinics + practices</button><button class="tab" type="button" role="tab" id="tab-brand" aria-controls="panel-brand" aria-selected="false" tabindex="-1">Product brands</button><button class="tab" type="button" role="tab" id="tab-agency" aria-controls="panel-agency" aria-selected="false" tabindex="-1">Agencies + service firms</button><button class="tab" type="button" role="tab" id="tab-creator" aria-controls="panel-creator" aria-selected="false" tabindex="-1">Creators + media</button><button class="tab" type="button" role="tab" id="tab-startup" aria-controls="panel-startup" aria-selected="false" tabindex="-1">Startups</button></div>
       <div class="fpanel" role="tabpanel" id="panel-clinic" aria-labelledby="tab-clinic">
         <div class="fp-l">
-          <span class="label">what we'd build</span>
+          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-agents">@agents</span></span></div>
           <h3 class="h3 fp-name">Clinics + practices</h3>
           <p class="fp-pitch">Smoother visits for clients. Less admin for you.</p>
           <ul class="rowlist"><li>Intake, booking and follow-up that run on their own</li><li>Notes, records and reports in one place</li><li>An assistant trained on your own material</li></ul>
@@ -696,7 +802,7 @@ textarea.inp{min-height:132px;resize:vertical}
       </div>
       <div class="fpanel" role="tabpanel" id="panel-brand" aria-labelledby="tab-brand" hidden>
         <div class="fp-l">
-          <span class="label">what we'd build</span>
+          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-leads">@leads</span><span class="etag e-agents">@agents</span></span></div>
           <h3 class="h3 fp-name">Product brands</h3>
           <p class="fp-pitch">Answer every buyer&#x27;s question and capture the order.</p>
           <ul class="rowlist"><li>A store that answers questions and takes orders</li><li>Tools that let buyers see it and price it</li><li>Orders, stock and wholesale handled by agents</li></ul>
@@ -709,7 +815,7 @@ textarea.inp{min-height:132px;resize:vertical}
       </div>
       <div class="fpanel" role="tabpanel" id="panel-agency" aria-labelledby="tab-agency" hidden>
         <div class="fp-l">
-          <span class="label">what we'd build</span>
+          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-agents">@agents</span></span></div>
           <h3 class="h3 fp-name">Agencies + service firms</h3>
           <p class="fp-pitch">Deliver the same great work without you in every thread.</p>
           <ul class="rowlist"><li>Client onboarding that runs itself</li><li>Launch checks and reports your team can trust</li><li>Your method, packaged so you can sell it</li></ul>
@@ -722,7 +828,7 @@ textarea.inp{min-height:132px;resize:vertical}
       </div>
       <div class="fpanel" role="tabpanel" id="panel-creator" aria-labelledby="tab-creator" hidden>
         <div class="fp-l">
-          <span class="label">what we'd build</span>
+          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-agents">@agents</span><span class="etag e-ops">@ops</span></span></div>
           <h3 class="h3 fp-name">Creators + media</h3>
           <p class="fp-pitch">Keep making things. Let the busywork run itself.</p>
           <ul class="rowlist"><li>A release pipeline for every channel</li><li>An inbox sorted into fans, partners and deals</li><li>Licensing and partnership requests routed</li></ul>
@@ -735,7 +841,7 @@ textarea.inp{min-height:132px;resize:vertical}
       </div>
       <div class="fpanel" role="tabpanel" id="panel-startup" aria-labelledby="tab-startup" hidden>
         <div class="fp-l">
-          <span class="label">what we'd build</span>
+          <div class="fp-top"><span class="label">usually starts with</span><span class="etags"><span class="etag e-ops">@ops</span><span class="etag e-leads">@leads</span></span></div>
           <h3 class="h3 fp-name">Startups</h3>
           <p class="fp-pitch">Run lean from day one, and turn what works into a product.</p>
           <ul class="rowlist"><li>Ops that scale before your headcount does</li><li>Investor updates that draft themselves</li><li>Software you can license to others</li></ul>
@@ -761,8 +867,8 @@ textarea.inp{min-height:132px;resize:vertical}
       <p class="label">the oplev license</p>
     </div>
     <ol class="model">
-      <li class="mcell"><span class="num" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>We build software around how your business works and keep it running. One monthly license covers hosting, fixes and updates.</p></li>
-      <li class="mcell"><span class="num" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>It keeps getting better. Add systems and agents as you grow, and move up a license when you need more.</p></li>
+      <li class="mcell"><span class="num" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>We build your engines around how your business works and keep them running. One monthly license covers hosting, fixes and updates.</p></li>
+      <li class="mcell"><span class="num" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Add plays as you go and engines as you grow. Your license moves up with you.</p></li>
       <li class="mcell"><span class="num" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>If it works for you, it will work for businesses like yours. A commercial license lets you sell it to them.</p></li>
     </ol>
     <div class="kicker">
@@ -794,13 +900,13 @@ textarea.inp{min-height:132px;resize:vertical}
   <div class="wrap inq-wrap">
     <div class="inq-side">
       <p class="eyebrow">~/oplev/start</p>
-      <h2 class="h2" id="start-h">Tell us what still runs through you.</h2>
-      <p class="lede">Two minutes. We read every one, and Andre or Matt replies personally.</p>
+      <h2 class="h2" id="start-h">Stop being the system.</h2>
+      <p class="lede">Tell us what still runs through you. Two minutes. Andre or Matt replies personally.</p>
       <ol class="next">
         <li><span class="nx-n" aria-hidden="true">01</span><div><h3 class="h3">We read it</h3><p>A real reply from one of the two people who will build your system.</p></div></li>
         <li><span class="nx-n" aria-hidden="true">02</span><div><h3 class="h3">A short call</h3><p>We talk through what still runs through you and what it costs you.</p></div></li>
         <li><span class="nx-n" aria-hidden="true">03</span><div><h3 class="h3">Your OpLev Score</h3><p>Your team answers a few questions with Mira. We show you where to build first.</p></div></li>
-        <li><span class="nx-n" aria-hidden="true">04</span><div><h3 class="h3">Your build plan</h3><p>What we'd build, which license fits, and what you can sell later.</p></div></li>
+        <li><span class="nx-n" aria-hidden="true">04</span><div><h3 class="h3">Your build plan</h3><p>Which engines to start with, which license fits, and what you could sell later.</p></div></li>
       </ol>
       <p class="label inq-alt">Prefer email? <span class="sel">hello@oplev.com</span></p>
     </div>
@@ -814,8 +920,8 @@ textarea.inp{min-height:132px;resize:vertical}
       <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-type-clinic" name="type" value="Clinic or practice"><span>Clinic or practice</span></label><label class="opt"><input type="radio" id="inq-type-brand" name="type" value="Product brand"><span>Product brand</span></label><label class="opt"><input type="radio" id="inq-type-agency" name="type" value="Agency or service firm"><span>Agency or service firm</span></label><label class="opt"><input type="radio" id="inq-type-creator" name="type" value="Creator or media"><span>Creator or media</span></label><label class="opt"><input type="radio" id="inq-type-startup" name="type" value="Startup"><span>Startup</span></label><label class="opt"><input type="radio" id="inq-type-other" name="type" value="Something else"><span>Something else</span></label></div></fieldset>
       <fieldset class="fs"><legend class="label">Team size</legend><div class="opts"><label class="opt"><input type="radio" id="inq-team-1" name="team" value="Just me"><span>Just me</span></label><label class="opt"><input type="radio" id="inq-team-2-5" name="team" value="2 to 5"><span>2 to 5</span></label><label class="opt"><input type="radio" id="inq-team-6-20" name="team" value="6 to 20"><span>6 to 20</span></label><label class="opt"><input type="radio" id="inq-team-21-50" name="team" value="21 to 50"><span>21 to 50</span></label><label class="opt"><input type="radio" id="inq-team-50" name="team" value="50+"><span>50+</span></label></div></fieldset>
       <label class="fl"><span class="label" data-err="tell us a little">What still runs through you? *</span><textarea class="inp" id="inq-message" name="message" rows="5" maxlength="4000" required placeholder="The work that only happens when you're there."></textarea></label>
-      <fieldset class="fs"><legend class="label">What should we build?</legend><div class="opts"><label class="opt"><input type="checkbox" id="inq-build-system" name="build" value="Operating system"><span>Operating system</span></label><label class="opt"><input type="checkbox" id="inq-build-agents" name="build" value="Work agents"><span>Work agents</span></label><label class="opt"><input type="checkbox" id="inq-build-lead" name="build" value="Lead capture tools"><span>Lead capture tools</span></label><label class="opt"><input type="checkbox" id="inq-build-unsure" name="build" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
-      <fieldset class="fs"><legend class="label">Which license are you thinking?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-license-one" name="license" value="One function / $5k"><span>One function / $5k</span></label><label class="opt"><input type="radio" id="inq-license-core" name="license" value="Core ops / $10k"><span>Core ops / $10k</span></label><label class="opt"><input type="radio" id="inq-license-company" name="license" value="Whole company / $15k+"><span>Whole company / $15k+</span></label><label class="opt"><input type="radio" id="inq-license-unsure" name="license" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
+      <fieldset class="fs"><legend class="label">Which engines interest you?</legend><div class="opts"><label class="opt"><input type="checkbox" id="inq-build-ops" name="build" value="Ops engine"><span>Ops engine</span></label><label class="opt"><input type="checkbox" id="inq-build-agents" name="build" value="Agents engine"><span>Agents engine</span></label><label class="opt"><input type="checkbox" id="inq-build-leads" name="build" value="Leads engine"><span>Leads engine</span></label><label class="opt"><input type="checkbox" id="inq-build-unsure" name="build" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
+      <fieldset class="fs"><legend class="label">Which license are you thinking?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-license-one" name="license" value="One engine / $5k"><span>One engine / $5k</span></label><label class="opt"><input type="radio" id="inq-license-core" name="license" value="Two engines / $10k"><span>Two engines / $10k</span></label><label class="opt"><input type="radio" id="inq-license-company" name="license" value="All three / $15k+"><span>All three / $15k+</span></label><label class="opt"><input type="radio" id="inq-license-unsure" name="license" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
       <fieldset class="fs"><legend class="label">Would you want to sell it to others one day?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-resale-yes" name="resale" value="Yes"><span>Yes</span></label><label class="opt"><input type="radio" id="inq-resale-later" name="resale" value="Maybe later"><span>Maybe later</span></label><label class="opt"><input type="radio" id="inq-resale-no" name="resale" value="No"><span>No</span></label></div></fieldset>
       <fieldset class="fs"><legend class="label">When do you want to start?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-timing-month" name="timing" value="This month"><span>This month</span></label><label class="opt"><input type="radio" id="inq-timing-quarter" name="timing" value="This quarter"><span>This quarter</span></label><label class="opt"><input type="radio" id="inq-timing-exploring" name="timing" value="Just exploring"><span>Just exploring</span></label></div></fieldset>
       <div class="hp" aria-hidden="true"><label>Leave this empty <input id="inq-hp" name="company_url" tabindex="-1" autocomplete="off"></label></div>
@@ -831,7 +937,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <p class="wm" id="wm"><span id="wm-t">OPLEV</span></p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>Custom software, licensed</span>
+      <span>Ops / Agents / Leads</span>
       <span>Bend, Oregon</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -1106,14 +1212,15 @@ $$('.check[data-anim]').forEach(list=>{
 });
 
 /* ---------- log pane ---------- */
-(function(){
-  const p=$('#pane'),src=$('#case-data');if(!p||!src)return;
+$$('.pane[data-src]').forEach(p=>{
+  const src=document.getElementById(p.dataset.src);if(!src)return;
   let c;try{c=JSON.parse(src.textContent)}catch(e){return;}
   function summary(){
     const toS=t=>{const q=t.split(':').map(Number);return q[0]*3600+q[1]*60+q[2]};
-    const d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);
+    let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
-    return 'run '+Math.floor(d/60)+'m '+pad2(d%60)+'s / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
+    const dur=d>=3600?Math.floor(d/3600)+'h '+pad2(Math.floor(d%3600/60))+'m':Math.floor(d/60)+'m '+pad2(d%60)+'s';
+    return 'run '+dur+' / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
@@ -1149,7 +1256,23 @@ $$('.check[data-anim]').forEach(list=>{
   }
   $('.replay',p).addEventListener('click',run);
   if(RM)finish();else once([p],run,.3);
-})();
+});
+
+/* ---------- plays filter + engine hovers ---------- */
+$$('.filters').forEach(bar=>{
+  const list=bar.nextElementSibling;if(!list)return;
+  const btns=$$('button[data-f]',bar),items=$$('[data-e]',list);
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    const f=b.dataset.f;
+    btns.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    let k=0;
+    items.forEach(it=>{const on=f==='all'||it.dataset.e===f;it.hidden=!on;if(on&&!RM){const h=$('.h3',it);setTimeout(()=>decode(h,360),k++*50);}});
+  }));
+  btns.forEach(b=>onHover(b,()=>decode(b,300)));
+});
+$$('.play').forEach(pl=>pl.addEventListener('mouseenter',()=>decode($('.h3',pl),360)));
+$$('.eng').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng-name',e),420,CAPS+'abcdefghijklmnopqrstuvwxyz');pixDecode($('.px',e),420);}));
+if(!RM)once([$('.engines')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pixDecode(svg,900),i*160)));
 
 /* ---------- ticker ---------- */
 (function(){

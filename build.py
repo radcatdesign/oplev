@@ -47,6 +47,53 @@ TICKS = '<span class="tk a"></span><span class="tk b"></span><span class="tk c">
 
 # ---------- content ----------
 
+ENGINES = [
+    ('ops', 'Ops', 'system', 'Map. Build. Run.', 'Custom software for how your business runs.',
+     ['Workflows, records and dashboards built around you', 'One record for every client, order and job',
+      'A searchable company knowledge base', 'The OpLev Score, tracking what still leans on you'],
+     ['adessa-mind', 'art-of-practice']),
+    ('agents', 'Agents', 'agent', 'Watch. Act. Ask.', 'Agents that take the repeat work off your team.',
+     ['Intake, booking and follow-up', 'Inbox triage and drafted replies', 'Reports and updates that draft themselves',
+      'A person approves anything important, and every action is logged'],
+     ['adessa-mind', 'jason-stephenson']),
+    ('leads', 'Leads', 'lead', 'Attract. Answer. Capture.', "Tools that answer a buyer's question and capture the lead.",
+     ['Calculators, visualizers and planners', 'An AI guide on your site, any hour',
+      'Quotes and estimates buyers can accept online', 'Every lead lands in Ops with the full thread'],
+     ['element-glo']),
+]
+ENGINE_NAME = {k: n for k, n, *_ in ENGINES}
+
+PLAYS = [
+    ('leads', 'when a form or chat comes in', 'Speed to lead', 'Reply in minutes with the right answer and a booking link, any hour.'),
+    ('leads', 'on your site', 'Instant estimate', 'Buyers price the job themselves, and the estimate becomes a lead.'),
+    ('leads', 'on your site', 'See it first', 'Let buyers see the finished result before they ever call.'),
+    ('agents', '3 days after a quote', 'Quote follow-up', 'Nudge open quotes before they go cold.'),
+    ('agents', 'when a client misses a booking', 'No-show rescue', 'Reach out and rebook before the slot is lost.'),
+    ('agents', '7 days after an invoice is due', 'Invoice chaser', 'Polite reminders first, then a flag for you.'),
+    ('agents', 'after a job is done', 'Review ask', 'Ask happy clients for a review at the right moment.'),
+    ('agents', 'first of the month', 'Investor update', "Draft the update from the month's numbers, ready for your edit."),
+    ('ops', 'every morning at 6', 'Owner brief', 'What happened overnight and what needs you, on one screen.'),
+    ('ops', 'every Monday', 'Weekly numbers', 'Revenue, pipeline and open work, without building a report.'),
+    ('ops', 'when someone joins', 'New hire setup', 'Accounts, guides and first-week tasks, set up the same way every time.'),
+    ('ops', 'when stock runs low', 'Restock watch', 'Draft the purchase order before you sell out, then wait for your OK.'),
+]
+
+NIGHT = {
+    'cmd': 'oplev log --since 22:00',
+    'run': [
+        ['22:41:07', '@leads', 'visitor priced a project with the calculator', 'lead saved'],
+        ['22:41:09', '@ops', 'lead added to the pipeline with the estimate', 'linked'],
+        ['22:43:30', '@agents', 'drafted a reply with the estimate', 'drafted'],
+        ['23:58:12', '@agents', 'sorted 14 messages into clients, vendors and noise', 'sorted'],
+        ['01:12:40', '@ops', 'invoice paid, client record updated', 'reconciled'],
+        ['03:30:00', '@agents', 'flagged a late invoice for follow-up', 'queued'],
+        ['05:45:00', '@ops', 'morning brief ready: 1 approval, 2 new leads', 'ready'],
+        ['06:58:21', 'you', 'approve reply to the new lead', 'pending', 'need'],
+        ['07:04:02', 'you', 'approved over coffee', 'ok', 'me'],
+        ['07:04:04', '@agents', 'sent the reply and a booking link', 'sent'],
+    ],
+}
+
 PAINS = [
     ('Everything still runs through me.', 'an operating system'),
     ('I pay for a stack of apps and still live in spreadsheets.', 'one platform'),
@@ -60,23 +107,23 @@ FOR = [
     ('clinic', 'Clinics + practices', 'Smoother visits for clients. Less admin for you.',
      ['Intake, booking and follow-up that run on their own', 'Notes, records and reports in one place',
       'An assistant trained on your own material'],
-     ['adessa-mind', 'art-of-practice']),
+     ['adessa-mind', 'art-of-practice'], ['ops', 'agents']),
     ('brand', 'Product brands', "Answer every buyer's question and capture the order.",
      ['A store that answers questions and takes orders', 'Tools that let buyers see it and price it',
       'Orders, stock and wholesale handled by agents'],
-     ['element-glo', 'mawa']),
+     ['element-glo', 'mawa'], ['leads', 'agents']),
     ('agency', 'Agencies + service firms', 'Deliver the same great work without you in every thread.',
      ['Client onboarding that runs itself', 'Launch checks and reports your team can trust',
       'Your method, packaged so you can sell it'],
-     ['fit-funnels']),
+     ['fit-funnels'], ['ops', 'agents']),
     ('creator', 'Creators + media', 'Keep making things. Let the busywork run itself.',
      ['A release pipeline for every channel', 'An inbox sorted into fans, partners and deals',
       'Licensing and partnership requests routed'],
-     ['jason-stephenson']),
+     ['jason-stephenson'], ['agents', 'ops']),
     ('startup', 'Startups', 'Run lean from day one, and turn what works into a product.',
      ['Ops that scale before your headcount does', 'Investor updates that draft themselves',
       'Software you can license to others'],
-     ['mawa', 'art-of-practice']),
+     ['mawa', 'art-of-practice'], ['ops', 'leads']),
 ]
 
 CMP_HEAD = ('Off-the-shelf apps', 'Agency build', 'OpLev license')
@@ -91,9 +138,9 @@ CMP = [
 F_TYPE = [('clinic', 'Clinic or practice'), ('brand', 'Product brand'), ('agency', 'Agency or service firm'),
           ('creator', 'Creator or media'), ('startup', 'Startup'), ('other', 'Something else')]
 F_TEAM = [('1', 'Just me'), ('2-5', '2 to 5'), ('6-20', '6 to 20'), ('21-50', '21 to 50'), ('50', '50+')]
-F_BUILD = [('system', 'Operating system'), ('agents', 'Work agents'), ('lead', 'Lead capture tools'),
+F_BUILD = [('ops', 'Ops engine'), ('agents', 'Agents engine'), ('leads', 'Leads engine'),
            ('unsure', 'Not sure yet')]
-F_LICENSE = [('one', 'One function / $5k'), ('core', 'Core ops / $10k'), ('company', 'Whole company / $15k+'),
+F_LICENSE = [('one', 'One engine / $5k'), ('core', 'Two engines / $10k'), ('company', 'All three / $15k+'),
              ('unsure', 'Not sure yet')]
 F_RESALE = [('yes', 'Yes'), ('later', 'Maybe later'), ('no', 'No')]
 F_TIMING = [('month', 'This month'), ('quarter', 'This quarter'), ('exploring', 'Just exploring')]
@@ -105,7 +152,7 @@ def nav_items(p, home):
     a = (lambda h: h) if home else (lambda h: p + 'index.html' + h)
     return [
         ('work', 'Work', p + 'work.html', '~/oplev/work'),
-        ('model', 'How it works', a('#model'), '~/oplev/model'),
+        ('engines', 'Engines', a('#engines'), '~/oplev/engines'),
         ('pricing', 'Pricing', p + 'pricing.html', '~/oplev/pricing'),
         ('contact', 'Contact', p + 'start.html', '~/oplev/start'),
     ]
@@ -166,7 +213,7 @@ def shell_bottom():
     <p class="wm" id="wm"><span id="wm-t">OPLEV</span></p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>Custom software, licensed</span>
+      <span>Ops / Agents / Leads</span>
       <span>{E(LOCATION)}</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -215,6 +262,13 @@ def case_href(c, p=''):
     return f'{p}work/{c["id"]}.html'
 
 
+def etags(keys, extra=''):
+    if not keys:
+        return ''
+    return f'<span class="etags{extra}">' + ''.join(
+        f'<span class="etag e-{k}">@{k}</span>' for k in keys if k in ENGINE_NAME) + '</span>'
+
+
 def cta(title, text, p):
     return f'''
 <section class="sec" id="next" aria-labelledby="next-h">
@@ -236,7 +290,8 @@ def opts(name, items, kind='radio'):
         for v, t in items)
 
 
-def inquiry(level='h2'):
+def inquiry(level='h2', heading='Tell us what still runs through you.',
+            lede='Two minutes. We read every one, and Andre or Matt replies personally.'):
     first = level == 'h1'
     hid = 'h1' if first else 'start-h'
     cursor = '<span class="cursor" aria-hidden="true"></span>' if first else ''
@@ -246,13 +301,13 @@ def inquiry(level='h2'):
   <div class="wrap inq-wrap">
     <div class="inq-side">
       <p class="eyebrow">~/oplev/start</p>
-      <{level} class="{level}" id="{hid}">Tell us what still runs through you.{cursor}</{level}>
-      <p class="lede">Two minutes. We read every one, and Andre or Matt replies personally.</p>
+      <{level} class="{level}" id="{hid}">{heading}{cursor}</{level}>
+      <p class="lede">{lede}</p>
       <ol class="next">
         <li><span class="nx-n" aria-hidden="true">01</span><div><h3 class="h3">We read it</h3><p>A real reply from one of the two people who will build your system.</p></div></li>
         <li><span class="nx-n" aria-hidden="true">02</span><div><h3 class="h3">A short call</h3><p>We talk through what still runs through you and what it costs you.</p></div></li>
         <li><span class="nx-n" aria-hidden="true">03</span><div><h3 class="h3">Your OpLev Score</h3><p>Your team answers a few questions with Mira. We show you where to build first.</p></div></li>
-        <li><span class="nx-n" aria-hidden="true">04</span><div><h3 class="h3">Your build plan</h3><p>What we'd build, which license fits, and what you can sell later.</p></div></li>
+        <li><span class="nx-n" aria-hidden="true">04</span><div><h3 class="h3">Your build plan</h3><p>Which engines to start with, which license fits, and what you could sell later.</p></div></li>
       </ol>
       <p class="label inq-alt">Prefer email? <span class="sel">{EMAIL}</span></p>
     </div>
@@ -266,7 +321,7 @@ def inquiry(level='h2'):
       <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="opts">{opts('type', F_TYPE)}</div></fieldset>
       <fieldset class="fs"><legend class="label">Team size</legend><div class="opts">{opts('team', F_TEAM)}</div></fieldset>
       <label class="fl"><span class="label" data-err="tell us a little">What still runs through you? *</span><textarea class="inp" id="inq-message" name="message" rows="5" maxlength="4000" required placeholder="The work that only happens when you're there."></textarea></label>
-      <fieldset class="fs"><legend class="label">What should we build?</legend><div class="opts">{opts('build', F_BUILD, 'checkbox')}</div></fieldset>
+      <fieldset class="fs"><legend class="label">Which engines interest you?</legend><div class="opts">{opts('build', F_BUILD, 'checkbox')}</div></fieldset>
       <fieldset class="fs"><legend class="label">Which license are you thinking?</legend><div class="opts">{opts('license', F_LICENSE)}</div></fieldset>
       <fieldset class="fs"><legend class="label">Would you want to sell it to others one day?</legend><div class="opts">{opts('resale', F_RESALE)}</div></fieldset>
       <fieldset class="fs"><legend class="label">When do you want to start?</legend><div class="opts">{opts('timing', F_TIMING)}</div></fieldset>
@@ -301,9 +356,9 @@ def home(mode='full'):
         for t, by in PAINS)
     tabs = ''.join(
         f'<button class="tab" type="button" role="tab" id="tab-{k}" aria-controls="panel-{k}" aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">{E(t)}</button>'
-        for i, (k, t, _, _, _) in enumerate(FOR))
+        for i, (k, t, *_rest) in enumerate(FOR))
     panels = ''
-    for i, (k, t, pitch, items, cases) in enumerate(FOR):
+    for i, (k, t, pitch, items, cases, engs) in enumerate(FOR):
         lis = ''.join(f'<li>{E(x)}</li>' for x in items)
         seen = ''.join(
             f'<a href="{case_href(BY_ID[cid])}">{mini(BY_ID[cid], SEED[cid], "")}<span class="h3">{E(BY_ID[cid]["name"])}</span><span class="go">{ARR_R}</span></a>'
@@ -311,7 +366,7 @@ def home(mode='full'):
         panels += f'''
       <div class="fpanel" role="tabpanel" id="panel-{k}" aria-labelledby="tab-{k}"{'' if i == 0 else ' hidden'}>
         <div class="fp-l">
-          <span class="label">what we'd build</span>
+          <div class="fp-top"><span class="label">usually starts with</span>{etags(engs)}</div>
           <h3 class="h3 fp-name">{E(t)}</h3>
           <p class="fp-pitch">{E(pitch)}</p>
           <ul class="rowlist">{lis}</ul>
@@ -322,19 +377,34 @@ def home(mode='full'):
           <a class="btn" href="start.html#{k}">Start a project {ARR_R}</a>
         </div>
       </div>'''
+    engines = ''.join(f'''
+      <article class="eng" id="engine-{k}">
+        <div class="eng-top"><svg class="px" data-icon="{icon}" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine {i + 1:02d} / @{k}</span></div>
+        <h3 class="eng-name">{E(name)}</h3>
+        <p class="eng-triad">{E(triad)}</p>
+        <p class="eng-line">{E(line)}</p>
+        <ul class="rowlist">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul>
+        <div class="eng-seen"><span class="label">seen in</span>{''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)}</div>
+      </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
+    filters = '<button class="tab" type="button" aria-pressed="true" data-f="all">All plays</button>' + ''.join(
+        f'<button class="tab" type="button" aria-pressed="false" data-f="{k}">{E(name)}</button>' for k, name, *_ in ENGINES)
+    plays = ''.join(f'''
+      <li class="play" data-e="{k}"><div class="play-top">{etags([k])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3">{E(title)}</h3><p>{E(desc)}</p></li>'''
+                    for k, trig, title, desc in PLAYS)
+    night = json.dumps(NIGHT).replace('</', '<\\/')
     body = f'''
 <section class="hero" id="hero">
   <canvas class="field" id="field" aria-hidden="true"></canvas>
   <div class="wrap">
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
-    <p class="eyebrow">~/oplev/systems</p>
-    <h1 class="h1" id="h1">We build the systems your business runs on.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">OpLev builds custom software, work agents and lead capture tools for small businesses and startups. You license it monthly, we keep it running and improving, and if it works for you, you can sell it to others.</p>
+    <p class="eyebrow">~/oplev/engines</p>
+    <h1 class="h1" id="h1">Your business shouldn't need you for everything.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">OpLev builds three engines, Ops, Agents and Leads, that run the work, chase every lead and keep the business moving. Built around you, licensed monthly and kept running by us. If it works for you, you can sell it to others.</p>
     <div class="actions">
       <a class="btn" href="#work">See the work {ARR_D}</a>
       <a class="btn ghost" href="#start">Start a project {ARR_R}</a>
     </div>
-    <nav class="hindex" aria-label="Case index"><span class="lab">index /</span>{hindex}</nav>
+    <nav class="hindex" aria-label="Case index"><span class="lab">built for /</span>{hindex}</nav>
   </div>
 </section>
 
@@ -367,7 +437,7 @@ def home(mode='full'):
 
 <div class="ticker" aria-hidden="true">
   <div class="tk-track" id="tk-track">
-    <div class="tk-set"><b>custom software</b><i>/</i><span>intake</span><i>/</i><span>booking</span><i>/</i><span>onboarding</span><i>/</i><span>dashboards</span><i>/</i><b>work agents</b><i>/</i><span>approvals</span><i>/</i><span>reporting</span><i>/</i><span>inbox triage</span><i>/</i><b>lead capture tools</b><i>/</i><span>calculators</span><i>/</i><span>visualizers</span><i>/</i><b>commercial licenses</b><i>/</i></div>
+    <div class="tk-set"><b>@ops</b><i>/</i><span>map</span><i>/</i><span>build</span><i>/</i><span>run</span><i>/</i><b>@agents</b><i>/</i><span>watch</span><i>/</i><span>act</span><i>/</i><span>ask</span><i>/</i><b>@leads</b><i>/</i><span>attract</span><i>/</i><span>answer</span><i>/</i><span>capture</span><i>/</i><b>licensed monthly</b><i>/</i><span>sell it to others</span><i>/</i></div>
   </div>
 </div>
 
@@ -375,7 +445,7 @@ def home(mode='full'):
   <div class="wrap split">
     <div class="head-l">
       <p class="eyebrow">~/oplev/familiar</p>
-      <h2 class="h2" id="familiar-h">Sound familiar?</h2>
+      <h2 class="h2" id="familiar-h">You started a business. Then it became a job.</h2>
       <p class="lede">If you've said any of these this month, we should talk.</p>
       <div class="actions"><a class="btn ghost" href="#start">Tell us yours {ARR_R}</a></div>
     </div>
@@ -386,19 +456,52 @@ def home(mode='full'):
   </div>
 </section>
 
-<section class="sec" id="build" aria-labelledby="build-h">
+<section class="sec" id="engines" aria-labelledby="engines-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/build</p>
-        <h2 class="h2" id="build-h">What we build.</h2>
+        <p class="eyebrow">~/oplev/engines</p>
+        <h2 class="h2" id="engines-h">One system. Three engines.</h2>
+        <p class="lede">Each engine feeds the others. Leads land in Ops, Agents follow them up, and the OpLev Score shows what changed.</p>
       </div>
-      <p class="label">systems / agents / tools</p>
+      <p class="label">@ops / @agents / @leads</p>
     </div>
-    <ul class="offer">
-      <li class="svc"><svg class="px" data-icon="system" viewBox="0 0 50 50" aria-hidden="true"></svg><h3 class="h3">Operating systems</h3><p>Custom software for how your business runs: workflows, records and dashboards your team uses every day.</p></li>
-      <li class="svc"><svg class="px" data-icon="agent" viewBox="0 0 50 50" aria-hidden="true"></svg><h3 class="h3">Work agents</h3><p>Agents that take the repeat work off your team and ask a person before anything important goes out.</p></li>
-      <li class="svc"><svg class="px" data-icon="lead" viewBox="0 0 50 50" aria-hidden="true"></svg><h3 class="h3">Lead capture tools</h3><p>Calculators, visualizers and planners that answer a buyer's question on your site and capture the lead while they use it.</p></li>
+    <div class="engines">{engines}
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="overnight" aria-labelledby="night-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">~/oplev/overnight</p>
+        <h2 class="h2" id="night-h">You slept. Your engines didn't.</h2>
+        <p class="lede">A night with all three engines running. Anything that matters waits for you in the morning brief.</p>
+      </div>
+      <p class="label">sample night / illustrative</p>
+    </div>
+    <div class="pane" data-src="night-data" data-state="idle">
+      <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">~/oplev/overnight</span><span class="label">sample night</span></div>
+      <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
+      <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
+    </div>
+    <script type="application/json" id="night-data">{night}</script>
+  </div>
+</section>
+
+<section class="sec" id="plays" aria-labelledby="plays-h">
+  <div class="wrap">
+    <div class="head">
+      <div class="head-l">
+        <p class="eyebrow">~/oplev/plays</p>
+        <h2 class="h2" id="plays-h">Plays that run themselves.</h2>
+        <p class="lede">Every engine ships with plays: the moves your best operator would make, running on a trigger. We tune each one to how you work.</p>
+      </div>
+      <p class="label">{len(PLAYS)} examples</p>
+    </div>
+    <div class="tabs filters" role="group" aria-label="Filter plays by engine">{filters}</div>
+    <ul class="plays">{plays}
     </ul>
   </div>
 </section>
@@ -429,8 +532,8 @@ def home(mode='full'):
       <p class="label">the oplev license</p>
     </div>
     <ol class="model">
-      <li class="mcell"><span class="num" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>We build software around how your business works and keep it running. One monthly license covers hosting, fixes and updates.</p></li>
-      <li class="mcell"><span class="num" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>It keeps getting better. Add systems and agents as you grow, and move up a license when you need more.</p></li>
+      <li class="mcell"><span class="num" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>We build your engines around how your business works and keep them running. One monthly license covers hosting, fixes and updates.</p></li>
+      <li class="mcell"><span class="num" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Add plays as you go and engines as you grow. Your license moves up with you.</p></li>
       <li class="mcell"><span class="num" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>If it works for you, it will work for businesses like yours. A commercial license lets you sell it to them.</p></li>
     </ol>
     <div class="kicker">
@@ -457,8 +560,9 @@ def home(mode='full'):
     </ol>
   </div>
 </section>
-''' + inquiry('h2')
-    return page('OpLev', 'OpLev builds custom software, work agents and lead capture tools for small businesses and startups. License it monthly, and sell it to others if you want.',
+''' + inquiry('h2', 'Stop being the system.',
+              'Tell us what still runs through you. Two minutes. Andre or Matt replies personally.')
+    return page('OpLev', 'Three engines for small businesses and startups: Ops, Agents and Leads. Built around you, licensed monthly, and yours to sell to others.',
                 body, p='', home=True, active=None, mode=mode)
 
 
@@ -481,17 +585,18 @@ def plan(n, slug, name, amt, who, inc, btn):
 
 
 def pricing():
-    plans = (plan(1, 'one', 'One function', '$5k', 'One part of the business needs to stop running through you.',
-                  ['License for one custom system', 'Up to 2 work agents', 'Hosting, maintenance and updates',
-                   'Monthly OpLev Score', 'Monthly working session', 'Async support, reply within a business day'],
+    plans = (plan(1, 'one', 'One engine', '$5k', 'Start with the engine closest to your biggest bottleneck.',
+                  ['Ops, Agents or Leads, built for your business', 'Plays tuned to how you work',
+                   'Hosting, maintenance and updates', 'Monthly OpLev Score', 'Monthly working session',
+                   'Async support, reply within a business day'],
                   'Start with one')
-             + plan(2, 'core', 'Core ops', '$10k', "A growing team where the work lives in a few people's heads.",
-                    ['License for up to 3 custom systems', 'Up to 6 work agents', 'Team interviews with Mira',
+             + plan(2, 'core', 'Two engines', '$10k', 'Two engines that feed each other, so nothing falls between them.',
+                    ['Any two engines, connected', 'Plays across both engines', 'Team interviews with Mira',
                      'Monthly OpLev Score with your team', 'Hosting, maintenance and updates',
                      'Weekly working session', 'Same-day support'],
-                    'Start core ops')
-             + plan(3, 'company', 'Whole company', '$15k+', 'You want the whole operation running on one platform.',
-                    ['License for every system we build you', 'Custom agents, scoped with you',
+                    'Start with two')
+             + plan(3, 'company', 'All three', '$15k+', 'The full system, built around your whole business.',
+                    ['Ops, Agents and Leads, connected', 'Custom agents and tools, scoped with you',
                      'A searchable company knowledge base', 'OpLev Score across teams and roles',
                      'Hosting, maintenance and updates', 'Weekly sessions and on-call support',
                      'Priced by team size and scope'],
@@ -523,11 +628,11 @@ def pricing():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">~/oplev/pricing</p>
-    <h1 class="h1" id="h1">Custom software. One monthly license.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">We build software around how your business works. We own the code, host it, fix it and keep improving it, so it never goes stale. You pay one monthly license. And if other businesses want what you have, a commercial license lets you sell it to them.</p>
+    <h1 class="h1" id="h1">Three engines. One monthly license.<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="lede">License one engine or all three. We build them around how your business works, then host, fix and keep improving them, so they never go stale. And if other businesses want what you have, a commercial license lets you sell it to them.</p>
     <div class="every model-row">
-      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your software, built and kept running by us.</p></div>
-      <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates included. Move up a license as you grow.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your engines, built and kept running by us.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates included. Add engines as you grow.</p></div>
       <div class="ev"><span class="b" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>Add a commercial license and sell it to others.</p></div>
     </div>
   </div>
@@ -538,7 +643,7 @@ def pricing():
     <div class="head">
       <div class="head-l">
         <p class="eyebrow">~/oplev/licenses</p>
-        <h2 class="h2" id="plans-h">Pick the scope. We run the software.</h2>
+        <h2 class="h2" id="plans-h">Pick your engines. We run them.</h2>
       </div>
       <p class="label">usd / billed monthly</p>
     </div>
@@ -611,16 +716,20 @@ def pricing():
         <p class="a">It gives you the right to sell the software to businesses like yours. Add it to any license. We price it per deal, based on how you plan to sell.</p>
       </details>
       <details>
+        <summary><span class="h3">Which engine should we start with?</span></summary>
+        <p class="a">The one closest to your biggest bottleneck. If leads slip, Leads. If your team is buried in follow-up, Agents. If nobody else knows how things run, Ops. The OpLev Score tells us for sure.</p>
+      </details>
+      <details>
         <summary><span class="h3">Where do we start?</span></summary>
         <p class="a">Send us a note. We set up a short call, then run the OpLev Score with your team to find where to build first and which license fits.</p>
       </details>
       <details>
-        <summary><span class="h3">What does the + on Whole company mean?</span></summary>
-        <p class="a">It starts at $15k a month and goes up with team size and the number of systems we build. We quote it after the OpLev Score, so you know the number before you commit.</p>
+        <summary><span class="h3">What does the + on All three mean?</span></summary>
+        <p class="a">It starts at $15k a month and goes up with team size and how much we build into each engine. We quote it after the OpLev Score, so you know the number before you commit.</p>
       </details>
       <details>
         <summary><span class="h3">Can we change licenses?</span></summary>
-        <p class="a">Yes. Move up or down at the start of any month.</p>
+        <p class="a">Yes. Add an engine or move down at the start of any month.</p>
       </details>
       <details>
         <summary><span class="h3">Do we even need this?</span></summary>
@@ -641,7 +750,7 @@ def pricing():
     </div>
   </div>
 </section>'''
-    return page('OpLev Pricing', 'Custom software for one monthly license, from $5k a month with hosting, maintenance and updates included. Add a commercial license to sell it to others.',
+    return page('OpLev Pricing', 'License one engine from $5k a month, two for $10k or all three from $15k, with hosting, maintenance and updates included. Add a commercial license to sell it to others.',
                 body, p='', active='pricing')
 
 
@@ -663,6 +772,7 @@ def work():
           <div class="card-top"><span class="label">case {i + 1:02d}</span><span class="label">{E(c['focus'])}</span></div>
           <h2 class="h3 card-name">{E(c['name'])}</h2>
           <p class="card-line">{E(c['line'])}</p>
+          {etags(c.get('engines'))}
           <div class="card-foot"><span class="label">{E(c['built'])}</span><span class="label go">Open {ARR_R}</span></div>
         </div>
       </a>''' for i, c in enumerate(CASES))
@@ -671,7 +781,7 @@ def work():
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">~/oplev/work</p><span class="label">{n:02d} cases</span></div>
     <h1 class="h1" id="h1">Systems we've built.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">Custom software, work agents and lead capture tools for founders and small teams. Each case shows the problem, what we built and a sample run.</p>
+    <p class="lede">Ops, Agents and Leads engines, built for founders and small teams. Each case shows the problem, what we built and a sample run.</p>
     <div class="cards">{cards}
     </div>
   </div>
@@ -729,6 +839,7 @@ def case(i):
     <p class="eyebrow">{path}</p>
     <h1 class="h1" id="h1">{E(c['name'])}<span class="cursor" aria-hidden="true"></span></h1>
     <p class="lede">{E(c['line'])}</p>
+    {etags(c.get('engines'), ' case-tags')}
     <dl class="facts f{len(facts)}">{facts_html}
     </dl>
     {thumb(c, seed, p)}{note}
@@ -770,7 +881,7 @@ def case(i):
       </div>
       <p class="label">sample run / illustrative</p>
     </div>
-    <div class="pane" id="pane" data-state="idle">
+    <div class="pane" id="pane" data-src="case-data" data-state="idle">
       <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">{path}/run</span><span class="label">sample run</span></div>
       <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
       <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
