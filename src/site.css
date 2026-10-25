@@ -185,10 +185,10 @@ section[id]{scroll-margin-top:var(--nav)}
 .ck{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.45}
 .ck .b{font:400 12px/1.45 var(--display);color:var(--dim);white-space:pre}
 .ck .txw{min-width:0}
-.ck .tx{color:var(--paper);background-image:linear-gradient(var(--paper),var(--paper));background-repeat:no-repeat;background-position:0 56%;background-size:0% 1.5px;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .7s var(--strike),color .7s var(--strike)}
+.ck .tx{color:var(--paper)}
 .ck .by{text-align:right;white-space:nowrap;color:var(--dim-2);transition:color .4s}
 .ck.done .b{color:var(--paper)}
-.ck.done .tx{background-size:100% 1.5px;color:var(--dim)}
+.ck .b{transition:color .3s}
 .ck.done .by{color:var(--soft)}
 .built{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
 @media (min-width:760px){.built{grid-template-columns:repeat(2,minmax(0,1fr))}}

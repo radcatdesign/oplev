@@ -197,10 +197,10 @@ section[id]{scroll-margin-top:var(--nav)}
 .ck{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.45}
 .ck .b{font:400 12px/1.45 var(--display);color:var(--dim);white-space:pre}
 .ck .txw{min-width:0}
-.ck .tx{color:var(--paper);background-image:linear-gradient(var(--paper),var(--paper));background-repeat:no-repeat;background-position:0 56%;background-size:0% 1.5px;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .7s var(--strike),color .7s var(--strike)}
+.ck .tx{color:var(--paper)}
 .ck .by{text-align:right;white-space:nowrap;color:var(--dim-2);transition:color .4s}
 .ck.done .b{color:var(--paper)}
-.ck.done .tx{background-size:100% 1.5px;color:var(--dim)}
+.ck .b{transition:color .3s}
 .ck.done .by{color:var(--soft)}
 .built{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:minmax(0,1fr)}
 @media (min-width:760px){.built{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -679,11 +679,11 @@ textarea.inp{min-height:132px;resize:vertical}
     </div>
     <div class="split-r">
       <ul class="check pains" data-anim>
-        <li class="ck" data-by="an operating system"><span class="b">[ ]</span><span class="txw"><span class="tx">“Everything still runs through me.”</span></span><span class="by label"></span></li>
-        <li class="ck" data-by="one platform"><span class="b">[ ]</span><span class="txw"><span class="tx">“I pay for a stack of apps and still live in spreadsheets.”</span></span><span class="by label"></span></li>
-        <li class="ck" data-by="lead capture tools"><span class="b">[ ]</span><span class="txw"><span class="tx">“Leads come in at night and sit until Monday.”</span></span><span class="by label"></span></li>
-        <li class="ck" data-by="a shared system"><span class="b">[ ]</span><span class="txw"><span class="tx">“Only one person knows how that part works.”</span></span><span class="by label"></span></li>
-        <li class="ck" data-by="work agents"><span class="b">[ ]</span><span class="txw"><span class="tx">“I can&#x27;t take a week off.”</span></span><span class="by label"></span></li>
+        <li class="ck" data-by="the Ops engine"><span class="b">[ ]</span><span class="txw"><span class="tx">“Everything still runs through me.”</span></span><span class="by label"></span></li>
+        <li class="ck" data-by="one system"><span class="b">[ ]</span><span class="txw"><span class="tx">“I pay for a stack of apps and still live in spreadsheets.”</span></span><span class="by label"></span></li>
+        <li class="ck" data-by="the Leads engine"><span class="b">[ ]</span><span class="txw"><span class="tx">“Leads come in at night and sit until Monday.”</span></span><span class="by label"></span></li>
+        <li class="ck" data-by="the Ops engine"><span class="b">[ ]</span><span class="txw"><span class="tx">“Only one person knows how that part works.”</span></span><span class="by label"></span></li>
+        <li class="ck" data-by="the Agents engine"><span class="b">[ ]</span><span class="txw"><span class="tx">“I can&#x27;t take a week off.”</span></span><span class="by label"></span></li>
         <li class="ck" data-by="a commercial license"><span class="b">[ ]</span><span class="txw"><span class="tx">“People keep asking if they can use what I built.”</span></span><span class="by label"></span></li>
       </ul>
     </div>

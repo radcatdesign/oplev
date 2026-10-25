@@ -95,11 +95,11 @@ NIGHT = {
 }
 
 PAINS = [
-    ('Everything still runs through me.', 'an operating system'),
-    ('I pay for a stack of apps and still live in spreadsheets.', 'one platform'),
-    ('Leads come in at night and sit until Monday.', 'lead capture tools'),
-    ('Only one person knows how that part works.', 'a shared system'),
-    ("I can't take a week off.", 'work agents'),
+    ('Everything still runs through me.', 'the Ops engine'),
+    ('I pay for a stack of apps and still live in spreadsheets.', 'one system'),
+    ('Leads come in at night and sit until Monday.', 'the Leads engine'),
+    ('Only one person knows how that part works.', 'the Ops engine'),
+    ("I can't take a week off.", 'the Agents engine'),
     ('People keep asking if they can use what I built.', 'a commercial license'),
 ]
 
