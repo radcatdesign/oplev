@@ -2,7 +2,7 @@
    Layout: fixed sidebar + sticky top bar + scrolling view; cards use the 1px hairline grid. Drawer slides in from the right. */
 .app{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh;min-height:100dvh}
 .app main .btn{white-space:nowrap}
-@media (max-width:599px){.app main .btn{width:auto;justify-content:center}}
+@media (max-width:599px){.app main .btn{width:auto;justify-content:center}.app main .btn:has(svg){justify-content:space-between}}
 
 /* sidebar */
 .side{position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto;border-right:1px solid var(--line);background:var(--ink);display:flex;flex-direction:column;z-index:60}

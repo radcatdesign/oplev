@@ -349,8 +349,8 @@ $$('[data-jobs]').forEach(list=>{
     $('#js-t',dlg).textContent=j.title;$('#js-d',dlg).textContent=j.desc;
     $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
     const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
-    st.href=J.start;st.innerHTML='Start a project <span aria-hidden="true">&rarr;</span>';
-    dm.href=J.demo;dm.innerHTML='Try the demo <span aria-hidden="true">&rarr;</span>';
+    st.href=J.start;st.innerHTML='Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
+    dm.href=J.demo;dm.innerHTML='Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
     const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
     const pane=$('.pane',dlg);

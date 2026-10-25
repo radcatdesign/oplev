@@ -359,7 +359,7 @@ function jobHTML(p,still){
   const steps=j?j.steps.map((r,i)=>rowHTML({t:r[0],a:r[1],m:r[2],r:r[3],f:r[4]||''}).replace('<div class="row"',`<div class="row" style="animation-delay:${still?0:220+i*170}ms"`)).join(''):'';
   const checks=j?j.steps.filter(r=>r[4]==='need').length:0;
   let acts;
-  if(!has(p.e))acts=`<a class="btn" href="#engine-${p.e}" data-act="dr-close-go">Add the ${esc(e.name)} engine &rarr;</a>`;
+  if(!has(p.e))acts=`<a class="btn" href="#engine-${p.e}" data-act="dr-close-go">Add the ${esc(e.name)} engine <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>`;
   else if(!p.added)acts=`<button class="btn" type="button" data-act="play-add" data-id="${p.id}">Add to ${esc(e.name)}</button>`;
   else acts=`<button class="btn" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[p.e]?'':' disabled'}>Run now</button><button class="btn ghost" type="button" data-act="play-on" data-id="${p.id}">${p.on?'Turn off':'Turn on'}</button>`;
   const settings=has(p.e)&&p.added?`<p class="label">your settings</p><dl class="kv"><dt>status</dt><dd>${p.on&&S.running[p.e]?'on':'off'}</dd><dt>when it runs</dt><dd>${triggerSel(p)}</dd><dt>your OK</dt><dd><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>check with me first</label></dd><dt>times run</dt><dd>${p.runs}</dd><dt>last run</dt><dd>${esc(p.last)}</dd></dl>`:'';

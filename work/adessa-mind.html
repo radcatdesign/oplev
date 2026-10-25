@@ -56,7 +56,9 @@ section[id]{scroll-margin-top:var(--nav)}
 .btn:hover{background:transparent;color:var(--paper)}
 .btn.ghost{background:transparent;color:var(--paper);border-color:var(--line-2)}
 .btn.ghost:hover{border-color:var(--paper)}
-.btn svg{width:14px;height:14px;flex:none}
+.btn svg{width:14px;height:14px;flex:none;margin-left:auto}
+.btn:has(svg){justify-content:space-between;gap:28px;min-width:15rem}
+.btn-sm:has(svg),.btn-xs:has(svg){min-width:0;gap:10px}
 .btn-sm{padding:11px 14px;font-size:11px}
 .actions{display:flex;flex-wrap:wrap;gap:12px}
 
@@ -323,7 +325,7 @@ section[id]{scroll-margin-top:var(--nav)}
 .inc{list-style:none;margin:0;padding:0;border-top:1px solid var(--on-paper-line);flex:1}
 .inc li{display:grid;grid-template-columns:6px minmax(0,1fr);gap:14px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--on-paper-line);font-size:15px;line-height:1.45;color:var(--ink)}
 .inc li::before{content:"";width:6px;height:6px;background:var(--ink);transform:translateY(-1px)}
-.plan .btn{align-self:flex-start}
+.plan .btn{align-self:stretch}
 .fine{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 24px}
 .lic{grid-column:1 / -1;background:var(--ink);color:var(--paper);padding:clamp(22px,2.6vw,36px);display:grid;gap:24px 48px;align-items:end}
 @media (min-width:980px){.lic{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
@@ -615,7 +617,7 @@ textarea.inp{min-height:132px;resize:vertical}
 
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
-  main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
+  main .btn,.plan .btn,.sheet .btn{width:100%;justify-content:space-between;align-self:stretch}
   .actions{flex-direction:column;align-items:stretch}
 }
 
@@ -1184,8 +1186,8 @@ $$('[data-jobs]').forEach(list=>{
     $('#js-t',dlg).textContent=j.title;$('#js-d',dlg).textContent=j.desc;
     $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
     const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
-    st.href=J.start;st.innerHTML='Start a project <span aria-hidden="true">&rarr;</span>';
-    dm.href=J.demo;dm.innerHTML='Try the demo <span aria-hidden="true">&rarr;</span>';
+    st.href=J.start;st.innerHTML='Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
+    dm.href=J.demo;dm.innerHTML='Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
     const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
     const pane=$('.pane',dlg);
