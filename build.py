@@ -378,7 +378,7 @@ def home(mode='full'):
         </div>
       </div>'''
     engines = ''.join(f'''
-      <article class="eng" id="engine-{k}">
+      <article class="eng e-{k}" id="engine-{k}">
         <div class="eng-top"><svg class="px" data-icon="{icon}" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine {i + 1:02d} / @{k}</span></div>
         <h3 class="eng-name">{E(name)}</h3>
         <p class="eng-triad">{E(triad)}</p>
@@ -387,9 +387,9 @@ def home(mode='full'):
         <div class="eng-seen"><span class="label">seen in</span>{''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)}</div>
       </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
     filters = '<button class="tab" type="button" aria-pressed="true" data-f="all">All plays</button>' + ''.join(
-        f'<button class="tab" type="button" aria-pressed="false" data-f="{k}">{E(name)}</button>' for k, name, *_ in ENGINES)
+        f'<button class="tab e-{k}" type="button" aria-pressed="false" data-f="{k}">{E(name)}</button>' for k, name, *_ in ENGINES)
     plays = ''.join(f'''
-      <li class="play" data-e="{k}"><div class="play-top">{etags([k])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3">{E(title)}</h3><p>{E(desc)}</p></li>'''
+      <li class="play e-{k}" data-e="{k}"><div class="play-top">{etags([k])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3">{E(title)}</h3><p>{E(desc)}</p></li>'''
                     for k, trig, title, desc in PLAYS)
     night = json.dumps(NIGHT).replace('</', '<\\/')
     body = f'''
@@ -399,7 +399,7 @@ def home(mode='full'):
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
     <p class="eyebrow">~/oplev/engines</p>
     <h1 class="h1" id="h1">Your business shouldn't need you for everything.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">OpLev builds three engines, Ops, Agents and Leads, that run the work, chase every lead and keep the business moving. Built around you, licensed monthly and kept running by us. If it works for you, you can sell it to others.</p>
+    <p class="lede">OpLev builds three engines, <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span> and <span class="e-leads ec">Leads</span>, that run the work, chase every lead and keep the business moving. Built around you, licensed monthly and kept running by us. If it works for you, you can sell it to others.</p>
     <div class="actions">
       <a class="btn" href="#work">See the work {ARR_D}</a>
       <a class="btn ghost" href="#start">Start a project {ARR_R}</a>
@@ -437,7 +437,7 @@ def home(mode='full'):
 
 <div class="ticker" aria-hidden="true">
   <div class="tk-track" id="tk-track">
-    <div class="tk-set"><b>@ops</b><i>/</i><span>map</span><i>/</i><span>build</span><i>/</i><span>run</span><i>/</i><b>@agents</b><i>/</i><span>watch</span><i>/</i><span>act</span><i>/</i><span>ask</span><i>/</i><b>@leads</b><i>/</i><span>attract</span><i>/</i><span>answer</span><i>/</i><span>capture</span><i>/</i><b>licensed monthly</b><i>/</i><span>sell it to others</span><i>/</i></div>
+    <div class="tk-set"><b class="e-ops">@ops</b><i>/</i><span>map</span><i>/</i><span>build</span><i>/</i><span>run</span><i>/</i><b class="e-agents">@agents</b><i>/</i><span>watch</span><i>/</i><span>act</span><i>/</i><span>ask</span><i>/</i><b class="e-leads">@leads</b><i>/</i><span>attract</span><i>/</i><span>answer</span><i>/</i><span>capture</span><i>/</i><b>licensed monthly</b><i>/</i><span>sell it to others</span><i>/</i></div>
   </div>
 </div>
 
@@ -464,7 +464,7 @@ def home(mode='full'):
         <h2 class="h2" id="engines-h">One system. Three engines.</h2>
         <p class="lede">Each engine feeds the others. Leads land in Ops, Agents follow them up, and the OpLev Score shows what changed.</p>
       </div>
-      <p class="label">@ops / @agents / @leads</p>
+      <p class="label"><span class="e-ops ec">@ops</span> / <span class="e-agents ec">@agents</span> / <span class="e-leads ec">@leads</span></p>
     </div>
     <div class="engines">{engines}
     </div>

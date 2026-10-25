@@ -537,6 +537,31 @@ textarea.inp{min-height:132px;resize:vertical}
 .play-trig::before{content:"trigger / ";color:var(--dim-2)}
 .play p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
 
+/* engine accents: muted CRT phosphors, used only where an engine is named */
+:root{
+  --ops:#82B6EA;--agents:#8FDBA6;--leads:#F0AC66;
+  --ops-l:rgba(130,182,234,.45);--agents-l:rgba(143,219,166,.45);--leads-l:rgba(240,172,102,.45);
+}
+.e-ops{--e:var(--ops);--el:var(--ops-l)}
+.e-agents{--e:var(--agents);--el:var(--agents-l)}
+.e-leads{--e:var(--leads);--el:var(--leads-l)}
+.ec{color:var(--e)}
+.etag{color:var(--e,var(--soft));border-color:var(--el,var(--line-2))}
+.eng{border-top:1px solid var(--e)}
+.eng .eng-triad{color:var(--e)}
+.eng .px rect.on{fill:var(--e)}
+.eng .rowlist li::before{background:var(--e)}
+.eng-seen a:hover{border-color:var(--e)}
+.row .ac[class*="e-"]{color:var(--e)}
+.tk-set b[class*="e-"]{color:var(--e)}
+.filters .tab[class*="e-"]::before{border-color:var(--e)}
+.filters .tab[class*="e-"][aria-pressed="true"]{background:var(--e);color:var(--ink)}
+.filters .tab[class*="e-"][aria-pressed="true"]::before{background:var(--ink);border-color:var(--ink)}
+.play:hover .h3{color:var(--e,var(--paper))}
+#inq-build-ops+span{--e:var(--ops)}#inq-build-agents+span{--e:var(--agents)}#inq-build-leads+span{--e:var(--leads)}
+.opt input[id^="inq-build-"]+span::before{border-color:var(--e,currentColor)}
+.opt input[id^="inq-build-"]:checked+span{background:var(--e,var(--paper));border-color:var(--e,var(--paper))}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -995,7 +1020,7 @@ $$('.pane[data-src]').forEach(p=>{
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+'">'+esc(r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}

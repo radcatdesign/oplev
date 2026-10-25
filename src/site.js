@@ -276,7 +276,7 @@ $$('.pane[data-src]').forEach(p=>{
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+'">'+esc(r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}

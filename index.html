@@ -537,6 +537,31 @@ textarea.inp{min-height:132px;resize:vertical}
 .play-trig::before{content:"trigger / ";color:var(--dim-2)}
 .play p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
 
+/* engine accents: muted CRT phosphors, used only where an engine is named */
+:root{
+  --ops:#82B6EA;--agents:#8FDBA6;--leads:#F0AC66;
+  --ops-l:rgba(130,182,234,.45);--agents-l:rgba(143,219,166,.45);--leads-l:rgba(240,172,102,.45);
+}
+.e-ops{--e:var(--ops);--el:var(--ops-l)}
+.e-agents{--e:var(--agents);--el:var(--agents-l)}
+.e-leads{--e:var(--leads);--el:var(--leads-l)}
+.ec{color:var(--e)}
+.etag{color:var(--e,var(--soft));border-color:var(--el,var(--line-2))}
+.eng{border-top:1px solid var(--e)}
+.eng .eng-triad{color:var(--e)}
+.eng .px rect.on{fill:var(--e)}
+.eng .rowlist li::before{background:var(--e)}
+.eng-seen a:hover{border-color:var(--e)}
+.row .ac[class*="e-"]{color:var(--e)}
+.tk-set b[class*="e-"]{color:var(--e)}
+.filters .tab[class*="e-"]::before{border-color:var(--e)}
+.filters .tab[class*="e-"][aria-pressed="true"]{background:var(--e);color:var(--ink)}
+.filters .tab[class*="e-"][aria-pressed="true"]::before{background:var(--ink);border-color:var(--ink)}
+.play:hover .h3{color:var(--e,var(--paper))}
+#inq-build-ops+span{--e:var(--ops)}#inq-build-agents+span{--e:var(--agents)}#inq-build-leads+span{--e:var(--leads)}
+.opt input[id^="inq-build-"]+span::before{border-color:var(--e,currentColor)}
+.opt input[id^="inq-build-"]:checked+span{background:var(--e,var(--paper));border-color:var(--e,var(--paper))}
+
 /* phone: full-width buttons in page content (nav buttons keep their size) */
 @media (max-width:599px){
   main .btn,.plan .btn{width:100%;justify-content:space-between;align-self:stretch}
@@ -603,7 +628,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
     <p class="eyebrow">~/oplev/engines</p>
     <h1 class="h1" id="h1">Your business shouldn't need you for everything.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">OpLev builds three engines, Ops, Agents and Leads, that run the work, chase every lead and keep the business moving. Built around you, licensed monthly and kept running by us. If it works for you, you can sell it to others.</p>
+    <p class="lede">OpLev builds three engines, <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span> and <span class="e-leads ec">Leads</span>, that run the work, chase every lead and keep the business moving. Built around you, licensed monthly and kept running by us. If it works for you, you can sell it to others.</p>
     <div class="actions">
       <a class="btn" href="#work">See the work <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a>
       <a class="btn ghost" href="#start">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
@@ -665,7 +690,7 @@ textarea.inp{min-height:132px;resize:vertical}
 
 <div class="ticker" aria-hidden="true">
   <div class="tk-track" id="tk-track">
-    <div class="tk-set"><b>@ops</b><i>/</i><span>map</span><i>/</i><span>build</span><i>/</i><span>run</span><i>/</i><b>@agents</b><i>/</i><span>watch</span><i>/</i><span>act</span><i>/</i><span>ask</span><i>/</i><b>@leads</b><i>/</i><span>attract</span><i>/</i><span>answer</span><i>/</i><span>capture</span><i>/</i><b>licensed monthly</b><i>/</i><span>sell it to others</span><i>/</i></div>
+    <div class="tk-set"><b class="e-ops">@ops</b><i>/</i><span>map</span><i>/</i><span>build</span><i>/</i><span>run</span><i>/</i><b class="e-agents">@agents</b><i>/</i><span>watch</span><i>/</i><span>act</span><i>/</i><span>ask</span><i>/</i><b class="e-leads">@leads</b><i>/</i><span>attract</span><i>/</i><span>answer</span><i>/</i><span>capture</span><i>/</i><b>licensed monthly</b><i>/</i><span>sell it to others</span><i>/</i></div>
   </div>
 </div>
 
@@ -698,10 +723,10 @@ textarea.inp{min-height:132px;resize:vertical}
         <h2 class="h2" id="engines-h">One system. Three engines.</h2>
         <p class="lede">Each engine feeds the others. Leads land in Ops, Agents follow them up, and the OpLev Score shows what changed.</p>
       </div>
-      <p class="label">@ops / @agents / @leads</p>
+      <p class="label"><span class="e-ops ec">@ops</span> / <span class="e-agents ec">@agents</span> / <span class="e-leads ec">@leads</span></p>
     </div>
     <div class="engines">
-      <article class="eng" id="engine-ops">
+      <article class="eng e-ops" id="engine-ops">
         <div class="eng-top"><svg class="px" data-icon="system" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine 01 / @ops</span></div>
         <h3 class="eng-name">Ops</h3>
         <p class="eng-triad">Map. Build. Run.</p>
@@ -709,7 +734,7 @@ textarea.inp{min-height:132px;resize:vertical}
         <ul class="rowlist"><li>Workflows, records and dashboards built around you</li><li>One record for every client, order and job</li><li>A searchable company knowledge base</li><li>The OpLev Score, tracking what still leans on you</li></ul>
         <div class="eng-seen"><span class="label">seen in</span><a href="work/adessa-mind.html">Adessa Mind</a><a href="work/art-of-practice.html">Art of Practice</a></div>
       </article>
-      <article class="eng" id="engine-agents">
+      <article class="eng e-agents" id="engine-agents">
         <div class="eng-top"><svg class="px" data-icon="agent" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine 02 / @agents</span></div>
         <h3 class="eng-name">Agents</h3>
         <p class="eng-triad">Watch. Act. Ask.</p>
@@ -717,7 +742,7 @@ textarea.inp{min-height:132px;resize:vertical}
         <ul class="rowlist"><li>Intake, booking and follow-up</li><li>Inbox triage and drafted replies</li><li>Reports and updates that draft themselves</li><li>A person approves anything important, and every action is logged</li></ul>
         <div class="eng-seen"><span class="label">seen in</span><a href="work/adessa-mind.html">Adessa Mind</a><a href="work/jason-stephenson.html">Jason Stephenson</a></div>
       </article>
-      <article class="eng" id="engine-leads">
+      <article class="eng e-leads" id="engine-leads">
         <div class="eng-top"><svg class="px" data-icon="lead" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine 03 / @leads</span></div>
         <h3 class="eng-name">Leads</h3>
         <p class="eng-triad">Attract. Answer. Capture.</p>
@@ -758,20 +783,20 @@ textarea.inp{min-height:132px;resize:vertical}
       </div>
       <p class="label">12 examples</p>
     </div>
-    <div class="tabs filters" role="group" aria-label="Filter plays by engine"><button class="tab" type="button" aria-pressed="true" data-f="all">All plays</button><button class="tab" type="button" aria-pressed="false" data-f="ops">Ops</button><button class="tab" type="button" aria-pressed="false" data-f="agents">Agents</button><button class="tab" type="button" aria-pressed="false" data-f="leads">Leads</button></div>
+    <div class="tabs filters" role="group" aria-label="Filter plays by engine"><button class="tab" type="button" aria-pressed="true" data-f="all">All plays</button><button class="tab e-ops" type="button" aria-pressed="false" data-f="ops">Ops</button><button class="tab e-agents" type="button" aria-pressed="false" data-f="agents">Agents</button><button class="tab e-leads" type="button" aria-pressed="false" data-f="leads">Leads</button></div>
     <ul class="plays">
-      <li class="play" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">when a form or chat comes in</span></div><h3 class="h3">Speed to lead</h3><p>Reply in minutes with the right answer and a booking link, any hour.</p></li>
-      <li class="play" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">on your site</span></div><h3 class="h3">Instant estimate</h3><p>Buyers price the job themselves, and the estimate becomes a lead.</p></li>
-      <li class="play" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">on your site</span></div><h3 class="h3">See it first</h3><p>Let buyers see the finished result before they ever call.</p></li>
-      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">3 days after a quote</span></div><h3 class="h3">Quote follow-up</h3><p>Nudge open quotes before they go cold.</p></li>
-      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">when a client misses a booking</span></div><h3 class="h3">No-show rescue</h3><p>Reach out and rebook before the slot is lost.</p></li>
-      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">7 days after an invoice is due</span></div><h3 class="h3">Invoice chaser</h3><p>Polite reminders first, then a flag for you.</p></li>
-      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">after a job is done</span></div><h3 class="h3">Review ask</h3><p>Ask happy clients for a review at the right moment.</p></li>
-      <li class="play" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">first of the month</span></div><h3 class="h3">Investor update</h3><p>Draft the update from the month&#x27;s numbers, ready for your edit.</p></li>
-      <li class="play" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">every morning at 6</span></div><h3 class="h3">Owner brief</h3><p>What happened overnight and what needs you, on one screen.</p></li>
-      <li class="play" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">every Monday</span></div><h3 class="h3">Weekly numbers</h3><p>Revenue, pipeline and open work, without building a report.</p></li>
-      <li class="play" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">when someone joins</span></div><h3 class="h3">New hire setup</h3><p>Accounts, guides and first-week tasks, set up the same way every time.</p></li>
-      <li class="play" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">when stock runs low</span></div><h3 class="h3">Restock watch</h3><p>Draft the purchase order before you sell out, then wait for your OK.</p></li>
+      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">when a form or chat comes in</span></div><h3 class="h3">Speed to lead</h3><p>Reply in minutes with the right answer and a booking link, any hour.</p></li>
+      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">on your site</span></div><h3 class="h3">Instant estimate</h3><p>Buyers price the job themselves, and the estimate becomes a lead.</p></li>
+      <li class="play e-leads" data-e="leads"><div class="play-top"><span class="etags"><span class="etag e-leads">@leads</span></span><span class="label play-trig">on your site</span></div><h3 class="h3">See it first</h3><p>Let buyers see the finished result before they ever call.</p></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">3 days after a quote</span></div><h3 class="h3">Quote follow-up</h3><p>Nudge open quotes before they go cold.</p></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">when a client misses a booking</span></div><h3 class="h3">No-show rescue</h3><p>Reach out and rebook before the slot is lost.</p></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">7 days after an invoice is due</span></div><h3 class="h3">Invoice chaser</h3><p>Polite reminders first, then a flag for you.</p></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">after a job is done</span></div><h3 class="h3">Review ask</h3><p>Ask happy clients for a review at the right moment.</p></li>
+      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">@agents</span></span><span class="label play-trig">first of the month</span></div><h3 class="h3">Investor update</h3><p>Draft the update from the month&#x27;s numbers, ready for your edit.</p></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">every morning at 6</span></div><h3 class="h3">Owner brief</h3><p>What happened overnight and what needs you, on one screen.</p></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">every Monday</span></div><h3 class="h3">Weekly numbers</h3><p>Revenue, pipeline and open work, without building a report.</p></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">when someone joins</span></div><h3 class="h3">New hire setup</h3><p>Accounts, guides and first-week tasks, set up the same way every time.</p></li>
+      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">@ops</span></span><span class="label play-trig">when stock runs low</span></div><h3 class="h3">Restock watch</h3><p>Draft the purchase order before you sell out, then wait for your OK.</p></li>
     </ul>
   </div>
 </section>
@@ -1224,7 +1249,7 @@ $$('.pane[data-src]').forEach(p=>{
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+'">'+esc(r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}
