@@ -49,7 +49,7 @@ function decode(el,dur){
 /* ================= state ================= */
 const KEY='oplev-console-v1';
 let S=null, route='overview', drawer=null;
-const ui={apSel:null,actF:'all',actQ:'',playF:'all',pipeF:'all',recQ:'',setTab:'team',wz:null};
+const ui={apSel:null,actF:'all',actQ:'',playF:'all',pipeF:'all',recQ:'',setTab:'team',job:null};
 
 function init(type,o){
   o=o||{};
@@ -101,14 +101,13 @@ function pushLog(a,m,r,f){
 const NAV=[
   [null,[['overview','Home'],['approvals','Needs your OK','badge'],['activity','Activity']]],
   ['Engines',[['engine-ops','Ops','e'],['engine-agents','Agents','e'],['engine-leads','Leads','e'],['plays','Automations']]],
-  ['Your business',[['pipeline','Inquiries'],['records','Records'],['score','Progress score']]],
-  ['Account',[['setup','Set up'],['settings','Settings']]]
+  ['Your business',[['pipeline','Inquiries'],['records','Records'],['score','Progress score'],['settings','Settings']]]
 ];
 function shell(){
   const app=$('#app');
   app.innerHTML=`
-  <aside class="side" id="side" aria-label="Console navigation">
-    <div class="side-top"><a class="brand" href="index.html" aria-label="OpLev site"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span>OPLEV</span></a><span class="label">console</span></div>
+  <aside class="side" id="side" aria-label="Dashboard navigation">
+    <div class="side-top"><a class="brand" href="index.html" aria-label="OpLev site"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span>OPLEV</span></a><span class="label">example</span></div>
     <div class="ws" id="ws"></div>
     <nav class="side-nav" id="side-nav"></nav>
     <div class="side-foot" id="side-foot"></div>
@@ -124,27 +123,27 @@ function shell(){
         <span class="avatar" id="avatar" title=""></span>
       </div>
     </header>
-    <div class="demo-bar"><span><b>This is a demo.</b> Everything here is sample data, and your changes stay in this browser.</span><a href="start.html">Get this for your business &rarr;</a></div>
+    <div class="demo-bar"><span><b>This is an example.</b> A made-up business with sample data, to show the kind of dashboard we build. Changes stay in this browser.</span><a href="start.html">Talk to us about yours &rarr;</a></div>
     <main class="view" id="view" tabindex="-1"></main>
   </div>
   <div id="drawer-root"></div>
   <div id="toast-root"></div>`;
 }
 function renderSide(){
-  const s=setup(),L=LIC[S.license];
+  const s=setup();
   $('#ws').innerHTML=`<button class="ws-btn" type="button" data-act="ws" aria-expanded="false" aria-controls="ws-menu"><span class="ws-mark">${esc(initials(S.biz))}</span><span class="ws-txt"><span class="ws-name">${esc(S.biz)}</span><span class="ws-type">${esc(s.name)}</span></span><span class="ws-caret">&#9662;</span></button>
-  <div class="ws-menu" id="ws-menu" hidden><span class="label">sample workspaces</span>${SETS.map(x=>`<button class="ws-opt" type="button" data-act="ws-pick" data-id="${x.id}" aria-current="${x.id===S.type}"><span>${esc(x.demo.biz)}</span><span>${esc(x.type.split(' ')[0])}</span></button>`).join('')}<div class="ws-sep"></div><button class="ws-opt" type="button" data-act="reset"><span>Reset this demo</span><span></span></button><button class="ws-opt" type="button" data-act="go" data-r="setup"><span>Set up a new workspace</span><span></span></button></div>`;
+  <div class="ws-menu" id="ws-menu" hidden><span class="label">example businesses</span>${SETS.map(x=>`<button class="ws-opt" type="button" data-act="ws-pick" data-id="${x.id}" aria-current="${x.id===S.type}"><span>${esc(x.demo.biz)}</span><span>${esc(x.type.split(' ')[0])}</span></button>`).join('')}<div class="ws-sep"></div><button class="ws-opt" type="button" data-act="reset"><span>Reset this example</span><span></span></button></div>`;
   $('#side-nav').innerHTML=NAV.map(([g,items])=>`<div class="nav-g">${g?`<span class="label">${g}</span>`:''}${items.map(([r,t,x])=>{
     let cls='nav-i',right='';
-    if(x==='e'){const e=r.slice(7);cls+=' e-'+e+(has(e)?'':' locked');right=has(e)?(S.running[e]?'':'<span class="ni-r">paused</span>'):'<span class="ni-r">not in plan</span>';return `<a class="${cls}" href="#${r}"${route===r?' aria-current="page"':''}><span class="ni-mk"></span>${t}${right}</a>`;}
+    if(x==='e'){const e=r.slice(7);cls+=' e-'+e+(has(e)?'':' locked');right=has(e)?(S.running[e]?'':'<span class="ni-r">paused</span>'):'<span class="ni-r">not built</span>';return `<a class="${cls}" href="#${r}"${route===r?' aria-current="page"':''}><span class="ni-mk"></span>${t}${right}</a>`;}
     if(x==='badge')right=`<span class="badge" data-n="${S.approvals.length}" id="ap-badge">${S.approvals.length}</span>`;
     return `<a class="${cls}" href="#${r}"${route===r||(r==='engine-ops'&&false)?' aria-current="page"':''}>${t}${right}</a>`;
   }).join('')}</div>`).join('');
-  $('#side-foot').innerHTML=`<div class="lic-mini"><span class="label">your plan</span><b>${esc(L.name)} / ${esc(L.price)}</b></div><div class="etags">${S.licensed.map(tag).join('')}</div><a class="label" href="pricing.html">Plans &rarr;</a><a class="label" href="index.html">&larr; Back to site</a>`;
+  $('#side-foot').innerHTML=`<div class="lic-mini"><span class="label">built by</span><b>OpLev</b></div><div class="etags">${S.licensed.map(tag).join('')}</div><a class="label" href="start.html">Talk to us about yours &rarr;</a><a class="label" href="index.html">&larr; Back to site</a>`;
   const lb=$('#live-btn');lb.setAttribute('aria-pressed',String(S.live));lb.title=S.live?'Pause live activity':'Resume live activity';
   $('#avatar').textContent=initials(owner());$('#avatar').title=owner();
 }
-const ROUTE_NAME={overview:'Home',approvals:'Needs your OK',activity:'Activity',engines:'Engines','engine-ops':'Ops','engine-agents':'Agents','engine-leads':'Leads',plays:'Automations',pipeline:'Inquiries',records:'Records',score:'Progress score',setup:'Set up',settings:'Settings'};
+const ROUTE_NAME={overview:'Home',approvals:'Needs your OK',activity:'Activity',engines:'Engines','engine-ops':'Ops','engine-agents':'Agents','engine-leads':'Leads',plays:'Automations',pipeline:'Inquiries',records:'Records',score:'Progress score',settings:'Settings'};
 function setCrumb(){$('#crumb').innerHTML=`${esc(S.biz)} / <b>${esc(ROUTE_NAME[route]||'Home')}</b>`;}
 
 /* ================= views ================= */
@@ -160,7 +159,7 @@ function vOverview(){
   const sub=n?`${n} thing${n===1?' needs':'s need'} your OK. Everything else is handled.`:'Nothing needs you. Everything else is handled.';
   const needs=S.approvals.slice(0,4).map(a=>`<li><a href="#approvals" data-act="ap-go" data-id="${a.id}">${tag(a.e)}<span class="nl-t">${esc(a.kind)}: ${esc(a.to)}</span></a></li>`).join('');
   const tiles=ENG.map(e=>{
-    const L=!has(e.id),st=L?'<span class="state lock">not in your plan</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>');
+    const L=!has(e.id),st=L?'<span class="state lock">not built</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>');
     return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">${esc(e.triad)}</span>${st}</div><div class="et-name">${esc(e.name)}</div>
     <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">automations on</span></div></div><div class="bars" aria-hidden="true">${bars(S.type+e.id)}</div></a>`;}).join('');
   const kp=S.kpis.map(([l,v,s])=>`<div class="cell kpi"><span class="label">${esc(l)}</span><b>${esc(v)}</b><span class="label">${esc(s)}</span></div>`).join('');
@@ -207,20 +206,19 @@ function vActivity(){
 }
 
 function vEngines(){
-  return head('engines','Engines','Your plan decides which ones run.')+`<div class="g g3">${ENG.map(e=>{
+  return head('engines','Engines','The engines we built for this business.')+`<div class="g g3">${ENG.map(e=>{
     const L=!has(e.id);
-    return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">${esc(e.triad)}</span>${L?'<span class="state lock">not in your plan</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>')}</div><div class="et-name">${esc(e.name)}</div><p class="v-sub" style="font-size:15px">${esc(e.line)}</p>
-    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">automations on</span></div></div><span class="lnk">${L?'Add to your plan':'Open'} &rarr;</span></a>`;}).join('')}</div>`;
+    return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">${esc(e.triad)}</span>${L?'<span class="state lock">not built</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>')}</div><div class="et-name">${esc(e.name)}</div><p class="v-sub" style="font-size:15px">${esc(e.line)}</p>
+    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">automations on</span></div></div><span class="lnk">${L?'See what it adds':'Open'} &rarr;</span></a>`;}).join('')}</div>`;
 }
 function triggerSel(p){const opts=TRIGGERS.includes(p.trig)?TRIGGERS:[p.trig].concat(TRIGGERS);return `<select class="dd" data-act="play-trig" data-id="${p.id}" aria-label="When ${esc(p.title)} runs">${opts.map(t=>`<option${t===p.trig?' selected':''}>${esc(t)}</option>`).join('')}</select>`;}
 function vEngine(eid){
   const e=ENGN[eid];
   if(!has(eid)){
-    const next=TIER[Math.min(2,S.licensed.length)],L=LIC[next];
     const preview=S.plays.filter(p=>p.e===eid).slice(0,5);
-    return head('engines/'+eid,esc(e.name),esc(e.triad)+' '+esc(e.line),'',`ec e-${eid}`)+`
-    <div class="lock-card e-${eid}"><div style="display:flex;flex-direction:column;gap:16px"><span class="label">not in your plan yet</span><h2>Add ${esc(e.name)} and move to ${esc(L.name)}, ${esc(L.price)} a month.</h2><p>${esc(e.line)} It works with the engines you already have, so nothing gets set up twice.</p><div class="v-actions"><button class="btn" type="button" data-act="lic-add" data-e="${eid}">Add ${esc(e.name)} to this demo</button><a class="btn ghost" href="start.html#${next}">Talk to us</a></div></div>
-    <div><ul class="rowlist">${e.caps.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><p class="label" style="margin:18px 0 10px">automations you'd get</p><div class="etags">${preview.map(p=>`<span class="etag e-${eid}">${esc(p.title)}</span>`).join('')}</div></div></div>`;
+    return head('engines/'+eid,esc(e.name),esc(e.triad)+'. '+esc(e.line),'',`ec e-${eid}`)+`
+    <div class="lock-card e-${eid}"><div style="display:flex;flex-direction:column;gap:16px"><span class="label">not built for this business</span><h2>What a ${esc(e.name)} engine would add.</h2><p>${esc(e.line)} We'd build it to work with the engines already here, so nothing gets set up twice.</p><div class="v-actions"><button class="btn" type="button" data-act="lic-add" data-e="${eid}">Show it in this example</button><a class="btn ghost" href="start.html">Ask us about ${esc(e.name)}</a></div></div>
+    <div><ul class="rowlist">${e.caps.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><p class="label" style="margin:18px 0 10px">jobs we often build in</p><div class="etags">${preview.map(p=>`<span class="etag e-${eid}">${esc(p.title)}</span>`).join('')}</div></div></div>`;
   }
   const mine=S.plays.filter(p=>p.e===eid&&p.added);
   const waiting=S.approvals.filter(a=>a.e===eid).length;
@@ -229,7 +227,7 @@ function vEngine(eid){
     <td><div class="pt-title"><b><button class="pt-open" type="button" data-act="job-open" data-id="${p.id}" aria-haspopup="dialog">${esc(p.title)}</button></b><span>${esc(p.desc)}</span></div></td><td>${triggerSel(p)}</td>
     <td><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>check with me</label></td>
     <td class="num">${p.runs}</td><td class="num">${esc(p.last)}</td><td><button class="btn ghost btn-xs" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[eid]?'':' disabled'}>Run now</button></td></tr>`).join('');
-  return head('engines/'+eid,esc(e.name),esc(e.triad)+' '+esc(e.line),`<button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Add automations</button>`,`ec e-${eid}`)+`
+  return head('engines/'+eid,esc(e.name),esc(e.triad)+'. '+esc(e.line),`<button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Add automations</button>`,`ec e-${eid}`)+`
   <div class="e-${eid}"><div class="eh-row"><span class="state${S.running[eid]?' on':''}">${S.running[eid]?'running':'paused'}</span><span class="label">${S.running[eid]?'pause everything in this engine':'turn this engine back on'}</span><button class="sw" type="button" role="switch" aria-checked="${S.running[eid]}" data-act="eng-run" data-e="${eid}" aria-label="${S.running[eid]?'Pause':'Resume'} ${esc(e.name)}"></button></div>
   <div class="g g4" style="border-top:0"><div class="cell kpi"><span class="label">done today</span><b data-k="count-${eid}">${S.counts[eid]}</b></div><div class="cell kpi"><span class="label">automations on</span><b>${playsOn(eid)}</b></div><div class="cell kpi"><span class="label">waiting on you</span><b>${waiting}</b></div><div class="cell kpi"><span class="label">last action</span><b style="font-size:20px">${lastE?esc(lastE.t.slice(0,5)):'none'}</b></div></div></div>
   <div class="sec-t"><h2>Automations</h2><span class="label">${mine.length} in this engine</span></div>
@@ -241,13 +239,13 @@ function vEngine(eid){
 function vPlays(){
   const f=[['all','All'],['ops','Ops'],['agents','Agents'],['leads','Leads']];
   const list=S.plays.filter(p=>ui.playF==='all'||p.e===ui.playF);
-  return head('plays','Automations','Jobs your engines can take off your plate. Add any of them to an engine in your plan.')+`
+  return head('plays','Automations','Jobs built into this business\'s engines, plus others we often build. Tap any one to see how it works.')+`
   <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter automations">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="play-f" data-f="${k}" aria-pressed="${ui.playF===k}">${t}</button>`).join('')}</div></div>
   <ul class="plib">${list.map(p=>{
     let ft;
-    if(!has(p.e))ft=`<span class="label">needs the ${esc(ENGN[p.e].name)} engine</span><a class="lnk" href="#engine-${p.e}">add it &rarr;</a>`;
+    if(!has(p.e))ft=`<span class="label">needs the ${esc(ENGN[p.e].name)} engine</span><a class="lnk" href="#engine-${p.e}">see it &rarr;</a>`;
     else if(p.added)ft=`<span class="label added e-${p.e}">in ${esc(ENGN[p.e].name)}${p.on?'':' / off'}</span><a class="lnk" href="#engine-${p.e}">open &rarr;</a>`;
-    else ft=`<span class="label">available</span><button class="btn btn-xs" type="button" data-act="play-add" data-id="${p.id}">Add</button>`;
+    else ft=`<span class="label">not added here</span><button class="btn btn-xs" type="button" data-act="play-add" data-id="${p.id}">Add</button>`;
     return `<li class="e-${p.e}"><div class="pl-top">${tag(p.e)}<span class="label">runs ${esc(p.trig)}</span></div><h3><button class="pl-open" type="button" data-act="job-open" data-id="${p.id}" aria-haspopup="dialog">${esc(p.title)}</button></h3><p>${esc(p.desc)}</p><span class="pl-how label" aria-hidden="true">see how it works &rarr;</span><div class="pl-ft">${ft}</div></li>`;}).join('')}</ul>`;
 }
 
@@ -285,70 +283,20 @@ function vScore(){
   <p class="note">This is a sample score. Your real score comes from a few short questions for you and your team.</p>`;
 }
 
-/* ---------- setup wizard ---------- */
-const WZ=['Business','Plan','Connect','Automations','Approvals','Start'];
-function wzInit(){const s=setup();ui.wz={step:0,name:'',owner:'',type:S.type,lic:s.license,engines:s.engines.slice(),conns:{},plays:null,rules:Object.assign({},S.rules),booted:false};}
-function wzSetup(){return SET[ui.wz.type];}
-function wzPlays(){const w=ui.wz,s=wzSetup();const list=s.uses.filter(u=>w.engines.includes(u[0])).map(u=>({e:u[0],trig:u[1],title:u[2],rec:true}));D.plays.forEach(p=>{if(w.engines.includes(p[0])&&!list.some(x=>x.title===p[2]))list.push({e:p[0],trig:p[1],title:p[2],rec:false});});return list;}
-function vSetup(){
-  if(!ui.wz)wzInit();
-  const w=ui.wz,s=wzSetup(),need=TIER.indexOf(w.lic)+1;
-  const steps=`<div class="wz-steps">${WZ.map((t,i)=>`<span class="${i<w.step?'done':i===w.step?'cur':''}"><b>${pad2(i+1)}</b>${t}</span>`).join('')}</div>`;
-  let body='';
-  if(w.step===0)body=`<h2>Tell us about the business.</h2><p class="v-sub">We use this to fill in sample data. Nothing leaves this browser.</p>
-    <div class="inq-grid"><label class="fl"><span class="label">Business name *</span><input class="inp" id="wz-name" value="${esc(w.name)}" placeholder="Juniper Physio" autocomplete="organization"></label><label class="fl"><span class="label">Your name</span><input class="inp" id="wz-owner" value="${esc(w.owner)}" placeholder="Dana Ruiz" autocomplete="name"></label></div>
-    <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="choice c3">${SETS.map(x=>`<label><input type="radio" name="wz-type" value="${x.id}" data-act="wz-type"${x.id===w.type?' checked':''}><span class="label">${esc(x.type)}</span><b>${esc(x.name)}</b><p>${esc(x.pitch)}</p><span class="etags">${x.engines.map(tag).join('')}</span></label>`).join('')}</div></fieldset>`;
-  if(w.step===1)body=`<h2>Pick a plan and your engines.</h2><p class="v-sub">The ${esc(s.name)} usually runs on ${s.engines.map(e=>ENGN[e].name).join(' + ')}.</p>
-    <div class="choice c3">${TIER.map((t,i)=>`<label><input type="radio" name="wz-lic" value="${t}" data-act="wz-lic"${t===w.lic?' checked':''}><span class="label">plan ${i+1} of 3</span><b>${esc(LIC[t].name)}</b><p>${esc(LIC[t].price)} a month / ${i+1} of 3 engines</p></label>`).join('')}</div>
-    <fieldset class="fs"><legend class="label">Choose ${need} engine${need>1?'s':''} (${w.engines.length} picked)</legend><div class="choice c3">${ENG.map(e=>`<label class="e-${e.id}"><input type="checkbox" value="${e.id}" data-act="wz-eng"${w.engines.includes(e.id)?' checked':''}>${tag(e.id)}<b>${esc(e.name)}</b><p>${esc(e.line)}</p></label>`).join('')}</div></fieldset>`;
-  if(w.step===2){const all=s.connects.concat(['Slack','Zapier','QuickBooks'].filter(x=>!s.connects.includes(x)));
-    body=`<h2>Connect your tools.</h2><p class="v-sub">Your engines work inside the apps you already use. In this demo, connecting just flips the switch.</p>
-    <div class="conn">${all.map(n=>{const on=!!w.conns[n];return `<div class="${on?'on':''}"><span class="cn-ic">${esc(n[0])}</span><span class="cn-n">${esc(n)}</span><span class="cn-s">${on?'connected':''}</span><button class="btn ${on?'ghost ':''}btn-xs" type="button" data-act="wz-conn" data-n="${esc(n)}">${on?'Disconnect':'Connect'}</button></div>`;}).join('')}</div>`;}
-  if(w.step===3){const list=wzPlays();if(!w.plays)w.plays=list.filter(p=>p.rec).map(p=>p.title);
-    body=`<h2>Choose your automations.</h2><p class="v-sub">We picked the usual ones for the ${esc(s.name)}. Add or drop any of them.</p>
-    <div class="rules">${list.map(p=>`<label class="rule e-${p.e}"><span>${tag(p.e)}</span><span class="r-t"><b>${esc(p.title)}</b><span>runs ${esc(p.trig)}${p.rec?' / recommended':''}</span></span><input class="ck-box" type="checkbox" data-act="wz-play" value="${esc(p.title)}"${w.plays.includes(p.title)?' checked':''} aria-label="${esc(p.title)}"></label>`).join('')}</div>`;}
-  if(w.step===4)body=`<h2>Decide what needs a person.</h2><p class="v-sub">Anything on this list waits for your OK before it goes out.</p>${rulesHTML(w.rules,'wz')}`;
-  if(w.step===5)body=`<h2>Ready to start your engines.</h2>
-    <dl class="kv"><dt>business</dt><dd>${esc(w.name||'Untitled')}</dd><dt>setup</dt><dd>${esc(s.name)}</dd><dt>plan</dt><dd>${esc(LIC[w.lic].name)} / ${esc(LIC[w.lic].price)} a month</dd><dt>engines</dt><dd><span class="etags">${w.engines.map(tag).join('')}</span></dd><dt>automations</dt><dd>${(w.plays||[]).length} on</dd><dt>tools</dt><dd>${Object.keys(w.conns).filter(k=>w.conns[k]).join(', ')||'none yet'}</dd></dl>
-    <pre class="boot" id="boot" aria-live="polite">${w.booted?'':'Waiting to start'}</pre>`;
-  const last=w.step===5;
-  return head('setup','Set up your business','Six quick steps and your engines are running.')+steps+`<div class="wz-body">${body}<div class="wz-nav"><button class="btn ghost" type="button" data-act="wz-back"${w.step?'':' disabled'}>Back</button><button class="btn" type="button" data-act="${last?'wz-go':'wz-next'}">${last?'Start engines':'Next'}</button></div></div>`;
-}
 function rulesHTML(r,p){
   const R=[['newClient','First message to a new client or lead','Every first reply waits for you.'],['money','Anything that spends or charges money','Purchase orders, refunds and charges over the limit.'],['contracts','Contracts, terms and pricing','Anything that commits the business.'],['bulk','Messages to more than 20 people','Newsletters, investor updates and announcements.'],['refunds','Refunds and credits','Always ask before money goes back out.']];
   return `<div class="rules">${R.map(([k,t,s])=>`<div class="rule"><span class="r-t"><b>${t}</b><span>${s}</span></span>${k==='money'?`<label class="fl" style="gap:4px"><span class="label">over $</span><input class="inp" type="number" min="0" step="50" data-act="${p}-amt" value="${r.amt}" aria-label="Money limit"></label>`:''}<button class="sw" type="button" role="switch" aria-checked="${!!r[k]}" data-act="${p}-rule" data-k="${k}" aria-label="${esc(t)}"></button></div>`).join('')}</div>`;
 }
-function wzNext(){
-  const w=ui.wz;
-  if(w.step===0){const n=($('#wz-name')||{}).value||'';w.name=n.trim();w.owner=(($('#wz-owner')||{}).value||'').trim();if(!w.name){toast('Add a business name to continue.');$('#wz-name').focus();return;}}
-  if(w.step===1){const need=TIER.indexOf(w.lic)+1;if(w.engines.length!==need){toast(`Pick exactly ${need} engine${need>1?'s':''} for ${LIC[w.lic].name}.`);return;}w.plays=null;}
-  w.step=Math.min(5,w.step+1);render();
-}
-async function wzGo(){
-  const w=ui.wz,s=wzSetup(),b=$('#boot');if(w.booting)return;w.booting=true;
-  const dots=(k,v)=>'  '+k+' '+'.'.repeat(Math.max(3,18-k.length))+' <b>'+v+'</b>';
-  const lines=['Setting up '+esc(w.name),dots('plan',LIC[w.lic].name.toLowerCase())].concat(w.engines.map(e=>dots(ENGN[e].name,'running'))).concat([dots('automations',(w.plays||[]).length+' on'),dots('your OK',(Object.keys(w.rules).filter(k=>k!=='amt'&&w.rules[k]).length)+' rules on'),'Ready']);
-  const sl=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
-  b.innerHTML='';for(const l of lines){b.innerHTML+=(b.innerHTML?'\n':'')+l;await sl(240);}
-  await sl(500);
-  S=init(w.type,{biz:w.name,owner:w.owner||null,engines:w.engines,license:w.lic,plays:w.plays,conns:w.conns,rules:w.rules});
-  S.log=[];pushLog('@'+w.engines[0],'started with '+w.engines.length+' engine'+(w.engines.length>1?'s':''),'ready');
-  save();ui.wz=null;toast('Engines started for '+S.biz+'.');location.hash='overview';
-}
-
 /* ---------- settings ---------- */
 function vSettings(){
-  const T=[['team','Team'],['license','Plan'],['tools','Tools'],['rules','Approvals'],['data','Your data']];
+  const T=[['team','Team'],['tools','Tools'],['rules','Approvals'],['data','Your data']];
   let body='';
   if(ui.setTab==='team')body=`<div class="set-card"><h2>Team</h2><div class="tbl-w"><table class="tbl" style="min-width:420px"><thead><tr><th>Name</th><th>Role</th><th>Can approve</th></tr></thead><tbody>${S.people.map((p,i)=>`<tr><td class="n">${esc(p.name)}</td><td><select class="dd" data-act="role" data-i="${i}">${['Owner','Admin','Approver','Member'].concat([p.role]).filter((v,j,a)=>a.indexOf(v)===j).map(r=>`<option${r===p.role?' selected':''}>${esc(r)}</option>`).join('')}</select></td><td>${/Owner|Admin|Approver|Founder/.test(p.role)?'yes':'no'}</td></tr>`).join('')}</tbody></table></div>
     <div class="invite"><input class="inp" id="inv-name" placeholder="Name or email" autocomplete="off"><select class="dd" id="inv-role"><option>Member</option><option>Approver</option><option>Admin</option></select><button class="btn" type="button" data-act="invite">Invite</button></div></div>`;
-  if(ui.setTab==='license'){const L=LIC[S.license];body=`<div class="set-card"><h2>${esc(L.name)} / ${esc(L.price)} a month</h2><p class="v-sub">${S.licensed.length} of 3 engines. Hosting, fixes and updates included.</p>
-    <div class="g g3">${ENG.map(e=>`<div class="cell etile e-${e.id}${has(e.id)?'':' locked'}"><div class="et-top"><span class="label">@${e.id}</span>${has(e.id)?'<span class="state on">included</span>':'<span class="state lock">not included</span>'}</div><div class="et-name">${esc(e.name)}</div>${has(e.id)?'':`<button class="btn btn-xs" type="button" data-act="lic-add" data-e="${e.id}">Add ${esc(e.name)}</button>`}</div>`).join('')}</div></div>
-    <div class="set-card"><h2>Resale license</h2><p class="v-sub">Not active. If the ${esc(setup().name)} works for you, a resale license lets you sell it to businesses like yours. We keep it running for every customer you sign.</p><div class="v-actions"><a class="btn ghost" href="start.html#resale">Ask about resale</a></div></div>`;}
   if(ui.setTab==='tools')body=`<div class="set-card"><h2>Tools</h2><div class="conn">${S.integrations.map((t,i)=>`<div class="${t.on?'on':''}"><span class="cn-ic">${esc(t.n[0])}</span><span class="cn-n">${esc(t.n)}</span><span class="cn-s">${t.on?'connected':''}</span><button class="btn ${t.on?'ghost ':''}btn-xs" type="button" data-act="tool" data-i="${i}">${t.on?'Disconnect':'Connect'}</button></div>`).join('')}</div></div>`;
   if(ui.setTab==='rules')body=`<div class="set-card"><h2>What needs your OK</h2><p class="v-sub">Anything that matches one of these waits for you first. Each automation can also check with you on its own.</p>${rulesHTML(S.rules,'set')}</div>`;
-  if(ui.setTab==='data')body=`<div class="set-card"><h2>Your data</h2><p class="v-sub">We own the software. Your business data is yours, and you can download all of it any time.</p><div class="v-actions"><button class="btn ghost" type="button" data-act="export">Export all data</button><button class="btn ghost" type="button" data-act="reset">Reset this demo</button></div></div>`;
-  return head('settings','Settings','Your team, plan, tools and what needs your OK.')+`<div class="tabs filters stabs" role="tablist" aria-label="Settings">${T.map(([k,t])=>`<button class="tab" type="button" role="tab" data-act="set-tab" data-t="${k}" aria-selected="${ui.setTab===k}" aria-pressed="${ui.setTab===k}">${t}</button>`).join('')}</div>${body}`;
+  if(ui.setTab==='data')body=`<div class="set-card"><h2>Your data</h2><p class="v-sub">OpLev owns the code. Your business data is yours, and you can download all of it any time.</p><div class="v-actions"><button class="btn ghost" type="button" data-act="export">Export all data</button><button class="btn ghost" type="button" data-act="reset">Reset this example</button></div></div>`;
+  return head('settings','Settings','Your team, tools and what needs your OK.')+`<div class="tabs filters stabs" role="tablist" aria-label="Settings">${T.map(([k,t])=>`<button class="tab" type="button" role="tab" data-act="set-tab" data-t="${k}" aria-selected="${ui.setTab===k}" aria-pressed="${ui.setTab===k}">${t}</button>`).join('')}</div>${body}`;
 }
 
 /* ---------- automation walkthrough ---------- */
@@ -359,7 +307,7 @@ function jobHTML(p,still){
   const steps=j?j.steps.map((r,i)=>rowHTML({t:r[0],a:r[1],m:r[2],r:r[3],f:r[4]||''}).replace('<div class="row"',`<div class="row" style="animation-delay:${still?0:220+i*170}ms"`)).join(''):'';
   const checks=j?j.steps.filter(r=>r[4]==='need').length:0;
   let acts;
-  if(!has(p.e))acts=`<a class="btn" href="#engine-${p.e}" data-act="dr-close-go">Add the ${esc(e.name)} engine <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>`;
+  if(!has(p.e))acts=`<a class="btn" href="#engine-${p.e}" data-act="dr-close-go">See the ${esc(e.name)} engine <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>`;
   else if(!p.added)acts=`<button class="btn" type="button" data-act="play-add" data-id="${p.id}">Add to ${esc(e.name)}</button>`;
   else acts=`<button class="btn" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[p.e]?'':' disabled'}>Run now</button><button class="btn ghost" type="button" data-act="play-on" data-id="${p.id}">${p.on?'Turn off':'Turn on'}</button>`;
   const settings=has(p.e)&&p.added?`<p class="label">your settings</p><dl class="kv"><dt>status</dt><dd>${p.on&&S.running[p.e]?'on':'off'}</dd><dt>when it runs</dt><dd>${triggerSel(p)}</dd><dt>your OK</dt><dd><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>check with me first</label></dd><dt>times run</dt><dd>${p.runs}</dd><dt>last run</dt><dd>${esc(p.last)}</dd></dl>`:'';
@@ -415,19 +363,19 @@ function recDrawer(id){
 }
 
 /* ================= render + routing ================= */
-const VIEWS={overview:vOverview,approvals:vApprovals,activity:vActivity,engines:vEngines,'engine-ops':()=>vEngine('ops'),'engine-agents':()=>vEngine('agents'),'engine-leads':()=>vEngine('leads'),plays:vPlays,pipeline:vPipeline,records:vRecords,score:vScore,setup:vSetup,settings:vSettings};
+const VIEWS={overview:vOverview,approvals:vApprovals,activity:vActivity,engines:vEngines,'engine-ops':()=>vEngine('ops'),'engine-agents':()=>vEngine('agents'),'engine-leads':()=>vEngine('leads'),plays:vPlays,pipeline:vPipeline,records:vRecords,score:vScore,settings:vSettings};
 function render(keepScroll){
   renderSide();setCrumb();
   const v=$('#view');const y=window.scrollY;
   v.innerHTML=VIEWS[route]();
   decode($('.v-title',v));
   if(keepScroll)window.scrollTo(0,y);
-  document.title=($('.v-title',v)?$('.v-title',v).getAttribute('aria-label')||$('.v-title',v).textContent:'Console')+' | OpLev Console';
+  document.title=($('.v-title',v)?$('.v-title',v).getAttribute('aria-label')||$('.v-title',v).textContent:'Example')+' | OpLev example';
   refreshJob();
 }
 function onRoute(){
   const h=(location.hash||'').slice(1).toLowerCase();
-  if(SET[h]){S=init(h);save();ui.apSel=null;ui.wz=null;try{history.replaceState(null,'','#overview');}catch(e){}route='overview';render();window.scrollTo(0,0);toast('Opened the '+SET[h].name+' demo.');return;}
+  if(SET[h]){S=init(h);save();ui.apSel=null;try{history.replaceState(null,'','#overview');}catch(e){}route='overview';render();window.scrollTo(0,0);toast('Showing the '+SET[h].name.toLowerCase()+' example.');return;}
   const next=VIEWS[h]?h:'overview';
   const changed=next!==route;route=next;closeDrawer(true);
   document.querySelector('.app').classList.remove('side-open');
@@ -480,7 +428,7 @@ const ACT={
   'side-close'(){$('.app').classList.remove('side-open');},
   ws(el){const m=$('#ws-menu');const open=m.hidden;m.hidden=!open;el.setAttribute('aria-expanded',String(open));},
   'ws-pick'(el){location.hash=el.dataset.id;},
-  reset(){S=init(S.type);ui.apSel=null;ui.wz=null;save();toast('Demo reset.');location.hash='overview';render();},
+  reset(){S=init(S.type);ui.apSel=null;save();toast('Example reset.');location.hash='overview';render();},
   go(el){location.hash=el.dataset.r;},
   live(){S.live=!S.live;save();renderSide();toast(S.live?'Live activity resumed.':'Live activity paused.');},
   'ap-go'(el){ui.apSel=el.dataset.id;},
@@ -497,7 +445,7 @@ const ACT={
   'play-run'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.runs++;p.last='just now';pushLog('@'+p.e,'ran '+p.title.toLowerCase()+' on request','done');save();render(true);toast(p.title+' ran.');},
   'eng-run'(el){const e=el.dataset.e;S.running[e]=!S.running[e];pushLog('you',(S.running[e]?'resumed ':'paused ')+ENGN[e].name,S.running[e]?'running':'paused','me');save();render(true);},
   'lic-add'(el){const e=el.dataset.e;if(has(e))return;S.licensed.push(e);S.license=TIER[Math.min(2,S.licensed.length-1)];S.running[e]=true;S.counts[e]=0;
-    S.plays.filter(p=>p.e===e).slice(0,3).forEach(p=>{p.added=true;p.on=true;});pushLog('@'+e,ENGN[e].name+' engine started','running');save();render(true);toast(ENGN[e].name+' added. Your plan is now '+LIC[S.license].name+', '+LIC[S.license].price+' a month.');},
+    S.plays.filter(p=>p.e===e).slice(0,3).forEach(p=>{p.added=true;p.on=true;});pushLog('@'+e,ENGN[e].name+' engine started','running');save();render(true);toast(ENGN[e].name+' added to this example.');},
   'pipe-f'(el){ui.pipeF=el.dataset.f;render(true);},
   'lead-open'(el){leadDrawer(el.dataset.id);},
   'rec-open'(el){recDrawer(el.dataset.id);},
@@ -513,12 +461,7 @@ const ACT={
   invite(){const n=$('#inv-name'),r=$('#inv-role');const v=(n.value||'').trim();if(!v){n.focus();toast('Add a name or email.');return;}S.people.push({name:v,role:r.value});pushLog('you','invited '+v+' as '+r.value.toLowerCase(),'invited','me');save();render(true);toast('Invite sent to '+v+' (sample).');},
   tool(el){const t=S.integrations[+el.dataset.i];if(!t)return;t.on=!t.on;pushLog('you',(t.on?'connected ':'disconnected ')+t.n,t.on?'connected':'off','me');save();render(true);},
   'set-rule'(el){const k=el.dataset.k;S.rules[k]=!S.rules[k];save();render(true);},
-  'wz-rule'(el){const k=el.dataset.k;ui.wz.rules[k]=!ui.wz.rules[k];render(true);},
-  export(){toast('In the live product this emails you a full export.');},
-  'wz-next'(){wzNext();},
-  'wz-back'(){if(ui.wz.step>0){ui.wz.step--;render(true);}},
-  'wz-conn'(el){const n=el.dataset.n;ui.wz.conns[n]=!ui.wz.conns[n];render(true);},
-  'wz-go'(){wzGo();}
+  export(){toast('In a real build this emails you a full export.');},
 };
 const CHANGE={
   'play-trig'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.trig=el.value;pushLog('you',p.title.toLowerCase()+' now runs '+el.value,'saved','me');save();},
@@ -526,11 +469,6 @@ const CHANGE={
   'lead-stage'(el){const l=S.leads.find(x=>x.id===el.dataset.id);if(!l)return;l.stage=el.value;l.last='just now';pushLog('you','moved '+l.n+' to '+l.stage.toLowerCase(),'saved','me');save();render(true);},
   role(el){const p=S.people[+el.dataset.i];if(p){p.role=el.value;save();render(true);}},
   'set-amt'(el){S.rules.amt=Math.max(0,+el.value||0);save();},
-  'wz-amt'(el){ui.wz.rules.amt=Math.max(0,+el.value||0);},
-  'wz-type'(el){ui.wz.type=el.value;const s=SET[el.value];ui.wz.engines=s.engines.slice();ui.wz.lic=s.license;ui.wz.plays=null;const n=$('#wz-name');if(n)ui.wz.name=n.value;const o=$('#wz-owner');if(o)ui.wz.owner=o.value;render(true);},
-  'wz-lic'(el){const w=ui.wz;w.lic=el.value;const need=TIER.indexOf(w.lic)+1;const rec=SET[w.type].engines.concat(ENG.map(e=>e.id)).filter((v,i,a)=>a.indexOf(v)===i);w.engines=rec.slice(0,need);render(true);},
-  'wz-eng'(el){const w=ui.wz;const need=TIER.indexOf(w.lic)+1;if(el.checked){if(w.engines.length>=need){w.engines.shift();}w.engines.push(el.value);}else w.engines=w.engines.filter(e=>e!==el.value);render(true);},
-  'wz-play'(el){const w=ui.wz;if(!w.plays)w.plays=[];if(el.checked){if(!w.plays.includes(el.value))w.plays.push(el.value);}else w.plays=w.plays.filter(t=>t!==el.value);}
 };
 
 /* ================= boot ================= */
@@ -550,8 +488,6 @@ function boot(){
   document.addEventListener('input',e=>{
     if(e.target.id==='act-q'){ui.actQ=e.target.value;const f=$('.feed[data-filter]');if(f)f.innerHTML=feedRows(filteredLog(),200);const c=$('#act-count');if(c)c.textContent=filteredLog().length+' events';}
     if(e.target.id==='rec-q'){ui.recQ=e.target.value;const q=ui.recQ.trim().toLowerCase();$('#rec-body').innerHTML=recRows(S.records.filter(r=>!q||(r.n+' '+r.kind+' '+r.status+' '+r.owner).toLowerCase().includes(q)));}
-    if(e.target.id==='wz-name')ui.wz.name=e.target.value;
-    if(e.target.id==='wz-owner')ui.wz.owner=e.target.value;
   });
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){if($('#drawer-root').firstChild)closeDrawer();$('.app').classList.remove('side-open');const m=$('#ws-menu');if(m&&!m.hidden)m.hidden=true;}

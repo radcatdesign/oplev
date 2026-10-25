@@ -538,7 +538,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fitWordma
   const after=()=>{decode($('#h1'));fitWordmark();};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> starting oplev'],['ops','ready'],['agents','ready'],['leads','ready'],['approvals','on'],['your data','safe'],['> ready']];
+  const lines=[['> oplev'],['who','an agency'],['what','custom engines'],['engines','ops / agents / leads'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

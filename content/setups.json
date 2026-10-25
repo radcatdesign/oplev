@@ -1,7 +1,7 @@
 [
   {
     "id": "clinic",
-    "name": "Practice Setup",
+    "name": "Clinic build",
     "type": "Clinics + practices",
     "for": "Clinics, therapists, med spas and solo practitioners",
     "pitch": "Intake, booking and follow-up that run on their own, so you can stay with the client in front of you.",
@@ -324,7 +324,7 @@
   },
   {
     "id": "brand",
-    "name": "Storefront Setup",
+    "name": "Product brand build",
     "type": "Product brands",
     "for": "Product brands, makers and direct-to-customer shops",
     "pitch": "A store that answers questions, lets buyers price the job and hands every lead to your team.",
@@ -642,7 +642,7 @@
   },
   {
     "id": "agency",
-    "name": "Delivery Setup",
+    "name": "Agency build",
     "type": "Agencies + service firms",
     "for": "Agencies, studios, consultancies and service firms",
     "pitch": "Onboarding, launch checks and reporting that run the same way every time, without you in every thread.",
@@ -956,7 +956,7 @@
   },
   {
     "id": "creator",
-    "name": "Studio Setup",
+    "name": "Creator build",
     "type": "Creators + media",
     "for": "Creators, podcasters, writers and media brands",
     "pitch": "Keep making things. Releases, the inbox and partnership requests run themselves.",
@@ -1234,7 +1234,7 @@
   },
   {
     "id": "startup",
-    "name": "Launch Setup",
+    "name": "Startup build",
     "type": "Startups",
     "for": "Early-stage startups and new ventures",
     "pitch": "Run lean from day one: every lead captured, every number in one place, and a system you could license to others.",

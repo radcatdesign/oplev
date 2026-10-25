@@ -42,10 +42,10 @@ Links can preselect answers: `start.html#clinic`, `#brand`, `#agency`, `#creator
 
 `.vercelignore` keeps `build.py`, `src/`, `content/` and this README off the live site.
 
-## Console demo (`/app`)
+## Example dashboard (`/app`)
 
-`app.html` is the OpLev Console running on sample data: home, needs your OK, activity, engine pages, automations, inquiries, records, progress score, a set up flow and settings. Changes stay in the visitor's browser.
+`app.html` is an example of the dashboard OpLev builds for a client, shown for a made-up business with sample data: home, needs your OK, activity, engine pages, automations, inquiries, records, progress score and settings. Changes stay in the visitor's browser.
 
-Open it as a business type with `app.html#clinic`, `#brand`, `#agency`, `#creator` or `#startup`. Each setup page links to its demo.
+Open it as a business type with `app.html#clinic`, `#brand`, `#agency`, `#creator` or `#startup`. Each "Who it's for" page links to its example.
 
-To add or change a setup, edit `content/setups.json`. Each entry drives its setup page, the home picker, the pricing "fits" line and the Console's sample workspace.
+To add or change a business type, edit `content/setups.json`. Each entry drives its "Who it's for" page, the home picker, the pricing "common for" line and the example dashboard's sample business.
