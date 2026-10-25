@@ -5,13 +5,13 @@ const D=JSON.parse(document.getElementById('app-data').textContent);
 const ENG=D.engines, ENGN=Object.fromEntries(ENG.map(e=>[e.id,e]));
 const SETS=D.setups, SET=Object.fromEntries(SETS.map(s=>[s.id,s]));
 const LIC=D.licenses, TIER=['one','core','company'];
-const FUNCS=['Direction','Demand','Delivery','Team','Operations','Finance','Customer','Governance'];
-const DIMS=['Definition','Standards','Sequence','Transferability','Resilience'];
-const LEVELS=['Undefined','Person-dependent','Documented','Engineered'];
-const FUNC_E={Direction:'ops',Demand:'leads',Delivery:'ops',Team:'ops',Operations:'ops',Finance:'agents',Customer:'agents',Governance:'ops'};
-const FUNC_TIP={Direction:'Put goals and weekly numbers on one screen.',Demand:'Capture every lead and answer it in minutes.',Delivery:'Make delivery run the same way every time.',Team:'Set up every new person the same way.',Operations:'Move routine work off people and onto plays.',Finance:'Chase invoices and reconcile payments automatically.',Customer:'Follow up with every client without someone remembering to.',Governance:'Decide what needs a person, and log everything else.'};
+const FUNCS=['Planning','Getting customers','Doing the work','Team','Day-to-day','Money','Customer care','Approvals and rules'];
+const DIMS=[0,1,2,3,4];
+const LEVELS=['Not set up','Runs on one person','Partly handled','Runs without you'];
+const FUNC_E={'Planning':'ops','Getting customers':'leads','Doing the work':'ops','Team':'ops','Day-to-day':'ops','Money':'agents','Customer care':'agents','Approvals and rules':'ops'};
+const FUNC_TIP={'Planning':'Put your goals and weekly numbers on one screen.','Getting customers':'Save every lead and answer it within minutes.','Doing the work':'Make the work run the same way every time.','Team':'Set up every new person the same way.','Day-to-day':'Hand routine jobs to automations.','Money':'Send invoice reminders and match payments automatically.','Customer care':'Follow up with every client without anyone having to remember.','Approvals and rules':'Decide what needs a person, and log everything else.'};
 const STAGES=['New','In conversation','Booked','Won','Lost'];
-const TRIGGERS=['when a form or chat comes in','when a new inquiry comes in','on your site','every hour','every morning at 6','every Monday','every Friday','first of the month','after every visit','after a job is done','24 hours before a visit','3 days after a quote','7 days after an invoice is due','when a client misses a visit','when a client misses a booking','when stock runs low','when someone joins','when a contract is signed'];
+const TRIGGERS=['when a form or chat comes in','when a new inquiry comes in','on your website','every hour','every morning at 6','every Monday','every Friday','first of the month','after every visit','after a job is done','24 hours before a visit','3 days after a quote','7 days after an invoice is due','when a client misses a visit','when a client misses a booking','when stock runs low','when someone joins','when a contract is signed'];
 let RM=false;try{RM=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
 const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -22,7 +22,8 @@ const first=n=>String(n||'').trim().split(/\s+/)[0]||'there';
 const initials=n=>String(n||'?').split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
 function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
 function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
-const tag=e=>ENGN[e]?`<span class="etag e-${e}">@${e}</span>`:'';
+const tag=e=>ENGN[e]?`<span class="etag e-${e}">${esc(ENGN[e].name)}</span>`:'';
+const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','you':'You'};
 const actorCls=a=>/^@[a-z]+$/.test(a)?' e-'+a.slice(1):'';
 
 /* ================= decode (headline scramble) ================= */
@@ -98,10 +99,10 @@ function pushLog(a,m,r,f){
 
 /* ================= shell ================= */
 const NAV=[
-  [null,[['overview','Overview'],['approvals','Approvals','badge'],['activity','Activity']]],
-  ['Engines',[['engine-ops','Ops','e'],['engine-agents','Agents','e'],['engine-leads','Leads','e'],['plays','Plays']]],
-  ['Data',[['pipeline','Pipeline'],['records','Records'],['score','OpLev Score']]],
-  ['Manage',[['setup','Setup'],['settings','Settings']]]
+  [null,[['overview','Home'],['approvals','Needs your OK','badge'],['activity','Activity']]],
+  ['Engines',[['engine-ops','Ops','e'],['engine-agents','Agents','e'],['engine-leads','Leads','e'],['plays','Automations']]],
+  ['Your business',[['pipeline','Inquiries'],['records','Records'],['score','Progress score']]],
+  ['Account',[['setup','Set up'],['settings','Settings']]]
 ];
 function shell(){
   const app=$('#app');
@@ -123,7 +124,7 @@ function shell(){
         <span class="avatar" id="avatar" title=""></span>
       </div>
     </header>
-    <div class="demo-bar"><span><b>Sample workspace.</b> Everything here is example data, and changes stay in this browser.</span><a href="start.html">Get this for your business &rarr;</a></div>
+    <div class="demo-bar"><span><b>This is a demo.</b> Everything here is sample data, and your changes stay in this browser.</span><a href="start.html">Get this for your business &rarr;</a></div>
     <main class="view" id="view" tabindex="-1"></main>
   </div>
   <div id="drawer-root"></div>
@@ -135,51 +136,52 @@ function renderSide(){
   <div class="ws-menu" id="ws-menu" hidden><span class="label">sample workspaces</span>${SETS.map(x=>`<button class="ws-opt" type="button" data-act="ws-pick" data-id="${x.id}" aria-current="${x.id===S.type}"><span>${esc(x.demo.biz)}</span><span>${esc(x.type.split(' ')[0])}</span></button>`).join('')}<div class="ws-sep"></div><button class="ws-opt" type="button" data-act="reset"><span>Reset this demo</span><span></span></button><button class="ws-opt" type="button" data-act="go" data-r="setup"><span>Set up a new workspace</span><span></span></button></div>`;
   $('#side-nav').innerHTML=NAV.map(([g,items])=>`<div class="nav-g">${g?`<span class="label">${g}</span>`:''}${items.map(([r,t,x])=>{
     let cls='nav-i',right='';
-    if(x==='e'){const e=r.slice(7);cls+=' e-'+e+(has(e)?'':' locked');right=has(e)?(S.running[e]?'':'<span class="ni-r">paused</span>'):'<span class="ni-r">add</span>';return `<a class="${cls}" href="#${r}"${route===r?' aria-current="page"':''}><span class="ni-mk"></span>${t}${right}</a>`;}
+    if(x==='e'){const e=r.slice(7);cls+=' e-'+e+(has(e)?'':' locked');right=has(e)?(S.running[e]?'':'<span class="ni-r">paused</span>'):'<span class="ni-r">not in plan</span>';return `<a class="${cls}" href="#${r}"${route===r?' aria-current="page"':''}><span class="ni-mk"></span>${t}${right}</a>`;}
     if(x==='badge')right=`<span class="badge" data-n="${S.approvals.length}" id="ap-badge">${S.approvals.length}</span>`;
     return `<a class="${cls}" href="#${r}"${route===r||(r==='engine-ops'&&false)?' aria-current="page"':''}>${t}${right}</a>`;
   }).join('')}</div>`).join('');
-  $('#side-foot').innerHTML=`<div class="lic-mini"><span class="label">license</span><b>${esc(L.name)} / ${esc(L.price)}</b></div><div class="etags">${S.licensed.map(tag).join('')}</div><a class="label" href="pricing.html">Licenses &rarr;</a><a class="label" href="index.html">&larr; Back to site</a>`;
+  $('#side-foot').innerHTML=`<div class="lic-mini"><span class="label">your plan</span><b>${esc(L.name)} / ${esc(L.price)}</b></div><div class="etags">${S.licensed.map(tag).join('')}</div><a class="label" href="pricing.html">Plans &rarr;</a><a class="label" href="index.html">&larr; Back to site</a>`;
   const lb=$('#live-btn');lb.setAttribute('aria-pressed',String(S.live));lb.title=S.live?'Pause live activity':'Resume live activity';
   $('#avatar').textContent=initials(owner());$('#avatar').title=owner();
 }
-function setCrumb(){const parts=route.replace('engine-','engines/');$('#crumb').innerHTML=`~/console/<b>${esc(parts)}</b>`;}
+const ROUTE_NAME={overview:'Home',approvals:'Needs your OK',activity:'Activity',engines:'Engines','engine-ops':'Ops','engine-agents':'Agents','engine-leads':'Leads',plays:'Automations',pipeline:'Inquiries',records:'Records',score:'Progress score',setup:'Set up',settings:'Settings'};
+function setCrumb(){$('#crumb').innerHTML=`${esc(S.biz)} / <b>${esc(ROUTE_NAME[route]||'Home')}</b>`;}
 
 /* ================= views ================= */
 function greet(){const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening';}
 function bars(seed,n){const r=rng(hashStr(seed));return Array.from({length:n||14},()=>`<i style="height:${12+Math.round(r()*88)}%"></i>`).join('');}
-function rowHTML(x){return `<div class="row"><span class="ts">${esc(x.t)}</span><span class="ac${x.f?' '+x.f:''}${actorCls(x.a)}">${esc(x.a)}</span><span class="msg">${esc(x.m)}</span><span class="res">${esc(x.r)}</span></div>`;}
+function rowHTML(x){return `<div class="row"><span class="ts">${esc(x.t)}</span><span class="ac${x.f?' '+x.f:''}${actorCls(x.a)}">${esc(WHO[x.a]||x.a)}</span><span class="msg">${esc(x.m)}</span><span class="res">${esc(x.r)}</span></div>`;}
 function feedRows(list,max){const rows=list.slice(-max).reverse();return rows.length?rows.map(rowHTML).join(''):'<div class="feed-empty">Nothing yet.</div>';}
-function head(path,title,sub,actions,cls){return `<div class="v-head"><div class="v-head-l"><p class="eyebrow">~/console/${path}</p><h1 class="v-title${cls?' '+cls:''}">${title}</h1>${sub?`<p class="v-sub">${sub}</p>`:''}</div>${actions?`<div class="v-actions">${actions}</div>`:''}</div>`;}
+function head(path,title,sub,actions,cls){return `<div class="v-head"><div class="v-head-l"><h1 class="v-title${cls?' '+cls:''}">${title}</h1>${sub?`<p class="v-sub">${sub}</p>`:''}</div>${actions?`<div class="v-actions">${actions}</div>`:''}</div>`;}
 const playsOn=e=>S.plays.filter(p=>p.e===e&&p.added&&p.on).length;
 
 function vOverview(){
   const n=S.approvals.length;
-  const sub=n?`${n} thing${n===1?' needs':'s need'} you. Everything else is handled.`:'Nothing needs you. Your engines are handling the rest.';
+  const sub=n?`${n} thing${n===1?' needs':'s need'} your OK. Everything else is handled.`:'Nothing needs you. Everything else is handled.';
   const needs=S.approvals.slice(0,4).map(a=>`<li><a href="#approvals" data-act="ap-go" data-id="${a.id}">${tag(a.e)}<span class="nl-t">${esc(a.kind)}: ${esc(a.to)}</span></a></li>`).join('');
   const tiles=ENG.map(e=>{
-    const L=!has(e.id),st=L?'<span class="state lock">not licensed</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>');
-    return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">@${e.id}</span>${st}</div><div class="et-name">${esc(e.name)}</div>
-    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">actions today</span></div><div><b>${playsOn(e.id)}</b><span class="label">plays on</span></div></div><div class="bars" aria-hidden="true">${bars(S.type+e.id)}</div></a>`;}).join('');
+    const L=!has(e.id),st=L?'<span class="state lock">not in your plan</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>');
+    return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">${esc(e.triad)}</span>${st}</div><div class="et-name">${esc(e.name)}</div>
+    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">automations on</span></div></div><div class="bars" aria-hidden="true">${bars(S.type+e.id)}</div></a>`;}).join('');
   const kp=S.kpis.map(([l,v,s])=>`<div class="cell kpi"><span class="label">${esc(l)}</span><b>${esc(v)}</b><span class="label">${esc(s)}</span></div>`).join('');
   const sc=S.score,d=sc.now-sc.prev;
   return head('overview',`${greet()}, ${esc(first(owner()))}.`,sub,n?`<a class="btn" href="#approvals">Review approvals</a>`:`<a class="btn ghost" href="#activity">See activity</a>`)+`
   <div class="g ov-top">
-    <div class="cell"><div class="et-top"><span class="label">needs you</span><a class="lnk" href="#approvals">open &rarr;</a></div><div class="big-n" data-k="ap-count">${n}</div>${n?`<ul class="needs-l">${needs}</ul>`:'<p class="v-sub">Inbox zero.</p>'}</div>
+    <div class="cell"><div class="et-top"><span class="label">needs your OK</span><a class="lnk" href="#approvals">open &rarr;</a></div><div class="big-n" data-k="ap-count">${n}</div>${n?`<ul class="needs-l">${needs}</ul>`:'<p class="v-sub">Inbox zero.</p>'}</div>
     ${tiles}
   </div>
   <div class="g g4">${kp}</div>
   <div class="ov-bottom">
-    <section class="pnl"><div class="pnl-hd"><span class="label">live activity</span><a class="label" href="#activity">all activity &rarr;</a></div><div class="feed" data-live data-max="14">${feedRows(S.log,14)}</div></section>
-    <section class="pnl score-card"><div class="et-top"><span class="label">oplev score</span><a class="lnk" href="#score">details &rarr;</a></div><div class="big-n">${sc.now}</div><span class="label">${d>=0?'+':''}${d} since you started</span><div class="trend" aria-hidden="true">${sc.trend.map(v=>`<i style="height:${Math.max(8,v)}%"></i>`).join('')}</div><p class="v-sub" style="font-size:14px">${esc(levelOf(sc.now))}. ${esc(FUNC_TIP[weakest()[0].f])}</p></section>
+    <section class="pnl"><div class="pnl-hd"><span class="label">happening now</span><a class="label" href="#activity">all activity &rarr;</a></div><div class="feed" data-live data-max="14">${feedRows(S.log,14)}</div></section>
+    <section class="pnl score-card"><div class="et-top"><span class="label">progress score</span><a class="lnk" href="#score">details &rarr;</a></div><div class="big-n">${sc.now}</div><span class="label">${d>=0?'+':''}${d} since you started</span><div class="trend" aria-hidden="true">${sc.trend.map(v=>`<i style="height:${Math.max(8,v)}%"></i>`).join('')}</div><p class="v-sub" style="font-size:14px">${esc(levelOf(sc.now))}. ${esc(FUNC_TIP[weakest()[0].f])}</p></section>
   </div>`;
 }
 
 function vApprovals(){
   const list=S.approvals;
-  if(!list.length)return head('approvals','Approvals','Your engines ask before anything important goes out.')+`<div class="pnl empty"><div class="big-n">0</div><p>Nothing needs you right now. When an engine wants to send, spend or promise something, it lands here first.</p><a class="btn ghost" href="#activity">See what ran</a></div>`;
+  if(!list.length)return head('approvals','Needs your OK','Nothing important goes out until you say yes.')+`<div class="pnl empty"><div class="big-n">0</div><p>Nothing needs you right now. When an engine wants to send, spend or promise something, it lands here first.</p><a class="btn ghost" href="#activity">See what ran</a></div>`;
   if(!list.some(a=>a.id===ui.apSel))ui.apSel=list[0].id;
-  return head('approvals','Approvals','Your engines ask before anything important goes out. Edit anything before you approve it.')+`
+  return head('approvals','Needs your OK','Nothing important goes out until you say yes. You can edit anything first.')+`
   <div class="ap-wrap"><div class="ap-list" id="ap-list">${apList()}</div><div class="ap-detail" id="ap-detail">${apDetail()}</div></div>`;
 }
 function apList(){return S.approvals.map(a=>`<button class="ap-item" type="button" data-act="ap-sel" data-id="${a.id}" aria-current="${a.id===ui.apSel}">${tag(a.e)}<span class="api-t">${esc(a.kind)}</span><span class="label">${esc(a.age)}</span><span class="api-s">${esc(a.to)}</span></button>`).join('');}
@@ -187,9 +189,9 @@ function apDetail(){
   const a=S.approvals.find(x=>x.id===ui.apSel);if(!a)return '';
   return `<div class="et-top">${tag(a.e)}<span class="label">${esc(a.age)}</span></div>
   <h2 class="ap-d-t">${esc(a.kind)}</h2><dl class="kv"><dt>to</dt><dd>${esc(a.to)}</dd><dt>engine</dt><dd>${esc(ENGN[a.e].name)}</dd></dl>
-  <div class="why"><span class="label">needs you</span><span>${esc(a.why)}</span></div>
+  <div class="why"><span class="label">why it's here</span><span>${esc(a.why)}</span></div>
   <label class="fl"><span class="label">draft</span><textarea class="inp ap-draft" id="ap-draft" rows="7">${esc(a.draft)}</textarea></label>
-  <div class="ap-btns"><button class="btn" type="button" data-act="ap-ok" data-id="${a.id}">Approve and send</button><button class="btn ghost" type="button" data-act="ap-no" data-id="${a.id}">Reject</button><span class="label" style="margin-left:auto">nothing is sent until you approve</span></div>`;
+  <div class="ap-btns"><button class="btn" type="button" data-act="ap-ok" data-id="${a.id}">Approve and send</button><button class="btn ghost" type="button" data-act="ap-no" data-id="${a.id}">Don't send</button><span class="label" style="margin-left:auto">nothing goes out until you approve</span></div>`;
 }
 
 function filteredLog(){
@@ -198,40 +200,40 @@ function filteredLog(){
 }
 function vActivity(){
   const f=[['all','All'],['ops','Ops'],['agents','Agents'],['leads','Leads'],['you','You']];
-  return head('activity','Activity','Every action every engine takes, as it happens.')+`
+  return head('activity','Activity','Everything your engines did, as it happens.')+`
   <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter by engine">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="act-f" data-f="${k}" aria-pressed="${ui.actF===k}">${t}</button>`).join('')}</div>
   <label class="search"><span class="sr">Search activity</span><input class="inp" id="act-q" type="search" placeholder="Search activity" value="${esc(ui.actQ)}" autocomplete="off"></label></div>
   <section class="pnl"><div class="pnl-hd"><span class="label" id="act-count">${filteredLog().length} events</span><span class="label">${S.live?'live':'paused'}</span></div><div class="feed" data-live data-filter data-max="200" style="max-height:none">${feedRows(filteredLog(),200)}</div></section>`;
 }
 
 function vEngines(){
-  return head('engines','Engines','Three engines that feed each other. Your license decides which ones run.')+`<div class="g g3">${ENG.map(e=>{
+  return head('engines','Engines','Your plan decides which ones run.')+`<div class="g g3">${ENG.map(e=>{
     const L=!has(e.id);
-    return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">@${e.id}</span>${L?'<span class="state lock">not licensed</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>')}</div><div class="et-name">${esc(e.name)}</div><p class="eng-triad ec" style="margin:0">${esc(e.triad)}</p><p class="v-sub" style="font-size:15px">${esc(e.line)}</p>
-    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">actions today</span></div><div><b>${playsOn(e.id)}</b><span class="label">plays on</span></div></div><span class="lnk">${L?'Add to license':'Open'} &rarr;</span></a>`;}).join('')}</div>`;
+    return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">${esc(e.triad)}</span>${L?'<span class="state lock">not in your plan</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>')}</div><div class="et-name">${esc(e.name)}</div><p class="v-sub" style="font-size:15px">${esc(e.line)}</p>
+    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">automations on</span></div></div><span class="lnk">${L?'Add to your plan':'Open'} &rarr;</span></a>`;}).join('')}</div>`;
 }
-function triggerSel(p){const opts=TRIGGERS.includes(p.trig)?TRIGGERS:[p.trig].concat(TRIGGERS);return `<select class="dd" data-act="play-trig" data-id="${p.id}" aria-label="Trigger for ${esc(p.title)}">${opts.map(t=>`<option${t===p.trig?' selected':''}>${esc(t)}</option>`).join('')}</select>`;}
+function triggerSel(p){const opts=TRIGGERS.includes(p.trig)?TRIGGERS:[p.trig].concat(TRIGGERS);return `<select class="dd" data-act="play-trig" data-id="${p.id}" aria-label="When ${esc(p.title)} runs">${opts.map(t=>`<option${t===p.trig?' selected':''}>${esc(t)}</option>`).join('')}</select>`;}
 function vEngine(eid){
   const e=ENGN[eid];
   if(!has(eid)){
     const next=TIER[Math.min(2,S.licensed.length)],L=LIC[next];
     const preview=S.plays.filter(p=>p.e===eid).slice(0,5);
     return head('engines/'+eid,esc(e.name),esc(e.triad)+' '+esc(e.line),'',`ec e-${eid}`)+`
-    <div class="lock-card e-${eid}"><div style="display:flex;flex-direction:column;gap:16px"><span class="label">not in your license yet</span><h2>Add ${esc(e.name)} and move to ${esc(L.name)}, ${esc(L.price)} a month.</h2><p>${esc(e.line)} It connects to the engines you already run, so nothing gets set up twice.</p><div class="v-actions"><button class="btn" type="button" data-act="lic-add" data-e="${eid}">Add ${esc(e.name)} to this demo</button><a class="btn ghost" href="start.html#${next}">Talk to us</a></div></div>
-    <div><ul class="rowlist">${e.caps.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><p class="label" style="margin:18px 0 10px">plays you'd get</p><div class="etags">${preview.map(p=>`<span class="etag e-${eid}">${esc(p.title)}</span>`).join('')}</div></div></div>`;
+    <div class="lock-card e-${eid}"><div style="display:flex;flex-direction:column;gap:16px"><span class="label">not in your plan yet</span><h2>Add ${esc(e.name)} and move to ${esc(L.name)}, ${esc(L.price)} a month.</h2><p>${esc(e.line)} It works with the engines you already have, so nothing gets set up twice.</p><div class="v-actions"><button class="btn" type="button" data-act="lic-add" data-e="${eid}">Add ${esc(e.name)} to this demo</button><a class="btn ghost" href="start.html#${next}">Talk to us</a></div></div>
+    <div><ul class="rowlist">${e.caps.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><p class="label" style="margin:18px 0 10px">automations you'd get</p><div class="etags">${preview.map(p=>`<span class="etag e-${eid}">${esc(p.title)}</span>`).join('')}</div></div></div>`;
   }
   const mine=S.plays.filter(p=>p.e===eid&&p.added);
   const waiting=S.approvals.filter(a=>a.e===eid).length;
   const lastE=[...S.log].reverse().find(x=>x.a==='@'+eid);
   const rows=mine.map(p=>`<tr class="${p.on&&S.running[eid]?'':'off'}"><td><button class="sw e-${eid}" type="button" role="switch" aria-checked="${p.on}" data-act="play-on" data-id="${p.id}" aria-label="Turn ${esc(p.title)} ${p.on?'off':'on'}"></button></td>
     <td><div class="pt-title"><b>${esc(p.title)}</b><span>${esc(p.desc)}</span></div></td><td>${triggerSel(p)}</td>
-    <td><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>ask first</label></td>
+    <td><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>check with me</label></td>
     <td class="num">${p.runs}</td><td class="num">${esc(p.last)}</td><td><button class="btn ghost btn-xs" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[eid]?'':' disabled'}>Run now</button></td></tr>`).join('');
-  return head('engines/'+eid,esc(e.name),esc(e.triad)+' '+esc(e.line),`<button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Add plays</button>`,`ec e-${eid}`)+`
-  <div class="e-${eid}"><div class="eh-row"><span class="state${S.running[eid]?' on':''}">${S.running[eid]?'running':'paused'}</span><span class="label">${S.running[eid]?'pause the whole engine':'resume the engine'}</span><button class="sw" type="button" role="switch" aria-checked="${S.running[eid]}" data-act="eng-run" data-e="${eid}" aria-label="${S.running[eid]?'Pause':'Resume'} ${esc(e.name)}"></button></div>
-  <div class="g g4" style="border-top:0"><div class="cell kpi"><span class="label">actions today</span><b data-k="count-${eid}">${S.counts[eid]}</b></div><div class="cell kpi"><span class="label">plays on</span><b>${playsOn(eid)}</b></div><div class="cell kpi"><span class="label">waiting on you</span><b>${waiting}</b></div><div class="cell kpi"><span class="label">last action</span><b style="font-size:20px">${lastE?esc(lastE.t.slice(0,5)):'none'}</b></div></div></div>
-  <div class="sec-t"><h2>Plays</h2><span class="label">${mine.length} in this engine</span></div>
-  ${mine.length?`<div class="tbl-w"><table class="tbl"><thead><tr><th>On</th><th>Play</th><th>Trigger</th><th>Approval</th><th>Runs</th><th>Last run</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="pnl empty"><p>No plays in ${esc(e.name)} yet.</p><button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Browse plays</button></div>`}
+  return head('engines/'+eid,esc(e.name),esc(e.triad)+' '+esc(e.line),`<button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Add automations</button>`,`ec e-${eid}`)+`
+  <div class="e-${eid}"><div class="eh-row"><span class="state${S.running[eid]?' on':''}">${S.running[eid]?'running':'paused'}</span><span class="label">${S.running[eid]?'pause everything in this engine':'turn this engine back on'}</span><button class="sw" type="button" role="switch" aria-checked="${S.running[eid]}" data-act="eng-run" data-e="${eid}" aria-label="${S.running[eid]?'Pause':'Resume'} ${esc(e.name)}"></button></div>
+  <div class="g g4" style="border-top:0"><div class="cell kpi"><span class="label">done today</span><b data-k="count-${eid}">${S.counts[eid]}</b></div><div class="cell kpi"><span class="label">automations on</span><b>${playsOn(eid)}</b></div><div class="cell kpi"><span class="label">waiting on you</span><b>${waiting}</b></div><div class="cell kpi"><span class="label">last action</span><b style="font-size:20px">${lastE?esc(lastE.t.slice(0,5)):'none'}</b></div></div></div>
+  <div class="sec-t"><h2>Automations</h2><span class="label">${mine.length} in this engine</span></div>
+  ${mine.length?`<div class="tbl-w"><table class="tbl"><thead><tr><th>On</th><th>Automation</th><th>When it runs</th><th>Your OK</th><th>Times run</th><th>Last run</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="pnl empty"><p>No automations in ${esc(e.name)} yet.</p><button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Browse automations</button></div>`}
   <div class="sec-t"><h2>Recent activity</h2><a class="label" href="#activity" data-act="act-pre" data-f="${eid}">all &rarr;</a></div>
   <section class="pnl"><div class="feed" data-live data-engine="${eid}" data-max="10">${feedRows(S.log.filter(x=>x.a==='@'+eid),10)}</div></section>`;
 }
@@ -239,20 +241,20 @@ function vEngine(eid){
 function vPlays(){
   const f=[['all','All'],['ops','Ops'],['agents','Agents'],['leads','Leads']];
   const list=S.plays.filter(p=>ui.playF==='all'||p.e===ui.playF);
-  return head('plays','Plays','The moves your best operator would make, running on a trigger. Add any play to an engine in your license.')+`
-  <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter plays">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="play-f" data-f="${k}" aria-pressed="${ui.playF===k}">${t}</button>`).join('')}</div></div>
+  return head('plays','Automations','Jobs your engines can take off your plate. Add any of them to an engine in your plan.')+`
+  <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter automations">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="play-f" data-f="${k}" aria-pressed="${ui.playF===k}">${t}</button>`).join('')}</div></div>
   <ul class="plib">${list.map(p=>{
     let ft;
-    if(!has(p.e))ft=`<span class="label">needs ${esc(ENGN[p.e].name)}</span><a class="lnk" href="#engine-${p.e}">add engine &rarr;</a>`;
+    if(!has(p.e))ft=`<span class="label">needs the ${esc(ENGN[p.e].name)} engine</span><a class="lnk" href="#engine-${p.e}">add it &rarr;</a>`;
     else if(p.added)ft=`<span class="label added e-${p.e}">in ${esc(ENGN[p.e].name)}${p.on?'':' / off'}</span><a class="lnk" href="#engine-${p.e}">open &rarr;</a>`;
-    else ft=`<span class="label">${p.setup?'part of your setup':'library'}</span><button class="btn btn-xs" type="button" data-act="play-add" data-id="${p.id}">Add play</button>`;
-    return `<li class="e-${p.e}"><div class="pl-top">${tag(p.e)}<span class="label">${esc(p.trig)}</span></div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="pl-ft">${ft}</div></li>`;}).join('')}</ul>`;
+    else ft=`<span class="label">available</span><button class="btn btn-xs" type="button" data-act="play-add" data-id="${p.id}">Add</button>`;
+    return `<li class="e-${p.e}"><div class="pl-top">${tag(p.e)}<span class="label">runs ${esc(p.trig)}</span></div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="pl-ft">${ft}</div></li>`;}).join('')}</ul>`;
 }
 
 function vPipeline(){
   const by=st=>S.leads.filter(l=>l.stage===st);
   const list=S.leads.filter(l=>ui.pipeF==='all'||l.stage===ui.pipeF);
-  return head('pipeline','Pipeline','Every lead in one place, wherever it came from.',`<button class="btn ghost" type="button" data-act="pipe-f" data-f="all">Show all</button>`)+`
+  return head('pipeline','Inquiries','Everyone who has asked about working with you, in one list.',`<button class="btn ghost" type="button" data-act="pipe-f" data-f="all">Show all</button>`)+`
   <div class="g stages">${STAGES.map(st=>`<button class="stage" type="button" data-act="pipe-f" data-f="${st}" aria-pressed="${ui.pipeF===st}"><span class="label">${st}</span><b>${by(st).length}</b><span class="label">${money(by(st).reduce((a,l)=>a+l.val,0))}</span></button>`).join('')}</div>
   <div class="tbl-w"><table class="tbl"><thead><tr><th>Name</th><th>Source</th><th>Stage</th><th>Value</th><th>Owner</th><th>Last touch</th></tr></thead><tbody>${list.map(l=>`<tr class="click" data-act="lead-open" data-id="${l.id}" tabindex="0"><td class="n">${esc(l.n)}</td><td>${esc(l.src)}</td><td><span class="st-chip s-${l.stage.split(' ')[0]}">${esc(l.stage)}</span></td><td class="num">${money(l.val)}</td><td>${esc(l.owner)}</td><td class="num">${esc(l.last)}</td></tr>`).join('')||'<tr><td colspan="6">No leads in this stage.</td></tr>'}</tbody></table></div>`;
 }
@@ -260,7 +262,7 @@ function vPipeline(){
 function vRecords(){
   const q=ui.recQ.trim().toLowerCase();
   const list=S.records.filter(r=>!q||(r.n+' '+r.kind+' '+r.status+' '+r.owner).toLowerCase().includes(q));
-  return head('records','Records','One record for every client, order and job. Engines keep them current.')+`
+  return head('records','Records','Every client, order and job in one place. Your engines keep them up to date.')+`
   <div class="toolbar"><label class="search" style="flex:1 1 260px"><span class="sr">Search records</span><input class="inp" id="rec-q" type="search" placeholder="Search records" value="${esc(ui.recQ)}" autocomplete="off"></label><span class="label">${S.records.length} records</span></div>
   <div class="tbl-w"><table class="tbl"><thead><tr><th>Name</th><th>Type</th><th>Status</th><th>Owner</th><th>Updated</th></tr></thead><tbody id="rec-body">${recRows(list)}</tbody></table></div>`;
 }
@@ -270,20 +272,21 @@ function levelOf(v){return v<25?LEVELS[0]:v<50?LEVELS[1]:v<75?LEVELS[2]:LEVELS[3
 function weakest(){return FUNCS.map((f,i)=>({f,v:S.score.m[i].reduce((a,b)=>a+b,0)})).sort((a,b)=>a.v-b.v);}
 function vScore(){
   const sc=S.score,d=sc.now-sc.prev,li=LEVELS.indexOf(levelOf(sc.now));
-  const mx=`<table class="mx"><thead><tr><th></th>${DIMS.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${FUNCS.map((f,i)=>`<tr><th>${f}</th>${sc.m[i].map((v,j)=>`<td class="lv${v}"><div class="cellv" title="${f} / ${DIMS[j]}: ${LEVELS[v]}">${v}</div></td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  const areas=FUNCS.map((f,i)=>{const v=S.score.m[i].reduce((x,y)=>x+y,0),pct=Math.round(v/15*100);return {f,pct,lv:levelOf(pct)};});
+  const rows=areas.map(x=>`<li class="e-${FUNC_E[x.f]}"><span class="ar-n">${esc(x.f)}</span><span class="ar-bar" aria-hidden="true"><i style="width:${Math.max(4,x.pct)}%"></i></span><span class="ar-l">${esc(x.lv)}</span></li>`).join('');
   const nx=weakest().slice(0,3).map(w=>{const e=FUNC_E[w.f];return `<li class="e-${e}">${tag(e)}<div><b>${w.f}</b><p>${esc(FUNC_TIP[w.f])}</p></div><a class="lnk" href="#engine-${e}">${has(e)?'open':'add'} &rarr;</a></li>`;}).join('');
-  return head('score','OpLev Score','How much of the business runs without leaning on one person.')+`
-  <div class="score-top"><div><span class="label">score / 100</span><div class="score-big">${sc.now}</div><span class="label">${d>=0?'+':''}${d} since you started / ${esc(levelOf(sc.now))}</span>
+  return head('score','Progress score','How much of your business runs without you having to step in.')+`
+  <div class="score-top"><div><span class="label">out of 100</span><div class="score-big">${sc.now}</div><span class="label">${d>=0?'+':''}${d} since you started / ${esc(levelOf(sc.now))}</span>
     <div class="lvlbar">${LEVELS.map((_,i)=>`<span class="${i<=li?'on':''}"></span>`).join('')}</div><div class="lvlbar-l">${LEVELS.map(l=>`<span>${l}</span>`).join('')}</div>
     <div class="trend" aria-hidden="true">${sc.trend.map(v=>`<i style="height:${Math.max(8,v)}%"></i>`).join('')}</div><span class="label">last 8 weeks</span></div>
-  <div><div class="et-top"><span class="label">8 functions x 5 dimensions</span><div class="legend">${LEVELS.map((l,i)=>`<span class="lv${i}"><i class="cellv" style="height:10px"></i>${l}</span>`).join('')}</div></div><div class="mx-w">${mx}</div></div></div>
-  <div class="sec-t"><h2>Where to build next</h2><span class="label">your weakest functions</span></div>
+  <div><div class="et-top"><span class="label">area by area</span></div><ul class="areas">${rows}</ul></div></div>
+  <div class="sec-t"><h2>What to fix next</h2><span class="label">your three weakest areas</span></div>
   <section class="pnl"><ul class="next-l">${nx}</ul></section>
-  <p class="note">Sample score. A real score comes from short interviews with your team through Mira, and team answers count more than the founder's.</p>`;
+  <p class="note">This is a sample score. Your real score comes from a few short questions for you and your team.</p>`;
 }
 
 /* ---------- setup wizard ---------- */
-const WZ=['Business','License','Connect','Plays','Rules','Go live'];
+const WZ=['Business','Plan','Connect','Automations','Approvals','Start'];
 function wzInit(){const s=setup();ui.wz={step:0,name:'',owner:'',type:S.type,lic:s.license,engines:s.engines.slice(),conns:{},plays:null,rules:Object.assign({},S.rules),booted:false};}
 function wzSetup(){return SET[ui.wz.type];}
 function wzPlays(){const w=ui.wz,s=wzSetup();const list=s.uses.filter(u=>w.engines.includes(u[0])).map(u=>({e:u[0],trig:u[1],title:u[2],rec:true}));D.plays.forEach(p=>{if(w.engines.includes(p[0])&&!list.some(x=>x.title===p[2]))list.push({e:p[0],trig:p[1],title:p[2],rec:false});});return list;}
@@ -292,24 +295,24 @@ function vSetup(){
   const w=ui.wz,s=wzSetup(),need=TIER.indexOf(w.lic)+1;
   const steps=`<div class="wz-steps">${WZ.map((t,i)=>`<span class="${i<w.step?'done':i===w.step?'cur':''}"><b>${pad2(i+1)}</b>${t}</span>`).join('')}</div>`;
   let body='';
-  if(w.step===0)body=`<h2>Tell us about the business.</h2><p class="v-sub">We use this to pick a setup and sample data. Nothing leaves this browser.</p>
+  if(w.step===0)body=`<h2>Tell us about the business.</h2><p class="v-sub">We use this to fill in sample data. Nothing leaves this browser.</p>
     <div class="inq-grid"><label class="fl"><span class="label">Business name *</span><input class="inp" id="wz-name" value="${esc(w.name)}" placeholder="Juniper Physio" autocomplete="organization"></label><label class="fl"><span class="label">Your name</span><input class="inp" id="wz-owner" value="${esc(w.owner)}" placeholder="Dana Ruiz" autocomplete="name"></label></div>
     <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="choice c3">${SETS.map(x=>`<label><input type="radio" name="wz-type" value="${x.id}" data-act="wz-type"${x.id===w.type?' checked':''}><span class="label">${esc(x.type)}</span><b>${esc(x.name)}</b><p>${esc(x.pitch)}</p><span class="etags">${x.engines.map(tag).join('')}</span></label>`).join('')}</div></fieldset>`;
-  if(w.step===1)body=`<h2>Pick a license and your engines.</h2><p class="v-sub">The ${esc(s.name)} usually runs on ${s.engines.map(e=>ENGN[e].name).join(' + ')}.</p>
-    <div class="choice c3">${TIER.map((t,i)=>`<label><input type="radio" name="wz-lic" value="${t}" data-act="wz-lic"${t===w.lic?' checked':''}><span class="label">license ${pad2(i+1)}</span><b>${esc(LIC[t].name)}</b><p>${esc(LIC[t].price)} a month / ${i+1} of 3 engines</p></label>`).join('')}</div>
+  if(w.step===1)body=`<h2>Pick a plan and your engines.</h2><p class="v-sub">The ${esc(s.name)} usually runs on ${s.engines.map(e=>ENGN[e].name).join(' + ')}.</p>
+    <div class="choice c3">${TIER.map((t,i)=>`<label><input type="radio" name="wz-lic" value="${t}" data-act="wz-lic"${t===w.lic?' checked':''}><span class="label">plan ${i+1} of 3</span><b>${esc(LIC[t].name)}</b><p>${esc(LIC[t].price)} a month / ${i+1} of 3 engines</p></label>`).join('')}</div>
     <fieldset class="fs"><legend class="label">Choose ${need} engine${need>1?'s':''} (${w.engines.length} picked)</legend><div class="choice c3">${ENG.map(e=>`<label class="e-${e.id}"><input type="checkbox" value="${e.id}" data-act="wz-eng"${w.engines.includes(e.id)?' checked':''}>${tag(e.id)}<b>${esc(e.name)}</b><p>${esc(e.line)}</p></label>`).join('')}</div></fieldset>`;
   if(w.step===2){const all=s.connects.concat(['Slack','Zapier','QuickBooks'].filter(x=>!s.connects.includes(x)));
-    body=`<h2>Connect your tools.</h2><p class="v-sub">Engines work inside the software you already use. In this demo, connecting just flips the switch.</p>
+    body=`<h2>Connect your tools.</h2><p class="v-sub">Your engines work inside the apps you already use. In this demo, connecting just flips the switch.</p>
     <div class="conn">${all.map(n=>{const on=!!w.conns[n];return `<div class="${on?'on':''}"><span class="cn-ic">${esc(n[0])}</span><span class="cn-n">${esc(n)}</span><span class="cn-s">${on?'connected':''}</span><button class="btn ${on?'ghost ':''}btn-xs" type="button" data-act="wz-conn" data-n="${esc(n)}">${on?'Disconnect':'Connect'}</button></div>`;}).join('')}</div>`;}
   if(w.step===3){const list=wzPlays();if(!w.plays)w.plays=list.filter(p=>p.rec).map(p=>p.title);
-    body=`<h2>Choose your plays.</h2><p class="v-sub">The ${esc(s.name)} plays are picked for you. Add or drop any of them.</p>
-    <div class="rules">${list.map(p=>`<label class="rule e-${p.e}"><span>${tag(p.e)}</span><span class="r-t"><b>${esc(p.title)}</b><span>${esc(p.trig)}${p.rec?' / recommended':''}</span></span><input class="ck-box" type="checkbox" data-act="wz-play" value="${esc(p.title)}"${w.plays.includes(p.title)?' checked':''} aria-label="${esc(p.title)}"></label>`).join('')}</div>`;}
-  if(w.step===4)body=`<h2>Decide what needs a person.</h2><p class="v-sub">Anything that matches a rule waits in Approvals until someone says yes.</p>${rulesHTML(w.rules,'wz')}`;
+    body=`<h2>Choose your automations.</h2><p class="v-sub">We picked the usual ones for the ${esc(s.name)}. Add or drop any of them.</p>
+    <div class="rules">${list.map(p=>`<label class="rule e-${p.e}"><span>${tag(p.e)}</span><span class="r-t"><b>${esc(p.title)}</b><span>runs ${esc(p.trig)}${p.rec?' / recommended':''}</span></span><input class="ck-box" type="checkbox" data-act="wz-play" value="${esc(p.title)}"${w.plays.includes(p.title)?' checked':''} aria-label="${esc(p.title)}"></label>`).join('')}</div>`;}
+  if(w.step===4)body=`<h2>Decide what needs a person.</h2><p class="v-sub">Anything on this list waits for your OK before it goes out.</p>${rulesHTML(w.rules,'wz')}`;
   if(w.step===5)body=`<h2>Ready to start your engines.</h2>
-    <dl class="kv"><dt>business</dt><dd>${esc(w.name||'Untitled')}</dd><dt>setup</dt><dd>${esc(s.name)}</dd><dt>license</dt><dd>${esc(LIC[w.lic].name)} / ${esc(LIC[w.lic].price)} a month</dd><dt>engines</dt><dd><span class="etags">${w.engines.map(tag).join('')}</span></dd><dt>plays</dt><dd>${(w.plays||[]).length} on</dd><dt>tools</dt><dd>${Object.keys(w.conns).filter(k=>w.conns[k]).join(', ')||'none yet'}</dd></dl>
-    <pre class="boot" id="boot" aria-live="polite">${w.booted?'':'> waiting to start'}</pre>`;
+    <dl class="kv"><dt>business</dt><dd>${esc(w.name||'Untitled')}</dd><dt>setup</dt><dd>${esc(s.name)}</dd><dt>plan</dt><dd>${esc(LIC[w.lic].name)} / ${esc(LIC[w.lic].price)} a month</dd><dt>engines</dt><dd><span class="etags">${w.engines.map(tag).join('')}</span></dd><dt>automations</dt><dd>${(w.plays||[]).length} on</dd><dt>tools</dt><dd>${Object.keys(w.conns).filter(k=>w.conns[k]).join(', ')||'none yet'}</dd></dl>
+    <pre class="boot" id="boot" aria-live="polite">${w.booted?'':'Waiting to start'}</pre>`;
   const last=w.step===5;
-  return head('setup','Set up a workspace','Six steps from nothing to running engines.')+steps+`<div class="wz-body">${body}<div class="wz-nav"><button class="btn ghost" type="button" data-act="wz-back"${w.step?'':' disabled'}>Back</button><button class="btn" type="button" data-act="${last?'wz-go':'wz-next'}">${last?'Start engines':'Next'}</button></div></div>`;
+  return head('setup','Set up your business','Six quick steps and your engines are running.')+steps+`<div class="wz-body">${body}<div class="wz-nav"><button class="btn ghost" type="button" data-act="wz-back"${w.step?'':' disabled'}>Back</button><button class="btn" type="button" data-act="${last?'wz-go':'wz-next'}">${last?'Start engines':'Next'}</button></div></div>`;
 }
 function rulesHTML(r,p){
   const R=[['newClient','First message to a new client or lead','Every first reply waits for you.'],['money','Anything that spends or charges money','Purchase orders, refunds and charges over the limit.'],['contracts','Contracts, terms and pricing','Anything that commits the business.'],['bulk','Messages to more than 20 people','Newsletters, investor updates and announcements.'],['refunds','Refunds and credits','Always ask before money goes back out.']];
@@ -323,28 +326,29 @@ function wzNext(){
 }
 async function wzGo(){
   const w=ui.wz,s=wzSetup(),b=$('#boot');if(w.booting)return;w.booting=true;
-  const lines=['> oplev init --workspace "'+esc(w.name)+'"','  license ........... <b>'+LIC[w.lic].name.toLowerCase()+'</b>'].concat(w.engines.map(e=>'  @'+e+' '+'.'.repeat(Math.max(3,17-e.length))+' <b>running</b>')).concat(['  plays ............. <b>'+(w.plays||[]).length+' on</b>','  approvals ......... <b>armed</b>','> ready']);
+  const dots=(k,v)=>'  '+k+' '+'.'.repeat(Math.max(3,18-k.length))+' <b>'+v+'</b>';
+  const lines=['Setting up '+esc(w.name),dots('plan',LIC[w.lic].name.toLowerCase())].concat(w.engines.map(e=>dots(ENGN[e].name,'running'))).concat([dots('automations',(w.plays||[]).length+' on'),dots('your OK',(Object.keys(w.rules).filter(k=>k!=='amt'&&w.rules[k]).length)+' rules on'),'Ready']);
   const sl=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
   b.innerHTML='';for(const l of lines){b.innerHTML+=(b.innerHTML?'\n':'')+l;await sl(240);}
   await sl(500);
   S=init(w.type,{biz:w.name,owner:w.owner||null,engines:w.engines,license:w.lic,plays:w.plays,conns:w.conns,rules:w.rules});
-  S.log=[];pushLog('@'+w.engines[0],'workspace started with '+w.engines.length+' engine'+(w.engines.length>1?'s':''),'ready');
+  S.log=[];pushLog('@'+w.engines[0],'started with '+w.engines.length+' engine'+(w.engines.length>1?'s':''),'ready');
   save();ui.wz=null;toast('Engines started for '+S.biz+'.');location.hash='overview';
 }
 
 /* ---------- settings ---------- */
 function vSettings(){
-  const T=[['team','Team'],['license','License'],['tools','Tools'],['rules','Rules'],['data','Data']];
+  const T=[['team','Team'],['license','Plan'],['tools','Tools'],['rules','Approvals'],['data','Your data']];
   let body='';
   if(ui.setTab==='team')body=`<div class="set-card"><h2>Team</h2><div class="tbl-w"><table class="tbl" style="min-width:420px"><thead><tr><th>Name</th><th>Role</th><th>Can approve</th></tr></thead><tbody>${S.people.map((p,i)=>`<tr><td class="n">${esc(p.name)}</td><td><select class="dd" data-act="role" data-i="${i}">${['Owner','Admin','Approver','Member'].concat([p.role]).filter((v,j,a)=>a.indexOf(v)===j).map(r=>`<option${r===p.role?' selected':''}>${esc(r)}</option>`).join('')}</select></td><td>${/Owner|Admin|Approver|Founder/.test(p.role)?'yes':'no'}</td></tr>`).join('')}</tbody></table></div>
     <div class="invite"><input class="inp" id="inv-name" placeholder="Name or email" autocomplete="off"><select class="dd" id="inv-role"><option>Member</option><option>Approver</option><option>Admin</option></select><button class="btn" type="button" data-act="invite">Invite</button></div></div>`;
-  if(ui.setTab==='license'){const L=LIC[S.license];body=`<div class="set-card"><h2>${esc(L.name)} / ${esc(L.price)} a month</h2><p class="v-sub">${S.licensed.length} of 3 engines. Hosting, maintenance and updates included.</p>
+  if(ui.setTab==='license'){const L=LIC[S.license];body=`<div class="set-card"><h2>${esc(L.name)} / ${esc(L.price)} a month</h2><p class="v-sub">${S.licensed.length} of 3 engines. Hosting, fixes and updates included.</p>
     <div class="g g3">${ENG.map(e=>`<div class="cell etile e-${e.id}${has(e.id)?'':' locked'}"><div class="et-top"><span class="label">@${e.id}</span>${has(e.id)?'<span class="state on">included</span>':'<span class="state lock">not included</span>'}</div><div class="et-name">${esc(e.name)}</div>${has(e.id)?'':`<button class="btn btn-xs" type="button" data-act="lic-add" data-e="${e.id}">Add ${esc(e.name)}</button>`}</div>`).join('')}</div></div>
-    <div class="set-card"><h2>Commercial license</h2><p class="v-sub">Not active. If the ${esc(setup().name)} works for you, a commercial license lets you sell it to businesses like yours. We keep it running for every customer you sign.</p><div class="v-actions"><a class="btn ghost" href="start.html#resale">Ask about resale</a></div></div>`;}
+    <div class="set-card"><h2>Resale license</h2><p class="v-sub">Not active. If the ${esc(setup().name)} works for you, a resale license lets you sell it to businesses like yours. We keep it running for every customer you sign.</p><div class="v-actions"><a class="btn ghost" href="start.html#resale">Ask about resale</a></div></div>`;}
   if(ui.setTab==='tools')body=`<div class="set-card"><h2>Tools</h2><div class="conn">${S.integrations.map((t,i)=>`<div class="${t.on?'on':''}"><span class="cn-ic">${esc(t.n[0])}</span><span class="cn-n">${esc(t.n)}</span><span class="cn-s">${t.on?'connected':''}</span><button class="btn ${t.on?'ghost ':''}btn-xs" type="button" data-act="tool" data-i="${i}">${t.on?'Disconnect':'Connect'}</button></div>`).join('')}</div></div>`;
-  if(ui.setTab==='rules')body=`<div class="set-card"><h2>Approval rules</h2><p class="v-sub">Anything that matches a rule waits in Approvals. Plays can also ask first on their own.</p>${rulesHTML(S.rules,'set')}</div>`;
-  if(ui.setTab==='data')body=`<div class="set-card"><h2>Your data</h2><p class="v-sub">OpLev owns the software. Your business data stays yours, and you can export all of it at any time.</p><div class="v-actions"><button class="btn ghost" type="button" data-act="export">Export all data</button><button class="btn ghost" type="button" data-act="reset">Reset this demo</button></div></div>`;
-  return head('settings','Settings','Team, license, tools and the rules your engines follow.')+`<div class="tabs filters stabs" role="tablist" aria-label="Settings">${T.map(([k,t])=>`<button class="tab" type="button" role="tab" data-act="set-tab" data-t="${k}" aria-selected="${ui.setTab===k}" aria-pressed="${ui.setTab===k}">${t}</button>`).join('')}</div>${body}`;
+  if(ui.setTab==='rules')body=`<div class="set-card"><h2>What needs your OK</h2><p class="v-sub">Anything that matches one of these waits for you first. Each automation can also check with you on its own.</p>${rulesHTML(S.rules,'set')}</div>`;
+  if(ui.setTab==='data')body=`<div class="set-card"><h2>Your data</h2><p class="v-sub">We own the software. Your business data is yours, and you can download all of it any time.</p><div class="v-actions"><button class="btn ghost" type="button" data-act="export">Export all data</button><button class="btn ghost" type="button" data-act="reset">Reset this demo</button></div></div>`;
+  return head('settings','Settings','Your team, plan, tools and what needs your OK.')+`<div class="tabs filters stabs" role="tablist" aria-label="Settings">${T.map(([k,t])=>`<button class="tab" type="button" role="tab" data-act="set-tab" data-t="${k}" aria-selected="${ui.setTab===k}" aria-pressed="${ui.setTab===k}">${t}</button>`).join('')}</div>${body}`;
 }
 
 /* ---------- drawer ---------- */
@@ -357,7 +361,7 @@ function openDrawer(html){
 function closeDrawer(quick){const root=$('#drawer-root');if(!root||!root.firstChild)return;const d=$('.drawer',root);if(quick||RM){root.innerHTML='';}else{d.classList.remove('open');setTimeout(()=>{root.innerHTML='';},260);}if(drawer&&drawer.focus&&!quick)drawer.focus();}
 function leadDrawer(id){
   const l=S.leads.find(x=>x.id===id);if(!l)return;
-  const tl=[['@leads',`captured from ${l.src}`,'2 days ago']];
+  const tl=[['@leads',`came in from ${l.src}`,'2 days ago']];
   if(l.stage!=='New')tl.push(['@agents','first reply sent after your approval','2 days ago']);
   if(['Booked','Won'].includes(l.stage))tl.push(['@ops','call booked and added to the calendar','yesterday']);
   if(l.stage==='Won')tl.push(['you','marked won',l.last]);
@@ -365,7 +369,7 @@ function leadDrawer(id){
   openDrawer(`<div class="dr-hd"><span class="label">lead</span><button class="lnk" type="button" data-act="dr-close">close &times;</button></div><div class="dr-bd">
   <h2 class="dr-t" id="dr-t">${esc(l.n)}</h2>
   <dl class="kv"><dt>source</dt><dd>${esc(l.src)}</dd><dt>value</dt><dd>${money(l.val)}</dd><dt>owner</dt><dd>${esc(l.owner)}</dd><dt>stage</dt><dd><select class="dd" data-act="lead-stage" data-id="${l.id}">${STAGES.map(s=>`<option${s===l.stage?' selected':''}>${s}</option>`).join('')}</select></dd></dl>
-  <p class="label">timeline</p><ul class="tl">${tl.map(([a,m,t])=>`<li class="${actorCls(a).trim()}"><span>${esc(a)} / ${esc(t)}</span>${esc(m)}</li>`).join('')}</ul>
+  <p class="label">timeline</p><ul class="tl">${tl.map(([a,m,t])=>`<li class="${actorCls(a).trim()}"><span>${esc(WHO[a]||a)} / ${esc(t)}</span>${esc(m)}</li>`).join('')}</ul>
   <div class="v-actions"><button class="btn" type="button" data-act="lead-follow" data-id="${l.id}">Draft a follow-up</button><button class="btn ghost" type="button" data-act="lead-won" data-id="${l.id}">Mark won</button></div></div>`);
 }
 function recDrawer(id){
@@ -374,7 +378,7 @@ function recDrawer(id){
   openDrawer(`<div class="dr-hd"><span class="label">${esc(r.kind)}</span><button class="lnk" type="button" data-act="dr-close">close &times;</button></div><div class="dr-bd">
   <h2 class="dr-t" id="dr-t">${esc(r.n)}</h2><dl class="kv"><dt>type</dt><dd>${esc(r.kind)}</dd><dt>status</dt><dd>${esc(r.status)}</dd><dt>owner</dt><dd>${esc(r.owner)}</dd><dt>updated</dt><dd>${esc(r.upd)}</dd></dl>
   <p class="label">related activity</p>${rel.length?`<div class="feed" style="padding:0">${rel.map(rowHTML).join('')}</div>`:'<p class="v-sub" style="font-size:14px">Nothing logged against this record today.</p>'}
-  <p class="note">Records stay in your accounts. Engines update them and log every change.</p></div>`);
+  <p class="note">Your engines update records and note every change.</p></div>`);
 }
 
 /* ================= render + routing ================= */
@@ -454,12 +458,12 @@ const ACT={
   'act-pre'(el){ui.actF=el.dataset.f;},
   'play-f'(el){ui.playF=el.dataset.f;render(true);},
   'go-plays'(el){ui.playF=el.dataset.e;location.hash='plays';},
-  'play-add'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p||!has(p.e))return;p.added=true;p.on=true;pushLog('you','added '+p.title+' to '+ENGN[p.e].name,'added','me');save();render(true);toast(p.title+' added to '+ENGN[p.e].name+'.');},
-  'play-on'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.on=!p.on;pushLog('you',(p.on?'turned on ':'turned off ')+p.title,p.on?'on':'off','me');save();render(true);},
+  'play-add'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p||!has(p.e))return;p.added=true;p.on=true;pushLog('you','added '+p.title.toLowerCase()+' to '+ENGN[p.e].name,'added','me');save();render(true);toast(p.title+' added to '+ENGN[p.e].name+'.');},
+  'play-on'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.on=!p.on;pushLog('you',(p.on?'turned on ':'turned off ')+p.title.toLowerCase(),p.on?'on':'off','me');save();render(true);},
   'play-run'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.runs++;p.last='just now';pushLog('@'+p.e,'ran '+p.title.toLowerCase()+' on request','done');save();render(true);toast(p.title+' ran.');},
   'eng-run'(el){const e=el.dataset.e;S.running[e]=!S.running[e];pushLog('you',(S.running[e]?'resumed ':'paused ')+ENGN[e].name,S.running[e]?'running':'paused','me');save();render(true);},
   'lic-add'(el){const e=el.dataset.e;if(has(e))return;S.licensed.push(e);S.license=TIER[Math.min(2,S.licensed.length-1)];S.running[e]=true;S.counts[e]=0;
-    S.plays.filter(p=>p.e===e).slice(0,3).forEach(p=>{p.added=true;p.on=true;});pushLog('@'+e,ENGN[e].name+' engine started','running');save();render(true);toast(ENGN[e].name+' added. License is now '+LIC[S.license].name+', '+LIC[S.license].price+' a month.');},
+    S.plays.filter(p=>p.e===e).slice(0,3).forEach(p=>{p.added=true;p.on=true;});pushLog('@'+e,ENGN[e].name+' engine started','running');save();render(true);toast(ENGN[e].name+' added. Your plan is now '+LIC[S.license].name+', '+LIC[S.license].price+' a month.');},
   'pipe-f'(el){ui.pipeF=el.dataset.f;render(true);},
   'lead-open'(el){leadDrawer(el.dataset.id);},
   'rec-open'(el){recDrawer(el.dataset.id);},
@@ -481,8 +485,8 @@ const ACT={
   'wz-go'(){wzGo();}
 };
 const CHANGE={
-  'play-trig'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.trig=el.value;pushLog('you','moved '+p.title+' to '+el.value,'saved','me');save();},
-  'play-appr'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.appr=el.checked;pushLog('you',(p.appr?'turned on approval for ':'turned off approval for ')+p.title,'saved','me');save();},
+  'play-trig'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.trig=el.value;pushLog('you',p.title.toLowerCase()+' now runs '+el.value,'saved','me');save();},
+  'play-appr'(el){const p=S.plays.find(x=>x.id===el.dataset.id);if(!p)return;p.appr=el.checked;pushLog('you',(p.appr?'asked to check first on ':'stopped checking first on ')+p.title.toLowerCase(),'saved','me');save();},
   'lead-stage'(el){const l=S.leads.find(x=>x.id===el.dataset.id);if(!l)return;l.stage=el.value;l.last='just now';pushLog('you','moved '+l.n+' to '+l.stage.toLowerCase(),'saved','me');save();render(true);},
   role(el){const p=S.people[+el.dataset.i];if(p){p.role=el.value;save();render(true);}},
   'set-amt'(el){S.rules.amt=Math.max(0,+el.value||0);save();},

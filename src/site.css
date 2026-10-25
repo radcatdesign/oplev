@@ -522,7 +522,7 @@ textarea.inp{min-height:132px;resize:vertical}
 .play:hover{background:var(--ink-2)}
 .play-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin-bottom:6px}
 .play-trig{color:var(--dim-2);text-align:right}
-.play-trig::before{content:"trigger / ";color:var(--dim-2)}
+.play-trig::before{content:"runs ";color:var(--dim-2)}
 .play p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
 
 /* engine accents: muted CRT phosphors, used only where an engine is named */

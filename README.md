@@ -37,13 +37,13 @@ The form on the home page and `/start` posts to `api/inquiry.js`, a Vercel funct
 
 Until those are set, the form shows the visitor a ready-to-copy note and the email address instead.
 
-Links can preselect answers: `start.html#clinic`, `#brand`, `#agency`, `#creator`, `#startup` set the business type; `#one`, `#core`, `#company` set the license; `#resale` sets resale to yes.
+Links can preselect answers: `start.html#clinic`, `#brand`, `#agency`, `#creator`, `#startup` set the business type; `#one`, `#core`, `#company` set the plan; `#resale` sets resale to yes.
 
 `.vercelignore` keeps `build.py`, `src/`, `content/` and this README off the live site.
 
 ## Console demo (`/app`)
 
-`app.html` is the OpLev Console running on sample data: overview, approvals, activity, engine pages with plays, plays library, pipeline, records, OpLev Score, a setup wizard and settings. Changes stay in the visitor's browser.
+`app.html` is the OpLev Console running on sample data: home, needs your OK, activity, engine pages, automations, inquiries, records, progress score, a set up flow and settings. Changes stay in the visitor's browser.
 
 Open it as a business type with `app.html#clinic`, `#brand`, `#agency`, `#creator` or `#startup`. Each setup page links to its demo.
 

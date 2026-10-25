@@ -6,6 +6,7 @@ const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pad2=n=>String(n).padStart(2,'0');
+const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','you':'You'};
 const hasIO='IntersectionObserver' in window;
 function once(els,fn,threshold){
   els=els.filter(Boolean);if(!els.length)return;
@@ -233,7 +234,7 @@ if(!RM)once([$('.steps'),$('.offer')],el=>$$('.px',el).forEach((svg,i)=>setTimeo
   function show(i){
     if(i===cur)return;cur=i;const r=rows[i];
     rows.forEach((x,k)=>x.classList.toggle('on',k===i));
-    path.textContent='~/oplev/work/'+r.dataset.id;
+    path.textContent='Case study';
     num.textContent='case '+r.dataset.n+' / '+pad2(rows.length);
     redecode(name,r.dataset.name);
     sum.textContent=r.dataset.sum;
@@ -272,11 +273,11 @@ $$('.pane[data-src]').forEach(p=>{
     let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
     const dur=d>=3600?Math.floor(d/3600)+'h '+pad2(Math.floor(d%3600/60))+'m':Math.floor(d/60)+'m '+pad2(d%60)+'s';
-    return 'run '+dur+' / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
+    return 'done in '+dur+' / '+actions+' steps / '+ap+' check'+(ap===1?'':'s')+' with you / no errors';
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(WHO[r[1]]||r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}
@@ -291,9 +292,9 @@ $$('.pane[data-src]').forEach(p=>{
     await sleep(320);if(!alive())return;caret.hidden=true;
     for(const r of c.run){
       if(r[4]==='me'){
-        setState('waiting','waiting on '+r[1]);
+        setState('waiting','waiting on '+(WHO[r[1]]||r[1]));
         const w=document.createElement('div');w.className='row wait';
-        w.innerHTML='<span class="ts"></span><span class="ac">'+esc(r[1])+'</span><span class="msg">waiting for approval</span><span class="res spin">|</span>';
+        w.innerHTML='<span class="ts"></span><span class="ac">'+esc(WHO[r[1]]||r[1])+'</span><span class="msg">waiting for your OK</span><span class="res spin">|</span>';
         rows.appendChild(w);
         const sp=$('.spin',w),fr='|/-\\',until=performance.now()+1500;let k=0;
         while(performance.now()<until){await sleep(105);if(!alive())return;sp.textContent=fr[++k%4];}
@@ -483,7 +484,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fitWordma
   const after=()=>{decode($('#h1'));fitWordmark();};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev init'],['runtime','ok'],['intake','ok'],['systems','ok'],['agents','ok'],['approvals','ok'],['guardrails','armed'],['> ready']];
+  const lines=[['> starting oplev'],['ops','ready'],['agents','ready'],['leads','ready'],['approvals','on'],['your data','safe'],['> ready']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

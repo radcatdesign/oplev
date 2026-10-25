@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OpLev Pricing</title>
-<meta name="description" content="License one engine from $5k a month, two for $10k or all three from $15k, with hosting, maintenance and updates included. Add a commercial license to sell it to others.">
+<meta name="description" content="License one engine from $5k a month, two for $10k or all three from $15k, with hosting, maintenance and updates included. Add a resale license to sell it to others.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
@@ -534,7 +534,7 @@ textarea.inp{min-height:132px;resize:vertical}
 .play:hover{background:var(--ink-2)}
 .play-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin-bottom:6px}
 .play-trig{color:var(--dim-2);text-align:right}
-.play-trig::before{content:"trigger / ";color:var(--dim-2)}
+.play-trig::before{content:"runs ";color:var(--dim-2)}
 .play p{margin:0;color:var(--soft);font-size:15px;line-height:1.5}
 
 /* engine accents: muted CRT phosphors, used only where an engine is named */
@@ -629,7 +629,7 @@ textarea.inp{min-height:132px;resize:vertical}
 <div class="loader" id="loader" aria-hidden="true">
   <div class="ld-top">
     <span class="brand"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg>OPLEV</span>
-    <span class="label">oplev / build 2026.10</span>
+    <span class="label">oplev / loading</span>
   </div>
   <div class="ld-bot">
     <div class="ld-row">
@@ -645,8 +645,8 @@ textarea.inp{min-height:132px;resize:vertical}
     <a class="brand" href="index.html" aria-label="OpLev home"><svg class="mark" viewBox="0 0 10 10" aria-hidden="true"><path fill="#F2F2EF" d="M0 0h10v2H0zM0 8h10v2H0zM0 2h2v6H0zM8 2h2v6H8zM4 4h2v2H4z"/></svg><span class="brand-t">OPLEV</span></a>
     <nav class="links" aria-label="Sections">
       <a href="work.html">Work</a>
-      <a href="index.html#engines">Engines</a>
-      <a href="setups.html">Setups</a>
+      <a href="index.html#engines">How it works</a>
+      <a href="setups.html">Who it's for</a>
       <a href="pricing.html" aria-current="page">Pricing</a>
       <a href="app.html">Demo</a>
     </nav>
@@ -662,12 +662,12 @@ textarea.inp{min-height:132px;resize:vertical}
   <div class="wrap">
     <nav aria-label="Menu">
       <ul class="menu-list">
-        <li><a href="work.html"><span class="mn">01</span><span class="mt">Work</span><span class="mp">~/oplev/work</span></a></li>
-        <li><a href="index.html#engines"><span class="mn">02</span><span class="mt">Engines</span><span class="mp">~/oplev/engines</span></a></li>
-        <li><a href="setups.html"><span class="mn">03</span><span class="mt">Setups</span><span class="mp">~/oplev/setups</span></a></li>
-        <li><a href="pricing.html" aria-current="page"><span class="mn">04</span><span class="mt">Pricing</span><span class="mp">~/oplev/pricing</span></a></li>
-        <li><a href="app.html"><span class="mn">05</span><span class="mt">Demo</span><span class="mp">~/oplev/console</span></a></li>
-        <li><a href="start.html"><span class="mn">06</span><span class="mt">Contact</span><span class="mp">~/oplev/start</span></a></li>
+        <li><a href="work.html"><span class="mn">01</span><span class="mt">Work</span><span class="mp">case studies</span></a></li>
+        <li><a href="index.html#engines"><span class="mn">02</span><span class="mt">How it works</span><span class="mp">the engines</span></a></li>
+        <li><a href="setups.html"><span class="mn">03</span><span class="mt">Who it's for</span><span class="mp">by business</span></a></li>
+        <li><a href="pricing.html" aria-current="page"><span class="mn">04</span><span class="mt">Pricing</span><span class="mp">plans</span></a></li>
+        <li><a href="app.html"><span class="mn">05</span><span class="mt">Demo</span><span class="mp">try it</span></a></li>
+        <li><a href="start.html"><span class="mn">06</span><span class="mt">Contact</span><span class="mp">get in touch</span></a></li>
       </ul>
     </nav>
     <div class="menu-foot label"><span>hello@oplev.com</span><span class="clock" data-clock></span></div>
@@ -678,13 +678,13 @@ textarea.inp{min-height:132px;resize:vertical}
 
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
-    <p class="eyebrow">~/oplev/pricing</p>
+    <p class="eyebrow">Pricing</p>
     <h1 class="h1" id="h1">Three engines. One monthly license.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">License one engine or all three. We build them around how your business works, then host, fix and keep improving them, so they never go stale. And if other businesses want what you have, a commercial license lets you sell it to them.</p>
+    <p class="lede">Pick one, two or all three engines. We build them around your business, then host them, fix them and keep improving them. Want to sell what we build to other businesses? Add a resale license.</p>
     <div class="every model-row">
       <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your engines, built and kept running by us.</p></div>
       <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates included. Add engines as you grow.</p></div>
-      <div class="ev"><span class="b" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>Add a commercial license and sell it to others.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>Add a resale license and sell it to others.</p></div>
     </div>
   </div>
 </section>
@@ -693,85 +693,85 @@ textarea.inp{min-height:132px;resize:vertical}
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/licenses</p>
+        <p class="eyebrow">Plans</p>
         <h2 class="h2" id="plans-h">Pick your engines. We run them.</h2>
       </div>
       <p class="label">usd / billed monthly</p>
     </div>
     <div class="plans">
       <article class="plan" aria-labelledby="p1">
-        <div class="plan-top"><span class="label">license 01 / 03</span></div>
+        <div class="plan-top"><span class="label">plan 1 of 3</span></div>
         <div class="plan-id">
           <h3 class="h3" id="p1">One engine</h3>
           <p class="price"><span class="amt">$5k</span><span class="per">/ month</span></p>
         </div>
         <p class="for">Start with the engine closest to your biggest bottleneck.</p>
         <div class="access" aria-label="Engine access: 1 of 3">
-          <div class="access-hd"><span class="label">engine access</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg"></span><span class="seg"></span></span><span class="label">1 of 3 / choose 1</span></div>
-          <ul class="access-list"><li class="e-ops"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Map. Build. Run.</span><span class="as">your pick</span></li><li class="e-agents"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Watch. Act. Ask.</span><span class="as">your pick</span></li><li class="e-leads"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Attract. Answer. Capture.</span><span class="as">your pick</span></li></ul>
+          <div class="access-hd"><span class="label">engines</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg"></span><span class="seg"></span></span><span class="label">1 of 3 / pick 1</span></div>
+          <ul class="access-list"><li class="e-ops"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Stay organized</span><span class="as">pick one</span></li><li class="e-agents"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Handle the busywork</span><span class="as">pick one</span></li><li class="e-leads"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Win more customers</span><span class="as">pick one</span></li></ul>
         </div>
-        <p class="label fits">fits / <a href="setups/creator.html">Studio Setup</a></p>
+        <p class="label fits">good for: <a href="setups/creator.html">Studio Setup</a></p>
         <ul class="inc">
           <li>Built around your business</li>
-          <li>Plays tuned to how you work</li>
-          <li>Hosting, maintenance and updates</li>
-          <li>Monthly OpLev Score</li>
-          <li>Monthly working session</li>
-          <li>Async support, reply within a business day</li>
+          <li>Automations set up for how you work</li>
+          <li>We host it, fix it and update it</li>
+          <li>A monthly progress score</li>
+          <li>A monthly check-in call</li>
+          <li>Email support, reply within a business day</li>
         </ul>
         <a class="btn" href="start.html#one">Start with one <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
       </article>
       <article class="plan" aria-labelledby="p2">
-        <div class="plan-top"><span class="label">license 02 / 03</span></div>
+        <div class="plan-top"><span class="label">plan 2 of 3</span></div>
         <div class="plan-id">
           <h3 class="h3" id="p2">Two engines</h3>
           <p class="price"><span class="amt">$10k</span><span class="per">/ month</span></p>
         </div>
         <p class="for">Two engines that feed each other, so nothing falls between them.</p>
         <div class="access" aria-label="Engine access: 2 of 3">
-          <div class="access-hd"><span class="label">engine access</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg on"></span><span class="seg"></span></span><span class="label">2 of 3 / choose 2</span></div>
-          <ul class="access-list"><li class="e-ops"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Map. Build. Run.</span><span class="as">your pick</span></li><li class="e-agents"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Watch. Act. Ask.</span><span class="as">your pick</span></li><li class="e-leads"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Attract. Answer. Capture.</span><span class="as">your pick</span></li></ul>
+          <div class="access-hd"><span class="label">engines</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg on"></span><span class="seg"></span></span><span class="label">2 of 3 / pick 2</span></div>
+          <ul class="access-list"><li class="e-ops"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Stay organized</span><span class="as">pick two</span></li><li class="e-agents"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Handle the busywork</span><span class="as">pick two</span></li><li class="e-leads"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Win more customers</span><span class="as">pick two</span></li></ul>
         </div>
-        <p class="label fits">fits / <a href="setups/clinic.html">Practice Setup</a> / <a href="setups/agency.html">Delivery Setup</a> / <a href="setups/startup.html">Launch Setup</a></p>
+        <p class="label fits">good for: <a href="setups/clinic.html">Practice Setup</a> / <a href="setups/agency.html">Delivery Setup</a> / <a href="setups/startup.html">Launch Setup</a></p>
         <ul class="inc">
-          <li>Your two engines, connected</li>
-          <li>Plays across both engines</li>
-          <li>Team interviews with Mira</li>
-          <li>Monthly OpLev Score with your team</li>
-          <li>Hosting, maintenance and updates</li>
-          <li>Weekly working session</li>
+          <li>Your two engines, working together</li>
+          <li>Automations across both</li>
+          <li>We interview your team</li>
+          <li>A monthly progress score</li>
+          <li>We host it, fix it and update it</li>
+          <li>A weekly check-in call</li>
           <li>Same-day support</li>
         </ul>
         <a class="btn" href="start.html#core">Start with two <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
       </article>
       <article class="plan" aria-labelledby="p3">
-        <div class="plan-top"><span class="label">license 03 / 03</span></div>
+        <div class="plan-top"><span class="label">plan 3 of 3</span></div>
         <div class="plan-id">
           <h3 class="h3" id="p3">All three</h3>
           <p class="price"><span class="amt">$15k+</span><span class="per">/ month</span></p>
         </div>
         <p class="for">The full system, built around your whole business.</p>
         <div class="access" aria-label="Engine access: 3 of 3">
-          <div class="access-hd"><span class="label">engine access</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span></span><span class="label">3 of 3 / all three</span></div>
-          <ul class="access-list"><li class="e-ops inc"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Map. Build. Run.</span><span class="as">included</span></li><li class="e-agents inc"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Watch. Act. Ask.</span><span class="as">included</span></li><li class="e-leads inc"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Attract. Answer. Capture.</span><span class="as">included</span></li></ul>
+          <div class="access-hd"><span class="label">engines</span><span class="meter" aria-hidden="true"><span class="seg on"></span><span class="seg on"></span><span class="seg on"></span></span><span class="label">3 of 3 / all included</span></div>
+          <ul class="access-list"><li class="e-ops inc"><span class="mk" aria-hidden="true"></span><span class="an">Ops</span><span class="at">Stay organized</span><span class="as">included</span></li><li class="e-agents inc"><span class="mk" aria-hidden="true"></span><span class="an">Agents</span><span class="at">Handle the busywork</span><span class="as">included</span></li><li class="e-leads inc"><span class="mk" aria-hidden="true"></span><span class="an">Leads</span><span class="at">Win more customers</span><span class="as">included</span></li></ul>
         </div>
-        <p class="label fits">fits / <a href="setups/brand.html">Storefront Setup</a></p>
+        <p class="label fits">good for: <a href="setups/brand.html">Storefront Setup</a></p>
         <ul class="inc">
-          <li>All three engines, connected</li>
-          <li>Custom agents and tools, scoped with you</li>
-          <li>A searchable company knowledge base</li>
-          <li>OpLev Score across teams and roles</li>
-          <li>Hosting, maintenance and updates</li>
-          <li>Weekly sessions and on-call support</li>
-          <li>Priced by team size and scope</li>
+          <li>All three engines, working together</li>
+          <li>Custom tools built for you</li>
+          <li>One place your team can look up how things are done</li>
+          <li>A progress score for every team</li>
+          <li>We host it, fix it and update it</li>
+          <li>Weekly calls and on-call support</li>
+          <li>Price depends on team size</li>
         </ul>
         <a class="btn" href="start.html#company">Talk to us <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
       </article>
       <article class="lic" aria-labelledby="lic-h">
         <div class="lic-l">
-          <span class="label">add-on / any license</span>
-          <h3 class="h3" id="lic-h">Commercial license</h3>
-          <p>Built something other businesses would pay for? A commercial license gives you the right to sell the software to them.</p>
+          <span class="label">add to any plan</span>
+          <h3 class="h3" id="lic-h">Resale license</h3>
+          <p>Built something other businesses would pay for? A resale license lets you sell it to them.</p>
         </div>
         <div class="lic-r">
           <p class="price"><span class="amt">Quoted</span><span class="per">/ per deal</span></p>
@@ -780,38 +780,38 @@ textarea.inp{min-height:132px;resize:vertical}
       </article>
     </div>
     <div class="fine">
-      <p class="label">license billed monthly</p>
-      <p class="label">hosting + maintenance included</p>
-      <p class="label">resale by commercial license</p>
+      <p class="label">billed monthly</p>
+      <p class="label">hosting and fixes included</p>
+      <p class="label">resale license available</p>
     </div>
-    <div class="engmap-hd"><p class="eyebrow">~/oplev/licenses/engines</p><h3 class="h3">What each engine gives you.</h3></div>
+    <div class="engmap-hd"><p class="eyebrow">What you get</p><h3 class="h3">What each engine does.</h3></div>
     <div class="engmap">
       <div class="em e-ops">
-        <span class="label">@ops</span>
+        <span class="label">engine</span>
         <h3 class="em-name">Ops</h3>
-        <p class="em-triad">Map. Build. Run.</p>
-        <p class="em-line">Custom software for how your business runs.</p>
-        <ul class="em-caps"><li>Workflows, records and dashboards built around you</li><li>One record for every client, order and job</li><li>A searchable company knowledge base</li><li>The OpLev Score, tracking what still leans on you</li></ul>
-        <p class="label em-pl">plays included</p>
-        <ul class="em-plays"><li>Owner brief</li><li>Weekly numbers</li><li>New hire setup</li><li>Restock watch</li></ul>
+        <p class="em-triad">Stay organized</p>
+        <p class="em-line">Keeps your schedule, clients, orders and numbers in one place.</p>
+        <ul class="em-caps"><li>Your schedule, clients and orders in one place</li><li>A daily summary of what needs you</li><li>One place your team can look up how things are done</li><li>A score that shows what still depends on you</li></ul>
+        <p class="label em-pl">handles</p>
+        <ul class="em-plays"><li>Morning summary</li><li>Weekly numbers</li><li>New hire setup</li><li>Low stock alerts</li></ul>
       </div>
       <div class="em e-agents">
-        <span class="label">@agents</span>
+        <span class="label">engine</span>
         <h3 class="em-name">Agents</h3>
-        <p class="em-triad">Watch. Act. Ask.</p>
-        <p class="em-line">Agents that take the repeat work off your team.</p>
-        <ul class="em-caps"><li>Intake, booking and follow-up</li><li>Inbox triage and drafted replies</li><li>Reports and updates that draft themselves</li><li>A person approves anything important, and every action is logged</li></ul>
-        <p class="label em-pl">plays included</p>
-        <ul class="em-plays"><li>Quote follow-up</li><li>No-show rescue</li><li>Invoice chaser</li><li>Review ask</li><li>Investor update</li></ul>
+        <p class="em-triad">Handle the busywork</p>
+        <p class="em-line">Answers, books, reminds and follows up, and checks with you first.</p>
+        <ul class="em-caps"><li>Answers new inquiries and books appointments</li><li>Sends reminders and follow-ups</li><li>Drafts replies and reports for you to check</li><li>Asks before anything important goes out</li></ul>
+        <p class="label em-pl">handles</p>
+        <ul class="em-plays"><li>Quote follow-ups</li><li>Missed appointment rebooking</li><li>Unpaid invoice reminders</li><li>Review requests</li><li>Monthly investor update</li></ul>
       </div>
       <div class="em e-leads">
-        <span class="label">@leads</span>
+        <span class="label">engine</span>
         <h3 class="em-name">Leads</h3>
-        <p class="em-triad">Attract. Answer. Capture.</p>
-        <p class="em-line">Tools that answer a buyer&#x27;s question and capture the lead.</p>
-        <ul class="em-caps"><li>Calculators, visualizers and planners</li><li>An AI guide on your site, any hour</li><li>Quotes and estimates buyers can accept online</li><li>Every lead lands in Ops with the full thread</li></ul>
-        <p class="label em-pl">plays included</p>
-        <ul class="em-plays"><li>Speed to lead</li><li>Instant estimate</li><li>See it first</li></ul>
+        <p class="em-triad">Win more customers</p>
+        <p class="em-line">Turns website visitors into real conversations.</p>
+        <ul class="em-caps"><li>Price calculators and quote tools</li><li>A helper on your site that answers questions any hour</li><li>Quotes customers can accept online</li><li>Every new lead saved with the full conversation</li></ul>
+        <p class="label em-pl">handles</p>
+        <ul class="em-plays"><li>Fast replies to new leads</li><li>Instant price quotes</li><li>Preview before buying</li></ul>
       </div>
     </div>
   </div>
@@ -821,18 +821,18 @@ textarea.inp{min-height:132px;resize:vertical}
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/why</p>
-        <h2 class="h2" id="why-h">Why license it?</h2>
-        <p class="lede">Off-the-shelf apps make you work their way. A one-off build is yours to babysit. A license gets you software made for you, kept running by the people who built it.</p>
+        <p class="eyebrow">Why monthly</p>
+        <h2 class="h2" id="why-h">Why pay monthly?</h2>
+        <p class="lede">Off-the-shelf apps make you work their way. A one-off build is yours to fix. Paying monthly gets you software made for you, kept running by the people who built it.</p>
       </div>
     </div>
     <div class="cmp" role="table" aria-label="Off-the-shelf apps, an agency build and an OpLev license compared">
-      <div class="cmp-row cmp-head" role="row"><span role="columnheader"><span class="sr">What matters</span></span><span class="cmp-h" role="columnheader">Off-the-shelf apps</span><span class="cmp-h" role="columnheader">Agency build</span><span class="cmp-h us" role="columnheader">OpLev license</span></div>
-      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">Built around how you work</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">No. You work around it.</span><span class="cmp-v" role="cell" data-l="Agency build">Yes</span><span class="cmp-v us" role="cell" data-l="OpLev license">Yes</span></div>
-      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">How you pay</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">Per app, per seat, every month</span><span class="cmp-v" role="cell" data-l="Agency build">A big build fee, then hourly fixes</span><span class="cmp-v us" role="cell" data-l="OpLev license">One monthly license</span></div>
-      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">Who keeps it running</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">You do</span><span class="cmp-v" role="cell" data-l="Agency build">You, or a developer you hire</span><span class="cmp-v us" role="cell" data-l="OpLev license">We do</span></div>
-      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">Gets better over time</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">On their roadmap, not yours</span><span class="cmp-v" role="cell" data-l="Agency build">Only when you pay for it</span><span class="cmp-v us" role="cell" data-l="OpLev license">Updates included</span></div>
-      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">Can you sell it</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">No</span><span class="cmp-v" role="cell" data-l="Agency build">Depends on your contract</span><span class="cmp-v us" role="cell" data-l="OpLev license">Yes, with a commercial license</span></div>
+      <div class="cmp-row cmp-head" role="row"><span role="columnheader"><span class="sr">What matters</span></span><span class="cmp-h" role="columnheader">Off-the-shelf apps</span><span class="cmp-h" role="columnheader">One-off agency build</span><span class="cmp-h us" role="columnheader">OpLev, monthly</span></div>
+      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">Built around how you work</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">No. You work around it.</span><span class="cmp-v" role="cell" data-l="One-off agency build">Yes</span><span class="cmp-v us" role="cell" data-l="OpLev, monthly">Yes</span></div>
+      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">How you pay</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">Per app, per person, every month</span><span class="cmp-v" role="cell" data-l="One-off agency build">A big build fee, then hourly fixes</span><span class="cmp-v us" role="cell" data-l="OpLev, monthly">One monthly price</span></div>
+      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">Who keeps it running</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">You do</span><span class="cmp-v" role="cell" data-l="One-off agency build">You, or a developer you hire</span><span class="cmp-v us" role="cell" data-l="OpLev, monthly">We do</span></div>
+      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">Gets better over time</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">On their roadmap, not yours</span><span class="cmp-v" role="cell" data-l="One-off agency build">Only when you pay for it</span><span class="cmp-v us" role="cell" data-l="OpLev, monthly">Updates included</span></div>
+      <div class="cmp-row" role="row"><span class="cmp-k" role="rowheader">Can you sell it</span><span class="cmp-v" role="cell" data-l="Off-the-shelf apps">No</span><span class="cmp-v" role="cell" data-l="One-off agency build">Depends on your contract</span><span class="cmp-v us" role="cell" data-l="OpLev, monthly">Yes, with a resale license</span></div>
     </div>
   </div>
 </section>
@@ -840,7 +840,7 @@ textarea.inp{min-height:132px;resize:vertical}
 <section class="sec" id="resale" aria-labelledby="resale-h">
   <div class="wrap split">
     <div class="head-l">
-      <p class="eyebrow">~/oplev/resale</p>
+      <p class="eyebrow">Resale</p>
       <h2 class="h2" id="resale-h">Your system could be a product.</h2>
       <p class="lede">The way you run your business is worth something to everyone who runs one like it. Prove it works in yours, then sell it to them.</p>
       <div class="actions"><a class="btn" href="start.html#resale">Ask about resale <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
@@ -848,7 +848,7 @@ textarea.inp{min-height:132px;resize:vertical}
     <div class="split-r">
       <div class="every one-col">
         <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Prove it</h3><p>Run it in your own business first. That's your proof it works.</p></div>
-        <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">License it</h3><p>Add a commercial license. We price it per deal, based on how you plan to sell.</p></div>
+        <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">License it</h3><p>Add a resale license. We price it based on how you plan to sell.</p></div>
         <div class="ev"><span class="b" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>Offer it to businesses like yours. The software keeps running on our side.</p></div>
       </div>
       <a class="example" href="work/art-of-practice.html"><span class="mini" aria-hidden="true"><canvas data-seed="2"></canvas></span><span class="ex-b"><span class="label">example</span><span class="h3">Art of Practice</span><span class="ex-t">Built from one practitioner's needs, for every practitioner like her.</span></span><span class="go"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></a>
@@ -860,13 +860,13 @@ textarea.inp{min-height:132px;resize:vertical}
   <div class="wrap qa">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">~/oplev/questions</p>
+        <p class="eyebrow">Questions</p>
         <h2 class="h2" id="q-h">Questions.</h2>
       </div>
     </div>
     <div class="faq">
       <details open>
-        <summary><span class="h3">Why license it instead of buying it?</span></summary>
+        <summary><span class="h3">Why pay monthly instead of buying it?</span></summary>
         <p class="a">Software you buy starts aging the day it ships. Someone has to host it, fix it and keep it current, and that usually means hiring a developer. With a license, that's our job, and the software keeps getting better.</p>
       </details>
       <details>
@@ -875,23 +875,23 @@ textarea.inp{min-height:132px;resize:vertical}
       </details>
       <details>
         <summary><span class="h3">Can we ask for changes?</span></summary>
-        <p class="a">Yes. Updates are part of the license, and your working sessions are where we decide what to build next.</p>
+        <p class="a">Yes. Changes and updates are included. We decide what to build next on your check-in calls.</p>
       </details>
       <details>
-        <summary><span class="h3">What is a commercial license?</span></summary>
-        <p class="a">It gives you the right to sell the software to businesses like yours. Add it to any license. We price it per deal, based on how you plan to sell.</p>
+        <summary><span class="h3">What is a resale license?</span></summary>
+        <p class="a">It lets you sell the software to businesses like yours. Add it to any plan. We price it based on how you plan to sell.</p>
       </details>
       <details>
         <summary><span class="h3">Which engine should we start with?</span></summary>
-        <p class="a">The one closest to your biggest bottleneck. If leads slip, Leads. If your team is buried in follow-up, Agents. If nobody else knows how things run, Ops. The OpLev Score tells us for sure.</p>
+        <p class="a">The one closest to your biggest bottleneck. If leads slip, Leads. If your team is buried in follow-up, Agents. If nobody else knows how things run, Ops. We will help you decide on the first call.</p>
       </details>
       <details>
         <summary><span class="h3">Where do we start?</span></summary>
-        <p class="a">Send us a note. We set up a short call, then run the OpLev Score with your team to find where to build first and which license fits.</p>
+        <p class="a">Send us a note. We'll set up a short call, look at what still depends on you, and tell you where to start and which plan fits.</p>
       </details>
       <details>
         <summary><span class="h3">What does the + on All three mean?</span></summary>
-        <p class="a">It starts at $15k a month and goes up with team size and how much we build into each engine. We quote it after the OpLev Score, so you know the number before you commit.</p>
+        <p class="a">It starts at $15k a month and goes up with team size and how much we build into each engine. We quote it after our first call, so you know the number before you commit.</p>
       </details>
       <details>
         <summary><span class="h3">Can we change licenses?</span></summary>
@@ -907,9 +907,9 @@ textarea.inp{min-height:132px;resize:vertical}
 
 <section class="sec" id="next" aria-labelledby="next-h">
   <div class="wrap stack">
-    <p class="eyebrow">~/oplev/start</p>
-    <h2 class="h2" id="next-h">Not sure which license fits?</h2>
-    <p class="lede">Tell us what still runs through you. We'll tell you which license fits, even if the answer is none of them.</p>
+    <p class="eyebrow">Next step</p>
+    <h2 class="h2" id="next-h">Not sure which plan fits?</h2>
+    <p class="lede">Tell us what still runs through you. We'll tell you which plan fits, even if the answer is none of them.</p>
     <div class="actions">
       <a class="btn" href="start.html">Start a project <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
       <a class="btn ghost" href="work.html">See the work <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
@@ -940,6 +940,7 @@ const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pad2=n=>String(n).padStart(2,'0');
+const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','you':'You'};
 const hasIO='IntersectionObserver' in window;
 function once(els,fn,threshold){
   els=els.filter(Boolean);if(!els.length)return;
@@ -1167,7 +1168,7 @@ if(!RM)once([$('.steps'),$('.offer')],el=>$$('.px',el).forEach((svg,i)=>setTimeo
   function show(i){
     if(i===cur)return;cur=i;const r=rows[i];
     rows.forEach((x,k)=>x.classList.toggle('on',k===i));
-    path.textContent='~/oplev/work/'+r.dataset.id;
+    path.textContent='Case study';
     num.textContent='case '+r.dataset.n+' / '+pad2(rows.length);
     redecode(name,r.dataset.name);
     sum.textContent=r.dataset.sum;
@@ -1206,11 +1207,11 @@ $$('.pane[data-src]').forEach(p=>{
     let d=toS(c.run[c.run.length-1][0])-toS(c.run[0][0]);if(d<0)d+=86400;
     const actions=c.run.filter(r=>!r[4]).length,ap=c.run.filter(r=>r[4]==='need').length;
     const dur=d>=3600?Math.floor(d/3600)+'h '+pad2(Math.floor(d%3600/60))+'m':Math.floor(d/60)+'m '+pad2(d%60)+'s';
-    return 'run '+dur+' / '+actions+' actions / '+ap+' approval'+(ap===1?'':'s')+' / 0 errors';
+    return 'done in '+dur+' / '+actions+' steps / '+ap+' check'+(ap===1?'':'s')+' with you / no errors';
   }
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(/^@[a-z]+$/.test(r[1])?' e-'+r[1].slice(1):'')+'">'+esc(WHO[r[1]]||r[1])+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}
@@ -1225,9 +1226,9 @@ $$('.pane[data-src]').forEach(p=>{
     await sleep(320);if(!alive())return;caret.hidden=true;
     for(const r of c.run){
       if(r[4]==='me'){
-        setState('waiting','waiting on '+r[1]);
+        setState('waiting','waiting on '+(WHO[r[1]]||r[1]));
         const w=document.createElement('div');w.className='row wait';
-        w.innerHTML='<span class="ts"></span><span class="ac">'+esc(r[1])+'</span><span class="msg">waiting for approval</span><span class="res spin">|</span>';
+        w.innerHTML='<span class="ts"></span><span class="ac">'+esc(WHO[r[1]]||r[1])+'</span><span class="msg">waiting for your OK</span><span class="res spin">|</span>';
         rows.appendChild(w);
         const sp=$('.spin',w),fr='|/-\\',until=performance.now()+1500;let k=0;
         while(performance.now()<until){await sleep(105);if(!alive())return;sp.textContent=fr[++k%4];}
@@ -1417,7 +1418,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fitWordma
   const after=()=>{decode($('#h1'));fitWordmark();};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev init'],['runtime','ok'],['intake','ok'],['systems','ok'],['agents','ok'],['approvals','ok'],['guardrails','armed'],['> ready']];
+  const lines=[['> starting oplev'],['ops','ready'],['agents','ready'],['leads','ready'],['approvals','on'],['your data','safe'],['> ready']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);
