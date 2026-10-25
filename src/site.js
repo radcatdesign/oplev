@@ -448,6 +448,14 @@ $$('form.inq').forEach(f=>{
   const h=(location.hash||'').slice(1).toLowerCase();
   if(h){const el=document.getElementById('inq-'+(PRE[h]||('type-'+h)));if(el&&f.contains(el))el.checked=true;}
   try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');TEXT.forEach(k=>{const el=f.elements[k];if(el&&d[k]&&!el.value)el.value=d[k];});}catch(e){}
+  const other=$('.type-other',f),otherIn=other&&$('input',other);
+  function syncOther(focus){
+    if(!other)return;const r=f.querySelector('input[name="type"]:checked'),on=!!(r&&r.id==='inq-type-other');
+    other.hidden=!on;otherIn.disabled=!on;
+    if(on&&focus)otherIn.focus();
+  }
+  $$('input[name="type"]',f).forEach(r=>r.addEventListener('change',()=>syncOther(true)));
+  syncOther(false);
   f.addEventListener('input',e=>{
     try{const d={};TEXT.forEach(k=>d[k]=f.elements[k].value);localStorage.setItem(KEY,JSON.stringify(d));}catch(err){}
     const fl=e.target.closest&&e.target.closest('.fl.bad');if(fl){fl.classList.remove('bad');e.target.removeAttribute('aria-invalid');}
@@ -471,7 +479,7 @@ $$('form.inq').forEach(f=>{
     return d;
   }
   function compose(d){
-    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Business',d.type],['Team size',d.team],
+    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Business',d.type_other||d.type],['Team size',d.team],
       ['Build',(d.build||[]).join(', ')],['License',d.license],['Sell to others',d.resale],['Start',d.timing]];
     return rows.filter(r=>r[1]).map(r=>r[0]+': '+r[1]).join('\n')+'\n\nWhat still runs through me:\n'+(d.message||'');
   }
@@ -524,9 +532,18 @@ if(!RM){
 /* ---------- footer wordmark fit + redraw on resize ---------- */
 function fitWordmark(){
   const wm=$('#wm'),t=$('#wm-t');if(!wm||!t)return;
-  wm.style.fontSize='';
-  const avail=wm.clientWidth,w=t.getBoundingClientRect().width;
-  if(w>avail&&avail>0){const fs=parseFloat(getComputedStyle(wm).fontSize);wm.style.fontSize=(fs*avail/w*.98)+'px';}
+  // scale the wordmark so its letters span the full footer width, edge to edge, at any screen size
+  const cs=getComputedStyle(wm),avail=wm.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);if(avail<=0)return;
+  const txt=(t.getAttribute('aria-label')||t.textContent).trim();
+  let ink=0,lb=0;
+  try{
+    const c=fitWordmark.c||(fitWordmark.c=document.createElement('canvas').getContext('2d'));
+    c.font=cs.fontWeight+' 100px '+cs.fontFamily;const m=c.measureText(txt);
+    ink=m.actualBoundingBoxLeft+m.actualBoundingBoxRight;lb=-m.actualBoundingBoxLeft;
+  }catch(e){}
+  if(ink>0){const fs=100*avail/ink;wm.style.fontSize=fs+'px';t.style.marginLeft=(-lb*fs/100)+'px';return;}
+  let fs=100;wm.style.fontSize=fs+'px';t.style.marginLeft='';
+  for(let i=0;i<3;i++){const w=t.getBoundingClientRect().width;if(!w)return;fs=fs*avail/w;wm.style.fontSize=fs+'px';}
 }
 let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{fitWordmark();drawAllMinis();refreshThumbs(false);},150);});
 fitWordmark();

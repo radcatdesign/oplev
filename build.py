@@ -322,7 +322,7 @@ def inquiry(level='h2', heading='Tell us what still runs through you.',
         <label class="fl"><span class="label" data-err="add a valid email">Email *</span><input class="inp" id="inq-email" name="email" type="email" autocomplete="email" maxlength="200" required></label>
       </div>
       <label class="fl"><span class="label">Company</span><input class="inp" id="inq-company" name="company" autocomplete="organization" maxlength="160"></label>
-      <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="opts">{opts('type', F_TYPE)}</div></fieldset>
+      <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="opts">{opts('type', F_TYPE)}</div><label class="fl type-other" hidden><span class="sr">What kind of business is it?</span><input class="inp" id="inq-type-detail" name="type_other" maxlength="80" placeholder="What kind of business is it?" autocomplete="off" disabled></label></fieldset>
       <fieldset class="fs"><legend class="label">Team size</legend><div class="opts">{opts('team', F_TEAM)}</div></fieldset>
       <label class="fl"><span class="label" data-err="tell us a little">What still runs through you? *</span><textarea class="inp" id="inq-message" name="message" rows="5" maxlength="4000" required placeholder="The work that only happens when you're there."></textarea></label>
       <fieldset class="fs"><legend class="label">What do you need help with?</legend><div class="opts">{opts('build', F_BUILD, 'checkbox')}</div></fieldset>
@@ -403,7 +403,7 @@ def home(mode='full'):
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
     <p class="eyebrow">An agency that builds custom engines</p>
     <h1 class="h1" id="h1">Your business shouldn't need you for everything.<span class="cursor" aria-hidden="true"></span></h1>
-    <p class="lede">OpLev is an agency. We design and build custom engines that take the busywork off your plate: answering new leads, booking, reminders, follow-ups and reports. We build three kinds, <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span> and <span class="e-leads ec">Leads</span>, around how your business already works. Then we keep them running for you every month, and if yours works well, you can even license it to others.</p>
+    <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span> and <span class="e-leads ec">Leads</span> engines around how you already work, and run them for you every month. Then you can license yours to others.</p>
     <div class="actions">
       <a class="btn" href="#work">See the work {ARR_D}</a>
       <a class="btn ghost" href="#start">Start a project {ARR_R}</a>
@@ -538,7 +538,7 @@ def home(mode='full'):
     <ol class="model">
       <li class="mcell"><span class="num" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>We build your engines around how your business works and keep them running. One monthly price covers hosting, fixes and updates.</p></li>
       <li class="mcell"><span class="num" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>We add to your engines as the business grows.</p></li>
-      <li class="mcell"><span class="num" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>If it works for you, it will work for businesses like yours. A resale license lets you sell it to them.</p></li>
+      <li class="mcell"><span class="num" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>What works for you will work for businesses like yours. A resale license lets you sell it to them.</p></li>
     </ol>
     <div class="kicker">
       <p class="kicker-t">Most custom builds are a cost. Yours can earn.</p>

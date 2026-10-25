@@ -362,7 +362,7 @@ section[id]{scroll-margin-top:var(--nav)}
 /* footer */
 .foot{border-top:1px solid var(--line)}
 .foot .wrap{padding-block:clamp(48px,7vw,96px) 28px}
-.wm{font:900 clamp(76px,26vw,400px)/.8 var(--num);letter-spacing:-.02em;color:var(--paper);white-space:nowrap;overflow-x:clip;margin:0 0 clamp(28px,4vw,48px)}
+.wm{font:900 26vw/.8 var(--num);letter-spacing:0;color:var(--paper);white-space:nowrap;overflow-x:clip;margin:0 0 clamp(28px,4vw,48px)}
 .wm span{display:inline-block}
 .frow{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;padding-top:18px;border-top:1px solid var(--line)}
 
@@ -657,6 +657,9 @@ html.sheet-open{overflow:hidden}
   .sheet .row .ts{display:block;grid-area:ts}
 }
 @media (prefers-reduced-motion:reduce){.sheet[open]{animation:none}}
+
+.type-other{margin-top:10px}
+.type-other[hidden]{display:none}
 
 /* OpLev Console. Same Bison tokens as the site (site.css loads first).
    Layout: fixed sidebar + sticky top bar + scrolling view; cards use the 1px hairline grid. Drawer slides in from the right. */

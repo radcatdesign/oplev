@@ -5,7 +5,7 @@
 //   INQUIRY_FROM    optional sender, e.g. "OpLev <site@yourdomain.com>" (domain must be verified in Resend)
 // Without RESEND_API_KEY and INQUIRY_TO it answers 503 and the page shows an email fallback.
 
-const MAX = { name: 120, email: 200, company: 160, type: 80, team: 40, license: 80, resale: 40, timing: 60, message: 4000 };
+const MAX = { name: 120, email: 200, company: 160, type: 80, type_other: 80, team: 40, license: 80, resale: 40, timing: 60, message: 4000 };
 const LABELS = { company: 'Company', type: 'Business', team: 'Team size', build: 'Build', license: 'License', resale: 'Sell to others', timing: 'Start' };
 
 const clean = (v, n) => String(v == null ? '' : v).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim().slice(0, n);
@@ -23,6 +23,8 @@ function validate(b) {
   v.build = (Array.isArray(b.build) ? b.build : b.build ? [b.build] : []).map(x => clean(x, 40)).filter(Boolean).slice(0, 6).join(', ');
   v.name = v.name.replace(/[\r\n]+/g, ' ');
   v.company = v.company.replace(/[\r\n]+/g, ' ');
+  v.type_other = v.type_other.replace(/[\r\n]+/g, ' ');
+  if (v.type_other) v.type = v.type ? `${v.type}: ${v.type_other}` : v.type_other;
   if (!v.name || !v.message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) {
     return { error: 'Add your name, a valid email and what still runs through you.' };
   }
