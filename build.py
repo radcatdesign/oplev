@@ -313,12 +313,6 @@ def inquiry(level='h2', heading='Tell us what still runs through you.',
       <p class="eyebrow">Start a project</p>
       <{level} class="{level}" id="{hid}">{heading}{cursor}</{level}>
       <p class="lede">{lede}</p>
-      <ol class="next">
-        <li><span class="nx-n" aria-hidden="true">01</span><div><h3 class="h3">We reply</h3><p>Andre or Matt. Not a bot.</p></div></li>
-        <li><span class="nx-n" aria-hidden="true">02</span><div><h3 class="h3">We talk</h3><p>A short call about what still needs you.</p></div></li>
-        <li><span class="nx-n" aria-hidden="true">03</span><div><h3 class="h3">We pick</h3><p>The one thing worth fixing first.</p></div></li>
-        <li><span class="nx-n" aria-hidden="true">04</span><div><h3 class="h3">You get a plan</h3><p>Scope, price and launch date.</p></div></li>
-      </ol>
       <p class="label inq-alt">Prefer email? <span class="sel">{EMAIL}</span></p>
     </div>
     <form class="inq" action="/api/inquiry" method="post" novalidate data-email="{EMAIL}" aria-label="Project inquiry">

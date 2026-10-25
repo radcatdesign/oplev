@@ -451,11 +451,6 @@ a:hover>.go{color:var(--paper)}
 .inq-wrap{display:grid;gap:48px}
 @media (min-width:980px){.inq-wrap{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px}.inq-side{position:sticky;top:calc(var(--nav) + 32px);align-self:start}}
 .inq-side{display:flex;flex-direction:column;gap:24px;min-width:0}
-.next{list-style:none;margin:6px 0 0;padding:0;border-top:1px solid var(--line)}
-.next li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
-.nx-n{font:900 26px/1 var(--num);color:var(--paper);font-variant-numeric:tabular-nums}
-.next .h3{font-size:clamp(16px,1.4vw,19px)}
-.next p{margin:6px 0 0;color:var(--soft);font-size:15px;line-height:1.5}
 .sel{color:var(--paper);-webkit-user-select:all;user-select:all;text-transform:none;letter-spacing:.02em}
 .inq{position:relative;background:var(--ink-2);border:1px solid var(--line-2);padding:clamp(18px,2.6vw,36px);display:flex;flex-direction:column;gap:24px;min-width:0}
 .inq-hd{display:flex;align-items:center;gap:6px;padding-bottom:16px;border-bottom:1px solid var(--line-2)}
