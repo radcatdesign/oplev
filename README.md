@@ -55,7 +55,7 @@ Open it as a business type with `app.html#clinic`, `#brand`, `#agency`, `#creato
 
 ## The characters
 
-Each engine is a tile character: Ops (the organizer), Agents (the helpers) and Leads (the go-getter). Their sprites and lines live in `BOTS` and `BOT_LINES` at the top of `src/site.js`, their one-line bios in `BOT_ROLE` in `build.py`. They show up on the home page engine strips and next to their names in every activity log.
+There are four engines, each with an element and a tile character: Ops is water (the organizer), Agents is earth (the helpers), Leads is fire (the go-getter) and Marketing is wind (the messenger). Engines, elements and element icons live in `ENGINES`, `ELEMENT` and `ELEM_TILES` in `build.py`. Their sprites and lines live in `BOTS` and `BOT_LINES` at the top of `src/site.js`, their one-line bios in `BOT_ROLE` in `build.py`. They show up on the home page engine strips and next to their names in every activity log.
 
 ## Footer wordmark
 

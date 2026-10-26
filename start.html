@@ -534,12 +534,13 @@ textarea.inp{min-height:132px;resize:vertical}
 
 /* engine accents: muted CRT phosphors, used only where an engine is named */
 :root{
-  --ops:#82B6EA;--agents:#8FDBA6;--leads:#F0AC66;
-  --ops-l:rgba(130,182,234,.45);--agents-l:rgba(143,219,166,.45);--leads-l:rgba(240,172,102,.45);
+  --ops:#82B6EA;--agents:#8FDBA6;--leads:#F0AC66;--marketing:#B9A5F0;
+  --ops-l:rgba(130,182,234,.45);--agents-l:rgba(143,219,166,.45);--leads-l:rgba(240,172,102,.45);--marketing-l:rgba(185,165,240,.45);
 }
 .e-ops{--e:var(--ops);--el:var(--ops-l)}
 .e-agents{--e:var(--agents);--el:var(--agents-l)}
 .e-leads{--e:var(--leads);--el:var(--leads-l)}
+.e-marketing{--e:var(--marketing);--el:var(--marketing-l)}
 .ec{color:var(--e)}
 .etag{color:var(--e,var(--soft));border-color:var(--el,var(--line-2))}
 .eng{border-top:1px solid var(--e)}
@@ -553,13 +554,13 @@ textarea.inp{min-height:132px;resize:vertical}
 .filters .tab[class*="e-"][aria-pressed="true"]{background:var(--e);color:var(--ink)}
 .filters .tab[class*="e-"][aria-pressed="true"]::before{background:var(--ink);border-color:var(--ink)}
 .play:hover .h3{color:var(--e,var(--paper))}
-#inq-build-ops+span{--e:var(--ops)}#inq-build-agents+span{--e:var(--agents)}#inq-build-leads+span{--e:var(--leads)}
+#inq-build-ops+span{--e:var(--ops)}#inq-build-agents+span{--e:var(--agents)}#inq-build-leads+span{--e:var(--leads)}#inq-build-marketing+span{--e:var(--marketing)}
 .opt input[id^="inq-build-"]+span::before{border-color:var(--e,currentColor)}
 .opt input[id^="inq-build-"]:checked+span{background:var(--e,var(--paper));border-color:var(--e,var(--paper))}
 
 /* engine access on the paper band: deeper tints so they read on paper */
-:root{--ops-d:#2A66A0;--agents-d:#22703F;--leads-d:#9C5414}
-.band .e-ops{--ed:var(--ops-d)}.band .e-agents{--ed:var(--agents-d)}.band .e-leads{--ed:var(--leads-d)}
+:root{--ops-d:#2A66A0;--agents-d:#22703F;--leads-d:#9C5414;--marketing-d:#5B45A8}
+.band .e-ops{--ed:var(--ops-d)}.band .e-agents{--ed:var(--agents-d)}.band .e-leads{--ed:var(--leads-d)}.band .e-marketing{--ed:var(--marketing-d)}
 .access{border:1px solid var(--on-paper-line);background:var(--paper-2)}
 .plan:hover .access{background:var(--paper)}
 .access-hd{display:flex;align-items:center;gap:12px;padding:10px 12px;border-bottom:1px solid var(--on-paper-line)}
@@ -580,7 +581,8 @@ textarea.inp{min-height:132px;resize:vertical}
 @media (max-width:519px){.access-list li{grid-template-columns:10px minmax(0,1fr) auto}.access-list .at{display:none}.access-hd .label:first-child{display:none}}
 .engmap-hd{display:flex;flex-direction:column;gap:14px;margin:clamp(48px,6vw,80px) 0 22px}
 .engmap{display:grid;gap:1px;background:var(--on-paper-line);border:1px solid var(--on-paper-line);grid-template-columns:minmax(0,1fr)}
-@media (min-width:980px){.engmap{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:700px){.engmap{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1180px){.engmap{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .em{background:var(--paper);border-top:1px solid var(--ed);padding:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:12px;min-width:0}
 .em>.label:first-child{color:var(--ed)}
 .em-name{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(32px,3.4vw,52px);line-height:.95;letter-spacing:-.055em;color:var(--ink)}
@@ -752,7 +754,7 @@ html.sheet-open{overflow:hidden}
 .strip-in{display:grid;grid-template-columns:minmax(0,1fr);gap:18px 40px;padding-block:clamp(26px,3.6vw,48px);align-items:start}
 @media (min-width:980px){.strip-in{grid-template-columns:minmax(0,4fr) minmax(0,5fr) minmax(0,3fr)}}
 .strip .label{color:rgba(7,7,8,.62)}
-.strip-name{margin:6px 0 0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(56px,8.6vw,132px);line-height:.86;letter-spacing:-.065em}
+.strip-name{margin:10px 0 0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(44px,5.6vw,84px);line-height:1;letter-spacing:-.06em;padding-bottom:.08em}
 .strip-line{margin:0 0 14px;font-size:19px;line-height:1.4;max-width:40ch}
 .strip-caps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid rgba(7,7,8,.22)}
 @media (min-width:640px){.strip-caps{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}}
@@ -888,12 +890,13 @@ html.sheet-open{overflow:hidden}
 
 /* ---------- the characters: each engine is a little tile bot ---------- */
 .bot{display:inline-block;line-height:0;--e:var(--paper)}
-.bot[data-bot="ops"]{--e:var(--ops)}.bot[data-bot="agents"]{--e:var(--agents)}.bot[data-bot="leads"]{--e:var(--leads)}
+.bot[data-bot="ops"]{--e:var(--ops)}.bot[data-bot="agents"]{--e:var(--agents)}.bot[data-bot="leads"]{--e:var(--leads)}.bot[data-bot="marketing"]{--e:var(--marketing)}
 .bot svg{display:block;width:100%;height:auto;overflow:visible}
 .bot .bt-b{fill:var(--e)}.bot .bt-k{fill:var(--ink)}.bot .bt-w{fill:var(--paper)}
-.bot-mini{width:13px;margin-right:7px;vertical-align:-1px}
-.row .ac .bot-mini{width:12px}
-.bot-xs{width:14px;vertical-align:-2px;margin-right:8px}
+.bot-mini,.bot-xs{width:auto;margin-right:7px;vertical-align:-1px}
+.bot-mini svg{width:auto;height:12px}
+.bot-xs svg{width:auto;height:15px}
+.bot-xs{margin-right:8px;vertical-align:-3px}
 .bot-card{appearance:none;-webkit-appearance:none;border:0;border-radius:0;background:var(--ink);color:var(--paper);padding:18px 18px 16px;width:100%;max-width:280px;display:flex;flex-direction:column;gap:14px;cursor:pointer;text-align:left;margin-bottom:10px;background-image:radial-gradient(rgba(242,242,239,.07) 1px,transparent 1px);background-size:10px 10px}
 .bot-card:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .bot-stage{display:flex;align-items:flex-end;justify-content:center;gap:8px;height:104px}
@@ -903,7 +906,7 @@ html.sheet-open{overflow:hidden}
 .bot-say{display:block;font:500 12px/1.45 var(--display);letter-spacing:-.01em;min-height:2.9em;color:var(--paper)}
 .bot-say::before{content:"> ";color:var(--e)}
 .bot.hop{transform:translateY(-10px)}
-.strip-who{margin:16px 0 0;max-width:36ch;font-size:15px;line-height:1.45;color:rgba(7,7,8,.74)}
+.strip-who{margin:18px 0 0;max-width:36ch;font-size:15px;line-height:1.45;color:rgba(7,7,8,.74)}
 .strip-who b{color:var(--ink);font-weight:600}
 .strip-ft .px{display:none}
 @media (prefers-reduced-motion:reduce){.bot-stage .bot{transition:none}.bot.hop{transform:none}}
@@ -916,7 +919,7 @@ html.sheet-open{overflow:hidden}
 .wall li{display:inline-flex;align-items:baseline}
 .wall li:not(:last-child)::after{content:"/";color:var(--dim-2);font:400 clamp(20px,2.8vw,40px)/1 var(--display);margin:0 .34em}
 .wl{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(24px,3.3vw,48px);line-height:1.18;letter-spacing:-.05em;color:var(--paper);text-decoration:none;transition:color .15s}
-.wl[data-e="ops"]{--e:var(--ops)}.wl[data-e="agents"]{--e:var(--agents)}.wl[data-e="leads"]{--e:var(--leads)}
+.wl[data-e="ops"]{--e:var(--ops)}.wl[data-e="agents"]{--e:var(--agents)}.wl[data-e="leads"]{--e:var(--leads)}.wl[data-e="marketing"]{--e:var(--marketing)}
 .wl:hover,.wl:focus-visible{color:var(--e)}
 .wall:hover .wl:not(:hover){color:var(--dim-2)}
 .wall-ft{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-top:24px}
@@ -992,6 +995,16 @@ html.sheet-open{overflow:hidden}
 .lp-more a svg{width:13px;height:13px}
 
 .nav .mega .wrap{height:auto;display:block}
+
+/* ---------- elements: water, earth, fire, wind ---------- */
+.elem{display:inline-block;width:11px;height:11px;flex:none;vertical-align:-1px}
+.elem rect{fill:currentColor}
+.strip-el{display:inline-flex;align-items:center;gap:9px}
+.strip-el .elem{width:13px;height:13px;color:var(--ink)}
+.em-el{display:inline-flex;align-items:center;gap:8px}
+.em-el .elem{color:var(--ed)}
+.bot-stage{height:auto;min-height:118px}
+
 </style>
 </head>
 <body>
@@ -1051,7 +1064,7 @@ html.sheet-open{overflow:hidden}
       </div>
       <div class="mg-ft">
         <p class="mg-ft-t">Not on the list? Every build starts from how you work, so tell us about yours.</p>
-        <div class="mg-ft-r"><span class="mg-key label"><span class="edots" aria-hidden="true"><i class="e-ops"></i></span>Ops <span class="edots" aria-hidden="true"><i class="e-agents"></i></span>Agents <span class="edots" aria-hidden="true"><i class="e-leads"></i></span>Leads</span><a class="label mg-all" href="for.html">See all 20 <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn btn-sm" href="start.html">Apply</a></div>
+        <div class="mg-ft-r"><span class="mg-key label"><span class="edots" aria-hidden="true"><i class="e-ops"></i></span>Ops <span class="edots" aria-hidden="true"><i class="e-agents"></i></span>Agents <span class="edots" aria-hidden="true"><i class="e-leads"></i></span>Leads <span class="edots" aria-hidden="true"><i class="e-marketing"></i></span>Marketing </span><a class="label mg-all" href="for.html">See all 20 <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn btn-sm" href="start.html">Apply</a></div>
       </div>
     </div>
   </div>
@@ -1096,8 +1109,8 @@ html.sheet-open{overflow:hidden}
       <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-type-clinic" name="type" value="Health or wellness"><span>Health or wellness</span></label><label class="opt"><input type="radio" id="inq-type-field" name="type" value="Home or field service"><span>Home or field service</span></label><label class="opt"><input type="radio" id="inq-type-brand" name="type" value="Product brand"><span>Product brand</span></label><label class="opt"><input type="radio" id="inq-type-agency" name="type" value="Agency or firm"><span>Agency or firm</span></label><label class="opt"><input type="radio" id="inq-type-creator" name="type" value="Creator or coach"><span>Creator or coach</span></label><label class="opt"><input type="radio" id="inq-type-startup" name="type" value="Startup"><span>Startup</span></label><label class="opt"><input type="radio" id="inq-type-other" name="type" value="Something else"><span>Something else</span></label></div><label class="fl type-other" hidden><span class="sr">What kind of business is it?</span><input class="inp" id="inq-type-detail" name="type_other" maxlength="80" placeholder="What kind of business is it?" autocomplete="off" value="" disabled></label></fieldset>
       <fieldset class="fs"><legend class="label">Team size</legend><div class="opts"><label class="opt"><input type="radio" id="inq-team-1" name="team" value="Just me"><span>Just me</span></label><label class="opt"><input type="radio" id="inq-team-2-5" name="team" value="2 to 5"><span>2 to 5</span></label><label class="opt"><input type="radio" id="inq-team-6-20" name="team" value="6 to 20"><span>6 to 20</span></label><label class="opt"><input type="radio" id="inq-team-21-50" name="team" value="21 to 50"><span>21 to 50</span></label><label class="opt"><input type="radio" id="inq-team-50" name="team" value="50+"><span>50+</span></label></div></fieldset>
       <label class="fl"><span class="label" data-err="tell us a little">What still runs through you? *</span><textarea class="inp" id="inq-message" name="message" rows="5" maxlength="4000" required placeholder="The work that only happens when you're there."></textarea></label>
-      <fieldset class="fs"><legend class="label">What do you need help with?</legend><div class="opts"><label class="opt"><input type="checkbox" id="inq-build-ops" name="build" value="Staying organized (Ops)"><span>Staying organized (Ops)</span></label><label class="opt"><input type="checkbox" id="inq-build-agents" name="build" value="Busywork and follow-ups (Agents)"><span>Busywork and follow-ups (Agents)</span></label><label class="opt"><input type="checkbox" id="inq-build-leads" name="build" value="Getting more customers (Leads)"><span>Getting more customers (Leads)</span></label><label class="opt"><input type="checkbox" id="inq-build-unsure" name="build" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
-      <fieldset class="fs"><legend class="label">Which plan sounds right?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-license-one" name="license" value="One engine / $5k"><span>One engine / $5k</span></label><label class="opt"><input type="radio" id="inq-license-core" name="license" value="Two engines / $10k"><span>Two engines / $10k</span></label><label class="opt"><input type="radio" id="inq-license-company" name="license" value="All three / $15k+"><span>All three / $15k+</span></label><label class="opt"><input type="radio" id="inq-license-unsure" name="license" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
+      <fieldset class="fs"><legend class="label">What do you need help with?</legend><div class="opts"><label class="opt"><input type="checkbox" id="inq-build-ops" name="build" value="Staying organized (Ops)"><span>Staying organized (Ops)</span></label><label class="opt"><input type="checkbox" id="inq-build-agents" name="build" value="Busywork and follow-ups (Agents)"><span>Busywork and follow-ups (Agents)</span></label><label class="opt"><input type="checkbox" id="inq-build-leads" name="build" value="Getting more customers (Leads)"><span>Getting more customers (Leads)</span></label><label class="opt"><input type="checkbox" id="inq-build-marketing" name="build" value="Getting the word out (Marketing)"><span>Getting the word out (Marketing)</span></label><label class="opt"><input type="checkbox" id="inq-build-unsure" name="build" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
+      <fieldset class="fs"><legend class="label">Which plan sounds right?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-license-one" name="license" value="One engine / $5k"><span>One engine / $5k</span></label><label class="opt"><input type="radio" id="inq-license-core" name="license" value="Two engines / $10k"><span>Two engines / $10k</span></label><label class="opt"><input type="radio" id="inq-license-company" name="license" value="Three or more / $15k+"><span>Three or more / $15k+</span></label><label class="opt"><input type="radio" id="inq-license-unsure" name="license" value="Not sure yet"><span>Not sure yet</span></label></div></fieldset>
       <fieldset class="fs"><legend class="label">Would you want to sell it to others one day?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-resale-yes" name="resale" value="Yes"><span>Yes</span></label><label class="opt"><input type="radio" id="inq-resale-later" name="resale" value="Maybe later"><span>Maybe later</span></label><label class="opt"><input type="radio" id="inq-resale-no" name="resale" value="No"><span>No</span></label></div></fieldset>
       <fieldset class="fs"><legend class="label">When do you want to start?</legend><div class="opts"><label class="opt"><input type="radio" id="inq-timing-month" name="timing" value="This month"><span>This month</span></label><label class="opt"><input type="radio" id="inq-timing-quarter" name="timing" value="This quarter"><span>This quarter</span></label><label class="opt"><input type="radio" id="inq-timing-exploring" name="timing" value="Just exploring"><span>Just exploring</span></label></div></fieldset>
       <div class="hp" aria-hidden="true"><label>Leave this empty <input id="inq-hp" name="company_url" tabindex="-1" autocomplete="off"></label></div>
@@ -1130,22 +1143,37 @@ const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pad2=n=>String(n).padStart(2,'0');
-const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','you':'You'};
+const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','@marketing':'Marketing','you':'You'};
 
 /* ---------- the characters: one tile bot per engine ---------- */
 // '#' body in the engine color, 'k' ink, 'w' paper. blink and act are rows swapped in for a frame.
 const BOTS={
-  ops:{base:["..########..",".##########.",".#kkk##kkk#.",".#kwkkkkwk#.",".#kkk##kkk#.",".##########.",".###kkkk###.",".##########.","..########..","...#....#...","..##....##.."],
-    blink:{3:".#kkkkkkkk#."},act:[{1:".#kkk##kkk#.",2:".#kwkkkkwk#.",3:".#kkk##kkk#.",4:".##########."},{}]},
-  agents:{base:[".....##.....","......#.....","...######...","..########..",".##kk##kk##.",".##kw##kw##.",".##########.",".##k####k##.",".###kkkk###.",".##########.",".##########.",".#.##..##.#."],
-    blink:{4:".##########.",5:".##kk##kk##."},act:[{0:".....ww.....",11:"..#.####.#.."},{}]},
-  leads:{base:[".#..##..#....",".##.##.##....","##########...","##kk##kk##.#.","##########.#.","##kk##kk##.#.","##kw##kw##.#.","##########.#.","#kwwwwwwk####","##kkkkkk###..","##########...",".########...."],
-    blink:{5:"##########.#.",6:"##kk##kk##.#."},act:[{3:"##kk##kk##..#",4:"##########..#",5:"##kk##kk##..#",6:"##kw##kw##.#.",7:"##########.#."},{}]}
+  // Ops: water. A droplet floats over its head.
+  ops:{base:[".....##.....","....####....","....#w##....",".....##.....","............","..########..",".##########.",".#kkk##kkk#.",".#kwkkkkwk#.",".#kkk##kkk#.",".##########.",".###kkkk###.",".##########.","..########..","...#....#...","..##....##.."],
+    blink:{8:".#kkkkkkkk#."},
+    idle:[{0:"............",1:".....##.....",2:"....####....",3:"....#w##....",4:".....##....."}],
+    act:[{0:"............",1:".....##.....",2:"....####....",3:"....#w##....",4:".....##.....",7:".#kkk##kkk#.",8:".#kwkkkkwk#."},{}]},
+  // Agents: earth. A sprout instead of an antenna, and there are always a few of them.
+  agents:{base:["......###...","....#####...","...##.###...",".....##.....","...######...","..########..",".##kk##kk##.",".##kw##kw##.",".##########.",".##k####k##.",".###kkkk###.",".##########.",".##########.",".#.##..##.#."],
+    blink:{6:".##########.",7:".##kk##kk##."},
+    idle:[{0:".....###....",1:"...#####....",2:"..##.###...."}],
+    act:[{0:"...###......",1:"...#####....",2:"...###.##...",13:"..#.####.#.."},{}]},
+  // Leads: fire. The hair is a flame, and it never stops flickering.
+  leads:{base:["..#....#.....",".##...##..#..",".###.###.##..","##########...","##kk##kk##.#.","##########.#.","##kk##kk##.#.","##kw##kw##.#.","##########.#.","#kwwwwwwk####","##kkkkkk###..","##########...",".########...."],
+    blink:{6:"##########.#.",7:"##kk##kk##.#."},
+    idle:[{0:"...#....#....",1:"..##..##.#...",2:".###.###.##.."},{0:".#....#......",1:".##..##..#...",2:".###.###.##.."}],
+    act:[{4:"##kk##kk##..#",5:"##########..#",6:"##kk##kk##..#",7:"##kw##kw##.#.",8:"##########.#."},{}]},
+  // Marketing: wind. A little cloud, always blowing your name somewhere new.
+  marketing:{base:["....####..........","..########.###....",".#############....","##############....","###kk####kk###.###","###kw####kw###....","##############.###","#########kk###....",".########kk##.####","..###########.....","...##.####.##....."],
+    blink:{4:"##############.###",5:"###kk####kk###...."},
+    idle:[{4:"###kk####kk###..##",6:"##############..##",8:".########kk##..###"},{4:"###kk####kk###.##.",6:"##############.##.",8:".########kk##.###."}],
+    act:[{4:"###kk####kk###..##",6:"##############..##",7:"#########kw###....",8:".########kk##..###"},{4:"###kk####kk###.###",6:"##############.###",7:"#########kw###....",8:".########kk##.####"}]}
 };
 const BOT_LINES={
   ops:["Everything's where it should be.","Your morning summary is ready.","Nothing's late. I checked twice.","Sorted your clients A to Z. You're welcome.","Three things need you today. Just three."],
   agents:["Drafted it. Want a look?","Sorted 140 emails while you slept.","I'll ask before I send anything new.","Following up. Politely.","Reminders are out. Everyone confirmed."],
-  leads:["Someone's interested!","Replied in 2 minutes. New record.","It's 10pm. I'm still here.","Quote sent. They're reading it now.","Hi! Want a price? Takes a minute."]
+  leads:["Someone's interested!","Replied in 2 minutes. New record.","It's 10pm. I'm still here.","Quote sent. They're reading it now.","Hi! Want a price? Takes a minute."],
+  marketing:["Three posts are ready. Want a look?","Newsletter's out. 41% opened it.","Turned last week's jobs into stories.","People are talking about you.","Wrote it in your voice. Promise."]
 };
 function botSVG(name,over,crisp){
   const b=BOTS[name];if(!b)return '';
@@ -1721,23 +1749,30 @@ if(!RM){
 $$('.bot-xs[data-bot]').forEach(el=>{el.innerHTML=botSVG(el.dataset.bot,null,true);});
 $$('.bot-card').forEach(card=>{
   const bots=$$('.bot[data-bot]',card),say=$('.bot-say',card);if(!bots.length)return;
-  const name=bots[0].dataset.bot,lines=BOT_LINES[name]||[''];let li=0,busy=false;
+  const name=bots[0].dataset.bot,B=BOTS[name],lines=BOT_LINES[name]||[''];let li=0,busy=false;
+  const cols=Math.max.apply(null,B.base.map(r=>r.length)),crew=bots.length>1;
+  bots.forEach((el,i)=>{el.style.width=(cols*(crew?(i===1?5:4):7))+'px';});
   const draw=(el,over)=>{el.innerHTML=botSVG(name,over);};
   bots.forEach(el=>draw(el));
   const speak=()=>{redecode(say,lines[li%lines.length],420);li++;};
   if(RM){say.textContent=lines[0];li=1;}else once([card],speak,.4);
-  // idle: everyone blinks on their own clock
-  if(!RM)bots.forEach(el=>{(function loop(){setTimeout(()=>{if(!busy){draw(el,BOTS[name].blink);setTimeout(()=>{if(!busy)draw(el);},140);}loop();},2200+Math.random()*4200);})();});
+  // idle: each one blinks and fidgets on its own clock
+  if(!RM)bots.forEach(el=>{(function loop(){setTimeout(async()=>{
+    if(!busy){
+      if(B.idle&&Math.random()<.55){const f=B.idle;for(let k=0;k<(name==='leads'||name==='marketing'?6:2);k++){if(busy)break;draw(el,f[k%f.length]);await sleep(name==='ops'?260:150);}if(!busy)draw(el);}
+      else{draw(el,B.blink);await sleep(140);if(!busy)draw(el);}
+    }
+    loop();},1800+Math.random()*3800);})();});
   async function act(){
     if(busy)return;busy=true;speak();
     if(RM){busy=false;return;}
-    const A=BOTS[name].act;
-    if(name==='agents'){
+    const A=B.act;
+    if(crew){
       bots.forEach((el,i)=>setTimeout(()=>{el.classList.add('hop');draw(el,A[0]);setTimeout(()=>{el.classList.remove('hop');draw(el);},260);},i*110));
       await sleep(620);
     }else{
-      const n=name==='leads'?6:2;
-      for(let i=0;i<n;i++){bots.forEach(el=>draw(el,A[i%2]));await sleep(name==='leads'?150:380);}
+      const n=name==='ops'?2:6;
+      for(let i=0;i<n;i++){bots.forEach(el=>draw(el,A[i%2]));await sleep(name==='ops'?320:150);}
       bots.forEach(el=>draw(el));
     }
     busy=false;
@@ -1750,7 +1785,7 @@ $$('.bot-card').forEach(card=>{
 (function(){
   const wm=$('#wm'),svg=$('#wm-t');if(!wm||!svg)return;
   const L=$$('.wm-l',svg);if(!L.length)return;
-  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--paper)'],HOME=3;
+  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--marketing)','var(--paper)'],HOME=4;
   const BLINK=[{opacity:.1},{opacity:1},{opacity:.2},{opacity:1}];
   const blink=(t,ms)=>{if(t.animate)t.animate(BLINK,{duration:ms||240,easing:'steps(4,end)'});};
   L.forEach(g=>{g._c=HOME;g._t=$$('.t',g);});
@@ -1784,7 +1819,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
   const after=()=>{decode($('#h1'));};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','custom engines'],['engines','ops / agents / leads'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','custom engines'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

@@ -36,7 +36,7 @@ MARKET_TYPES = [('clinic', 'Clinics'), ('brand', 'Brands'), ('agency', 'Agencies
                 ('startup', 'Startups'), ('services', 'Services')]
 LICENSES = {'one': {'name': 'One engine', 'price': '$5k', 'count': 1},
             'core': {'name': 'Two engines', 'price': '$10k', 'count': 2},
-            'company': {'name': 'All three', 'price': '$15k+', 'count': 3}}
+            'company': {'name': 'Three or more', 'price': '$15k+', 'count': 3}}
 
 EMAIL = 'hello@oplev.com'
 # Client capacity shown across the site. Set these to your real numbers.
@@ -86,13 +86,34 @@ ENGINES = [
      ['Price calculators and quote tools', 'A helper on your site that answers questions any hour',
       'Quotes customers can accept online', 'Every new lead saved with the full conversation'],
      ['element-glo']),
+    ('marketing', 'Marketing', 'wind', 'Get the word out', 'Gets your name in front of the right people, week after week.',
+     ['Posts and emails in your voice, made from your real work', 'A content calendar that stays full',
+      'Newsletters and campaigns that go out on schedule', 'A monthly report on what actually brought people in'],
+     []),
 ]
 ENGINE_NAME = {k: n for k, n, *_ in ENGINES}
+NE = len(ENGINES)
+# every engine has an element
+ELEMENT = {'ops': 'Water', 'agents': 'Earth', 'leads': 'Fire', 'marketing': 'Wind'}
+ELEM_TILES = {
+    'ops': ['...#...', '..###..', '.#####.', '#######', '##.####', '#######', '.#####.'],
+    'agents': ['....###', '..#####', '.######', '.#####.', '.####..', '#.#....', '#......'],
+    'leads': ['..#....', '..##...', '.###.#.', '.#####.', '###.###', '##...##', '.#####.'],
+    'marketing': ['#####..', '.....#.', '####..#', '......#', '######.', '.......', '###....'],
+}
+
+
+def elem(k, cls=''):
+    t = ELEM_TILES[k]
+    rects = ''.join(f'<rect x="{x * 10 + .5}" y="{y * 10 + .5}" width="9" height="9"/>'
+                    for y, row in enumerate(t) for x, c in enumerate(row) if c == '#')
+    return f'<svg class="elem e-{k}{cls}" viewBox="0 0 70 70" aria-hidden="true">{rects}</svg>'
 # each engine is a character: a name, a role and a temper
 BOT_ROLE = {
-    'ops': ('The organizer', "Calm, tidy and a little obsessed with lists. Up at 6 with your day sorted before you've found your coffee."),
-    'agents': ('The helpers', "Quick, friendly and never off the clock. There are a few of them, and they always ask before sending anything new."),
-    'leads': ('The go-getter', 'First to say hi, every time. Answers at 10pm, remembers every name and never lets a quote go cold.'),
+    'ops': ('The organizer', 'Calm and steady, like water. Gets into every corner of the business and keeps it all flowing. Up at 6 with your day sorted.'),
+    'agents': ('The helpers', 'Grounded as earth. There are a few of them, they do the heavy lifting every shift, and they always ask before sending anything new.'),
+    'leads': ('The go-getter', 'All fire. First to say hi, answers at 10pm, remembers every name and never lets a quote go cold.'),
+    'marketing': ('The messenger', 'Quick as the wind. Carries your name further every week, with posts, emails and stories made from your real work.'),
 }
 
 
@@ -115,6 +136,9 @@ PLAYS = [
     ('ops', 'every Monday', 'Weekly numbers', 'Sales, open jobs and money in, without building a report.'),
     ('ops', 'when someone joins', 'New hire setup', 'Accounts, guides and first-week tasks, set up the same way every time.'),
     ('ops', 'when stock runs low', 'Low stock alerts', 'Drafts the reorder before you run out, then waits for your OK.'),
+    ('marketing', 'every Monday', 'Weekly posts from your work', "Turns last week's jobs, photos and wins into posts in your voice, ready for your OK."),
+    ('marketing', 'first Tuesday of the month', 'Monthly newsletter', 'Drafts the newsletter from what happened this month and sends it once you approve.'),
+    ('marketing', 'when a project wraps', 'Case studies from finished work', 'Writes up the before and after from your notes, photos and a client quote.'),
 ]
 
 NIGHT = {
@@ -126,6 +150,7 @@ NIGHT = {
         ['23:58:12', '@agents', 'sorted 14 messages into clients, vendors and noise', 'sorted'],
         ['01:12:40', '@ops', 'invoice paid, client record updated', 'reconciled'],
         ['03:30:00', '@agents', 'flagged a late invoice for follow-up', 'queued'],
+        ['04:10:00', '@marketing', "drafted this week's posts from finished jobs", 'drafted'],
         ['05:45:00', '@ops', 'morning summary ready: 1 approval, 2 new leads', 'ready'],
         ['06:58:21', 'you', 'approve reply to the new lead', 'pending', 'need'],
         ['07:04:02', 'you', 'approved over coffee', 'ok', 'me'],
@@ -139,6 +164,8 @@ PAINS = [
     ('Leads come in at night and sit until Monday.', 'the Leads engine'),
     ('Only one person knows how that part works.', 'the Ops engine'),
     ("I can't take a week off.", 'the Agents engine'),
+    ("Nobody's heard of us outside of referrals.", 'the Marketing engine'),
+    ('I answer the same five questions every day.', 'the Agents engine'),
     ('People keep asking if they can use what I built.', 'a resale license'),
 ]
 
@@ -155,8 +182,9 @@ F_TYPE = [('clinic', 'Health or wellness'), ('field', 'Home or field service'), 
           ('agency', 'Agency or firm'), ('creator', 'Creator or coach'), ('startup', 'Startup'), ('other', 'Something else')]
 F_TEAM = [('1', 'Just me'), ('2-5', '2 to 5'), ('6-20', '6 to 20'), ('21-50', '21 to 50'), ('50', '50+')]
 F_BUILD = [('ops', 'Staying organized (Ops)'), ('agents', 'Busywork and follow-ups (Agents)'), ('leads', 'Getting more customers (Leads)'),
+           ('marketing', 'Getting the word out (Marketing)'),
            ('unsure', 'Not sure yet')]
-F_LICENSE = [('one', 'One engine / $5k'), ('core', 'Two engines / $10k'), ('company', 'All three / $15k+'),
+F_LICENSE = [('one', 'One engine / $5k'), ('core', 'Two engines / $10k'), ('company', 'Three or more / $15k+'),
              ('unsure', 'Not sure yet')]
 F_RESALE = [('yes', 'Yes'), ('later', 'Maybe later'), ('no', 'No')]
 F_TIMING = [('month', 'This month'), ('quarter', 'This quarter'), ('exploring', 'Just exploring')]
@@ -193,7 +221,7 @@ def mega(p):
       </div>
       <div class="mg-ft">
         <p class="mg-ft-t">Not on the list? Every build starts from how you work, so tell us about yours.</p>
-        <div class="mg-ft-r"><span class="mg-key label">{edots(['ops'])}Ops {edots(['agents'])}Agents {edots(['leads'])}Leads</span><a class="label mg-all" href="{p}for.html">See all {len(ICPS)} {ARR_R}</a><a class="btn btn-sm" href="{p}start.html">Apply</a></div>
+        <div class="mg-ft-r"><span class="mg-key label">{''.join(f'{edots([k])}{n} ' for k, n, *_ in ENGINES)}</span><a class="label mg-all" href="{p}for.html">See all {len(ICPS)} {ARR_R}</a><a class="btn btn-sm" href="{p}start.html">Apply</a></div>
       </div>
     </div>
   </div>'''
@@ -470,9 +498,9 @@ def home(mode='full'):
     engines = ''.join(f'''
     <article class="strip e-{k}" id="engine-{k}">
       <div class="wrap strip-in">
-        <div class="strip-id"><span class="label">engine {i + 1} / {E(triad)}</span><h3 class="strip-name">{E(name)}</h3><p class="strip-who"><b>{E(BOT_ROLE[k][0])}.</b> {E(BOT_ROLE[k][1])}</p></div>
+        <div class="strip-id"><span class="label strip-el">{elem(k)}engine {i + 1} / {E(ELEMENT[k].lower())} / {E(triad)}</span><h3 class="strip-name">{E(name)}</h3><p class="strip-who"><b>{E(BOT_ROLE[k][0])}.</b> {E(BOT_ROLE[k][1])}</p></div>
         <div class="strip-bd"><p class="strip-line">{E(line)}</p><ul class="strip-caps">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul></div>
-        <div class="strip-ft">{bot_card(k)}<span class="label">see it in</span>{''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)}</div>
+        <div class="strip-ft">{bot_card(k)}{(f'<span class="label">see it in</span>' + ''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)) if seen else '<span class="label">new engine</span><a href="start.html">Ask us about it</a>'}</div>
       </div>
     </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
     filters = '<button class="tab" type="button" aria-pressed="true" data-f="all">All</button>' + ''.join(
@@ -486,7 +514,7 @@ def home(mode='full'):
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
     <p class="eyebrow">An agency that builds custom engines</p>
     <h1 class="h1" id="h1">Your business shouldn't need you for everything.</h1>
-    <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span> and <span class="e-leads ec">Leads</span> engines around how you already work, and run them for you every month. Then you can license yours to others.</p>
+    <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span>, <span class="e-leads ec">Leads</span> and <span class="e-marketing ec">Marketing</span> engines around how you already work, and run them for you every month. Then you can license yours to others.</p>
     {spots(' hero-spots')}
     <div class="actions">
       <a class="btn" href="#work">See the work {ARR_D}</a>
@@ -543,8 +571,8 @@ def home(mode='full'):
   <div class="wrap">
     <div class="center-hd">
       <p class="eyebrow">What we build</p>
-      <h2 class="h2" id="engines-h">Three kinds of engines.</h2>
-      <p class="lede">We build one, two or all three for your business. They share the same information, so nothing gets typed in twice.</p>
+      <h2 class="h2" id="engines-h">Four engines. Four elements.</h2>
+      <p class="lede">Water, earth, fire and wind. We build one or all four for your business. They share the same information, so nothing gets typed in twice.</p>
     </div>
   </div>
   <div class="strips">{engines}
@@ -556,7 +584,7 @@ def home(mode='full'):
     <div class="night-l">
       <p class="eyebrow">While you sleep</p>
       <h2 class="h2" id="night-h">You slept. Your engines didn't.</h2>
-      <p class="lede">A night at a business running all three engines we built. Anything important waits for the owner in the morning summary.</p>
+      <p class="lede">A night at a business running all four engines we built. Anything important waits for the owner in the morning summary.</p>
       <p class="night-clock" id="night-clock" aria-hidden="true">22:00</p>
     </div>
     <div class="night-r">
@@ -650,23 +678,23 @@ def home(mode='full'):
 </section>
 ''' + inquiry('h2', 'Stop being the system.',
               "We only take on a few clients at a time, so every build gets our full attention. Apply in two minutes.")
-    return page('OpLev', 'OpLev is an agency that designs and builds custom engines for companies: Ops, Agents and Leads. Built around how you work, kept running by us, licensed monthly.',
+    return page('OpLev', 'OpLev is an agency that designs and builds custom engines for companies: Ops, Agents, Leads and Marketing. Built around how you work, kept running by us, licensed monthly.',
                 body, p='', home=True, active=None, mode=mode)
 
 
 # ---------- pricing ----------
 
 def access(n):
-    status = {1: 'pick one', 2: 'pick two', 3: 'included'}[n]
-    hint = {1: 'pick 1', 2: 'pick 2', 3: 'all included'}[n]
-    meter = ''.join(f'<span class="seg{" on" if i < n else ""}"></span>' for i in range(3))
+    status = {1: 'pick one', 2: 'pick two', 3: 'pick 3+'}[n]
+    hint = {1: 'pick 1', 2: 'pick 2', 3: f'pick 3 or {NE}'}[n]
+    meter = ''.join(f'<span class="seg{" on" if i < n else ""}"></span>' for i in range(NE))
     rows = ''.join(
-        f'<li class="e-{k}{" inc" if n == 3 else ""}"><span class="mk" aria-hidden="true"></span><span class="an">{E(name)}</span>'
+        f'<li class="e-{k}"><span class="mk" aria-hidden="true"></span><span class="an">{E(name)}</span>'
         f'<span class="at">{E(triad)}</span><span class="as">{status}</span></li>'
         for k, name, _icon, triad, *_ in ENGINES)
     return f'''
-        <div class="access" aria-label="Engine access: {n} of 3">
-          <div class="access-hd"><span class="label">engines</span><span class="meter" aria-hidden="true">{meter}</span><span class="label">{n} of 3 / {hint}</span></div>
+        <div class="access" aria-label="Engine access: {n}{'+' if n == 3 else ''} of {NE}">
+          <div class="access-hd"><span class="label">engines</span><span class="meter" aria-hidden="true">{meter}</span><span class="label">{hint}</span></div>
           <ul class="access-list">{rows}</ul>
         </div>'''
 
@@ -701,7 +729,7 @@ def engmap():
         plays = ''.join(f'<li>{E(t)}</li>' for e, _trig, t, _d in PLAYS if e == k)
         cols += f'''
       <div class="em e-{k}">
-        <span class="label">engine</span>
+        <span class="label em-el">{elem(k)}{E(ELEMENT[k].lower())}</span>
         <h3 class="em-name">{E(name)}</h3>
         <p class="em-triad">{E(triad)}</p>
         <p class="em-line">{E(line)}</p>
@@ -726,12 +754,12 @@ def pricing():
                      'A monthly progress score', 'We host it, fix it and update it',
                      'A weekly check-in call', 'Same-day support'],
                     'Apply for two engines')
-             + plan(3, 'company', 'All three', '$15k+', 'The full system, built around your whole business.',
-                    ['All three engines, working together', 'Custom tools built for you',
+             + plan(3, 'company', 'Three or more', '$15k+', 'Three or all four engines, built around your whole business.',
+                    ['Three or four engines, working together', 'Custom tools built for you',
                      'One place your team can look up how things are done', 'A progress score for every team',
                      'We host it, fix it and update it', 'Weekly calls and on-call support',
                      'Price depends on team size'],
-                    'Apply for all three'))
+                    'Apply for three or more'))
     lic = f'''
       <article class="lic" aria-labelledby="lic-h">
         <div class="lic-l">
@@ -759,8 +787,8 @@ def pricing():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">Pricing</p>
-    <h1 class="h1" id="h1">Three engines. One monthly license.</h1>
-    <p class="lede">We design and build one, two or all three engines for your business, then host them, fix them and keep improving them. Want to sell what we build for you to other businesses? Add a resale license.</p>
+    <h1 class="h1" id="h1">Four engines. One monthly license.</h1>
+    <p class="lede">We design and build anywhere from one to all four engines for your business, then host them, fix them and keep improving them. Want to sell what we build for you to other businesses? Add a resale license.</p>
     <div class="every model-row">
       <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your engines, built and kept running by us.</p></div>
       <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates included. Add engines as you grow.</p></div>
@@ -859,8 +887,8 @@ def pricing():
         <p class="a">We're a small team and only take on a few clients at a time, so every build gets our full attention. Applying tells us both if it's the right fit before anyone spends money.</p>
       </details>
       <details>
-        <summary><span class="h3">What does the + on All three mean?</span></summary>
-        <p class="a">It starts at $15k a month and goes up with team size and how much we build into each engine. We quote it after our first call, so you know the number before you commit.</p>
+        <summary><span class="h3">What does the + on Three or more mean?</span></summary>
+        <p class="a">It starts at $15k a month for three engines and goes up with the fourth engine, your team size and how much we build into each one. We quote it after our first call, so you know the number before you commit.</p>
       </details>
       <details>
         <summary><span class="h3">Can we change licenses?</span></summary>
@@ -885,7 +913,7 @@ def pricing():
     </div>
   </div>
 </section>'''
-    return page('OpLev Pricing', 'OpLev builds custom engines for your business and runs them for a monthly license: one engine from $5k a month, two for $10k, all three from $15k. Add a resale license to sell them to others.',
+    return page('OpLev Pricing', 'OpLev builds custom engines for your business and runs them for a monthly license: one engine from $5k a month, two for $10k, three or more from $15k. Add a resale license to sell them to others.',
                 body, p='', active='pricing')
 
 
@@ -903,8 +931,8 @@ def access_for(keys):
         f'<li class="e-{k}{" inc" if k in keys else ""}"><span class="mk" aria-hidden="true"></span><span class="an">{E(name)}</span>'
         f'<span class="at">{E(triad)}</span><span class="as">{"included" if k in keys else "add any time"}</span></li>'
         for k, name, _i, triad, *_ in ENGINES)
-    meter = ''.join(f'<span class="seg{" on" if i < len(keys) else ""}"></span>' for i in range(3))
-    return f'''<div class="access"><div class="access-hd"><span class="label">engines</span><span class="meter" aria-hidden="true">{meter}</span><span class="label">{len(keys)} of 3</span></div><ul class="access-list">{rows}</ul></div>'''
+    meter = ''.join(f'<span class="seg{" on" if i < len(keys) else ""}"></span>' for i in range(NE))
+    return f'''<div class="access"><div class="access-hd"><span class="label">engines</span><span class="meter" aria-hidden="true">{meter}</span><span class="label">{len(keys)} of {NE}</span></div><ul class="access-list">{rows}</ul></div>'''
 
 
 def for_index():
@@ -1010,7 +1038,7 @@ def icp_page(x):
     <div class="head-l">
       <p class="eyebrow">What it costs</p>
       <h2 class="h2" id="cost-h">Usually {E(eng_names)}. {E(L['price'])} a month.</h2>
-      <p class="lede">That's the {E(L['name'].lower())} plan, with hosting, fixes and updates included. Every build starts from how your {E(x['biz'])} already works.</p>
+      <p class="lede">Hosting, fixes and updates are included. Every build starts from how your {E(x['biz'])} already works.</p>
       <div class="actions"><a class="btn" href="#start">Apply {ARR_R}</a><a class="btn ghost" href="{p}pricing.html">See pricing {ARR_R}</a></div>
     </div>
     <div class="split-r">
@@ -1295,8 +1323,8 @@ def how_page():
     <div class="head">
       <div class="head-l">
         <p class="eyebrow">What we build</p>
-        <h2 class="h2" id="eng-h">Three kinds of engines.</h2>
-        <p class="lede">We build one, two or all three. They share the same information, so nothing gets typed in twice.</p>
+        <h2 class="h2" id="eng-h">Four engines. Four elements.</h2>
+        <p class="lede">We build one or all four. They share the same information, so nothing gets typed in twice.</p>
       </div>
     </div>{engmap()}
   </div>

@@ -6,22 +6,37 @@ const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pad2=n=>String(n).padStart(2,'0');
-const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','you':'You'};
+const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','@marketing':'Marketing','you':'You'};
 
 /* ---------- the characters: one tile bot per engine ---------- */
 // '#' body in the engine color, 'k' ink, 'w' paper. blink and act are rows swapped in for a frame.
 const BOTS={
-  ops:{base:["..########..",".##########.",".#kkk##kkk#.",".#kwkkkkwk#.",".#kkk##kkk#.",".##########.",".###kkkk###.",".##########.","..########..","...#....#...","..##....##.."],
-    blink:{3:".#kkkkkkkk#."},act:[{1:".#kkk##kkk#.",2:".#kwkkkkwk#.",3:".#kkk##kkk#.",4:".##########."},{}]},
-  agents:{base:[".....##.....","......#.....","...######...","..########..",".##kk##kk##.",".##kw##kw##.",".##########.",".##k####k##.",".###kkkk###.",".##########.",".##########.",".#.##..##.#."],
-    blink:{4:".##########.",5:".##kk##kk##."},act:[{0:".....ww.....",11:"..#.####.#.."},{}]},
-  leads:{base:[".#..##..#....",".##.##.##....","##########...","##kk##kk##.#.","##########.#.","##kk##kk##.#.","##kw##kw##.#.","##########.#.","#kwwwwwwk####","##kkkkkk###..","##########...",".########...."],
-    blink:{5:"##########.#.",6:"##kk##kk##.#."},act:[{3:"##kk##kk##..#",4:"##########..#",5:"##kk##kk##..#",6:"##kw##kw##.#.",7:"##########.#."},{}]}
+  // Ops: water. A droplet floats over its head.
+  ops:{base:[".....##.....","....####....","....#w##....",".....##.....","............","..########..",".##########.",".#kkk##kkk#.",".#kwkkkkwk#.",".#kkk##kkk#.",".##########.",".###kkkk###.",".##########.","..########..","...#....#...","..##....##.."],
+    blink:{8:".#kkkkkkkk#."},
+    idle:[{0:"............",1:".....##.....",2:"....####....",3:"....#w##....",4:".....##....."}],
+    act:[{0:"............",1:".....##.....",2:"....####....",3:"....#w##....",4:".....##.....",7:".#kkk##kkk#.",8:".#kwkkkkwk#."},{}]},
+  // Agents: earth. A sprout instead of an antenna, and there are always a few of them.
+  agents:{base:["......###...","....#####...","...##.###...",".....##.....","...######...","..########..",".##kk##kk##.",".##kw##kw##.",".##########.",".##k####k##.",".###kkkk###.",".##########.",".##########.",".#.##..##.#."],
+    blink:{6:".##########.",7:".##kk##kk##."},
+    idle:[{0:".....###....",1:"...#####....",2:"..##.###...."}],
+    act:[{0:"...###......",1:"...#####....",2:"...###.##...",13:"..#.####.#.."},{}]},
+  // Leads: fire. The hair is a flame, and it never stops flickering.
+  leads:{base:["..#....#.....",".##...##..#..",".###.###.##..","##########...","##kk##kk##.#.","##########.#.","##kk##kk##.#.","##kw##kw##.#.","##########.#.","#kwwwwwwk####","##kkkkkk###..","##########...",".########...."],
+    blink:{6:"##########.#.",7:"##kk##kk##.#."},
+    idle:[{0:"...#....#....",1:"..##..##.#...",2:".###.###.##.."},{0:".#....#......",1:".##..##..#...",2:".###.###.##.."}],
+    act:[{4:"##kk##kk##..#",5:"##########..#",6:"##kk##kk##..#",7:"##kw##kw##.#.",8:"##########.#."},{}]},
+  // Marketing: wind. A little cloud, always blowing your name somewhere new.
+  marketing:{base:["....####..........","..########.###....",".#############....","##############....","###kk####kk###.###","###kw####kw###....","##############.###","#########kk###....",".########kk##.####","..###########.....","...##.####.##....."],
+    blink:{4:"##############.###",5:"###kk####kk###...."},
+    idle:[{4:"###kk####kk###..##",6:"##############..##",8:".########kk##..###"},{4:"###kk####kk###.##.",6:"##############.##.",8:".########kk##.###."}],
+    act:[{4:"###kk####kk###..##",6:"##############..##",7:"#########kw###....",8:".########kk##..###"},{4:"###kk####kk###.###",6:"##############.###",7:"#########kw###....",8:".########kk##.####"}]}
 };
 const BOT_LINES={
   ops:["Everything's where it should be.","Your morning summary is ready.","Nothing's late. I checked twice.","Sorted your clients A to Z. You're welcome.","Three things need you today. Just three."],
   agents:["Drafted it. Want a look?","Sorted 140 emails while you slept.","I'll ask before I send anything new.","Following up. Politely.","Reminders are out. Everyone confirmed."],
-  leads:["Someone's interested!","Replied in 2 minutes. New record.","It's 10pm. I'm still here.","Quote sent. They're reading it now.","Hi! Want a price? Takes a minute."]
+  leads:["Someone's interested!","Replied in 2 minutes. New record.","It's 10pm. I'm still here.","Quote sent. They're reading it now.","Hi! Want a price? Takes a minute."],
+  marketing:["Three posts are ready. Want a look?","Newsletter's out. 41% opened it.","Turned last week's jobs into stories.","People are talking about you.","Wrote it in your voice. Promise."]
 };
 function botSVG(name,over,crisp){
   const b=BOTS[name];if(!b)return '';
@@ -597,23 +612,30 @@ if(!RM){
 $$('.bot-xs[data-bot]').forEach(el=>{el.innerHTML=botSVG(el.dataset.bot,null,true);});
 $$('.bot-card').forEach(card=>{
   const bots=$$('.bot[data-bot]',card),say=$('.bot-say',card);if(!bots.length)return;
-  const name=bots[0].dataset.bot,lines=BOT_LINES[name]||[''];let li=0,busy=false;
+  const name=bots[0].dataset.bot,B=BOTS[name],lines=BOT_LINES[name]||[''];let li=0,busy=false;
+  const cols=Math.max.apply(null,B.base.map(r=>r.length)),crew=bots.length>1;
+  bots.forEach((el,i)=>{el.style.width=(cols*(crew?(i===1?5:4):7))+'px';});
   const draw=(el,over)=>{el.innerHTML=botSVG(name,over);};
   bots.forEach(el=>draw(el));
   const speak=()=>{redecode(say,lines[li%lines.length],420);li++;};
   if(RM){say.textContent=lines[0];li=1;}else once([card],speak,.4);
-  // idle: everyone blinks on their own clock
-  if(!RM)bots.forEach(el=>{(function loop(){setTimeout(()=>{if(!busy){draw(el,BOTS[name].blink);setTimeout(()=>{if(!busy)draw(el);},140);}loop();},2200+Math.random()*4200);})();});
+  // idle: each one blinks and fidgets on its own clock
+  if(!RM)bots.forEach(el=>{(function loop(){setTimeout(async()=>{
+    if(!busy){
+      if(B.idle&&Math.random()<.55){const f=B.idle;for(let k=0;k<(name==='leads'||name==='marketing'?6:2);k++){if(busy)break;draw(el,f[k%f.length]);await sleep(name==='ops'?260:150);}if(!busy)draw(el);}
+      else{draw(el,B.blink);await sleep(140);if(!busy)draw(el);}
+    }
+    loop();},1800+Math.random()*3800);})();});
   async function act(){
     if(busy)return;busy=true;speak();
     if(RM){busy=false;return;}
-    const A=BOTS[name].act;
-    if(name==='agents'){
+    const A=B.act;
+    if(crew){
       bots.forEach((el,i)=>setTimeout(()=>{el.classList.add('hop');draw(el,A[0]);setTimeout(()=>{el.classList.remove('hop');draw(el);},260);},i*110));
       await sleep(620);
     }else{
-      const n=name==='leads'?6:2;
-      for(let i=0;i<n;i++){bots.forEach(el=>draw(el,A[i%2]));await sleep(name==='leads'?150:380);}
+      const n=name==='ops'?2:6;
+      for(let i=0;i<n;i++){bots.forEach(el=>draw(el,A[i%2]));await sleep(name==='ops'?320:150);}
       bots.forEach(el=>draw(el));
     }
     busy=false;
@@ -626,7 +648,7 @@ $$('.bot-card').forEach(card=>{
 (function(){
   const wm=$('#wm'),svg=$('#wm-t');if(!wm||!svg)return;
   const L=$$('.wm-l',svg);if(!L.length)return;
-  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--paper)'],HOME=3;
+  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--marketing)','var(--paper)'],HOME=4;
   const BLINK=[{opacity:.1},{opacity:1},{opacity:.2},{opacity:1}];
   const blink=(t,ms)=>{if(t.animate)t.animate(BLINK,{duration:ms||240,easing:'steps(4,end)'});};
   L.forEach(g=>{g._c=HOME;g._t=$$('.t',g);});
@@ -660,7 +682,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
   const after=()=>{decode($('#h1'));};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','custom engines'],['engines','ops / agents / leads'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','custom engines'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

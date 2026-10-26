@@ -23,7 +23,7 @@ const initials=n=>String(n||'?').split(/\s+/).map(w=>w[0]).join('').slice(0,2).t
 function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
 function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 const tag=e=>ENGN[e]?`<span class="etag e-${e}">${esc(ENGN[e].name)}</span>`:'';
-const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','you':'You'};
+const WHO=Object.assign(Object.fromEntries(ENG.map(e=>['@'+e.id,e.name])),{'you':'You'});
 const actorCls=a=>/^@[a-z]+$/.test(a)?' e-'+a.slice(1):'';
 
 /* ================= decode (headline scramble) ================= */
@@ -100,7 +100,7 @@ function pushLog(a,m,r,f){
 /* ================= shell ================= */
 const NAV=[
   [null,[['overview','Home'],['approvals','Needs your OK','badge'],['activity','Activity']]],
-  ['Engines',[['engine-ops','Ops','e'],['engine-agents','Agents','e'],['engine-leads','Leads','e'],['plays','Automations']]],
+  ['Engines',ENG.map(e=>['engine-'+e.id,e.name,'e']).concat([['plays','Automations']])],
   ['Your business',[['pipeline','Inquiries'],['records','Records'],['score','Progress score'],['settings','Settings']]]
 ];
 function shell(){
@@ -143,7 +143,7 @@ function renderSide(){
   const lb=$('#live-btn');lb.setAttribute('aria-pressed',String(S.live));lb.title=S.live?'Pause live activity':'Resume live activity';
   $('#avatar').textContent=initials(owner());$('#avatar').title=owner();
 }
-const ROUTE_NAME={overview:'Home',approvals:'Needs your OK',activity:'Activity',engines:'Engines','engine-ops':'Ops','engine-agents':'Agents','engine-leads':'Leads',plays:'Automations',pipeline:'Inquiries',records:'Records',score:'Progress score',settings:'Settings'};
+const ROUTE_NAME=Object.assign({overview:'Home',approvals:'Needs your OK',activity:'Activity',engines:'Engines'},Object.fromEntries(ENG.map(e=>['engine-'+e.id,e.name])),{plays:'Automations',pipeline:'Inquiries',records:'Records',score:'Progress score',settings:'Settings'});
 function setCrumb(){$('#crumb').innerHTML=`${esc(S.biz)} / <b>${esc(ROUTE_NAME[route]||'Home')}</b>`;}
 
 /* ================= views ================= */
@@ -198,7 +198,7 @@ function filteredLog(){
   return S.log.filter(x=>(ui.actF==='all'||(ui.actF==='you'?x.a==='you':x.a==='@'+ui.actF))&&(!q||(x.m+' '+x.r+' '+x.a).toLowerCase().includes(q)));
 }
 function vActivity(){
-  const f=[['all','All'],['ops','Ops'],['agents','Agents'],['leads','Leads'],['you','You']];
+  const f=[['all','All']].concat(ENG.map(e=>[e.id,e.name]),[['you','You']]);
   return head('activity','Activity','Everything your engines did, as it happens.')+`
   <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter by engine">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="act-f" data-f="${k}" aria-pressed="${ui.actF===k}">${t}</button>`).join('')}</div>
   <label class="search"><span class="sr">Search activity</span><input class="inp" id="act-q" type="search" placeholder="Search activity" value="${esc(ui.actQ)}" autocomplete="off"></label></div>
@@ -206,7 +206,7 @@ function vActivity(){
 }
 
 function vEngines(){
-  return head('engines','Engines','The engines we built for this business.')+`<div class="g g3">${ENG.map(e=>{
+  return head('engines','Engines','The engines we built for this business.')+`<div class="g g4">${ENG.map(e=>{
     const L=!has(e.id);
     return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">${esc(e.triad)}</span>${L?'<span class="state lock">not built</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>')}</div><div class="et-name">${esc(e.name)}</div><p class="v-sub" style="font-size:15px">${esc(e.line)}</p>
     <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">automations on</span></div></div><span class="lnk">${L?'See what it adds':'Open'} &rarr;</span></a>`;}).join('')}</div>`;
@@ -237,7 +237,7 @@ function vEngine(eid){
 }
 
 function vPlays(){
-  const f=[['all','All'],['ops','Ops'],['agents','Agents'],['leads','Leads']];
+  const f=[['all','All']].concat(ENG.map(e=>[e.id,e.name]));
   const list=S.plays.filter(p=>ui.playF==='all'||p.e===ui.playF);
   return head('plays','Automations','Jobs built into this business\'s engines, plus others we often build. Tap any one to see how it works.')+`
   <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter automations">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="play-f" data-f="${k}" aria-pressed="${ui.playF===k}">${t}</button>`).join('')}</div></div>
@@ -363,7 +363,7 @@ function recDrawer(id){
 }
 
 /* ================= render + routing ================= */
-const VIEWS={overview:vOverview,approvals:vApprovals,activity:vActivity,engines:vEngines,'engine-ops':()=>vEngine('ops'),'engine-agents':()=>vEngine('agents'),'engine-leads':()=>vEngine('leads'),plays:vPlays,pipeline:vPipeline,records:vRecords,score:vScore,settings:vSettings};
+const VIEWS=Object.assign({overview:vOverview,approvals:vApprovals,activity:vActivity,engines:vEngines},Object.fromEntries(ENG.map(e=>['engine-'+e.id,()=>vEngine(e.id)])),{plays:vPlays,pipeline:vPipeline,records:vRecords,score:vScore,settings:vSettings});
 function render(keepScroll){
   renderSide();setCrumb();
   const v=$('#view');const y=window.scrollY;

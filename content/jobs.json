@@ -2812,5 +2812,152 @@
   ],
   "you": "You only hear about the vendor who doesn't answer.",
   "get": "Event day starts with every vendor confirmed."
+ },
+ "Weekly posts from your work": {
+  "ex": "Every Monday morning",
+  "steps": [
+   [
+    "Mon 8am",
+    "@marketing",
+    "pulls last week's finished jobs and photos",
+    "pulled"
+   ],
+   [
+    "Mon 8am",
+    "@marketing",
+    "picks the three best stories",
+    "picked"
+   ],
+   [
+    "Mon 8am",
+    "@marketing",
+    "writes a post for each, in your voice",
+    "drafted"
+   ],
+   [
+    "Mon 8am",
+    "you",
+    "posts waiting for your OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "Mon 9am",
+    "you",
+    "swap one photo and approve",
+    "ok",
+    "me"
+   ],
+   [
+    "Mon 9am",
+    "@marketing",
+    "schedules them for Tuesday, Thursday and Saturday",
+    "scheduled"
+   ]
+  ],
+  "you": "You approve every post before it goes out.",
+  "get": "You show up every week without writing a thing."
+ },
+ "Monthly newsletter": {
+  "ex": "The first Tuesday of the month",
+  "steps": [
+   [
+    "8:00am",
+    "@marketing",
+    "gathers this month's news, wins and offers",
+    "gathered"
+   ],
+   [
+    "8:01am",
+    "@marketing",
+    "drafts the newsletter in your voice",
+    "drafted"
+   ],
+   [
+    "8:01am",
+    "you",
+    "draft waiting for your OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "10:15am",
+    "you",
+    "add one line and approve",
+    "ok",
+    "me"
+   ],
+   [
+    "10:15am",
+    "@marketing",
+    "sends it to your list",
+    "sent"
+   ],
+   [
+    "next day",
+    "@marketing",
+    "reports opens, clicks and replies",
+    "reported"
+   ]
+  ],
+  "you": "You edit and approve. It handles the list and the sending.",
+  "get": "Past customers hear from you every month and think of you first."
+ },
+ "Case studies from finished work": {
+  "ex": "A project wraps up",
+  "steps": [
+   [
+    "day 1",
+    "@ops",
+    "marks the project done",
+    "done"
+   ],
+   [
+    "day 1",
+    "@marketing",
+    "pulls the before and after photos and your notes",
+    "pulled"
+   ],
+   [
+    "day 2",
+    "@agents",
+    "asks the client for a short quote",
+    "sent"
+   ],
+   [
+    "day 3",
+    "Client",
+    "replies with a kind word",
+    "received"
+   ],
+   [
+    "day 3",
+    "@marketing",
+    "writes the case study and a short post",
+    "drafted"
+   ],
+   [
+    "day 3",
+    "you",
+    "case study waiting for your OK",
+    "waiting",
+    "need"
+   ],
+   [
+    "day 3",
+    "you",
+    "approve it",
+    "ok",
+    "me"
+   ],
+   [
+    "day 3",
+    "@marketing",
+    "publishes it on your website",
+    "live"
+   ]
+  ],
+  "you": "You approve before anything is published.",
+  "get": "Your best work stops living only in your camera roll."
  }
 }
