@@ -321,7 +321,7 @@ def inquiry(level='h2', heading='Apply to work with us.',
             lede="We only take on a few clients at a time, so every build gets our full attention. Tell us about your business. If it's a fit, we'll set up a call."):
     first = level == 'h1'
     hid = 'h1' if first else 'start-h'
-    cursor = '<span class="cursor" aria-hidden="true"></span>' if first else ''
+    cursor = '' if first else ''
     cls = 'inq-page' if first else 'sec'
     return f'''
 <section class="{cls}" id="start" aria-labelledby="{hid}">
@@ -422,7 +422,7 @@ def home(mode='full'):
   <div class="wrap">
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
     <p class="eyebrow">An agency that builds custom engines</p>
-    <h1 class="h1" id="h1">Your business shouldn't need you for everything.<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">Your business shouldn't need you for everything.</h1>
     <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span> and <span class="e-leads ec">Leads</span> engines around how you already work, and run them for you every month. Then you can license yours to others.</p>
     {spots(' hero-spots')}
     <div class="actions">
@@ -710,7 +710,7 @@ def pricing():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">Pricing</p>
-    <h1 class="h1" id="h1">Three engines. One monthly license.<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">Three engines. One monthly license.</h1>
     <p class="lede">We design and build one, two or all three engines for your business, then host them, fix them and keep improving them. Want to sell what we build for you to other businesses? Add a resale license.</p>
     <div class="every model-row">
       <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your engines, built and kept running by us.</p></div>
@@ -882,7 +882,7 @@ def setups_index():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">Who it's for</p><span class="label">{len(SETUPS):02d} kinds of business</span></div>
-    <h1 class="h1" id="h1">What we build for businesses like yours.<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">What we build for businesses like yours.</h1>
     <p class="lede">Every engine we build is custom. These are the engines we usually build for each kind of business, based on the work we've done. Yours starts from how you work.</p>
     <div class="actions"><a class="btn" href="start.html">Apply {ARR_R}</a><a class="btn ghost" href="pricing.html">See pricing {ARR_R}</a></div>
     <div class="cards">{cards}
@@ -912,7 +912,7 @@ def setup_page(i):
   <div class="wrap">
     <div class="crumbs"><a class="label" href="{p}setups.html">{ARR_L} Who it's for</a><span class="label">{i + 1:02d} / {n:02d}</span></div>
     <p class="eyebrow">What we build for</p>
-    <h1 class="h1" id="h1">{E(x['type'])}.<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">{E(x['type'])}.</h1>
     <p class="lede">{E(x['pitch'])}</p>
     <dl class="facts f4">
       <div><dt class="label">For</dt><dd>{E(x['for'])}</dd></div>
@@ -1058,7 +1058,7 @@ def market_index():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">Marketplace</p><span class="label">{len(MARKET):02d} example listings</span></div>
-    <h1 class="h1" id="h1">Operating systems, ready to license.<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">Operating systems, ready to license.</h1>
     <p class="lede">Each OS here was built by OpLev for a business like yours, then listed by its owner. Pick one, apply, and we tailor it to you and run it every month. Faster than starting from scratch.</p>
     <p class="label mk-note">These are example listings while the first ones go live.</p>
     <div class="tabs filters mk-filters" role="group" aria-label="Filter by business">{filters}</div>
@@ -1111,7 +1111,7 @@ def market_page(i):
   <div class="wrap">
     <div class="crumbs"><a class="label" href="{p}marketplace.html">{ARR_L} Marketplace</a><span class="label">os {i + 1:02d} / {n:02d} / example listing</span></div>
     <p class="eyebrow">Operating system for {E(x['type_label'].lower())}</p>
-    <h1 class="h1" id="h1">{E(x['name'])}<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">{E(x['name'])}</h1>
     <p class="lede">{E(x['pitch'])}</p>
     <dl class="facts f4">
       <div><dt class="label">For</dt><dd>{E(x['for'])}</dd></div>
@@ -1208,7 +1208,7 @@ def how_page():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">How it works</p>
-    <h1 class="h1" id="h1">From first call to engines that run without you.<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">From first call to engines that run without you.</h1>
     <p class="lede">We learn how your business runs, build engines around it and keep them running every month. You talk to the people building it, the whole way.</p>
     <dl class="facts f4">
       <div><dt class="label">You talk to</dt><dd>The people building it</dd></div>
@@ -1324,7 +1324,7 @@ def work():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">Our work</p><span class="label">{n:02d} cases</span></div>
-    <h1 class="h1" id="h1">What we've built.<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">What we've built.</h1>
     <p class="lede">Custom engines and tools we've built for founders and small teams. Each one shows the problem, what we built and how it works day to day.</p>
     <div class="cards">{cards}
     </div>
@@ -1379,7 +1379,7 @@ def case(i):
   <div class="wrap">
     <div class="crumbs"><a class="label" href="{p}work.html">{ARR_L} All work</a><span class="label">case {seed:02d} / {n:02d}</span></div>
     <p class="eyebrow">Case study</p>
-    <h1 class="h1" id="h1">{E(c['name'])}<span class="cursor" aria-hidden="true"></span></h1>
+    <h1 class="h1" id="h1">{E(c['name'])}</h1>
     <p class="lede">{E(c['line'])}</p>
     {etags(c.get('engines'), ' case-tags')}
     <dl class="facts f{len(facts)}">{facts_html}
