@@ -494,10 +494,6 @@ def inquiry(level='h2', heading='Apply to work with us.',
 
 def home(mode='full'):
     n = len(CASES)
-    hindex = ''.join(
-        (f'<i aria-hidden="true">/</i>' if i else '') +
-        f'<a href="{case_href(c)}"><span>{i + 1:02d}</span>{E(c["name"])}</a>'
-        for i, c in enumerate(CASES))
     rows = ''.join(
         f'''
           <a class="case-row{' on' if i == 0 else ''}" href="{case_href(c)}" data-seed="{i + 1}" data-id="{E(c['id'])}" data-n="{i + 1:02d}" data-name="{E(c['name'])}" data-sum="{E(c['summary'])}" data-img="{E(c.get('img', ''))}">
@@ -538,7 +534,6 @@ def home(mode='full'):
       <a class="btn" href="#work">See the work {ARR_D}</a>
       <a class="btn ghost" href="#start">Apply for a spot {ARR_R}</a>
     </div>
-    <nav class="hindex" aria-label="Case index"><span class="lab">recent work /</span>{hindex}</nav>
   </div>
 </section>
 

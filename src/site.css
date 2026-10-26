@@ -96,12 +96,6 @@ section[id]{scroll-margin-top:var(--nav)}
 .hero .wrap{position:relative;padding-block:clamp(48px,7vw,104px) clamp(28px,4vw,44px);display:flex;flex-direction:column;gap:28px}
 .readout{position:absolute;top:22px;right:max(var(--gut),env(safe-area-inset-right,0px));color:var(--dim-2);font-variant-numeric:tabular-nums;display:none}
 @media (min-width:760px){.readout{display:block}}
-.hindex{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;margin-top:clamp(16px,4vw,52px);padding-top:18px;border-top:1px solid var(--line);font:400 11px/1.5 var(--display);letter-spacing:.14em;text-transform:uppercase}
-.hindex .lab{color:var(--dim-2)}
-.hindex a{color:var(--soft);text-decoration:none;display:inline-flex;gap:8px;transition:color .18s}
-.hindex a span{color:var(--dim-2)}
-.hindex a:hover{color:var(--paper)}
-.hindex i{font-style:normal;color:var(--dim-2)}
 
 /* sections */
 .sec{border-top:1px solid var(--line)}
