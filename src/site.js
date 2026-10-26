@@ -422,6 +422,33 @@ $$('.eng,.strip').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng
 $$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name',a),380,CAPS+'abcdefghijklmnopqrstuvwxyz')));
 /* jobs rail arrows */
 $$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
+
+/* ---------- sound familiar: card carousel ---------- */
+(function(){
+  const rail=$('.say-rail');if(!rail)return;
+  const cards=$$('.say-card',rail),segs=$$('.say-meter i'),num=$('.say-n b'),n=cards.length;if(!n)return;
+  const step=()=>cards[0].getBoundingClientRect().width+(parseFloat(getComputedStyle(rail).columnGap)||14);
+  const max=()=>rail.scrollWidth-rail.clientWidth;
+  const at=()=>rail.scrollLeft>=max()-4?n-1:Math.round(rail.scrollLeft/step());
+  const go=i=>rail.scrollTo({left:Math.min(((i%n)+n)%n*step(),max()),behavior:RM?'auto':'smooth'});
+  let shown=-1;
+  function sync(){const i=at();if(i===shown)return;shown=i;segs.forEach((s,k)=>s.classList.toggle('on',k===i));if(num)num.textContent=pad2(i+1);}
+  let raf=0;rail.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(sync);},{passive:true});
+  sync();
+  // autoplay until someone takes over, then it stays where they leave it
+  let stopped=RM,hover=false,timer=null;
+  const stop=()=>{stopped=true;clearInterval(timer);};
+  $$('[data-say]').forEach(b=>b.addEventListener('click',()=>{stop();go(at()+(+b.dataset.say));}));
+  ['wheel','touchstart','keydown'].forEach(ev=>rail.addEventListener(ev,stop,{passive:true}));
+  rail.addEventListener('mouseenter',()=>{hover=true;});rail.addEventListener('mouseleave',()=>{hover=false;});
+  // drag sideways with a mouse
+  let drag=null,moved=false;
+  rail.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;stop();drag={x:e.clientX,l:rail.scrollLeft};moved=false;rail.classList.add('dragging');});
+  addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>4)moved=true;rail.scrollLeft=drag.l-dx;});
+  addEventListener('pointerup',()=>{if(!drag)return;drag=null;rail.classList.remove('dragging');if(moved)go(at());});
+  rail.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
+  if(!RM)once([rail],()=>{timer=setInterval(()=>{if(stopped||hover||document.hidden)return;go(at()+1>=n?0:at()+1);},4200);},.4);
+})();
 /* overnight clock follows the log */
 (function(){const clk=$('#night-clock'),rows=$('.pane[data-src="night-data"] .rows');if(!clk||!rows||!('MutationObserver' in window))return;
   new MutationObserver(()=>{const ts=$$('.row .ts',rows).map(t=>t.textContent).filter(Boolean).pop();if(ts)clk.textContent=ts.slice(0,5);}).observe(rows,{childList:true});})();
@@ -644,32 +671,32 @@ $$('.bot-card').forEach(card=>{
   card.addEventListener('mouseenter',act);
 });
 
-/* ---------- footer wordmark: each tile blinks to a color, one letter at a time ---------- */
+/* ---------- footer wordmark: every tile is its own pixel. Hover one to color it. ---------- */
 (function(){
   const wm=$('#wm'),svg=$('#wm-t');if(!wm||!svg)return;
-  const L=$$('.wm-l',svg);if(!L.length)return;
-  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--marketing)','var(--paper)'],HOME=4;
+  const L=$$('.wm-l',svg),T=$$('.t',svg);if(!T.length)return;
+  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--marketing)'];
   const BLINK=[{opacity:.1},{opacity:1},{opacity:.2},{opacity:1}];
-  const blink=(t,ms)=>{if(t.animate)t.animate(BLINK,{duration:ms||240,easing:'steps(4,end)'});};
-  L.forEach(g=>{g._c=HOME;g._t=$$('.t',g);});
+  const blink=(t,ms)=>{if(!RM&&t.animate)t.animate(BLINK,{duration:ms||220,easing:'steps(4,end)'});};
+  T.forEach(t=>{t._c=-1;});
+  // -1 is paper; any other number is an engine color
+  function paint(t,c){if(c===t._c)return;t._c=c;t.style.fill=c<0?'':COLS[c];blink(t);}
+  function pick(t){let c;do{c=Math.random()*COLS.length|0;}while(c===t._c);return c;}
   let idle=null;
-  function paint(g,to,spread){
-    const next=to==null?(g._c+1)%COLS.length:to;
-    if(to!=null&&next===g._c)return;
-    g._c=next;const col=COLS[next];
-    g._t.forEach(t=>{
-      clearTimeout(t._tm);
-      if(RM){t.style.fill=col;return;}
-      t._tm=setTimeout(()=>{t.style.fill=col;blink(t);},Math.random()*(spread||260));
-    });
-  }
-  function rest(){clearTimeout(idle);idle=setTimeout(()=>L.forEach((g,i)=>setTimeout(()=>paint(g,HOME,480),i*90)),3200);}
-  L.forEach(g=>g.addEventListener('pointerenter',e=>{if(e.pointerType==='touch')return;paint(g);rest();}));
-  wm.addEventListener('click',()=>{L.forEach((g,i)=>setTimeout(()=>paint(g),i*80));rest();});
+  function rest(){clearTimeout(idle);idle=setTimeout(()=>T.forEach(t=>{if(t._c>=0)setTimeout(()=>paint(t,-1),Math.random()*800);}),6000);}
+  T.forEach(t=>t.addEventListener('pointerenter',e=>{if(e.pointerType==='touch')return;paint(t,pick(t));rest();}));
+  // on a phone, tap a tile to color it
+  let tapped=false;
+  svg.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch')return;const t=e.target.closest&&e.target.closest('.t');tapped=!!t;if(t){paint(t,pick(t));rest();}});
+  // click anywhere else on the wordmark: a wave of color, one letter at a time
+  wm.addEventListener('click',e=>{
+    if(tapped){tapped=false;return;}
+    L.forEach((g,i)=>{const c=Math.random()*COLS.length|0;$$('.t',g).forEach(t=>setTimeout(()=>paint(t,c),i*80+Math.random()*240));});rest();
+  });
   // first time it scrolls into view, the tiles switch on in random order
   if(!RM&&hasIO){
     svg.classList.add('boot');
-    once([wm],()=>{$$('.t',svg).forEach(t=>{t.style.opacity='0';setTimeout(()=>{t.style.opacity='';blink(t,200);},80+Math.random()*900);});svg.classList.remove('boot');},.15);
+    once([wm],()=>{T.forEach(t=>{t.style.opacity='0';setTimeout(()=>{t.style.opacity='';blink(t,200);},80+Math.random()*900);});svg.classList.remove('boot');},.15);
   }
 })();
 

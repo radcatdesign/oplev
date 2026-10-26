@@ -158,16 +158,35 @@ NIGHT = {
     ],
 }
 
+# what owners tell us, and what fixes it: an engine key, 'system' (all of them together) or 'resale'
 PAINS = [
-    ('Everything still runs through me.', 'the Ops engine'),
-    ('I pay for a stack of apps and still live in spreadsheets.', 'one system'),
-    ('Leads come in at night and sit until Monday.', 'the Leads engine'),
-    ('Only one person knows how that part works.', 'the Ops engine'),
-    ("I can't take a week off.", 'the Agents engine'),
-    ("Nobody's heard of us outside of referrals.", 'the Marketing engine'),
-    ('I answer the same five questions every day.', 'the Agents engine'),
-    ('People keep asking if they can use what I built.', 'a resale license'),
+    ('Everything still runs through me.', 'ops'),
+    ('I pay for a stack of apps and still live in spreadsheets.', 'system'),
+    ('Leads come in at night and sit until Monday.', 'leads'),
+    ("I can't take a week off.", 'agents'),
+    ("Nobody's heard of us outside of referrals.", 'marketing'),
+    ('Only one person knows how that part works.', 'ops'),
+    ('I answer the same five questions every day.', 'agents'),
+    ('People keep asking if they can use what I built.', 'resale'),
 ]
+QMARK = ['##.##', '##.##', '.#..#', '#..#.']
+
+
+def qmark():
+    rects = ''.join(f'<rect x="{x * 10 + .5}" y="{y * 10 + .5}" width="9" height="9"/>'
+                    for y, row in enumerate(QMARK) for x, c in enumerate(row) if c == '#')
+    return f'<svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true">{rects}</svg>'
+
+
+def pain_card(i, text, k):
+    if k in ENGINE_NAME:
+        icon, who, cls = f'<span class="bot bot-xs" data-bot="{k}"></span>', f'{ENGINE_NAME[k]}', f'e-{k}'
+    elif k == 'system':
+        icon, who, cls = edots([e for e, *_ in ENGINES]), 'All four, as one system', 'e-sys'
+    else:
+        icon, who, cls = '<span class="sc-lic" aria-hidden="true"></span>', 'A resale license', 'e-sys'
+    return (f'\n        <li class="say-card {cls}"><div class="sc-top"><span class="label">{i + 1:02d}</span>{qmark()}</div>'
+            f'<q class="sc-q">{E(text)}</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by">{icon}{E(who)}</span></div></li>')
 
 CMP_HEAD = ('Off-the-shelf apps', 'A typical agency', 'OpLev')
 CMP = [
@@ -306,7 +325,7 @@ def wordmark_svg(word='OPLEV'):
         ox = i * 600
         tiles = ''.join(f'<rect class="t" x="{ox + c * 100 + 5}" y="{r * 100 + 5}" width="90" height="90"/>'
                         for r, row in enumerate(GLYPHS[ch]) for c, v in enumerate(row) if v == '#')
-        groups += f'<g class="wm-l"><rect class="wm-hit" x="{ox}" y="0" width="{500 if i == len(word) - 1 else 600}" height="700"/>{tiles}</g>'
+        groups += f'<g class="wm-l">{tiles}</g>'
     w = (len(word) - 1) * 600 + 500
     return f'<svg class="wm-svg" id="wm-t" viewBox="5 5 {w - 10} 690" aria-hidden="true">{groups}</svg>'
 
@@ -489,9 +508,8 @@ def home(mode='full'):
     pv_fig = (f'<figure class="thumb" role="img" aria-label="Case image preview"><canvas data-seed="1"></canvas>'
               f'<img alt="" hidden>{TICKS}<span class="tag tl label">case image / placeholder</span>'
               f'<span class="tag br label">1600 x 900</span></figure>')
-    pains = ''.join(
-        f'\n        <li><q>{E(t)}</q><span class="label">fixed by {E(by)}</span></li>'
-        for t, by in PAINS)
+    pains = ''.join(pain_card(i, t, k) for i, (t, k) in enumerate(PAINS))
+    say_meter = ''.join('<i></i>' for _ in PAINS)
     wall = ''.join(
         f'\n      <li><a class="wl" href="for/{x["id"]}.html" data-e="{x["engines"][0]}">{E(x["name"])}</a></li>'
         for x in ICPS)
@@ -558,11 +576,21 @@ def home(mode='full'):
 </div>
 
 <section class="sec say" id="familiar" aria-labelledby="familiar-h">
+  <div class="wrap say-hd">
+    <div>
+      <p class="eyebrow">Sound familiar?</p>
+      <h2 class="say-h" id="familiar-h">You started a business. Then it became a job.</h2>
+    </div>
+    <div class="say-ctl">
+      <span class="label say-n" aria-hidden="true"><b>01</b> / {len(PAINS):02d}</span>
+      <button class="say-btn" type="button" data-say="-1" aria-label="Previous">{ARR_L}</button>
+      <button class="say-btn" type="button" data-say="1" aria-label="Next">{ARR_R}</button>
+    </div>
+  </div>
+  <ul class="say-rail" tabindex="0" aria-label="Things owners tell us">{pains}
+  </ul>
   <div class="wrap">
-    <p class="eyebrow">Sound familiar?</p>
-    <h2 class="say-h" id="familiar-h">You started a business. Then it became a job.</h2>
-    <ul class="say-list">{pains}
-    </ul>
+    <div class="say-meter" aria-hidden="true">{say_meter}</div>
     <div class="say-ft"><p>If you've said any of these this month, we should talk.</p><a class="btn" href="#start">Tell us yours {ARR_R}</a></div>
   </div>
 </section>

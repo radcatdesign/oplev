@@ -722,8 +722,7 @@ html.sheet-open{overflow:hidden}
 /* footer wordmark: Doto's own tiles, drawn so each one can blink on its own */
 .wm{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .wm-svg{display:block;width:100%;height:auto;overflow:visible}
-.wm-svg .t{fill:var(--paper)}
-.wm-svg .wm-hit{fill:transparent}
+.wm-svg .t{fill:var(--paper);cursor:crosshair}
 .wm-svg.boot .t{opacity:0}
 
 /* ===================== varied home sections ===================== */
@@ -731,12 +730,7 @@ html.sheet-open{overflow:hidden}
 .say{background:var(--leads);color:var(--ink);border-top:0}
 .say .eyebrow{color:rgba(7,7,8,.62)}
 .say .eyebrow::before{background:var(--ink)}
-.say-h{margin:22px 0 clamp(32px,5vw,64px);font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(34px,6.4vw,96px);line-height:.98;letter-spacing:-.055em;max-width:16ch;text-wrap:balance}
-.say-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid rgba(7,7,8,.22)}
-@media (min-width:860px){.say-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px}}
-.say-list li{display:flex;flex-direction:column;gap:10px;padding:clamp(18px,2.4vw,28px) 0;border-bottom:1px solid rgba(7,7,8,.22)}
-.say-list q{quotes:"\201C" "\201D";font-family:var(--display);font-weight:500;font-stretch:92%;font-size:clamp(20px,2.3vw,30px);line-height:1.15;letter-spacing:-.035em}
-.say-list .label{color:rgba(7,7,8,.6)}
+.say-h{margin:22px 0 0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(34px,6.4vw,96px);line-height:.98;letter-spacing:-.055em;max-width:16ch;text-wrap:balance}
 .say-ft{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;margin-top:clamp(28px,4vw,44px)}
 .say-ft p{margin:0;font-size:18px;max-width:40ch}
 .say .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -1003,6 +997,41 @@ html.sheet-open{overflow:hidden}
 .em-el{display:inline-flex;align-items:center;gap:8px}
 .em-el .elem{color:var(--ed)}
 .bot-stage{height:auto;min-height:118px}
+
+/* ---------- sound familiar: a carousel of cards ---------- */
+.say>.wrap.say-hd{padding-bottom:clamp(28px,3.6vw,48px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px 40px}
+.say>.wrap:last-child{padding-top:22px}
+.say-ctl{display:flex;align-items:center;gap:8px}
+.say-n{margin-right:12px;color:rgba(7,7,8,.6);font-variant-numeric:tabular-nums}
+.say-n b{color:var(--ink)}
+.say-btn{appearance:none;-webkit-appearance:none;width:48px;height:48px;display:grid;place-items:center;background:transparent;border:1px solid rgba(7,7,8,.35);border-radius:0;color:var(--ink);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.say-btn:hover{background:var(--ink);color:var(--leads);border-color:var(--ink)}
+.say-btn svg{width:16px;height:16px}
+.say-rail{--lead:max(var(--gut),calc((100% - var(--max)) / 2));list-style:none;margin:0;padding:6px var(--gut) 10px var(--lead);display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,360px);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:var(--lead);overscroll-behavior-x:contain;scrollbar-width:none;cursor:grab;outline:0}
+.say-rail::-webkit-scrollbar{display:none}
+.say-rail:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.say-rail.dragging{scroll-snap-type:none;cursor:grabbing;user-select:none;-webkit-user-select:none}
+.say-card{scroll-snap-align:start;background:var(--ink);color:var(--paper);min-height:clamp(300px,26vw,350px);padding:22px 22px 20px;display:flex;flex-direction:column;justify-content:space-between;gap:26px;box-shadow:0 1px 0 rgba(7,7,8,.4);transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.say-card.e-sys{--e:var(--paper)}
+.say-card:hover{transform:translateY(-4px)}
+.sc-top{display:flex;justify-content:space-between;align-items:flex-start}
+.sc-top .label{color:var(--dim)}
+.sc-qm{width:30px;height:auto;fill:var(--e)}
+.sc-q{quotes:none;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(23px,2.1vw,30px);line-height:1.12;letter-spacing:-.04em;text-wrap:balance}
+.sc-ft{display:flex;flex-direction:column;gap:9px;padding-top:14px;border-top:1px solid var(--line-2)}
+.sc-ft .label{color:var(--dim-2)}
+.sc-by{display:inline-flex;align-items:center;gap:10px;color:var(--e);font:500 16px/1.2 var(--display);letter-spacing:-.02em}
+.sc-by .bot-xs{margin:0}
+.sc-by .bot-xs svg{height:20px}
+.sc-by .edots i{width:8px;height:8px}
+.sc-lic{width:16px;height:16px;border:2px solid var(--paper);position:relative;flex:none}
+.sc-lic::after{content:"";position:absolute;inset:3px;background:var(--paper)}
+.say-meter{display:flex;gap:4px}
+.say-meter i{width:22px;height:4px;background:rgba(7,7,8,.22);transition:background .2s}
+.say-meter i.on{background:var(--ink)}
+.say .say-ft{margin-top:clamp(26px,3.4vw,40px)}
+@media (max-width:599px){.say-ctl{width:100%}.say-n{margin-right:auto}}
+@media (prefers-reduced-motion:reduce){.say-card{transition:none}.say-card:hover{transform:none}}
 
 
 /* OpLev Console. Same Bison tokens as the site (site.css loads first).

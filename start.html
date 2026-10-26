@@ -723,8 +723,7 @@ html.sheet-open{overflow:hidden}
 /* footer wordmark: Doto's own tiles, drawn so each one can blink on its own */
 .wm{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .wm-svg{display:block;width:100%;height:auto;overflow:visible}
-.wm-svg .t{fill:var(--paper)}
-.wm-svg .wm-hit{fill:transparent}
+.wm-svg .t{fill:var(--paper);cursor:crosshair}
 .wm-svg.boot .t{opacity:0}
 
 /* ===================== varied home sections ===================== */
@@ -732,12 +731,7 @@ html.sheet-open{overflow:hidden}
 .say{background:var(--leads);color:var(--ink);border-top:0}
 .say .eyebrow{color:rgba(7,7,8,.62)}
 .say .eyebrow::before{background:var(--ink)}
-.say-h{margin:22px 0 clamp(32px,5vw,64px);font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(34px,6.4vw,96px);line-height:.98;letter-spacing:-.055em;max-width:16ch;text-wrap:balance}
-.say-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid rgba(7,7,8,.22)}
-@media (min-width:860px){.say-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px}}
-.say-list li{display:flex;flex-direction:column;gap:10px;padding:clamp(18px,2.4vw,28px) 0;border-bottom:1px solid rgba(7,7,8,.22)}
-.say-list q{quotes:"\201C" "\201D";font-family:var(--display);font-weight:500;font-stretch:92%;font-size:clamp(20px,2.3vw,30px);line-height:1.15;letter-spacing:-.035em}
-.say-list .label{color:rgba(7,7,8,.6)}
+.say-h{margin:22px 0 0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(34px,6.4vw,96px);line-height:.98;letter-spacing:-.055em;max-width:16ch;text-wrap:balance}
 .say-ft{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;margin-top:clamp(28px,4vw,44px)}
 .say-ft p{margin:0;font-size:18px;max-width:40ch}
 .say .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -1005,6 +999,41 @@ html.sheet-open{overflow:hidden}
 .em-el .elem{color:var(--ed)}
 .bot-stage{height:auto;min-height:118px}
 
+/* ---------- sound familiar: a carousel of cards ---------- */
+.say>.wrap.say-hd{padding-bottom:clamp(28px,3.6vw,48px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px 40px}
+.say>.wrap:last-child{padding-top:22px}
+.say-ctl{display:flex;align-items:center;gap:8px}
+.say-n{margin-right:12px;color:rgba(7,7,8,.6);font-variant-numeric:tabular-nums}
+.say-n b{color:var(--ink)}
+.say-btn{appearance:none;-webkit-appearance:none;width:48px;height:48px;display:grid;place-items:center;background:transparent;border:1px solid rgba(7,7,8,.35);border-radius:0;color:var(--ink);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.say-btn:hover{background:var(--ink);color:var(--leads);border-color:var(--ink)}
+.say-btn svg{width:16px;height:16px}
+.say-rail{--lead:max(var(--gut),calc((100% - var(--max)) / 2));list-style:none;margin:0;padding:6px var(--gut) 10px var(--lead);display:grid;grid-auto-flow:column;grid-auto-columns:min(82vw,360px);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:var(--lead);overscroll-behavior-x:contain;scrollbar-width:none;cursor:grab;outline:0}
+.say-rail::-webkit-scrollbar{display:none}
+.say-rail:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.say-rail.dragging{scroll-snap-type:none;cursor:grabbing;user-select:none;-webkit-user-select:none}
+.say-card{scroll-snap-align:start;background:var(--ink);color:var(--paper);min-height:clamp(300px,26vw,350px);padding:22px 22px 20px;display:flex;flex-direction:column;justify-content:space-between;gap:26px;box-shadow:0 1px 0 rgba(7,7,8,.4);transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.say-card.e-sys{--e:var(--paper)}
+.say-card:hover{transform:translateY(-4px)}
+.sc-top{display:flex;justify-content:space-between;align-items:flex-start}
+.sc-top .label{color:var(--dim)}
+.sc-qm{width:30px;height:auto;fill:var(--e)}
+.sc-q{quotes:none;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(23px,2.1vw,30px);line-height:1.12;letter-spacing:-.04em;text-wrap:balance}
+.sc-ft{display:flex;flex-direction:column;gap:9px;padding-top:14px;border-top:1px solid var(--line-2)}
+.sc-ft .label{color:var(--dim-2)}
+.sc-by{display:inline-flex;align-items:center;gap:10px;color:var(--e);font:500 16px/1.2 var(--display);letter-spacing:-.02em}
+.sc-by .bot-xs{margin:0}
+.sc-by .bot-xs svg{height:20px}
+.sc-by .edots i{width:8px;height:8px}
+.sc-lic{width:16px;height:16px;border:2px solid var(--paper);position:relative;flex:none}
+.sc-lic::after{content:"";position:absolute;inset:3px;background:var(--paper)}
+.say-meter{display:flex;gap:4px}
+.say-meter i{width:22px;height:4px;background:rgba(7,7,8,.22);transition:background .2s}
+.say-meter i.on{background:var(--ink)}
+.say .say-ft{margin-top:clamp(26px,3.4vw,40px)}
+@media (max-width:599px){.say-ctl{width:100%}.say-n{margin-right:auto}}
+@media (prefers-reduced-motion:reduce){.say-card{transition:none}.say-card:hover{transform:none}}
+
 </style>
 </head>
 <body>
@@ -1123,7 +1152,7 @@ html.sheet-open{overflow:hidden}
 
 <footer class="foot">
   <div class="wrap">
-    <p class="wm" id="wm" role="img" aria-label="OpLev"><svg class="wm-svg" id="wm-t" viewBox="5 5 2890 690" aria-hidden="true"><g class="wm-l"><rect class="wm-hit" x="0" y="0" width="600" height="700"/><rect class="t" x="105" y="5" width="90" height="90"/><rect class="t" x="205" y="5" width="90" height="90"/><rect class="t" x="305" y="5" width="90" height="90"/><rect class="t" x="5" y="105" width="90" height="90"/><rect class="t" x="405" y="105" width="90" height="90"/><rect class="t" x="5" y="205" width="90" height="90"/><rect class="t" x="405" y="205" width="90" height="90"/><rect class="t" x="5" y="305" width="90" height="90"/><rect class="t" x="405" y="305" width="90" height="90"/><rect class="t" x="5" y="405" width="90" height="90"/><rect class="t" x="405" y="405" width="90" height="90"/><rect class="t" x="5" y="505" width="90" height="90"/><rect class="t" x="405" y="505" width="90" height="90"/><rect class="t" x="105" y="605" width="90" height="90"/><rect class="t" x="205" y="605" width="90" height="90"/><rect class="t" x="305" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="wm-hit" x="600" y="0" width="600" height="700"/><rect class="t" x="605" y="5" width="90" height="90"/><rect class="t" x="705" y="5" width="90" height="90"/><rect class="t" x="805" y="5" width="90" height="90"/><rect class="t" x="905" y="5" width="90" height="90"/><rect class="t" x="605" y="105" width="90" height="90"/><rect class="t" x="1005" y="105" width="90" height="90"/><rect class="t" x="605" y="205" width="90" height="90"/><rect class="t" x="1005" y="205" width="90" height="90"/><rect class="t" x="605" y="305" width="90" height="90"/><rect class="t" x="705" y="305" width="90" height="90"/><rect class="t" x="805" y="305" width="90" height="90"/><rect class="t" x="905" y="305" width="90" height="90"/><rect class="t" x="605" y="405" width="90" height="90"/><rect class="t" x="605" y="505" width="90" height="90"/><rect class="t" x="605" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="wm-hit" x="1200" y="0" width="600" height="700"/><rect class="t" x="1205" y="5" width="90" height="90"/><rect class="t" x="1205" y="105" width="90" height="90"/><rect class="t" x="1205" y="205" width="90" height="90"/><rect class="t" x="1205" y="305" width="90" height="90"/><rect class="t" x="1205" y="405" width="90" height="90"/><rect class="t" x="1205" y="505" width="90" height="90"/><rect class="t" x="1205" y="605" width="90" height="90"/><rect class="t" x="1305" y="605" width="90" height="90"/><rect class="t" x="1405" y="605" width="90" height="90"/><rect class="t" x="1505" y="605" width="90" height="90"/><rect class="t" x="1605" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="wm-hit" x="1800" y="0" width="600" height="700"/><rect class="t" x="1805" y="5" width="90" height="90"/><rect class="t" x="1905" y="5" width="90" height="90"/><rect class="t" x="2005" y="5" width="90" height="90"/><rect class="t" x="2105" y="5" width="90" height="90"/><rect class="t" x="2205" y="5" width="90" height="90"/><rect class="t" x="1805" y="105" width="90" height="90"/><rect class="t" x="1805" y="205" width="90" height="90"/><rect class="t" x="1805" y="305" width="90" height="90"/><rect class="t" x="1905" y="305" width="90" height="90"/><rect class="t" x="2005" y="305" width="90" height="90"/><rect class="t" x="2105" y="305" width="90" height="90"/><rect class="t" x="1805" y="405" width="90" height="90"/><rect class="t" x="1805" y="505" width="90" height="90"/><rect class="t" x="1805" y="605" width="90" height="90"/><rect class="t" x="1905" y="605" width="90" height="90"/><rect class="t" x="2005" y="605" width="90" height="90"/><rect class="t" x="2105" y="605" width="90" height="90"/><rect class="t" x="2205" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="wm-hit" x="2400" y="0" width="500" height="700"/><rect class="t" x="2405" y="5" width="90" height="90"/><rect class="t" x="2805" y="5" width="90" height="90"/><rect class="t" x="2405" y="105" width="90" height="90"/><rect class="t" x="2805" y="105" width="90" height="90"/><rect class="t" x="2405" y="205" width="90" height="90"/><rect class="t" x="2805" y="205" width="90" height="90"/><rect class="t" x="2505" y="305" width="90" height="90"/><rect class="t" x="2705" y="305" width="90" height="90"/><rect class="t" x="2505" y="405" width="90" height="90"/><rect class="t" x="2705" y="405" width="90" height="90"/><rect class="t" x="2505" y="505" width="90" height="90"/><rect class="t" x="2705" y="505" width="90" height="90"/><rect class="t" x="2605" y="605" width="90" height="90"/></g></svg></p>
+    <p class="wm" id="wm" role="img" aria-label="OpLev"><svg class="wm-svg" id="wm-t" viewBox="5 5 2890 690" aria-hidden="true"><g class="wm-l"><rect class="t" x="105" y="5" width="90" height="90"/><rect class="t" x="205" y="5" width="90" height="90"/><rect class="t" x="305" y="5" width="90" height="90"/><rect class="t" x="5" y="105" width="90" height="90"/><rect class="t" x="405" y="105" width="90" height="90"/><rect class="t" x="5" y="205" width="90" height="90"/><rect class="t" x="405" y="205" width="90" height="90"/><rect class="t" x="5" y="305" width="90" height="90"/><rect class="t" x="405" y="305" width="90" height="90"/><rect class="t" x="5" y="405" width="90" height="90"/><rect class="t" x="405" y="405" width="90" height="90"/><rect class="t" x="5" y="505" width="90" height="90"/><rect class="t" x="405" y="505" width="90" height="90"/><rect class="t" x="105" y="605" width="90" height="90"/><rect class="t" x="205" y="605" width="90" height="90"/><rect class="t" x="305" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="605" y="5" width="90" height="90"/><rect class="t" x="705" y="5" width="90" height="90"/><rect class="t" x="805" y="5" width="90" height="90"/><rect class="t" x="905" y="5" width="90" height="90"/><rect class="t" x="605" y="105" width="90" height="90"/><rect class="t" x="1005" y="105" width="90" height="90"/><rect class="t" x="605" y="205" width="90" height="90"/><rect class="t" x="1005" y="205" width="90" height="90"/><rect class="t" x="605" y="305" width="90" height="90"/><rect class="t" x="705" y="305" width="90" height="90"/><rect class="t" x="805" y="305" width="90" height="90"/><rect class="t" x="905" y="305" width="90" height="90"/><rect class="t" x="605" y="405" width="90" height="90"/><rect class="t" x="605" y="505" width="90" height="90"/><rect class="t" x="605" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="1205" y="5" width="90" height="90"/><rect class="t" x="1205" y="105" width="90" height="90"/><rect class="t" x="1205" y="205" width="90" height="90"/><rect class="t" x="1205" y="305" width="90" height="90"/><rect class="t" x="1205" y="405" width="90" height="90"/><rect class="t" x="1205" y="505" width="90" height="90"/><rect class="t" x="1205" y="605" width="90" height="90"/><rect class="t" x="1305" y="605" width="90" height="90"/><rect class="t" x="1405" y="605" width="90" height="90"/><rect class="t" x="1505" y="605" width="90" height="90"/><rect class="t" x="1605" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="1805" y="5" width="90" height="90"/><rect class="t" x="1905" y="5" width="90" height="90"/><rect class="t" x="2005" y="5" width="90" height="90"/><rect class="t" x="2105" y="5" width="90" height="90"/><rect class="t" x="2205" y="5" width="90" height="90"/><rect class="t" x="1805" y="105" width="90" height="90"/><rect class="t" x="1805" y="205" width="90" height="90"/><rect class="t" x="1805" y="305" width="90" height="90"/><rect class="t" x="1905" y="305" width="90" height="90"/><rect class="t" x="2005" y="305" width="90" height="90"/><rect class="t" x="2105" y="305" width="90" height="90"/><rect class="t" x="1805" y="405" width="90" height="90"/><rect class="t" x="1805" y="505" width="90" height="90"/><rect class="t" x="1805" y="605" width="90" height="90"/><rect class="t" x="1905" y="605" width="90" height="90"/><rect class="t" x="2005" y="605" width="90" height="90"/><rect class="t" x="2105" y="605" width="90" height="90"/><rect class="t" x="2205" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="2405" y="5" width="90" height="90"/><rect class="t" x="2805" y="5" width="90" height="90"/><rect class="t" x="2405" y="105" width="90" height="90"/><rect class="t" x="2805" y="105" width="90" height="90"/><rect class="t" x="2405" y="205" width="90" height="90"/><rect class="t" x="2805" y="205" width="90" height="90"/><rect class="t" x="2505" y="305" width="90" height="90"/><rect class="t" x="2705" y="305" width="90" height="90"/><rect class="t" x="2505" y="405" width="90" height="90"/><rect class="t" x="2705" y="405" width="90" height="90"/><rect class="t" x="2505" y="505" width="90" height="90"/><rect class="t" x="2705" y="505" width="90" height="90"/><rect class="t" x="2605" y="605" width="90" height="90"/></g></svg></p>
     <div class="frow label">
       <span>OpLev</span>
       <span>Custom engines for companies</span>
@@ -1559,6 +1588,33 @@ $$('.eng,.strip').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng
 $$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name',a),380,CAPS+'abcdefghijklmnopqrstuvwxyz')));
 /* jobs rail arrows */
 $$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
+
+/* ---------- sound familiar: card carousel ---------- */
+(function(){
+  const rail=$('.say-rail');if(!rail)return;
+  const cards=$$('.say-card',rail),segs=$$('.say-meter i'),num=$('.say-n b'),n=cards.length;if(!n)return;
+  const step=()=>cards[0].getBoundingClientRect().width+(parseFloat(getComputedStyle(rail).columnGap)||14);
+  const max=()=>rail.scrollWidth-rail.clientWidth;
+  const at=()=>rail.scrollLeft>=max()-4?n-1:Math.round(rail.scrollLeft/step());
+  const go=i=>rail.scrollTo({left:Math.min(((i%n)+n)%n*step(),max()),behavior:RM?'auto':'smooth'});
+  let shown=-1;
+  function sync(){const i=at();if(i===shown)return;shown=i;segs.forEach((s,k)=>s.classList.toggle('on',k===i));if(num)num.textContent=pad2(i+1);}
+  let raf=0;rail.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(sync);},{passive:true});
+  sync();
+  // autoplay until someone takes over, then it stays where they leave it
+  let stopped=RM,hover=false,timer=null;
+  const stop=()=>{stopped=true;clearInterval(timer);};
+  $$('[data-say]').forEach(b=>b.addEventListener('click',()=>{stop();go(at()+(+b.dataset.say));}));
+  ['wheel','touchstart','keydown'].forEach(ev=>rail.addEventListener(ev,stop,{passive:true}));
+  rail.addEventListener('mouseenter',()=>{hover=true;});rail.addEventListener('mouseleave',()=>{hover=false;});
+  // drag sideways with a mouse
+  let drag=null,moved=false;
+  rail.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;stop();drag={x:e.clientX,l:rail.scrollLeft};moved=false;rail.classList.add('dragging');});
+  addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>4)moved=true;rail.scrollLeft=drag.l-dx;});
+  addEventListener('pointerup',()=>{if(!drag)return;drag=null;rail.classList.remove('dragging');if(moved)go(at());});
+  rail.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
+  if(!RM)once([rail],()=>{timer=setInterval(()=>{if(stopped||hover||document.hidden)return;go(at()+1>=n?0:at()+1);},4200);},.4);
+})();
 /* overnight clock follows the log */
 (function(){const clk=$('#night-clock'),rows=$('.pane[data-src="night-data"] .rows');if(!clk||!rows||!('MutationObserver' in window))return;
   new MutationObserver(()=>{const ts=$$('.row .ts',rows).map(t=>t.textContent).filter(Boolean).pop();if(ts)clk.textContent=ts.slice(0,5);}).observe(rows,{childList:true});})();
@@ -1781,32 +1837,32 @@ $$('.bot-card').forEach(card=>{
   card.addEventListener('mouseenter',act);
 });
 
-/* ---------- footer wordmark: each tile blinks to a color, one letter at a time ---------- */
+/* ---------- footer wordmark: every tile is its own pixel. Hover one to color it. ---------- */
 (function(){
   const wm=$('#wm'),svg=$('#wm-t');if(!wm||!svg)return;
-  const L=$$('.wm-l',svg);if(!L.length)return;
-  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--marketing)','var(--paper)'],HOME=4;
+  const L=$$('.wm-l',svg),T=$$('.t',svg);if(!T.length)return;
+  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--marketing)'];
   const BLINK=[{opacity:.1},{opacity:1},{opacity:.2},{opacity:1}];
-  const blink=(t,ms)=>{if(t.animate)t.animate(BLINK,{duration:ms||240,easing:'steps(4,end)'});};
-  L.forEach(g=>{g._c=HOME;g._t=$$('.t',g);});
+  const blink=(t,ms)=>{if(!RM&&t.animate)t.animate(BLINK,{duration:ms||220,easing:'steps(4,end)'});};
+  T.forEach(t=>{t._c=-1;});
+  // -1 is paper; any other number is an engine color
+  function paint(t,c){if(c===t._c)return;t._c=c;t.style.fill=c<0?'':COLS[c];blink(t);}
+  function pick(t){let c;do{c=Math.random()*COLS.length|0;}while(c===t._c);return c;}
   let idle=null;
-  function paint(g,to,spread){
-    const next=to==null?(g._c+1)%COLS.length:to;
-    if(to!=null&&next===g._c)return;
-    g._c=next;const col=COLS[next];
-    g._t.forEach(t=>{
-      clearTimeout(t._tm);
-      if(RM){t.style.fill=col;return;}
-      t._tm=setTimeout(()=>{t.style.fill=col;blink(t);},Math.random()*(spread||260));
-    });
-  }
-  function rest(){clearTimeout(idle);idle=setTimeout(()=>L.forEach((g,i)=>setTimeout(()=>paint(g,HOME,480),i*90)),3200);}
-  L.forEach(g=>g.addEventListener('pointerenter',e=>{if(e.pointerType==='touch')return;paint(g);rest();}));
-  wm.addEventListener('click',()=>{L.forEach((g,i)=>setTimeout(()=>paint(g),i*80));rest();});
+  function rest(){clearTimeout(idle);idle=setTimeout(()=>T.forEach(t=>{if(t._c>=0)setTimeout(()=>paint(t,-1),Math.random()*800);}),6000);}
+  T.forEach(t=>t.addEventListener('pointerenter',e=>{if(e.pointerType==='touch')return;paint(t,pick(t));rest();}));
+  // on a phone, tap a tile to color it
+  let tapped=false;
+  svg.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch')return;const t=e.target.closest&&e.target.closest('.t');tapped=!!t;if(t){paint(t,pick(t));rest();}});
+  // click anywhere else on the wordmark: a wave of color, one letter at a time
+  wm.addEventListener('click',e=>{
+    if(tapped){tapped=false;return;}
+    L.forEach((g,i)=>{const c=Math.random()*COLS.length|0;$$('.t',g).forEach(t=>setTimeout(()=>paint(t,c),i*80+Math.random()*240));});rest();
+  });
   // first time it scrolls into view, the tiles switch on in random order
   if(!RM&&hasIO){
     svg.classList.add('boot');
-    once([wm],()=>{$$('.t',svg).forEach(t=>{t.style.opacity='0';setTimeout(()=>{t.style.opacity='';blink(t,200);},80+Math.random()*900);});svg.classList.remove('boot');},.15);
+    once([wm],()=>{T.forEach(t=>{t.style.opacity='0';setTimeout(()=>{t.style.opacity='';blink(t,200);},80+Math.random()*900);});svg.classList.remove('boot');},.15);
   }
 })();
 
