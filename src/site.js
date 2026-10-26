@@ -178,8 +178,8 @@ function pixDecode(svg,dur){
   requestAnimationFrame(f);
 }
 $$('.px').forEach(buildIcon);
-$$('.step,.svc').forEach(s=>s.addEventListener('mouseenter',()=>{decode($('.h3',s),360);pixDecode($('.px',s),420);}));
-if(!RM)once([$('.steps'),$('.offer')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pixDecode(svg,900),i*140)));
+$$('.step,.svc,.tk-step').forEach(s=>s.addEventListener('mouseenter',()=>{decode($('.h3',s),360);pixDecode($('.px',s),420);}));
+if(!RM)once([$('.steps'),$('.offer'),$('.track')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pixDecode(svg,900),i*140)));
 
 /* ---------- hero ASCII field ---------- */
 (function(){
@@ -378,8 +378,14 @@ $$('.filters').forEach(bar=>{
   btns.forEach(b=>onHover(b,()=>decode(b,300)));
 });
 $$('.play').forEach(pl=>pl.addEventListener('mouseenter',()=>decode($('.h3',pl),360)));
-$$('.eng').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng-name',e),420,CAPS+'abcdefghijklmnopqrstuvwxyz');pixDecode($('.px',e),420);}));
-if(!RM)once([$('.engines')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pixDecode(svg,900),i*160)));
+$$('.eng,.strip').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng-name,.strip-name',e),420,CAPS+'abcdefghijklmnopqrstuvwxyz');pixDecode($('.px',e),420);}));
+$$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name',a),380,CAPS+'abcdefghijklmnopqrstuvwxyz')));
+/* jobs rail arrows */
+$$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
+/* overnight clock follows the log */
+(function(){const clk=$('#night-clock'),rows=$('.pane[data-src="night-data"] .rows');if(!clk||!rows||!('MutationObserver' in window))return;
+  new MutationObserver(()=>{const ts=$$('.row .ts',rows).map(t=>t.textContent).filter(Boolean).pop();if(ts)clk.textContent=ts.slice(0,5);}).observe(rows,{childList:true});})();
+if(!RM)once([$('.engines'),$('.strips')],el=>$$('.px',el).forEach((svg,i)=>setTimeout(()=>pixDecode(svg,900),i*160)));
 
 /* ---------- ticker ---------- */
 (function(){

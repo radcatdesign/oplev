@@ -376,7 +376,7 @@ def home(mode='full'):
               f'<img alt="" hidden>{TICKS}<span class="tag tl label">case image / placeholder</span>'
               f'<span class="tag br label">1600 x 900</span></figure>')
     pains = ''.join(
-        f'\n        <li class="ck" data-by="{E(by)}"><span class="b">[ ]</span><span class="txw"><span class="tx">“{E(t)}”</span></span><span class="by label"></span></li>'
+        f'\n        <li><q>{E(t)}</q><span class="label">fixed by {E(by)}</span></li>'
         for t, by in PAINS)
     tabs = ''.join(
         f'<button class="tab" type="button" role="tab" id="tab-{x["id"]}" aria-controls="panel-{x["id"]}" aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">{E(x["type"])}</button>'
@@ -404,17 +404,16 @@ def home(mode='full'):
         </div>
       </div>'''
     engines = ''.join(f'''
-      <article class="eng e-{k}" id="engine-{k}">
-        <div class="eng-top"><svg class="px" data-icon="{icon}" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">engine {i + 1}</span></div>
-        <h3 class="eng-name">{E(name)}</h3>
-        <p class="eng-triad">{E(triad)}</p>
-        <p class="eng-line">{E(line)}</p>
-        <ul class="rowlist">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul>
-        <div class="eng-seen"><span class="label">see it in</span>{''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)}</div>
-      </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
+    <article class="strip e-{k}" id="engine-{k}">
+      <div class="wrap strip-in">
+        <div class="strip-id"><span class="label">engine {i + 1} / {E(triad)}</span><h3 class="strip-name">{E(name)}</h3></div>
+        <div class="strip-bd"><p class="strip-line">{E(line)}</p><ul class="strip-caps">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul></div>
+        <div class="strip-ft"><svg class="px" data-icon="{icon}" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">see it in</span>{''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)}</div>
+      </div>
+    </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
     filters = '<button class="tab" type="button" aria-pressed="true" data-f="all">All</button>' + ''.join(
         f'<button class="tab e-{k}" type="button" aria-pressed="false" data-f="{k}">{E(name)}</button>' for k, name, *_ in ENGINES)
-    plays = job_cards(PLAYS)
+    plays = job_cards(PLAYS, extra_cls=' rail')
     night = json.dumps(NIGHT).replace('</', '<\\/')
     body = f'''
 <section class="hero" id="hero">
@@ -466,64 +465,56 @@ def home(mode='full'):
   </div>
 </div>
 
-<section class="sec" id="familiar" aria-labelledby="familiar-h">
-  <div class="wrap split">
-    <div class="head-l">
-      <p class="eyebrow">Sound familiar?</p>
-      <h2 class="h2" id="familiar-h">You started a business. Then it became a job.</h2>
-      <p class="lede">If you've said any of these this month, we should talk.</p>
-      <div class="actions"><a class="btn ghost" href="#start">Tell us yours {ARR_R}</a></div>
-    </div>
-    <div class="split-r">
-      <ul class="check pains" data-anim>{pains}
-      </ul>
-    </div>
+<section class="sec say" id="familiar" aria-labelledby="familiar-h">
+  <div class="wrap">
+    <p class="eyebrow">Sound familiar?</p>
+    <h2 class="say-h" id="familiar-h">You started a business. Then it became a job.</h2>
+    <ul class="say-list">{pains}
+    </ul>
+    <div class="say-ft"><p>If you've said any of these this month, we should talk.</p><a class="btn" href="#start">Tell us yours {ARR_R}</a></div>
   </div>
 </section>
 
-<section class="sec" id="engines" aria-labelledby="engines-h">
+<section class="sec eng-sec" id="engines" aria-labelledby="engines-h">
   <div class="wrap">
-    <div class="head">
-      <div class="head-l">
-        <p class="eyebrow">What we build</p>
-        <h2 class="h2" id="engines-h">Three kinds of engines.</h2>
-        <p class="lede">We build one, two or all three for your business. They share the same information, so nothing gets typed in twice.</p>
-      </div>
-      <p class="label"><span class="e-ops ec">Ops</span> / <span class="e-agents ec">Agents</span> / <span class="e-leads ec">Leads</span></p>
+    <div class="center-hd">
+      <p class="eyebrow">What we build</p>
+      <h2 class="h2" id="engines-h">Three kinds of engines.</h2>
+      <p class="lede">We build one, two or all three for your business. They share the same information, so nothing gets typed in twice.</p>
     </div>
-    <div class="engines">{engines}
-    </div>
+  </div>
+  <div class="strips">{engines}
   </div>
 </section>
 
-<section class="sec" id="overnight" aria-labelledby="night-h">
-  <div class="wrap">
-    <div class="head">
-      <div class="head-l">
-        <p class="eyebrow">While you sleep</p>
-        <h2 class="h2" id="night-h">You slept. Your engines didn't.</h2>
-        <p class="lede">A night at a business running all three engines we built. Anything important waits for the owner in the morning summary.</p>
+<section class="sec night" id="overnight" aria-labelledby="night-h">
+  <div class="wrap night-in">
+    <div class="night-l">
+      <p class="eyebrow">While you sleep</p>
+      <h2 class="h2" id="night-h">You slept. Your engines didn't.</h2>
+      <p class="lede">A night at a business running all three engines we built. Anything important waits for the owner in the morning summary.</p>
+      <p class="night-clock" id="night-clock" aria-hidden="true">22:00</p>
+    </div>
+    <div class="night-r">
+      <div class="pane" data-src="night-data" data-state="idle">
+        <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">Last night</span><span class="label">example</span></div>
+        <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
+        <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
       </div>
-      <p class="label">example</p>
+      <script type="application/json" id="night-data">{night}</script>
     </div>
-    <div class="pane" data-src="night-data" data-state="idle">
-      <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">Last night</span><span class="label">example</span></div>
-      <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
-      <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
-    </div>
-    <script type="application/json" id="night-data">{night}</script>
   </div>
 </section>
 
 <section class="sec" id="plays" aria-labelledby="plays-h">
   <div class="wrap">
-    <div class="head">
+    <div class="rail-hd">
       <div class="head-l">
         <p class="eyebrow">What they handle</p>
         <h2 class="h2" id="plays-h">Jobs we build engines to handle.</h2>
         <p class="lede">A few of the jobs our engines take off your plate. Tap any one to see exactly what happens, step by step.</p>
       </div>
-      <p class="label">{len(PLAYS)} examples</p>
+      <div class="rail-ctl"><button class="rail-btn" type="button" data-rail="-1" aria-label="Scroll back">{ARR_L}</button><button class="rail-btn" type="button" data-rail="1" aria-label="Scroll forward">{ARR_R}</button></div>
     </div>
     <div class="tabs filters" role="group" aria-label="Filter by engine">{filters}</div>
     {plays}
@@ -548,33 +539,27 @@ def home(mode='full'):
 
 <section class="sec" id="marketplace" aria-labelledby="mk-h">
   <div class="wrap">
-    <div class="head">
+    <div class="idx-hd">
       <div class="head-l">
         <p class="eyebrow">Marketplace</p>
         <h2 class="h2" id="mk-h">Or start from one that works.</h2>
-        <p class="lede">Operating systems we built for other businesses, ready to license and tailor to yours.</p>
       </div>
-      <a class="btn ghost" href="marketplace.html">Browse the marketplace {ARR_R}</a>
+      <p class="lede">Operating systems we built for other businesses, ready to license and tailor to yours.</p>
     </div>
-    <div class="cards">{''.join(os_card(x) for x in MARKET[:3])}
-    </div>
+    <ol class="idx">{''.join(f'<li><a href="marketplace/{x["id"]}.html"><span class="idx-n label">os {n + 1:02d}</span><span class="idx-name">{E(x["name"])}</span><span class="idx-type">{E(x["type_label"])}</span>{etags(x["engines"])}<span class="idx-go">{ARR_R}</span></a></li>' for n, x in enumerate(MARKET))}
+    </ol>
+    <div class="idx-ft"><a class="btn ghost" href="marketplace.html">Browse the marketplace {ARR_R}</a></div>
   </div>
 </section>
 
-<section class="sec band" id="model" aria-labelledby="model-h">
+<section class="sec band poster" id="model" aria-labelledby="model-h">
   <div class="wrap">
-    <div class="head">
-      <div class="head-l">
-        <p class="eyebrow">How pricing works</p>
-        <h2 class="h2" id="model-h">Run it. Grow it. Sell it.</h2>
-        <p class="lede">No big build fee and then you're on your own. You pay monthly, and we keep your engines running and improving for as long as you use them.</p>
-      </div>
-      <p class="label">simple monthly pricing</p>
-    </div>
-    <ol class="model">
-      <li class="mcell"><span class="num" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>We build your engines around how your business works and keep them running. One monthly price covers hosting, fixes and updates.</p></li>
-      <li class="mcell"><span class="num" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>We add to your engines as the business grows.</p></li>
-      <li class="mcell"><span class="num" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>What works for you will work for businesses like yours. A resale license lets you sell it to them.</p></li>
+    <div class="poster-hd"><p class="eyebrow">How pricing works</p><p class="label">simple monthly pricing</p></div>
+    <h2 class="sr" id="model-h">Run it. Grow it. Sell it.</h2>
+    <ol class="poster-list">
+      <li><span class="poster-w">Run it.</span><p>We build your engines around how your business works and keep them running. One monthly price covers hosting, fixes and updates.</p></li>
+      <li><span class="poster-w">Grow it.</span><p>We add to your engines as the business grows. No big build fee, then you're on your own.</p></li>
+      <li><span class="poster-w">Sell it.</span><p>What works for you will work for businesses like yours. A resale license lets you sell it to them.</p></li>
     </ol>
     <div class="kicker">
       <p class="kicker-t">Most custom builds are a cost. Yours can earn.</p>
@@ -592,11 +577,11 @@ def home(mode='full'):
       </div>
       <a class="btn ghost" href="how-it-works.html">How it works {ARR_R}</a>
     </div>
-    <ol class="steps">
-      <li class="step"><div class="step-top"><span class="num" aria-hidden="true">01</span><svg class="px" data-icon="discuss" viewBox="0 0 50 50" aria-hidden="true"></svg></div><h3 class="h3">Discuss</h3><p>We talk with you and your team and see how the work really gets done.</p></li>
-      <li class="step"><div class="step-top"><span class="num" aria-hidden="true">02</span><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></div><h3 class="h3">Build</h3><p>We build your engines around it and connect them to the tools you already use.</p></li>
-      <li class="step"><div class="step-top"><span class="num" aria-hidden="true">03</span><svg class="px" data-icon="implement" viewBox="0 0 50 50" aria-hidden="true"></svg></div><h3 class="h3">Launch</h3><p>We roll it out with your team one piece at a time, until it runs without you in the middle.</p></li>
-      <li class="step"><div class="step-top"><span class="num" aria-hidden="true">04</span><svg class="px" data-icon="measure" viewBox="0 0 50 50" aria-hidden="true"></svg></div><h3 class="h3">Measure</h3><p>We track a simple score that shows how much of the business runs without you, and what to fix next.</p></li>
+    <ol class="track">
+      <li class="tk-step"><span class="tk-n">01</span><span class="tk-dot"><svg class="px" data-icon="discuss" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Discuss</h3><p>We talk with you and your team and see how the work really gets done.</p></li>
+      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We build your engines around it and connect them to the tools you already use.</p></li>
+      <li class="tk-step"><span class="tk-n">03</span><span class="tk-dot"><svg class="px" data-icon="implement" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Launch</h3><p>We roll it out with your team one piece at a time, until it runs without you in the middle.</p></li>
+      <li class="tk-step"><span class="tk-n">04</span><span class="tk-dot"><svg class="px" data-icon="measure" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Improve</h3><p>We track how much of the business runs without you, and pick what to fix next.</p></li>
     </ol>
   </div>
 </section>
