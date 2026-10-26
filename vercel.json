@@ -1,3 +1,35 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/setups",
+      "destination": "/for",
+      "permanent": true
+    },
+    {
+      "source": "/setups/clinic",
+      "destination": "/for#health",
+      "permanent": true
+    },
+    {
+      "source": "/setups/brand",
+      "destination": "/for#brands",
+      "permanent": true
+    },
+    {
+      "source": "/setups/agency",
+      "destination": "/for#firms",
+      "permanent": true
+    },
+    {
+      "source": "/setups/creator",
+      "destination": "/for#founders",
+      "permanent": true
+    },
+    {
+      "source": "/setups/startup",
+      "destination": "/for#founders",
+      "permanent": true
+    }
+  ]
 }

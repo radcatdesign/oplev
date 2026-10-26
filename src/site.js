@@ -7,6 +7,31 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pad2=n=>String(n).padStart(2,'0');
 const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','you':'You'};
+
+/* ---------- the characters: one tile bot per engine ---------- */
+// '#' body in the engine color, 'k' ink, 'w' paper. blink and act are rows swapped in for a frame.
+const BOTS={
+  ops:{base:["..########..",".##########.",".#kkk##kkk#.",".#kwkkkkwk#.",".#kkk##kkk#.",".##########.",".###kkkk###.",".##########.","..########..","...#....#...","..##....##.."],
+    blink:{3:".#kkkkkkkk#."},act:[{1:".#kkk##kkk#.",2:".#kwkkkkwk#.",3:".#kkk##kkk#.",4:".##########."},{}]},
+  agents:{base:[".....##.....","......#.....","...######...","..########..",".##kk##kk##.",".##kw##kw##.",".##########.",".##k####k##.",".###kkkk###.",".##########.",".##########.",".#.##..##.#."],
+    blink:{4:".##########.",5:".##kk##kk##."},act:[{0:".....ww.....",11:"..#.####.#.."},{}]},
+  leads:{base:[".#..##..#....",".##.##.##....","##########...","##kk##kk##.#.","##########.#.","##kk##kk##.#.","##kw##kw##.#.","##########.#.","#kwwwwwwk####","##kkkkkk###..","##########...",".########...."],
+    blink:{5:"##########.#.",6:"##kk##kk##.#."},act:[{3:"##kk##kk##..#",4:"##########..#",5:"##kk##kk##..#",6:"##kw##kw##.#.",7:"##########.#."},{}]}
+};
+const BOT_LINES={
+  ops:["Everything's where it should be.","Your morning summary is ready.","Nothing's late. I checked twice.","Sorted your clients A to Z. You're welcome.","Three things need you today. Just three."],
+  agents:["Drafted it. Want a look?","Sorted 140 emails while you slept.","I'll ask before I send anything new.","Following up. Politely.","Reminders are out. Everyone confirmed."],
+  leads:["Someone's interested!","Replied in 2 minutes. New record.","It's 10pm. I'm still here.","Quote sent. They're reading it now.","Hi! Want a price? Takes a minute."]
+};
+function botSVG(name,over,crisp){
+  const b=BOTS[name];if(!b)return '';
+  const g=b.base.map((r,i)=>over&&over[i]!=null?over[i]:r),h=g.length,w=Math.max.apply(null,g.map(r=>r.length));
+  const u=crisp?1:10,sz=crisp?1:9,o=crisp?0:.5;let s='';
+  g.forEach((row,y)=>{for(let x=0;x<row.length;x++){const c=row[x];if(c==='.')continue;s+='<rect x="'+(x*u+o)+'" y="'+(y*u+o)+'" width="'+sz+'" height="'+sz+'" class="bt-'+(c==='#'?'b':c)+'"/>';}});
+  return '<svg viewBox="0 0 '+(w*u)+' '+(h*u)+'"'+(crisp?' width="'+w+'" height="'+h+'" shape-rendering="crispEdges"':'')+' aria-hidden="true">'+s+'</svg>';
+}
+const BOT_MINI={};
+function botTag(name){return '<span class="bot bot-mini" data-bot="'+name+'">'+(BOT_MINI[name]||(BOT_MINI[name]=botSVG(name,null,true)))+'</span>';}
 const hasIO='IntersectionObserver' in window;
 function once(els,fn,threshold){
   els=els.filter(Boolean);if(!els.length)return;
@@ -277,7 +302,7 @@ function makePane(p,c){
   function rowEl(r){
     const d=document.createElement('div');d.className='row';
     const eng=/^@[a-z]+$/.test(r[1]),who=WHO[r[1]]||r[1];
-    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(eng?' e-'+r[1].slice(1):'')+(!eng&&!WHO[r[1]]?' ext':'')+'">'+esc(who)+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
+    d.innerHTML='<span class="ts">'+esc(r[0])+'</span><span class="ac'+(r[4]?' '+esc(r[4]):'')+(eng?' e-'+r[1].slice(1):'')+(!eng&&!WHO[r[1]]?' ext':'')+'">'+(eng&&BOTS[r[1].slice(1)]?botTag(r[1].slice(1)):'')+esc(who)+'</span><span class="msg">'+esc(r[2])+'</span><span class="res">'+esc(r[3])+'</span>';
     return d;
   }
   function endEl(){const d=document.createElement('div');d.className='end';d.innerHTML='<span class="chip">[ok]</span><span class="s">'+esc(summary())+'</span>';return d;}
@@ -421,6 +446,32 @@ if(!RM)once([$('.engines'),$('.strips')],el=>$$('.px',el).forEach((svg,i)=>setTi
   wide.addEventListener?wide.addEventListener('change',close):wide.addListener(close);
 })();
 
+/* ---------- mega menu: who it's for ---------- */
+(function(){
+  const btn=$('#mega-btn'),mg=$('#mega');if(!btn||!mg)return;
+  const fine=matchMedia('(hover:hover) and (pointer:fine)');
+  let t=null,openedAt=0;
+  function set(open){
+    clearTimeout(t);
+    if(open===!mg.hidden)return;
+    mg.hidden=!open;btn.setAttribute('aria-expanded',String(open));
+    if(open){openedAt=performance.now();$$('.mg-g',mg).forEach((el,i)=>setTimeout(()=>decode(el,300),i*50));}
+  }
+  btn.addEventListener('click',()=>{if(!mg.hidden&&fine.matches&&performance.now()-openedAt<600)return;set(mg.hidden);});
+  [btn,mg].forEach(el=>{
+    el.addEventListener('mouseenter',()=>{if(!fine.matches)return;clearTimeout(t);t=setTimeout(()=>set(true),80);});
+    el.addEventListener('mouseleave',()=>{if(!fine.matches)return;clearTimeout(t);t=setTimeout(()=>set(false),240);});
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!mg.hidden){set(false);btn.focus();}});
+  document.addEventListener('click',e=>{if(!mg.hidden&&!mg.contains(e.target)&&!btn.contains(e.target))set(false);});
+  mg.addEventListener('focusout',e=>{const to=e.relatedTarget;if(to&&!mg.contains(to)&&to!==btn)set(false);});
+  $$('.mg-col li a',mg).forEach(a=>onHover(a,()=>decode($('.mg-n',a),280)));
+})();
+(function(){
+  const b=$('.menu-sub-btn'),p=$('#menu-for');if(!b||!p)return;
+  b.addEventListener('click',()=>{const o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',String(o));p.hidden=!o;});
+})();
+
 /* ---------- built-for picker ---------- */
 $$('[data-tabs]').forEach(root=>{
   const tabs=$$('[role="tab"]',root),panels=tabs.map(t=>document.getElementById(t.getAttribute('aria-controls')));
@@ -533,61 +584,80 @@ $$('form.inq').forEach(f=>{
 });
 
 /* ---------- hover + scroll decodes ---------- */
-$$('.links a,.btn').forEach(el=>onHover(el,()=>decode(el,360)));
+$$('.links a,.links-btn,.btn').forEach(el=>onHover(el,()=>decode(el,360)));
 onHover($('.nav .brand'),()=>decode($('.brand-t'),360,CAPS));
 $$('.plan').forEach(p=>p.addEventListener('mouseenter',()=>decode($('.h3',p),360)));
 $$('.ev').forEach(p=>p.addEventListener('mouseenter',()=>decode($('.h3',p),360)));
 if(!RM){
   once($$('.h2'),el=>decode(el));
   once([$('.plans')],el=>$$('.amt',el).forEach((a,i)=>setTimeout(()=>decode(a,700),i*160)),.3);
-  once([$('#wm')],()=>decode($('#wm-t'),null,CAPS));
 }
 
-/* ---------- footer wordmark: letters flip to the engine colors ---------- */
-(function(){
-  const wm=$('#wm');if(!wm)return;
-  const L=$$('.wm-l',wm);if(!L.length)return;
-  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--paper)'],HOME=3;
-  L.forEach(el=>{el._c=HOME;});
-  let idle=null;
-  function flip(el,to){
-    if(el._busy)return;
-    const next=to==null?(el._c+1)%COLS.length:to;
-    if(next===el._c)return;
-    if(RM){el.style.color=COLS[next];el._c=next;return;}
-    el._busy=true;el.classList.remove('flip');void el.offsetWidth;el.classList.add('flip');
-    setTimeout(()=>{el.style.color=COLS[next];el._c=next;},210);
-    setTimeout(()=>{el.classList.remove('flip');el._busy=false;},470);
+/* ---------- the characters come alive ---------- */
+$$('.bot-xs[data-bot]').forEach(el=>{el.innerHTML=botSVG(el.dataset.bot,null,true);});
+$$('.bot-card').forEach(card=>{
+  const bots=$$('.bot[data-bot]',card),say=$('.bot-say',card);if(!bots.length)return;
+  const name=bots[0].dataset.bot,lines=BOT_LINES[name]||[''];let li=0,busy=false;
+  const draw=(el,over)=>{el.innerHTML=botSVG(name,over);};
+  bots.forEach(el=>draw(el));
+  const speak=()=>{redecode(say,lines[li%lines.length],420);li++;};
+  if(RM){say.textContent=lines[0];li=1;}else once([card],speak,.4);
+  // idle: everyone blinks on their own clock
+  if(!RM)bots.forEach(el=>{(function loop(){setTimeout(()=>{if(!busy){draw(el,BOTS[name].blink);setTimeout(()=>{if(!busy)draw(el);},140);}loop();},2200+Math.random()*4200);})();});
+  async function act(){
+    if(busy)return;busy=true;speak();
+    if(RM){busy=false;return;}
+    const A=BOTS[name].act;
+    if(name==='agents'){
+      bots.forEach((el,i)=>setTimeout(()=>{el.classList.add('hop');draw(el,A[0]);setTimeout(()=>{el.classList.remove('hop');draw(el);},260);},i*110));
+      await sleep(620);
+    }else{
+      const n=name==='leads'?6:2;
+      for(let i=0;i<n;i++){bots.forEach(el=>draw(el,A[i%2]));await sleep(name==='leads'?150:380);}
+      bots.forEach(el=>draw(el));
+    }
+    busy=false;
   }
-  function rest(){clearTimeout(idle);idle=setTimeout(()=>L.forEach((el,i)=>setTimeout(()=>flip(el,HOME),i*70)),3200);}
-  L.forEach(el=>el.addEventListener('pointerenter',e=>{if(e.pointerType==='touch')return;flip(el);rest();}));
-  wm.addEventListener('click',()=>{L.forEach((el,i)=>setTimeout(()=>flip(el),i*70));rest();});
+  card.addEventListener('click',act);
+  card.addEventListener('mouseenter',act);
+});
+
+/* ---------- footer wordmark: each tile blinks to a color, one letter at a time ---------- */
+(function(){
+  const wm=$('#wm'),svg=$('#wm-t');if(!wm||!svg)return;
+  const L=$$('.wm-l',svg);if(!L.length)return;
+  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--paper)'],HOME=3;
+  const BLINK=[{opacity:.1},{opacity:1},{opacity:.2},{opacity:1}];
+  const blink=(t,ms)=>{if(t.animate)t.animate(BLINK,{duration:ms||240,easing:'steps(4,end)'});};
+  L.forEach(g=>{g._c=HOME;g._t=$$('.t',g);});
+  let idle=null;
+  function paint(g,to,spread){
+    const next=to==null?(g._c+1)%COLS.length:to;
+    if(to!=null&&next===g._c)return;
+    g._c=next;const col=COLS[next];
+    g._t.forEach(t=>{
+      clearTimeout(t._tm);
+      if(RM){t.style.fill=col;return;}
+      t._tm=setTimeout(()=>{t.style.fill=col;blink(t);},Math.random()*(spread||260));
+    });
+  }
+  function rest(){clearTimeout(idle);idle=setTimeout(()=>L.forEach((g,i)=>setTimeout(()=>paint(g,HOME,480),i*90)),3200);}
+  L.forEach(g=>g.addEventListener('pointerenter',e=>{if(e.pointerType==='touch')return;paint(g);rest();}));
+  wm.addEventListener('click',()=>{L.forEach((g,i)=>setTimeout(()=>paint(g),i*80));rest();});
+  // first time it scrolls into view, the tiles switch on in random order
+  if(!RM&&hasIO){
+    svg.classList.add('boot');
+    once([wm],()=>{$$('.t',svg).forEach(t=>{t.style.opacity='0';setTimeout(()=>{t.style.opacity='';blink(t,200);},80+Math.random()*900);});svg.classList.remove('boot');},.15);
+  }
 })();
 
-/* ---------- footer wordmark fit + redraw on resize ---------- */
-function fitWordmark(){
-  const wm=$('#wm'),t=$('#wm-t');if(!wm||!t)return;
-  // scale the wordmark so its letters span the full footer width, edge to edge, at any screen size
-  const cs=getComputedStyle(wm),avail=wm.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);if(avail<=0)return;
-  const txt=(t.getAttribute('aria-label')||t.textContent).trim();
-  let ink=0,lb=0;
-  try{
-    const c=fitWordmark.c||(fitWordmark.c=document.createElement('canvas').getContext('2d'));
-    c.font=cs.fontWeight+' 100px '+cs.fontFamily;const m=c.measureText(txt);
-    ink=m.actualBoundingBoxLeft+m.actualBoundingBoxRight;lb=-m.actualBoundingBoxLeft;
-  }catch(e){}
-  if(ink>0){const fs=100*avail/ink;wm.style.fontSize=fs+'px';t.style.marginLeft=(-lb*fs/100)+'px';return;}
-  let fs=100;wm.style.fontSize=fs+'px';t.style.marginLeft='';
-  for(let i=0;i<3;i++){const w=t.getBoundingClientRect().width;if(!w)return;fs=fs*avail/w;wm.style.fontSize=fs+'px';}
-}
-let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{fitWordmark();drawAllMinis();refreshThumbs(false);},150);});
-fitWordmark();
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fitWordmark();refreshThumbs(true);});
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{drawAllMinis();refreshThumbs(false);},150);});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThumbs(true));
 
 /* ---------- loader (once per visit) ---------- */
 (function(){
   const html=document.documentElement,L=$('#loader');
-  const after=()=>{decode($('#h1'));fitWordmark();};
+  const after=()=>{decode($('#h1'));};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
   const lines=[['> oplev'],['who','an agency'],['what','custom engines'],['engines','ops / agents / leads'],['built for','your company'],['> hello']];

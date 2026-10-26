@@ -3,7 +3,7 @@
 
 Edit content/cases.json, src/site.css or src/site.js, then run:
     python3 build.py
-Outputs index.html, pricing.html, work.html, start.html, setups.html, setups/<type>.html,
+Outputs index.html, pricing.html, work.html, start.html, for.html, for/<business>.html,
 app.html (an example client dashboard) and work/<case>.html at the repo root.
 Optional: python3 build.py --preview PATH writes an artifact-ready copy of the home page.
 """
@@ -21,6 +21,17 @@ SETUP = {x['id']: x for x in SETUPS}
 JOBS = json.loads((ROOT / 'content' / 'jobs.json').read_text())
 MARKET = json.loads((ROOT / 'content' / 'marketplace.json').read_text())
 MARKET_BY = {x['id']: x for x in MARKET}
+_ICPS = json.loads((ROOT / 'content' / 'icps.json').read_text())
+GROUPS = _ICPS['groups']
+ICPS = _ICPS['items']
+ICP = {x['id']: x for x in ICPS}
+GROUP = {g['id']: g for g in GROUPS}
+SETUP_GROUP = {'clinic': 'health', 'brand': 'brands', 'agency': 'firms', 'creator': 'founders', 'startup': 'founders'}
+
+
+def icps_in(gid):
+    return [x for x in ICPS if x['group'] == gid]
+
 MARKET_TYPES = [('clinic', 'Clinics'), ('brand', 'Brands'), ('agency', 'Agencies'), ('creator', 'Creators'),
                 ('startup', 'Startups'), ('services', 'Services')]
 LICENSES = {'one': {'name': 'One engine', 'price': '$5k', 'count': 1},
@@ -77,6 +88,19 @@ ENGINES = [
      ['element-glo']),
 ]
 ENGINE_NAME = {k: n for k, n, *_ in ENGINES}
+# each engine is a character: a name, a role and a temper
+BOT_ROLE = {
+    'ops': ('The organizer', "Calm, tidy and a little obsessed with lists. Up at 6 with your day sorted before you've found your coffee."),
+    'agents': ('The helpers', "Quick, friendly and never off the clock. There are a few of them, and they always ask before sending anything new."),
+    'leads': ('The go-getter', 'First to say hi, every time. Answers at 10pm, remembers every name and never lets a quote go cold.'),
+}
+
+
+def bot_card(k):
+    n = 3 if k == 'agents' else 1
+    bots = ''.join(f'<span class="bot" data-bot="{k}"></span>' for _ in range(n))
+    return (f'<button class="bot-card e-{k}" type="button" aria-label="Say hi to {ENGINE_NAME[k]}">'
+            f'<span class="bot-stage n{n}">{bots}</span><span class="bot-say" aria-live="polite"></span></button>')
 
 PLAYS = [
     ('leads', 'when a form or chat comes in', 'Fast replies to new leads', 'Answers in minutes with the right info and a link to book, day or night.'),
@@ -127,8 +151,8 @@ CMP = [
     ('Can you sell it', 'No', 'Depends on your contract', 'Yes, with a resale license'),
 ]
 
-F_TYPE = [('clinic', 'Clinic or practice'), ('brand', 'Product brand'), ('agency', 'Agency or service firm'),
-          ('creator', 'Creator or media'), ('startup', 'Startup'), ('other', 'Something else')]
+F_TYPE = [('clinic', 'Health or wellness'), ('field', 'Home or field service'), ('brand', 'Product brand'),
+          ('agency', 'Agency or firm'), ('creator', 'Creator or coach'), ('startup', 'Startup'), ('other', 'Something else')]
 F_TEAM = [('1', 'Just me'), ('2-5', '2 to 5'), ('6-20', '6 to 20'), ('21-50', '21 to 50'), ('50', '50+')]
 F_BUILD = [('ops', 'Staying organized (Ops)'), ('agents', 'Busywork and follow-ups (Agents)'), ('leads', 'Getting more customers (Leads)'),
            ('unsure', 'Not sure yet')]
@@ -145,18 +169,56 @@ def nav_items(p, home):
     return [
         ('work', 'Work', p + 'work.html', 'case studies', False),
         ('how', 'How it works', p + 'how-it-works.html', 'start to finish', False),
-        ('setups', "Who it's for", p + 'setups.html', 'by business', False),
+        ('for', "Who it's for", p + 'for.html', f'{len(ICPS)} businesses', False),
         ('market', 'Marketplace', p + 'marketplace.html', 'ready-made systems', False),
         ('pricing', 'Pricing', p + 'pricing.html', 'how we charge', False),
         ('contact', 'Apply', p + 'start.html', 'limited spots', True),
     ]
 
 
+def edots(keys):
+    return '<span class="edots" aria-hidden="true">' + ''.join(f'<i class="e-{k}"></i>' for k in keys) + '</span>'
+
+
+def mega(p):
+    cols = ''.join(f'''
+        <div class="mg-col">
+          <a class="mg-g label" href="{p}for.html#{g['id']}"><span>{gi + 1:02d}</span>{E(g['name'])}</a>
+          <ul>{''.join(f'<li><a href="{p}for/{x["id"]}.html"><span class="mg-n">{E(x["name"])}</span>{edots(x["engines"])}</a></li>' for x in icps_in(g['id']))}</ul>
+        </div>''' for gi, g in enumerate(GROUPS))
+    return f'''
+  <div class="mega" id="mega" hidden>
+    <div class="wrap">
+      <div class="mg-grid">{cols}
+      </div>
+      <div class="mg-ft">
+        <p class="mg-ft-t">Not on the list? Every build starts from how you work, so tell us about yours.</p>
+        <div class="mg-ft-r"><span class="mg-key label">{edots(['ops'])}Ops {edots(['agents'])}Agents {edots(['leads'])}Leads</span><a class="label mg-all" href="{p}for.html">See all {len(ICPS)} {ARR_R}</a><a class="btn btn-sm" href="{p}start.html">Apply</a></div>
+      </div>
+    </div>
+  </div>'''
+
+
+def menu_for(p):
+    groups = ''.join(
+        f'<div class="mf-g"><p class="label">{E(g["name"])}</p><ul>'
+        + ''.join(f'<li><a href="{p}for/{x["id"]}.html">{E(x["name"])}</a></li>' for x in icps_in(g['id']))
+        + '</ul></div>' for g in GROUPS)
+    return f'<div class="menu-for" id="menu-for" hidden>{groups}<a class="label mf-all" href="{p}for.html">See all {len(ICPS)} {ARR_R}</a></div>'
+
+
 def shell_top(p, home, active):
     items = nav_items(p, home)
     cur = lambda k: ' aria-current="page"' if k == active else ''
-    links = ''.join(f'\n      <a href="{h}"{cur(k)}>{t}</a>' for k, t, h, _, menu_only in items if not menu_only)
+    links = ''.join(
+        (f'\n      <button class="links-btn" id="mega-btn" type="button" aria-expanded="false" aria-controls="mega"'
+         f'{" data-current" if k == active else ""}>{t}<i class="chev" aria-hidden="true"></i></button>') if k == 'for' else
+        f'\n      <a href="{h}"{cur(k)}>{t}</a>'
+        for k, t, h, _, menu_only in items if not menu_only)
     menu = ''.join(
+        (f'\n        <li class="menu-sub"><button class="menu-sub-btn" type="button" aria-expanded="false" aria-controls="menu-for">'
+         f'<span class="mn">{i + 1:02d}</span><span class="mt">{t}</span><span class="mp">{pth}<i class="pm" aria-hidden="true"></i></span></button>'
+         f'{menu_for(p)}</li>') if k == 'for' else
         f'\n        <li><a href="{h}"{cur(k)}><span class="mn">{i + 1:02d}</span>'
         f'<span class="mt">{t}</span><span class="mp">{pth}</span></a></li>'
         for i, (k, t, h, pth, _m) in enumerate(items))
@@ -185,7 +247,7 @@ def shell_top(p, home, active):
       <a class="btn btn-sm nav-cta" href="{p}start.html">Apply</a>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="mb-t">Menu</span></button>
     </div>
-  </div>
+  </div>{mega(p)}
 </header>
 
 <div class="menu" id="menu" hidden>
@@ -200,14 +262,32 @@ def shell_top(p, home, active):
 '''
 
 
-WM_LETTERS = ''.join(f'<span class="wm-l">{ch}</span>' for ch in 'OPLEV')
+# Doto 900 capitals, read from the font: 5x7 tiles on a 6-column advance
+GLYPHS = {
+    'O': ['.###.', '#...#', '#...#', '#...#', '#...#', '#...#', '.###.'],
+    'P': ['####.', '#...#', '#...#', '####.', '#....', '#....', '#....'],
+    'L': ['#....', '#....', '#....', '#....', '#....', '#....', '#####'],
+    'E': ['#####', '#....', '#....', '####.', '#....', '#....', '#####'],
+    'V': ['#...#', '#...#', '#...#', '.#.#.', '.#.#.', '.#.#.', '..#..'],
+}
+
+
+def wordmark_svg(word='OPLEV'):
+    groups = ''
+    for i, ch in enumerate(word):
+        ox = i * 600
+        tiles = ''.join(f'<rect class="t" x="{ox + c * 100 + 5}" y="{r * 100 + 5}" width="90" height="90"/>'
+                        for r, row in enumerate(GLYPHS[ch]) for c, v in enumerate(row) if v == '#')
+        groups += f'<g class="wm-l"><rect class="wm-hit" x="{ox}" y="0" width="{500 if i == len(word) - 1 else 600}" height="700"/>{tiles}</g>'
+    w = (len(word) - 1) * 600 + 500
+    return f'<svg class="wm-svg" id="wm-t" viewBox="5 5 {w - 10} 690" aria-hidden="true">{groups}</svg>'
 
 
 def shell_bottom():
     return f'''
 <footer class="foot">
   <div class="wrap">
-    <p class="wm" id="wm" aria-label="OpLev"><span id="wm-t" aria-hidden="true">{WM_LETTERS}</span></p>
+    <p class="wm" id="wm" role="img" aria-label="OpLev">{wordmark_svg()}</p>
     <div class="frow label">
       <span>OpLev</span>
       <span>Custom engines for companies</span>
@@ -274,7 +354,11 @@ def spots(cls=''):
 
 
 def job_of(title, sid=None):
-    j = JOBS.get(f'{sid}:{title}') if sid else None
+    j = None
+    for s in (sid if isinstance(sid, (list, tuple)) else [sid]):
+        if s and f'{s}:{title}' in JOBS:
+            j = JOBS[f'{s}:{title}']
+            break
     j = j or JOBS.get(title)
     assert j, f'no walkthrough for job: {title}'
     return j
@@ -289,8 +373,9 @@ def job_cards(items, sid=None, p='', extra_cls='', start=None, demo=None):
                      'ex': j['ex'], 'steps': j['steps'], 'you': j['you'], 'get': j['get']})
         cards.append(f'''
       <li class="play e-{e}" data-e="{e}"><div class="play-top">{etags([e])}<span class="label play-trig">{E(trig)}</span></div><h3 class="h3"><button class="play-open" type="button" data-job="{i}" aria-haspopup="dialog">{E(title)}</button></h3><p>{E(desc)}</p><span class="play-go label" aria-hidden="true">see how it works {ARR_R}</span></li>''')
-    start = start or (f'{p}start.html' + (f'#{sid}' if sid else ''))
-    demo = demo or (f'{p}app.html' + (f'#{sid}' if sid else ''))
+    sid1 = sid if isinstance(sid, str) else None
+    start = start or (f'{p}start.html' + (f'#{sid1}' if sid1 else ''))
+    demo = demo or (f'{p}app.html' + (f'#{sid1}' if sid1 else ''))
     blob = json.dumps({'start': start, 'demo': demo, 'jobs': data}).replace('</', '<\\/')
     return (f'<ul class="plays{extra_cls}" data-jobs="jobs-data">' + ''.join(cards) + '\n    </ul>\n'
             f'    <script type="application/json" id="jobs-data">{blob}</script>')
@@ -311,14 +396,15 @@ def cta(title, text, p):
 </section>'''
 
 
-def opts(name, items, kind='radio'):
+def opts(name, items, kind='radio', checked=None):
     return ''.join(
-        f'<label class="opt"><input type="{kind}" id="inq-{name}-{v}" name="{name}" value="{E(t)}"><span>{E(t)}</span></label>'
+        f'<label class="opt"><input type="{kind}" id="inq-{name}-{v}" name="{name}" value="{E(t)}"{" checked" if v == checked else ""}><span>{E(t)}</span></label>'
         for v, t in items)
 
 
 def inquiry(level='h2', heading='Apply to work with us.',
-            lede="We only take on a few clients at a time, so every build gets our full attention. Tell us about your business. If it's a fit, we'll set up a call."):
+            lede="We only take on a few clients at a time, so every build gets our full attention. Tell us about your business. If it's a fit, we'll set up a call.",
+            preset=None, other='', src=''):
     first = level == 'h1'
     hid = 'h1' if first else 'start-h'
     cursor = '' if first else ''
@@ -342,14 +428,14 @@ def inquiry(level='h2', heading='Apply to work with us.',
         <label class="fl"><span class="label" data-err="add a valid email">Email *</span><input class="inp" id="inq-email" name="email" type="email" autocomplete="email" maxlength="200" required></label>
       </div>
       <label class="fl"><span class="label">Company</span><input class="inp" id="inq-company" name="company" autocomplete="organization" maxlength="160"></label>
-      <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="opts">{opts('type', F_TYPE)}</div><label class="fl type-other" hidden><span class="sr">What kind of business is it?</span><input class="inp" id="inq-type-detail" name="type_other" maxlength="80" placeholder="What kind of business is it?" autocomplete="off" disabled></label></fieldset>
+      <fieldset class="fs"><legend class="label">What kind of business?</legend><div class="opts">{opts('type', F_TYPE, checked=preset)}</div><label class="fl type-other" hidden><span class="sr">What kind of business is it?</span><input class="inp" id="inq-type-detail" name="type_other" maxlength="80" placeholder="What kind of business is it?" autocomplete="off" value="{E(other)}" disabled></label></fieldset>
       <fieldset class="fs"><legend class="label">Team size</legend><div class="opts">{opts('team', F_TEAM)}</div></fieldset>
       <label class="fl"><span class="label" data-err="tell us a little">What still runs through you? *</span><textarea class="inp" id="inq-message" name="message" rows="5" maxlength="4000" required placeholder="The work that only happens when you're there."></textarea></label>
       <fieldset class="fs"><legend class="label">What do you need help with?</legend><div class="opts">{opts('build', F_BUILD, 'checkbox')}</div></fieldset>
       <fieldset class="fs"><legend class="label">Which plan sounds right?</legend><div class="opts">{opts('license', F_LICENSE)}</div></fieldset>
       <fieldset class="fs"><legend class="label">Would you want to sell it to others one day?</legend><div class="opts">{opts('resale', F_RESALE)}</div></fieldset>
       <fieldset class="fs"><legend class="label">When do you want to start?</legend><div class="opts">{opts('timing', F_TIMING)}</div></fieldset>
-      <div class="hp" aria-hidden="true"><label>Leave this empty <input id="inq-hp" name="company_url" tabindex="-1" autocomplete="off"></label></div>
+      {f'<input type="hidden" name="page" value="{E(src)}">' if src else ''}<div class="hp" aria-hidden="true"><label>Leave this empty <input id="inq-hp" name="company_url" tabindex="-1" autocomplete="off"></label></div>
       <div class="inq-foot"><button class="btn" type="submit">Submit application {ARR_R}</button><p class="label">We reply to every application.</p></div>
       <div class="inq-status" aria-live="polite" hidden></div>
     </form>
@@ -378,37 +464,15 @@ def home(mode='full'):
     pains = ''.join(
         f'\n        <li><q>{E(t)}</q><span class="label">fixed by {E(by)}</span></li>'
         for t, by in PAINS)
-    tabs = ''.join(
-        f'<button class="tab" type="button" role="tab" id="tab-{x["id"]}" aria-controls="panel-{x["id"]}" aria-selected="{"true" if i == 0 else "false"}" tabindex="{0 if i == 0 else -1}">{E(x["type"])}</button>'
-        for i, x in enumerate(SETUPS))
-    panels = ''
-    for i, x in enumerate(SETUPS):
-        k = x['id']
-        lis = ''.join(f'<li>{E(u[2])}<span class="rl-tag">{etags([u[0]])}</span></li>' for u in x['uses'][:4])
-        seen = ''.join(
-            f'<a href="{case_href(BY_ID[cid])}">{mini(BY_ID[cid], SEED[cid], "")}<span class="h3">{E(BY_ID[cid]["name"])}</span><span class="go">{ARR_R}</span></a>'
-            for cid in x['cases'] if cid in BY_ID)
-        L = LICENSES[x['license']]
-        panels += f'''
-      <div class="fpanel" role="tabpanel" id="panel-{k}" aria-labelledby="tab-{k}"{'' if i == 0 else ' hidden'}>
-        <div class="fp-l">
-          <div class="fp-top"><span class="label">usually {E(L['name'].lower())} / {E(L['price'])} a month</span>{etags(x['engines'])}</div>
-          <h3 class="h3 fp-name">{E(x['name'])}</h3>
-          <p class="fp-pitch">{E(x['pitch'])}</p>
-          <ul class="rowlist">{lis}</ul>
-        </div>
-        <div class="fp-r">
-          <span class="label">our work for</span>
-          <div class="seen">{seen}</div>
-          <div class="actions fp-act"><a class="btn" href="setups/{k}.html">What we'd build {ARR_R}</a><a class="btn ghost" href="app.html#{k}">See an example {ARR_R}</a></div>
-        </div>
-      </div>'''
+    wall = ''.join(
+        f'\n      <li><a class="wl" href="for/{x["id"]}.html" data-e="{x["engines"][0]}">{E(x["name"])}</a></li>'
+        for x in ICPS)
     engines = ''.join(f'''
     <article class="strip e-{k}" id="engine-{k}">
       <div class="wrap strip-in">
-        <div class="strip-id"><span class="label">engine {i + 1} / {E(triad)}</span><h3 class="strip-name">{E(name)}</h3></div>
+        <div class="strip-id"><span class="label">engine {i + 1} / {E(triad)}</span><h3 class="strip-name">{E(name)}</h3><p class="strip-who"><b>{E(BOT_ROLE[k][0])}.</b> {E(BOT_ROLE[k][1])}</p></div>
         <div class="strip-bd"><p class="strip-line">{E(line)}</p><ul class="strip-caps">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul></div>
-        <div class="strip-ft"><svg class="px" data-icon="{icon}" viewBox="0 0 50 50" aria-hidden="true"></svg><span class="label">see it in</span>{''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)}</div>
+        <div class="strip-ft">{bot_card(k)}<span class="label">see it in</span>{''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)}</div>
       </div>
     </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
     filters = '<button class="tab" type="button" aria-pressed="true" data-f="all">All</button>' + ''.join(
@@ -521,19 +585,18 @@ def home(mode='full'):
   </div>
 </section>
 
-<section class="sec" id="for" aria-labelledby="for-h">
+<section class="sec wall-sec" id="for" aria-labelledby="for-h">
   <div class="wrap">
-    <div class="head">
+    <div class="wall-hd">
       <div class="head-l">
         <p class="eyebrow">Who it's for</p>
-        <h2 class="h2" id="for-h">Built for businesses like yours.</h2>
-        <p class="lede">Every build is custom. Here's what we usually build for each kind of business.</p>
+        <h2 class="h2" id="for-h">Pick your business.</h2>
       </div>
-      <a class="btn ghost" href="setups.html">See them all {ARR_R}</a>
+      <p class="lede">Each one opens a short page: what we'd build for you, what it costs and a normal day with it running.</p>
     </div>
-    <div class="picker" data-tabs>
-      <div class="tabs" role="tablist" aria-label="Business type">{tabs}</div>{panels}
-    </div>
+    <ul class="wall">{wall}
+    </ul>
+    <div class="wall-ft"><p class="label">not on the list? every build starts from how you work</p><a class="btn ghost" href="for.html">See all {len(ICPS)} {ARR_R}</a></div>
   </div>
 </section>
 
@@ -609,10 +672,11 @@ def access(n):
 
 
 def fits(slug, p=''):
-    xs = [x for x in SETUPS if x['license'] == slug]
+    xs = [x for x in ICPS if x['license'] == slug]
     if not xs:
         return ''
-    return '\n        <p class="label fits">common for: ' + ' / '.join(f'<a href="{p}setups/{x["id"]}.html">{E(x["type"].lower())}</a>' for x in xs) + '</p>'
+    more = f' / <a href="{p}for.html">and more</a>' if len(xs) > 4 else ''
+    return '\n        <p class="label fits">common for: ' + ' / '.join(f'<a href="{p}for/{x["id"]}.html">{E(x["name"].lower())}</a>' for x in xs[:4]) + more + '</p>'
 
 
 def plan(n, slug, name, amt, who, inc, btn):
@@ -843,137 +907,133 @@ def access_for(keys):
     return f'''<div class="access"><div class="access-hd"><span class="label">engines</span><span class="meter" aria-hidden="true">{meter}</span><span class="label">{len(keys)} of 3</span></div><ul class="access-list">{rows}</ul></div>'''
 
 
-def setups_index():
-    cards = ''
-    for i, x in enumerate(SETUPS):
-        L = LICENSES[x['license']]
-        uses = ''.join(f'<li>{E(u[2])}</li>' for u in x['uses'][:3])
-        cards += f'''
-      <a class="card setup-card" href="setups/{x['id']}.html">
-        <div class="card-top"><span class="label">what we build for</span>{etags(x['engines'])}</div>
-        <h2 class="h3 card-name">{E(x['type'])}</h2>
-        <p class="card-line">{E(x['pitch'])}</p>
-        <ul class="rowlist">{uses}</ul>
-        <div class="card-foot"><span class="label">usually {E(L['name'].lower())} / {E(L['price'])} a month</span><span class="label go">Open {ARR_R}</span></div>
-      </a>'''
-    cards += f'''
-      <a class="card setup-card custom" href="start.html">
-        <div class="card-top"><span class="label">what we build for</span></div>
-        <h2 class="h3 card-name">Something else</h2>
-        <p class="card-line">Your business doesn't fit a box? Good. Tell us how you work and we'll design the engines around it.</p>
-        <div class="card-foot"><span class="label">from $5k a month</span><span class="label go">Apply {ARR_R}</span></div>
-      </a>'''
+def for_index():
+    blocks = ''
+    for gi, g in enumerate(GROUPS):
+        rows = ''.join(f'''
+          <li><a href="for/{x['id']}.html"><span class="fr-name">{E(x['name'])}</span><span class="fr-h">{E(x['h1'])}</span>{etags(x['engines'])}<span class="fr-go">{ARR_R}</span></a></li>''' for x in icps_in(g['id']))
+        blocks += f'''
+    <section class="fgroup" id="{g['id']}" aria-labelledby="g-{g['id']}">
+      <div class="fg-hd"><span class="label">{gi + 1:02d} / {len(icps_in(g['id']))} businesses</span><h2 class="fg-name" id="g-{g['id']}">{E(g['name'])}</h2><p>{E(g['line'])}</p></div>
+      <ul class="frows">{rows}
+      </ul>
+    </section>'''
     body = f'''
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
-    <div class="crumbs"><p class="eyebrow">Who it's for</p><span class="label">{len(SETUPS):02d} kinds of business</span></div>
-    <h1 class="h1" id="h1">What we build for businesses like yours.</h1>
-    <p class="lede">Every engine we build is custom. These are the engines we usually build for each kind of business, based on the work we've done. Yours starts from how you work.</p>
-    <div class="actions"><a class="btn" href="start.html">Apply {ARR_R}</a><a class="btn ghost" href="pricing.html">See pricing {ARR_R}</a></div>
-    <div class="cards">{cards}
-    </div>
+    <div class="crumbs"><p class="eyebrow">Who it's for</p><span class="label">{len(ICPS):02d} kinds of business</span></div>
+    <h1 class="h1" id="h1">Pick your business.</h1>
+    <p class="lede">Every engine we build is custom. These are the businesses we build for most, and what we'd start with for each. Yours starts from how you work.</p>
+    {spots()}
   </div>
-</section>''' + cta('Tell us how yours works.', "Tell us what still runs through you. We'll show you what we'd build and where we'd start.", '')
-    return page("Who It's For | OpLev", 'What OpLev builds for clinics, product brands, agencies, creators and startups. Every engine is custom, built around how the business works.',
-                body, p='', active='setups')
+</section>
+
+<div class="wrap fgroups">{blocks}
+  <a class="fg-else" href="start.html"><span class="label">not on the list</span><span class="fg-else-t">Something else? Tell us how it works.</span><span class="fr-go">{ARR_R}</span></a>
+</div>''' + cta('Tell us how yours works.', "Tell us what still runs through you. We'll show you what we'd build and where we'd start.", '')
+    return page("Who It's For | OpLev", 'What OpLev builds for clinics, home services, product brands, agencies, firms, startups and creators. Every engine is custom.',
+                body, p='', active='for')
 
 
-def setup_page(i):
-    x = SETUPS[i]
+def icp_page(x):
     p = '../'
+    g = GROUP[x['group']]
     L = LICENSES[x['license']]
-    n = len(SETUPS)
     k = x['id']
-    uses = job_cards([tuple(u) for u in x['uses']], sid=k, p=p, extra_cls=' plays-top')
-    seen = ''.join(
-        f'<a href="{case_href(BY_ID[cid], p)}">{mini(BY_ID[cid], SEED[cid], p)}<span class="h3">{E(BY_ID[cid]["name"])}</span><span class="go">{ARR_R}</span></a>'
-        for cid in x['cases'] if cid in BY_ID)
+    acc = x['engines'][0]
     eng_names = ' + '.join(ENGINE_NAME[e] for e in x['engines'])
-    missing = [ENGINE_NAME[e] for e, *_ in ENGINES if e not in x['engines']]
-    prv, nxt = SETUPS[(i - 1) % n], SETUPS[(i + 1) % n]
-    day = json.dumps({'cmd': f"A day at {x['demo']['biz']}", 'run': x['day']}).replace('</', '<\\/')
+    demo = f'{p}app.html#{x["demo"]}' if x.get('demo') else None
+    jobs = job_cards([tuple(j) for j in x['jobs']], sid=[k, x.get('sid')], p=p, extra_cls=' plays-top lp-jobs',
+                     start='#start', demo=demo or f'{p}how-it-works.html')
+    pains = ''.join(f'\n        <li><q>{E(t)}</q><span class="label lp-by"><span class="bot bot-xs" data-bot="{e}"></span>fixed by {ENGINE_NAME[e]}</span></li>'
+                    for t, e in x['pains'])
+    day = json.dumps({'cmd': x['day_t'], 'run': x['day']}).replace('</', '<\\/')
+    proof = ''
+    if x.get('case') and x['case'] in BY_ID:
+        c = BY_ID[x['case']]
+        proof += f'<a class="lp-link" href="{case_href(c, p)}">{mini(c, SEED[c["id"]], p)}<span><span class="label">our work</span><b>{E(c["name"])}</b></span><span class="go">{ARR_R}</span></a>'
+    if x.get('os') and x['os'] in MARKET_BY:
+        o = MARKET_BY[x['os']]
+        proof += f'<a class="lp-link" href="{p}marketplace/{o["id"]}.html"><span class="lp-ic" aria-hidden="true">{edots(o["engines"])}</span><span><span class="label">or start from</span><b>{E(o["name"])}</b></span><span class="go">{ARR_R}</span></a>'
+    if demo:
+        proof += f'<a class="lp-link" href="{demo}"><span class="lp-ic" aria-hidden="true">{edots(x["engines"])}</span><span><span class="label">example</span><b>See an example dashboard</b></span><span class="go">{ARR_R}</span></a>'
+    proof = f'<div class="lp-links">{proof}</div>' if proof else ''
+    tools = ''.join(f'<span class="tool">{E(t)}</span>' for t in x['tools'])
+    same = [y for y in icps_in(g['id']) if y['id'] != k]
+    others = ''.join(f'<a href="{y["id"]}.html">{E(y["name"])}</a>' for y in same)
     body = f'''
-<section class="top" aria-labelledby="h1">
-  <div class="wrap">
-    <div class="crumbs"><a class="label" href="{p}setups.html">{ARR_L} Who it's for</a><span class="label">{i + 1:02d} / {n:02d}</span></div>
-    <p class="eyebrow">What we build for</p>
-    <h1 class="h1" id="h1">{E(x['type'])}.</h1>
-    <p class="lede">{E(x['pitch'])}</p>
-    <dl class="facts f4">
-      <div><dt class="label">For</dt><dd>{E(x['for'])}</dd></div>
-      <div><dt class="label">Engines we usually build</dt><dd>{etags(x['engines'])}</dd></div>
-      <div><dt class="label">Usual plan</dt><dd>{E(L['name'])} / {E(L['price'])} a month</dd></div>
-      <div><dt class="label">Works with</dt><dd>{E(', '.join(x['connects']))}</dd></div>
-    </dl>
-    <div class="actions"><a class="btn" href="{p}start.html#{k}">Apply {ARR_R}</a><a class="btn ghost" href="{p}app.html#{k}">See an example {ARR_R}</a></div>
+<section class="top lp-hero" aria-labelledby="h1">
+  <div class="wrap lp-in">
+    <div class="lp-l">
+      <div class="crumbs"><a class="label" href="{p}for.html">{ARR_L} Who it's for</a><a class="label" href="{p}for.html#{g['id']}">{E(g['name'])}</a></div>
+      <p class="eyebrow">For {E(x['name'].lower())}</p>
+      <h1 class="h1 lp-h1" id="h1">{E(x['h1'])}</h1>
+      <p class="lede">{E(x['lede'])}</p>
+      <div class="actions"><a class="btn" href="#start">Apply for a spot {ARR_R}</a><a class="btn ghost" href="#jobs">What we'd build {ARR_D}</a></div>
+      {spots(' lp-spots')}
+    </div>
+    <div class="lp-r">
+      <div class="pane" data-src="lp-day" data-state="idle">
+        <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">{E(x['day_t'])}</span><span class="label">example</span></div>
+        <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
+        <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
+      </div>
+      <script type="application/json" id="lp-day">{day}</script>
+    </div>
   </div>
 </section>
 
-<section class="sec" id="uses" aria-labelledby="uses-h">
+<section class="sec lp-pains e-{acc}" aria-labelledby="pains-h">
+  <div class="wrap">
+    <div class="lp-pains-hd"><p class="eyebrow">Sound familiar?</p><h2 class="sr" id="pains-h">Sound familiar?</h2><span class="label">what {E(x['name'].lower())} tell us</span></div>
+    <ul class="lp-pains-list">{pains}
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="jobs" aria-labelledby="jobs-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">What we build in</p>
-        <h2 class="h2" id="uses-h">Jobs we usually build for.</h2>
-        <p class="lede">These are the jobs {E(x['type'].lower())} ask us for most. We build each one around how you work. Tap any job to see what happens, step by step.</p>
+        <p class="eyebrow">What we'd build</p>
+        <h2 class="h2" id="jobs-h">Your first four jobs.</h2>
+        <p class="lede">Where most {E(x['name'].lower())} start. We build each one around how you work. Tap any job to see what happens, step by step.</p>
       </div>
-      <p class="label">{len(x['uses'])} jobs</p>
+      {etags(x['engines'])}
     </div>
-    {uses}
+    {jobs}
   </div>
 </section>
 
-<section class="sec" id="day" aria-labelledby="day-h">
-  <div class="wrap">
-    <div class="head">
-      <div class="head-l">
-        <p class="eyebrow">A typical day</p>
-        <h2 class="h2" id="day-h">A day with {E(eng_names)} running.</h2>
-      </div>
-      <p class="label">example</p>
-    </div>
-    <div class="pane" data-src="day-data" data-state="idle" style="max-width:none">
-      <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">A typical day</span><span class="label">example</span></div>
-      <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
-      <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
-    </div>
-    <script type="application/json" id="day-data">{day}</script>
-  </div>
-</section>
-
-<section class="sec band" id="access" aria-labelledby="access-h">
+<section class="sec band" id="cost" aria-labelledby="cost-h">
   <div class="wrap split">
     <div class="head-l">
       <p class="eyebrow">What it costs</p>
-      <h2 class="h2" id="access-h">Usually {E(eng_names)}.</h2>
-      <p class="lede">For most {E(x['type'].lower())} we build {E(eng_names)}. That's the {E(L['name'].lower())} plan at {E(L['price'])} a month, with hosting, fixes and updates included.{(' We can add ' + ' or '.join(missing) + ' if you need it.') if missing else ''}</p>
-      <div class="actions"><a class="btn" href="{p}pricing.html">See pricing {ARR_R}</a></div>
+      <h2 class="h2" id="cost-h">Usually {E(eng_names)}. {E(L['price'])} a month.</h2>
+      <p class="lede">That's the {E(L['name'].lower())} plan, with hosting, fixes and updates included. Every build starts from how your {E(x['biz'])} already works.</p>
+      <div class="actions"><a class="btn" href="#start">Apply {ARR_R}</a><a class="btn ghost" href="{p}pricing.html">See pricing {ARR_R}</a></div>
     </div>
-    <div class="split-r">{access_for(x['engines'])}
-      <div class="tool-row"><span class="label">connects to</span>{''.join(f'<span class="tool">{E(c)}</span>' for c in x['connects'])}</div>
+    <div class="split-r">
+      <dl class="lp-facts">
+        <div><dt class="label">Best fit</dt><dd>{E(x['fit'])}</dd></div>
+        <div><dt class="label">Works with</dt><dd class="tool-row">{tools}</dd></div>
+      </dl>{proof}
     </div>
   </div>
 </section>
+''' + inquiry('h2', f"Apply for one of {CAPACITY['open']} spots.",
+                f"Tell us how your {x['biz']} runs today and what still runs through you. If it's a fit, we'll set up a call.",
+                preset=x['form'][0], other=x['form'][1], src=f"For {x['name'].lower()} page") + f'''
+<nav class="lp-more" aria-label="More in {E(g['name'])}">
+  <div class="wrap"><span class="label">also in {E(g['name'].lower())}</span>{others}<a href="{p}for.html">See all {len(ICPS)} {ARR_R}</a></div>
+</nav>'''
+    return page(f'OpLev for {x["name"]}', f'{x["h1"]} {x["lede"]}', body, p=p, active='for')
 
-<section class="sec" id="demo" aria-labelledby="demo-h">
-  <div class="wrap split">
-    <div class="head-l">
-      <p class="eyebrow">Example</p>
-      <h2 class="h2" id="demo-h">See an example dashboard.</h2>
-      <p class="lede">This is the kind of dashboard we build so you can approve drafts and see what got done. Here's one for a made-up {E(x['type'].lower().rstrip('s').replace(' + ', ' or '))} business.</p>
-      <div class="actions"><a class="btn" href="{p}app.html#{k}">Open the example {ARR_R}</a></div>
-    </div>
-    <div class="split-r">
-      <span class="label">our work for</span>
-      <div class="seen">{seen}</div>
-      <nav class="pager" aria-label="More kinds of business">
-        <a class="pg prev" href="{prv['id']}.html"><span class="label">{ARR_L} Previous</span><span class="h3">{E(prv['type'])}</span></a>
-        <a class="pg next" href="{nxt['id']}.html"><span class="label">Next {ARR_R}</span><span class="h3">{E(nxt['type'])}</span></a>
-      </nav>
-    </div>
-  </div>
-</section>''' + cta('Start your build.', "Tell us about your business. We'll design the engines around how you work and show you where we'd start.", p)
-    return page(f'{x["type"]} | OpLev', f'What OpLev builds for {x["type"].lower()}: {x["pitch"]}', body, p=p, active='setups')
+
+def redirect(to, title):
+    return (f'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>{E(title)}</title>\n'
+            f'<meta name="robots" content="noindex">\n<link rel="canonical" href="{to}">\n'
+            f'<meta http-equiv="refresh" content="0; url={to}">\n</head>\n<body>\n<p><a href="{to}">{E(title)}</a></p>\n</body>\n</html>\n')
 
 
 # ---------- marketplace ----------
@@ -1447,12 +1507,14 @@ def case(i):
 
 def main():
     out = {'index.html': home(), 'pricing.html': pricing(), 'work.html': work(), 'start.html': start(),
-           'setups.html': setups_index(), 'app.html': app_page(),
+           'for.html': for_index(), 'app.html': app_page(), 'setups.html': redirect('for.html', "Who it's for"),
            'how-it-works.html': how_page(), 'marketplace.html': market_index()}
     for i, x in enumerate(MARKET):
         out[f'marketplace/{x["id"]}.html'] = market_page(i)
-    for i, x in enumerate(SETUPS):
-        out[f'setups/{x["id"]}.html'] = setup_page(i)
+    for x in ICPS:
+        out[f'for/{x["id"]}.html'] = icp_page(x)
+    for x in SETUPS:
+        out[f'setups/{x["id"]}.html'] = redirect(f'../for.html#{SETUP_GROUP[x["id"]]}', "Who it's for")
     for i, c in enumerate(CASES):
         out[f'work/{c["id"]}.html'] = case(i)
     for rel, html in out.items():
