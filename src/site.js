@@ -537,6 +537,27 @@ if(!RM){
   once([$('#wm')],()=>decode($('#wm-t'),null,CAPS));
 }
 
+/* ---------- footer wordmark: letters flip to the engine colors ---------- */
+(function(){
+  const wm=$('#wm');if(!wm)return;
+  const L=$$('.wm-l',wm);if(!L.length)return;
+  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--paper)'],HOME=3;
+  L.forEach(el=>{el._c=HOME;});
+  let idle=null;
+  function flip(el,to){
+    if(el._busy)return;
+    const next=to==null?(el._c+1)%COLS.length:to;
+    if(next===el._c)return;
+    if(RM){el.style.color=COLS[next];el._c=next;return;}
+    el._busy=true;el.classList.remove('flip');void el.offsetWidth;el.classList.add('flip');
+    setTimeout(()=>{el.style.color=COLS[next];el._c=next;},210);
+    setTimeout(()=>{el.classList.remove('flip');el._busy=false;},470);
+  }
+  function rest(){clearTimeout(idle);idle=setTimeout(()=>L.forEach((el,i)=>setTimeout(()=>flip(el,HOME),i*70)),3200);}
+  L.forEach(el=>el.addEventListener('pointerenter',e=>{if(e.pointerType==='touch')return;flip(el);rest();}));
+  wm.addEventListener('click',()=>{L.forEach((el,i)=>setTimeout(()=>flip(el),i*70));rest();});
+})();
+
 /* ---------- footer wordmark fit + redraw on resize ---------- */
 function fitWordmark(){
   const wm=$('#wm'),t=$('#wm-t');if(!wm||!t)return;

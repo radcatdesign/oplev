@@ -717,6 +717,13 @@ html.sheet-open{overflow:hidden}
 .spots-pill .dot{width:6px;height:6px;background:var(--paper);animation:blink 1.4s steps(1) infinite}
 @media (min-width:520px){.spots-pill{display:inline-flex}}
 @media (prefers-reduced-motion:reduce){.sp-meter i,.spots-pill .dot{animation:none!important}}
+
+/* ---------- footer wordmark flip ---------- */
+.wm{perspective:900px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wm-l{display:inline-block;transform-origin:50% 55%;will-change:transform}
+.wm-l.flip{animation:wm-flip .46s cubic-bezier(.3,.7,.25,1)}
+@keyframes wm-flip{0%{transform:rotateX(0)}45%{transform:rotateX(90deg)}46%{transform:rotateX(-90deg)}100%{transform:rotateX(0)}}
+@media (prefers-reduced-motion:reduce){.wm-l.flip{animation:none}.wm-l{transition:color .2s}}
 </style>
 </head>
 <body>
@@ -878,7 +885,7 @@ html.sheet-open{overflow:hidden}
 
 <footer class="foot">
   <div class="wrap">
-    <p class="wm" id="wm"><span id="wm-t">OPLEV</span></p>
+    <p class="wm" id="wm" aria-label="OpLev"><span id="wm-t" aria-hidden="true"><span class="wm-l">O</span><span class="wm-l">P</span><span class="wm-l">L</span><span class="wm-l">E</span><span class="wm-l">V</span></span></p>
     <div class="frow label">
       <span>OpLev</span>
       <span>Custom engines for companies</span>
@@ -1428,6 +1435,27 @@ if(!RM){
   once([$('.plans')],el=>$$('.amt',el).forEach((a,i)=>setTimeout(()=>decode(a,700),i*160)),.3);
   once([$('#wm')],()=>decode($('#wm-t'),null,CAPS));
 }
+
+/* ---------- footer wordmark: letters flip to the engine colors ---------- */
+(function(){
+  const wm=$('#wm');if(!wm)return;
+  const L=$$('.wm-l',wm);if(!L.length)return;
+  const COLS=['var(--ops)','var(--agents)','var(--leads)','var(--paper)'],HOME=3;
+  L.forEach(el=>{el._c=HOME;});
+  let idle=null;
+  function flip(el,to){
+    if(el._busy)return;
+    const next=to==null?(el._c+1)%COLS.length:to;
+    if(next===el._c)return;
+    if(RM){el.style.color=COLS[next];el._c=next;return;}
+    el._busy=true;el.classList.remove('flip');void el.offsetWidth;el.classList.add('flip');
+    setTimeout(()=>{el.style.color=COLS[next];el._c=next;},210);
+    setTimeout(()=>{el.classList.remove('flip');el._busy=false;},470);
+  }
+  function rest(){clearTimeout(idle);idle=setTimeout(()=>L.forEach((el,i)=>setTimeout(()=>flip(el,HOME),i*70)),3200);}
+  L.forEach(el=>el.addEventListener('pointerenter',e=>{if(e.pointerType==='touch')return;flip(el);rest();}));
+  wm.addEventListener('click',()=>{L.forEach((el,i)=>setTimeout(()=>flip(el),i*70));rest();});
+})();
 
 /* ---------- footer wordmark fit + redraw on resize ---------- */
 function fitWordmark(){

@@ -200,11 +200,14 @@ def shell_top(p, home, active):
 '''
 
 
+WM_LETTERS = ''.join(f'<span class="wm-l">{ch}</span>' for ch in 'OPLEV')
+
+
 def shell_bottom():
     return f'''
 <footer class="foot">
   <div class="wrap">
-    <p class="wm" id="wm"><span id="wm-t">OPLEV</span></p>
+    <p class="wm" id="wm" aria-label="OpLev"><span id="wm-t" aria-hidden="true">{WM_LETTERS}</span></p>
     <div class="frow label">
       <span>OpLev</span>
       <span>Custom engines for companies</span>

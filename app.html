@@ -717,6 +717,13 @@ html.sheet-open{overflow:hidden}
 @media (min-width:520px){.spots-pill{display:inline-flex}}
 @media (prefers-reduced-motion:reduce){.sp-meter i,.spots-pill .dot{animation:none!important}}
 
+/* ---------- footer wordmark flip ---------- */
+.wm{perspective:900px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wm-l{display:inline-block;transform-origin:50% 55%;will-change:transform}
+.wm-l.flip{animation:wm-flip .46s cubic-bezier(.3,.7,.25,1)}
+@keyframes wm-flip{0%{transform:rotateX(0)}45%{transform:rotateX(90deg)}46%{transform:rotateX(-90deg)}100%{transform:rotateX(0)}}
+@media (prefers-reduced-motion:reduce){.wm-l.flip{animation:none}.wm-l{transition:color .2s}}
+
 /* OpLev Console. Same Bison tokens as the site (site.css loads first).
    Layout: fixed sidebar + sticky top bar + scrolling view; cards use the 1px hairline grid. Drawer slides in from the right. */
 .app{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh;min-height:100dvh}
