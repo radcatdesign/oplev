@@ -11,26 +11,25 @@ const WHO={'@ops':'Ops','@agents':'Agents','@leads':'Leads','@marketing':'Market
 /* ---------- the characters: one tile bot per engine ---------- */
 // '#' body in the engine color, 'k' ink, 'w' paper. blink and act are rows swapped in for a frame.
 const BOTS={
-  // Ops: water. A droplet floats over its head.
-  ops:{base:[".....##.....","....####....","....#w##....",".....##.....","............","..########..",".##########.",".#kkk##kkk#.",".#kwkkkkwk#.",".#kkk##kkk#.",".##########.",".###kkkk###.",".##########.","..########..","...#....#...","..##....##.."],
-    blink:{8:".#kkkkkkkk#."},
-    idle:[{0:"............",1:".....##.....",2:"....####....",3:"....#w##....",4:".....##....."}],
-    act:[{0:"............",1:".....##.....",2:"....####....",3:"....#w##....",4:".....##.....",7:".#kkk##kkk#.",8:".#kwkkkkwk#."},{}]},
-  // Agents: earth. A sprout instead of an antenna, and there are always a few of them.
-  agents:{base:["......###...","....#####...","...##.###...",".....##.....","...######...","..########..",".##kk##kk##.",".##kw##kw##.",".##########.",".##k####k##.",".###kkkk###.",".##########.",".##########.",".#.##..##.#."],
-    blink:{6:".##########.",7:".##kk##kk##."},
-    idle:[{0:".....###....",1:"...#####....",2:"..##.###...."}],
-    act:[{0:"...###......",1:"...#####....",2:"...###.##...",13:"..#.####.#.."},{}]},
-  // Leads: fire. The hair is a flame, and it never stops flickering.
-  leads:{base:["..#....#.....",".##...##..#..",".###.###.##..","##########...","##kk##kk##.#.","##########.#.","##kk##kk##.#.","##kw##kw##.#.","##########.#.","#kwwwwwwk####","##kkkkkk###..","##########...",".########...."],
-    blink:{6:"##########.#.",7:"##kk##kk##.#."},
-    idle:[{0:"...#....#....",1:"..##..##.#...",2:".###.###.##.."},{0:".#....#......",1:".##..##..#...",2:".###.###.##.."}],
-    act:[{4:"##kk##kk##..#",5:"##########..#",6:"##kk##kk##..#",7:"##kw##kw##.#.",8:"##########.#."},{}]},
-  // Marketing: wind. A little cloud, always blowing your name somewhere new.
-  marketing:{base:["....####..........","..########.###....",".#############....","##############....","###kk####kk###.###","###kw####kw###....","##############.###","#########kk###....",".########kk##.####","..###########.....","...##.####.##....."],
-    blink:{4:"##############.###",5:"###kk####kk###...."},
-    idle:[{4:"###kk####kk###..##",6:"##############..##",8:".########kk##..###"},{4:"###kk####kk###.##.",6:"##############.##.",8:".########kk##.###."}],
-    act:[{4:"###kk####kk###..##",6:"##############..##",7:"#########kw###....",8:".########kk##..###"},{4:"###kk####kk###.###",6:"##############.###",7:"#########kw###....",8:".########kk##.####"}]}
+  // Ops is water: a droplet that sways and catches the light
+  ops:{base:["......##......",".....####.....",".....####.....","....######....","...########...","..##########..","..#w########..",".#ww#########.",".#w##########.",".###kk###kk##.",".###kw###kw#d.",".###########d.",".####k###k##d.","..####kkk##d..","...#######d...",".....dddd....."],
+    blink:{9:".############.",10:".###kk###kk#d."},
+    idle:[{0:".......##.....",1:"......####...."},{0:".....##.......",1:"....####......"}],
+    act:[{0:".......##.....",1:"......####....",6:"..##w#######..",7:".#w#w########.",8:".##w#########."},{0:".....##.......",1:"....####......"}],actN:4,actMs:190,hop:1},
+  // Agents are earth: a little range of mountains with snow on top
+  agents:{base:["......##......",".....#ww#.....","....#wwww#....","....#w##w#....","...#######d...","...########d..","..##########d.","..#kk####kk#d.",".##kw####kw##d",".############d","##k########k#d","###kkkkkkkk##d","#############d",".dddddddddddd."],
+    blink:{7:"..##########d.",8:".##kk####kk##d"},
+    act:[{10:"##k########k#d",11:"###kwwwwwwk##d"},{}]},
+  // Leads is fire: a flame that never stops flickering
+  leads:{base:[".....#........",".....##.....#.","..#..###...##.","..##.####.###.",".###.########.",".############.","##############","##############","##kk######kk##","##kw######kw##","##############","##k########k##","###kkkkkkkk###",".############.","..##########..","....dddddd...."],
+    blink:{8:"##############",9:"##kk######kk##"},
+    idle:[{0:"......#.......",1:"......##....#.",2:"..#..###...##.",3:".##..####.###."},{0:"....#.........",1:"....##......#.",2:".#..###....##.",3:".##.####..###."}],
+    act:[{0:".....#.....#..",1:".#...##....##.",2:".##..###..###.",3:".###.####.####",12:"###kwwwwwwk###"},{0:"....#.........",1:"....##......#.",2:".#..###....##.",3:".##.####..###.",12:"###kwwwwwwk###"}],actN:6,actMs:140},
+  // Marketing is wind: a cloud blowing your name somewhere new
+  marketing:{base:[".....###...###.......","...#######.#####.....","..###############....",".#################...","##kk#####kk#######...","##kw#####kw######..##","#################.###","##########kkk####....","#########k...k##.####","##########kkk####....",".################.###","..##.#######.###...##"],
+    blink:{4:"##################...",5:"##kk#####kk######..##"},
+    idle:[{5:"##kw#####kw######...#",6:"#################..##",8:"#########k...k##..###",10:".################..##",11:"..##.#######.###....#"},{}],
+    act:[{5:"##kw#####kw######...#",6:"#################..##",8:"#########k...k##..###",10:".################..##",11:"..##.#######.###....#"},{}],actN:6,actMs:140}
 };
 const BOT_LINES={
   ops:["Everything's where it should be.","Your morning summary is ready.","Nothing's late. I checked twice.","Sorted your clients A to Z. You're welcome.","Three things need you today. Just three."],
@@ -649,21 +648,21 @@ $$('.bot-card').forEach(card=>{
   // idle: each one blinks and fidgets on its own clock
   if(!RM)bots.forEach(el=>{(function loop(){setTimeout(async()=>{
     if(!busy){
-      if(B.idle&&Math.random()<.55){const f=B.idle;for(let k=0;k<(name==='leads'||name==='marketing'?6:2);k++){if(busy)break;draw(el,f[k%f.length]);await sleep(name==='ops'?260:150);}if(!busy)draw(el);}
+      if(B.idle&&Math.random()<(name==='leads'?.8:.5)){const f=B.idle;for(let k=0;k<(name==='ops'?3:6);k++){if(busy)break;draw(el,f[k%f.length]);await sleep(name==='ops'?260:140);}if(!busy)draw(el);}
       else{draw(el,B.blink);await sleep(140);if(!busy)draw(el);}
     }
-    loop();},1800+Math.random()*3800);})();});
+    loop();},(name==='leads'?900:1800)+Math.random()*3400);})();});
   async function act(){
     if(busy)return;busy=true;speak();
     if(RM){busy=false;return;}
     const A=B.act;
     if(crew){
-      bots.forEach((el,i)=>setTimeout(()=>{el.classList.add('hop');draw(el,A[0]);setTimeout(()=>{el.classList.remove('hop');draw(el);},260);},i*110));
-      await sleep(620);
+      bots.forEach((el,i)=>setTimeout(()=>{el.classList.add('hop');draw(el,A[0]);setTimeout(()=>{el.classList.remove('hop');draw(el);},300);},i*110));
+      await sleep(660);
     }else{
-      const n=name==='ops'?2:6;
-      for(let i=0;i<n;i++){bots.forEach(el=>draw(el,A[i%2]));await sleep(name==='ops'?320:150);}
-      bots.forEach(el=>draw(el));
+      if(B.hop)bots.forEach(el=>el.classList.add('hop'));
+      for(let i=0;i<(B.actN||4);i++){bots.forEach(el=>draw(el,A[i%A.length]));await sleep(B.actMs||160);if(i===1&&B.hop)bots.forEach(el=>el.classList.remove('hop'));}
+      bots.forEach(el=>{el.classList.remove('hop');draw(el);});
     }
     busy=false;
   }

@@ -111,7 +111,7 @@ def elem(k, cls=''):
 # each engine is a character: a name, a role and a temper
 BOT_ROLE = {
     'ops': ('The organizer', 'Calm and steady, like water. Gets into every corner of the business and keeps it all flowing. Up at 6 with your day sorted.'),
-    'agents': ('The helpers', 'Grounded as earth. There are a few of them, they do the heavy lifting every shift, and they always ask before sending anything new.'),
+    'agents': ('The helpers', 'Solid as a mountain range. There are a few of them, they do the heavy lifting every shift, and they always ask before sending anything new.'),
     'leads': ('The go-getter', 'All fire. First to say hi, answers at 10pm, remembers every name and never lets a quote go cold.'),
     'marketing': ('The messenger', 'Quick as the wind. Carries your name further every week, with posts, emails and stories made from your real work.'),
 }
