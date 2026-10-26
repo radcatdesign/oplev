@@ -5,8 +5,9 @@ Static site. Every page is a self-contained HTML file, so Vercel serves the repo
 ## Edit
 
 - Case studies: `content/cases.json`
-- Setups and Console sample data: `content/setups.json`
-- Job walkthroughs (what happens when a job runs): `content/jobs.json`, keyed by job title. Use `setupid:Title` for a version specific to one setup.
+- Who it's for: `content/icps.json`. Each business type gets a landing page at `for/<id>.html`, a spot in the "Who it's for" mega menu, the home page list and the pricing "common for" lines. Groups set the menu columns.
+- Example dashboard sample data: `content/setups.json`
+- Job walkthroughs (what happens when a job runs): `content/jobs.json`, keyed by job title. Use `id:Title` for a version specific to one business type (a landing page id from `icps.json`, or a setup id).
 - Marketplace listings: `content/marketplace.json` (currently example listings)
 - Client spots shown across the site: `CAPACITY` at the top of `build.py`. Keep it set to your real numbers.
 - Console: `src/app.css`, `src/app.js`
@@ -20,7 +21,7 @@ Then rebuild and commit the output:
 python3 build.py
 ```
 
-This writes `index.html`, `how-it-works.html`, `pricing.html`, `work.html`, `start.html`, `setups.html`, `setups/<type>.html`, `marketplace.html`, `marketplace/<os>.html`, `app.html` and `work/<case>.html`.
+This writes `index.html`, `how-it-works.html`, `pricing.html`, `work.html`, `start.html`, `for.html`, `for/<business>.html`, `marketplace.html`, `marketplace/<os>.html`, `app.html` and `work/<case>.html`.
 
 ## Case images
 
@@ -40,7 +41,7 @@ The form on the home page and `/start` posts to `api/inquiry.js`, a Vercel funct
 
 Until those are set, the form shows the visitor a ready-to-copy note and the email address instead.
 
-Links can preselect answers: `start.html#os-practice` marks the application as about that marketplace OS; `start.html#clinic`, `#brand`, `#agency`, `#creator`, `#startup` set the business type; `#one`, `#core`, `#company` set the plan; `#resale` sets resale to yes.
+Links can preselect answers: `start.html#os-practice` marks the application as about that marketplace OS; `start.html#clinic`, `#field`, `#brand`, `#agency`, `#creator`, `#startup` set the business type; `#one`, `#core`, `#company` set the plan; `#resale` sets resale to yes.
 
 `.vercelignore` keeps `build.py`, `src/`, `content/` and this README off the live site.
 
@@ -48,6 +49,14 @@ Links can preselect answers: `start.html#os-practice` marks the application as a
 
 `app.html` is an example of the dashboard OpLev builds for a client, shown for a made-up business with sample data: home, needs your OK, activity, engine pages, automations, inquiries, records, progress score and settings. Changes stay in the visitor's browser.
 
-Open it as a business type with `app.html#clinic`, `#brand`, `#agency`, `#creator` or `#startup`. Each "Who it's for" page links to its example.
+Open it as a business type with `app.html#clinic`, `#brand`, `#agency`, `#creator` or `#startup`. Landing pages with a `demo` set in `icps.json` link to their example.
 
-To add or change a business type, edit `content/setups.json`. Each entry drives its "Who it's for" page, the home picker, the pricing "common for" line and the example dashboard's sample business.
+`content/setups.json` holds the example dashboard's sample businesses. The old `setups.html` and `setups/<type>.html` addresses redirect to `/for` (see `vercel.json`).
+
+## The characters
+
+Each engine is a tile character: Ops (the organizer), Agents (the helpers) and Leads (the go-getter). Their sprites and lines live in `BOTS` and `BOT_LINES` at the top of `src/site.js`, their one-line bios in `BOT_ROLE` in `build.py`. They show up on the home page engine strips and next to their names in every activity log.
+
+## Footer wordmark
+
+The OPLEV wordmark is drawn as tiles taken from Doto's own capitals (`GLYPHS` in `build.py`), so each tile can blink to an engine color on hover.
