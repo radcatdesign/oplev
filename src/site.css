@@ -1016,3 +1016,41 @@ html.sheet-open{overflow:hidden}
 @media (max-width:599px){.say-ctl{width:100%}.say-n{margin-right:auto}}
 @media (prefers-reduced-motion:reduce){.say-card{transition:none}.say-card:hover{transform:none}}
 
+
+/* ---------- tools: what plugs into each engine, by industry ---------- */
+.tools-hd{display:grid;gap:18px 48px;align-items:end;margin-bottom:clamp(24px,3vw,36px)}
+@media (min-width:980px){.tools-hd{grid-template-columns:minmax(0,6fr) minmax(0,6fr)}}
+.tools-hd .lede{margin:0}
+.tpick{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-bottom:22px}
+.tpick-l{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(20px,2.3vw,32px);letter-spacing:-.04em}
+.tpick-s{position:relative;display:inline-flex;max-width:100%}
+.tpick-s select{appearance:none;-webkit-appearance:none;background:var(--paper);color:var(--ink);border:0;border-radius:0;font:500 clamp(20px,2.3vw,32px)/1.15 var(--display);font-stretch:87.5%;letter-spacing:-.04em;padding:6px 50px 8px 14px;cursor:pointer;max-width:100%}
+.tpick-s::after{content:"";position:absolute;right:18px;top:50%;width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.tpick-go{color:var(--soft);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-left:auto}
+.tpick-go svg{width:13px;height:13px}
+.tpick-go:hover{color:var(--paper)}
+@media (max-width:699px){.tpick-go{margin-left:0;width:100%}}
+.tboard{display:grid;gap:1px;background:var(--line-2);border:1px solid var(--line-2);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.tboard{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1180px){.tboard{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tcol{background:var(--ink);display:flex;flex-direction:column;min-width:0;border-top:3px solid var(--e)}
+.tcol-hd{display:flex;align-items:center;gap:9px;padding:16px 16px 12px;flex-wrap:wrap}
+.tcol-hd b{font:500 19px/1 var(--display);font-stretch:87.5%;letter-spacing:-.03em;color:var(--e)}
+.tcol-hd .bot-xs{margin:0}
+.tcol-hd .bot-xs svg{height:18px}
+.tcol-st{margin-left:auto;color:var(--dim-2)}
+.tcol.usual .tcol-st{color:var(--e)}
+.tcol-core{margin:0 16px;padding:0 0 14px;border-bottom:1px solid var(--line);color:var(--soft);font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.tcol-core .label{color:var(--dim-2)}
+.tlist{list-style:none;margin:0;padding:12px;display:flex;flex-direction:column;gap:8px}
+.tlist .tl{position:relative}
+.tlist .tool-in{display:flex;flex-direction:column;gap:5px;padding:12px 12px 13px;background:var(--ink-2);border:1px solid var(--line);border-left:3px solid var(--e);text-align:left;width:100%;color:var(--paper);font:inherit}
+.tlist button.tool-in{cursor:pointer;transition:background .15s,border-color .15s}
+.tlist button.tool-in:hover{background:#151518;border-color:var(--e)}
+.tl-k{color:var(--e)}
+.tl-n{font:500 15px/1.25 var(--display);font-stretch:92%;letter-spacing:-.02em}
+.tl-d{color:var(--soft);font-size:13.5px;line-height:1.45}
+.lic-tools{border-top:3px solid;border-image:linear-gradient(90deg,var(--ops) 0 25%,var(--agents) 25% 50%,var(--leads) 50% 75%,var(--marketing) 75%) 1}
+.lic-more{color:var(--soft)!important;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.lic-more svg{width:13px;height:13px}
+.lic-more:hover{color:var(--paper)!important}

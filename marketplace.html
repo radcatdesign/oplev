@@ -1028,6 +1028,44 @@ html.sheet-open{overflow:hidden}
 @media (max-width:599px){.say-ctl{width:100%}.say-n{margin-right:auto}}
 @media (prefers-reduced-motion:reduce){.say-card{transition:none}.say-card:hover{transform:none}}
 
+
+/* ---------- tools: what plugs into each engine, by industry ---------- */
+.tools-hd{display:grid;gap:18px 48px;align-items:end;margin-bottom:clamp(24px,3vw,36px)}
+@media (min-width:980px){.tools-hd{grid-template-columns:minmax(0,6fr) minmax(0,6fr)}}
+.tools-hd .lede{margin:0}
+.tpick{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-bottom:22px}
+.tpick-l{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(20px,2.3vw,32px);letter-spacing:-.04em}
+.tpick-s{position:relative;display:inline-flex;max-width:100%}
+.tpick-s select{appearance:none;-webkit-appearance:none;background:var(--paper);color:var(--ink);border:0;border-radius:0;font:500 clamp(20px,2.3vw,32px)/1.15 var(--display);font-stretch:87.5%;letter-spacing:-.04em;padding:6px 50px 8px 14px;cursor:pointer;max-width:100%}
+.tpick-s::after{content:"";position:absolute;right:18px;top:50%;width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.tpick-go{color:var(--soft);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-left:auto}
+.tpick-go svg{width:13px;height:13px}
+.tpick-go:hover{color:var(--paper)}
+@media (max-width:699px){.tpick-go{margin-left:0;width:100%}}
+.tboard{display:grid;gap:1px;background:var(--line-2);border:1px solid var(--line-2);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.tboard{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1180px){.tboard{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tcol{background:var(--ink);display:flex;flex-direction:column;min-width:0;border-top:3px solid var(--e)}
+.tcol-hd{display:flex;align-items:center;gap:9px;padding:16px 16px 12px;flex-wrap:wrap}
+.tcol-hd b{font:500 19px/1 var(--display);font-stretch:87.5%;letter-spacing:-.03em;color:var(--e)}
+.tcol-hd .bot-xs{margin:0}
+.tcol-hd .bot-xs svg{height:18px}
+.tcol-st{margin-left:auto;color:var(--dim-2)}
+.tcol.usual .tcol-st{color:var(--e)}
+.tcol-core{margin:0 16px;padding:0 0 14px;border-bottom:1px solid var(--line);color:var(--soft);font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.tcol-core .label{color:var(--dim-2)}
+.tlist{list-style:none;margin:0;padding:12px;display:flex;flex-direction:column;gap:8px}
+.tlist .tl{position:relative}
+.tlist .tool-in{display:flex;flex-direction:column;gap:5px;padding:12px 12px 13px;background:var(--ink-2);border:1px solid var(--line);border-left:3px solid var(--e);text-align:left;width:100%;color:var(--paper);font:inherit}
+.tlist button.tool-in{cursor:pointer;transition:background .15s,border-color .15s}
+.tlist button.tool-in:hover{background:#151518;border-color:var(--e)}
+.tl-k{color:var(--e)}
+.tl-n{font:500 15px/1.25 var(--display);font-stretch:92%;letter-spacing:-.02em}
+.tl-d{color:var(--soft);font-size:13.5px;line-height:1.45}
+.lic-tools{border-top:3px solid;border-image:linear-gradient(90deg,var(--ops) 0 25%,var(--agents) 25% 50%,var(--leads) 50% 75%,var(--marketing) 75%) 1}
+.lic-more{color:var(--soft)!important;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.lic-more svg{width:13px;height:13px}
+.lic-more:hover{color:var(--paper)!important}
 </style>
 </head>
 <body>
@@ -1115,7 +1153,7 @@ html.sheet-open{overflow:hidden}
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">Marketplace</p><span class="label">06 example listings</span></div>
     <h1 class="h1" id="h1">Operating systems, ready to license.</h1>
-    <p class="lede">Each OS here was built by OpLev for a business like yours, then listed by its owner. Pick one, apply, and we tailor it to you and run it every month. Faster than starting from scratch.</p>
+    <p class="lede">Each OS here is a set of engines and industry tools, built by OpLev for a business like yours, then listed by its owner. Pick one, apply, and we tailor it to you and run it every month. Faster than starting from scratch.</p>
     <p class="label mk-note">These are example listings while the first ones go live.</p>
     <div class="tabs filters mk-filters" role="group" aria-label="Filter by business"><button class="tab" type="button" aria-pressed="true" data-f="all">All</button><button class="tab" type="button" aria-pressed="false" data-f="clinic">Clinics</button><button class="tab" type="button" aria-pressed="false" data-f="brand">Brands</button><button class="tab" type="button" aria-pressed="false" data-f="agency">Agencies</button><button class="tab" type="button" aria-pressed="false" data-f="creator">Creators</button><button class="tab" type="button" aria-pressed="false" data-f="startup">Startups</button><button class="tab" type="button" aria-pressed="false" data-f="services">Services</button></div>
     <div class="cards mk-cards">
@@ -1191,7 +1229,7 @@ html.sheet-open{overflow:hidden}
         <h2 class="h2" id="lic-steps-h">Proven in one business. Tailored for yours.</h2>
       </div>
     </div>
-    <ol class="steps steps-3"><li class="step"><div class="step-top"><span class="num" aria-hidden="true">01</span></div><h3 class="h3">Pick one</h3><p>Find an OS built for a business like yours, and see every job it handles.</p></li><li class="step"><div class="step-top"><span class="num" aria-hidden="true">02</span></div><h3 class="h3">We tailor it</h3><p>We connect it to your tools and set it up with your wording, your prices and your rules.</p></li><li class="step"><div class="step-top"><span class="num" aria-hidden="true">03</span></div><h3 class="h3">We run it</h3><p>You pay monthly. We host it, fix it and keep it improving. The owner earns on every license.</p></li></ol>
+    <ol class="steps steps-3"><li class="step"><div class="step-top"><span class="num" aria-hidden="true">01</span></div><h3 class="h3">Pick one</h3><p>Find an OS built for a business like yours, and see every tool in it.</p></li><li class="step"><div class="step-top"><span class="num" aria-hidden="true">02</span></div><h3 class="h3">We tailor it</h3><p>We connect it to your tools and set it up with your wording, your prices and your rules.</p></li><li class="step"><div class="step-top"><span class="num" aria-hidden="true">03</span></div><h3 class="h3">We run it</h3><p>You pay monthly. We host it, fix it and keep it improving. The owner earns on every license.</p></li></ol>
   </div>
 </section>
 
@@ -1607,7 +1645,7 @@ $$('[data-jobs]').forEach(list=>{
       +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
       +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
       +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
-      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">See an example</a></div></div>';
     document.body.appendChild(dlg);
     $('.sheet-x',dlg).addEventListener('click',close);
     dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
@@ -1626,7 +1664,7 @@ $$('[data-jobs]').forEach(list=>{
     $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
     const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
     st.href=J.start;st.innerHTML='Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
-    dm.href=J.demo;dm.innerHTML='Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
+    dm.href=J.demo;dm.innerHTML='See an example <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
     const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
     const pane=$('.pane',dlg);
@@ -1658,6 +1696,23 @@ $$('.eng,.strip').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng
 $$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name',a),380,CAPS+'abcdefghijklmnopqrstuvwxyz')));
 /* jobs rail arrows */
 $$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
+
+/* ---------- tools board: pick an industry, see what plugs into each engine ---------- */
+(function(){
+  const sel=$('#tool-for'),board=$('#tboard'),src=$('#tools-data'),go=$('#tool-go');if(!sel||!board||!src)return;
+  let D;try{D=JSON.parse(src.textContent)}catch(e){return;}
+  const cols=$$('.tcol',board);
+  sel.addEventListener('change',()=>{
+    const x=D[sel.value];if(!x)return;
+    cols.forEach(c=>{
+      const k=([...c.classList].find(z=>z.indexOf('e-')===0)||'e-').slice(2),u=x.u.indexOf(k)>-1;
+      c.classList.toggle('usual',u);$('.tcol-st',c).textContent=u?'usually first':'add any time';
+      $('.tlist',c).innerHTML=(x.t[k]||[]).map(([n,d])=>'<li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">'+esc(n)+'</b><span class="tl-d">'+esc(d)+'</span></div></li>').join('');
+      if(!RM)$$('.tl-n',c).forEach((el,i)=>setTimeout(()=>decode(el,380),i*60));
+    });
+    if(go){go.href='for/'+sel.value+'.html#tools';if(go.firstChild&&go.firstChild.nodeType===3)go.firstChild.nodeValue='Open the '+x.n.toLowerCase()+' page ';}
+  });
+})();
 
 /* ---------- sound familiar: card carousel ---------- */
 (function(){

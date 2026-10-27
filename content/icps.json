@@ -1,611 +1,2747 @@
 {
   "groups": [
-    {"id": "health", "name": "Health + wellness", "line": "Clinics, practices and studios where the schedule is the business."},
-    {"id": "home", "name": "Home + field services", "line": "Crews, routes and quotes, run from the truck."},
-    {"id": "brands", "name": "Product brands", "line": "Brands selling online, in stores and to the trade."},
-    {"id": "firms", "name": "Agencies + firms", "line": "Client work, deadlines and paperwork."},
-    {"id": "founders", "name": "Founders + creators", "line": "Small teams doing the work of a big one."}
+    {
+      "id": "health",
+      "name": "Health + wellness",
+      "line": "Clinics, practices and studios where the schedule is the business."
+    },
+    {
+      "id": "home",
+      "name": "Home + field services",
+      "line": "Crews, routes and quotes, run from the truck."
+    },
+    {
+      "id": "brands",
+      "name": "Product brands",
+      "line": "Brands selling online, in stores and to the trade."
+    },
+    {
+      "id": "firms",
+      "name": "Agencies + firms",
+      "line": "Client work, deadlines and paperwork."
+    },
+    {
+      "id": "founders",
+      "name": "Founders + creators",
+      "line": "Small teams doing the work of a big one."
+    }
   ],
   "items": [
     {
-      "id": "med-spas", "group": "health", "name": "Med spas", "biz": "med spa", "sid": "clinic", "demo": "clinic",
-      "form": ["clinic", ""],
+      "id": "med-spas",
+      "group": "health",
+      "name": "Med spas",
+      "biz": "med spa",
+      "sid": "clinic",
+      "demo": "clinic",
+      "form": [
+        "clinic",
+        ""
+      ],
       "h1": "Fill the schedule without living on your phone.",
       "lede": "We build engines that answer pricing questions at 10pm, remind clients when their next treatment is due and follow up on every consult that didn't book.",
       "fit": "1 to 3 locations, a front desk that can't keep up",
-      "engines": ["leads", "agents"], "license": "core",
-      "tools": ["Google Calendar", "Instagram DMs", "Stripe", "SMS", "your booking system"],
+      "engines": [
+        "leads",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Google Calendar",
+        "Instagram DMs",
+        "Stripe",
+        "SMS",
+        "your booking system"
+      ],
       "pains": [
-        ["Half our DMs are \"how much is lip filler?\"", "agents"],
-        ["Consults that don't book just disappear.", "leads"],
-        ["Clients forget they're due until it's been six months.", "agents"]
+        [
+          "Half our DMs are \"how much is lip filler?\"",
+          "agents"
+        ],
+        [
+          "Consults that don't book just disappear.",
+          "leads"
+        ],
+        [
+          "Clients forget they're due until it's been six months.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["agents", "when a DM or form comes in", "Fast replies to new leads", "Answers pricing questions in minutes and offers a consult time."],
-        ["leads", "3 days after a consult", "Consult follow-ups", "Checks in with anyone who didn't book and answers what held them back."],
-        ["agents", "when a treatment is due again", "Treatment due reminders", "Texts clients when it's time for their next visit, with open times."],
-        ["agents", "the day after a visit", "Review requests", "Asks happy clients for a review while the results are fresh."]
+        [
+          "agents",
+          "when a DM or form comes in",
+          "Fast replies to new leads",
+          "Answers pricing questions in minutes and offers a consult time."
+        ],
+        [
+          "leads",
+          "3 days after a consult",
+          "Consult follow-ups",
+          "Checks in with anyone who didn't book and answers what held them back."
+        ],
+        [
+          "agents",
+          "when a treatment is due again",
+          "Treatment due reminders",
+          "Texts clients when it's time for their next visit, with open times."
+        ],
+        [
+          "agents",
+          "the day after a visit",
+          "Review requests",
+          "Asks happy clients for a review while the results are fresh."
+        ]
       ],
       "day": [
-        ["07:00:00", "@ops", "morning summary: 22 bookings, 3 open consults", "ready"],
-        ["09:14:22", "@agents", "replied to 6 overnight DMs about pricing", "sent"],
-        ["10:30:05", "@agents", "texted 14 clients due for their next treatment", "sent"],
-        ["11:02:40", "@leads", "Monday's consult booked after a follow-up", "booked"],
-        ["13:15:10", "you", "approve a reply about a custom package", "pending", "need"],
-        ["13:18:44", "you", "approved", "ok", "me"]
+        [
+          "07:00:00",
+          "@ops",
+          "morning summary: 22 bookings, 3 open consults",
+          "ready"
+        ],
+        [
+          "09:14:22",
+          "@agents",
+          "replied to 6 overnight DMs about pricing",
+          "sent"
+        ],
+        [
+          "10:30:05",
+          "@agents",
+          "texted 14 clients due for their next treatment",
+          "sent"
+        ],
+        [
+          "11:02:40",
+          "@leads",
+          "Monday's consult booked after a follow-up",
+          "booked"
+        ],
+        [
+          "13:15:10",
+          "you",
+          "approve a reply about a custom package",
+          "pending",
+          "need"
+        ],
+        [
+          "13:18:44",
+          "you",
+          "approved",
+          "ok",
+          "me"
+        ]
       ],
       "day_t": "A Thursday at a med spa",
-      "case": "adessa-mind", "os": "practice"
+      "case": "adessa-mind",
+      "os": "practice",
+      "extra": {
+        "ops": [
+          [
+            "Treatment and package tracking",
+            "Every client's treatments, packages and what's left on them, in one place."
+          ],
+          [
+            "Provider schedule view",
+            "Who's booked, who's open and which rooms are free today."
+          ]
+        ],
+        "leads": [
+          [
+            "Treatment price finder",
+            "Visitors pick a treatment and area, see a price range and book a consult."
+          ]
+        ],
+        "marketing": [
+          [
+            "Before and after posts",
+            "Turns approved before and after photos into posts, with client consent tracked."
+          ],
+          [
+            "Monthly specials email",
+            "Sends this month's offers to past clients who are due."
+          ]
+        ]
+      }
     },
     {
-      "id": "dental", "group": "health", "name": "Dental offices", "biz": "office", "sid": "clinic", "demo": "clinic",
-      "form": ["clinic", ""],
+      "id": "dental",
+      "group": "health",
+      "name": "Dental offices",
+      "biz": "office",
+      "sid": "clinic",
+      "demo": "clinic",
+      "form": [
+        "clinic",
+        ""
+      ],
       "h1": "Fewer empty chairs. Less phone tag.",
       "lede": "We build engines that confirm visits, fill last-minute openings from your waitlist and follow up on treatment plans patients never scheduled.",
       "fit": "1 to 5 offices, a front desk on the phone all day",
-      "engines": ["agents", "ops"], "license": "core",
-      "tools": ["Google Calendar", "SMS", "Gmail", "Stripe", "your practice software"],
+      "engines": [
+        "agents",
+        "ops"
+      ],
+      "license": "core",
+      "tools": [
+        "Google Calendar",
+        "SMS",
+        "Gmail",
+        "Stripe",
+        "your practice software"
+      ],
       "pains": [
-        ["Our front desk spends every morning confirming tomorrow.", "agents"],
-        ["A cancellation at 8am means an empty chair at 10.", "agents"],
-        ["Treatment plans get presented and never scheduled.", "ops"]
+        [
+          "Our front desk spends every morning confirming tomorrow.",
+          "agents"
+        ],
+        [
+          "A cancellation at 8am means an empty chair at 10.",
+          "agents"
+        ],
+        [
+          "Treatment plans get presented and never scheduled.",
+          "ops"
+        ]
       ],
       "jobs": [
-        ["agents", "two days before a visit", "Visit reminders", "Confirms the visit and sends any forms that are still missing."],
-        ["agents", "when someone cancels", "Last-minute openings", "Offers the open slot to patients on your waitlist. First to reply gets it."],
-        ["ops", "2 weeks after a plan is presented", "Unscheduled treatment follow-ups", "Finds plans that never got booked and drafts a check-in for each patient."],
-        ["ops", "every morning at 6", "Morning summary", "Today's schedule, open plans and anything waiting on you."]
+        [
+          "agents",
+          "two days before a visit",
+          "Visit reminders",
+          "Confirms the visit and sends any forms that are still missing."
+        ],
+        [
+          "agents",
+          "when someone cancels",
+          "Last-minute openings",
+          "Offers the open slot to patients on your waitlist. First to reply gets it."
+        ],
+        [
+          "ops",
+          "2 weeks after a plan is presented",
+          "Unscheduled treatment follow-ups",
+          "Finds plans that never got booked and drafts a check-in for each patient."
+        ],
+        [
+          "ops",
+          "every morning at 6",
+          "Morning summary",
+          "Today's schedule, open plans and anything waiting on you."
+        ]
       ],
       "day": [
-        ["06:00:00", "@ops", "morning summary: 31 patients, 2 open slots", "ready"],
-        ["07:48:12", "@agents", "10:00 cancelled, offered to 6 on the waitlist", "sent"],
-        ["07:55:30", "@agents", "a waitlist patient took the 10:00", "booked"],
-        ["09:00:00", "@agents", "confirmed Friday's visits", "28 sent"],
-        ["12:10:00", "@ops", "4 treatment plans with no visit booked", "flagged"],
-        ["12:10:05", "you", "approve 4 check-in messages", "pending", "need"]
+        [
+          "06:00:00",
+          "@ops",
+          "morning summary: 31 patients, 2 open slots",
+          "ready"
+        ],
+        [
+          "07:48:12",
+          "@agents",
+          "10:00 cancelled, offered to 6 on the waitlist",
+          "sent"
+        ],
+        [
+          "07:55:30",
+          "@agents",
+          "a waitlist patient took the 10:00",
+          "booked"
+        ],
+        [
+          "09:00:00",
+          "@agents",
+          "confirmed Friday's visits",
+          "28 sent"
+        ],
+        [
+          "12:10:00",
+          "@ops",
+          "4 treatment plans with no visit booked",
+          "flagged"
+        ],
+        [
+          "12:10:05",
+          "you",
+          "approve 4 check-in messages",
+          "pending",
+          "need"
+        ]
       ],
       "day_t": "A Tuesday at a dental office",
-      "case": "art-of-practice", "os": "practice"
+      "case": "art-of-practice",
+      "os": "practice",
+      "extra": {
+        "leads": [
+          [
+            "New patient booking",
+            "New patients pick a time online and fill in their forms before they arrive."
+          ],
+          [
+            "Insurance check requests",
+            "Patients send their insurance details and hear back before the visit."
+          ]
+        ],
+        "marketing": [
+          [
+            "Recall campaigns",
+            "Reminds patients who are overdue for a cleaning, by email and text."
+          ],
+          [
+            "Review highlights",
+            "Turns your best new reviews into posts for your site and social."
+          ]
+        ]
+      }
     },
     {
-      "id": "physical-therapy", "group": "health", "name": "PT + chiropractic", "biz": "clinic", "sid": "clinic", "demo": "clinic",
-      "form": ["clinic", ""],
+      "id": "physical-therapy",
+      "group": "health",
+      "name": "PT + chiropractic",
+      "biz": "clinic",
+      "sid": "clinic",
+      "demo": "clinic",
+      "form": [
+        "clinic",
+        ""
+      ],
       "h1": "Keep patients coming back through the whole plan.",
       "lede": "We build engines that book new patients fast, rebook missed visits the same day and draft visit notes from your dictation.",
       "fit": "1 to 4 clinics, patients on multi-visit plans",
-      "engines": ["ops", "agents"], "license": "core",
-      "tools": ["Google Calendar", "Gmail", "SMS", "Stripe", "intake forms"],
+      "engines": [
+        "ops",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Google Calendar",
+        "Gmail",
+        "SMS",
+        "Stripe",
+        "intake forms"
+      ],
       "pains": [
-        ["Patients drop off after the third visit.", "agents"],
-        ["I'm still finishing notes at 9pm.", "ops"],
-        ["New patient calls go to voicemail.", "agents"]
+        [
+          "Patients drop off after the third visit.",
+          "agents"
+        ],
+        [
+          "I'm still finishing notes at 9pm.",
+          "ops"
+        ],
+        [
+          "New patient calls go to voicemail.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["agents", "when a new inquiry comes in", "New client intake", "Matches the request to the right provider and drafts a reply with open times."],
-        ["agents", "when a patient misses a visit", "Missed visit rebooking", "Reaches out the same day and offers the next open slot."],
-        ["agents", "when a plan stalls", "Plan of care check-ins", "Notices when a patient hasn't booked their next visit and reaches out."],
-        ["ops", "after every visit", "Visit notes", "Turns your dictated findings into a structured note for you to review."]
+        [
+          "agents",
+          "when a new inquiry comes in",
+          "New client intake",
+          "Matches the request to the right provider and drafts a reply with open times."
+        ],
+        [
+          "agents",
+          "when a patient misses a visit",
+          "Missed visit rebooking",
+          "Reaches out the same day and offers the next open slot."
+        ],
+        [
+          "agents",
+          "when a plan stalls",
+          "Plan of care check-ins",
+          "Notices when a patient hasn't booked their next visit and reaches out."
+        ],
+        [
+          "ops",
+          "after every visit",
+          "Visit notes",
+          "Turns your dictated findings into a structured note for you to review."
+        ]
       ],
       "day": [
-        ["06:00:00", "@ops", "morning summary: 26 visits, 3 notes to sign", "ready"],
-        ["07:12:40", "@agents", "new patient: knee pain, wants early mornings", "matched"],
-        ["07:12:44", "@agents", "drafted a reply with 3 open times", "drafted"],
-        ["10:45:00", "@agents", "10:30 missed their visit", "rebook sent"],
-        ["15:30:00", "@agents", "2 patients haven't booked their next visit", "check-in sent"],
-        ["18:05:00", "@ops", "visit notes drafted from today's dictation", "ready"]
+        [
+          "06:00:00",
+          "@ops",
+          "morning summary: 26 visits, 3 notes to sign",
+          "ready"
+        ],
+        [
+          "07:12:40",
+          "@agents",
+          "new patient: knee pain, wants early mornings",
+          "matched"
+        ],
+        [
+          "07:12:44",
+          "@agents",
+          "drafted a reply with 3 open times",
+          "drafted"
+        ],
+        [
+          "10:45:00",
+          "@agents",
+          "10:30 missed their visit",
+          "rebook sent"
+        ],
+        [
+          "15:30:00",
+          "@agents",
+          "2 patients haven't booked their next visit",
+          "check-in sent"
+        ],
+        [
+          "18:05:00",
+          "@ops",
+          "visit notes drafted from today's dictation",
+          "ready"
+        ]
       ],
       "day_t": "A Wednesday at a PT clinic",
-      "case": "art-of-practice", "os": "practice"
+      "case": "art-of-practice",
+      "os": "practice",
+      "extra": {
+        "ops": [
+          [
+            "Plan progress tracker",
+            "Every patient's plan, visits done and visits left, on one screen."
+          ]
+        ],
+        "leads": [
+          [
+            "Doctor referral intake",
+            "Referrals from doctors land in one place and get a call the same day."
+          ],
+          [
+            "Online evaluation booking",
+            "New patients book an evaluation from your site, any hour."
+          ]
+        ],
+        "marketing": [
+          [
+            "Recovery stories",
+            "Turns patient wins into short posts, with consent tracked."
+          ],
+          [
+            "Referral partner updates",
+            "A monthly note to the doctors who send you patients."
+          ]
+        ]
+      }
     },
     {
-      "id": "gyms", "group": "health", "name": "Gyms + studios", "biz": "gym", "sid": "clinic", "demo": null,
-      "form": ["clinic", ""],
+      "id": "gyms",
+      "group": "health",
+      "name": "Gyms + studios",
+      "biz": "gym",
+      "sid": "clinic",
+      "demo": null,
+      "form": [
+        "clinic",
+        ""
+      ],
       "h1": "Turn trial signups into members.",
       "lede": "We build engines that reply to every trial request in minutes, follow up after the first class and flag members who've stopped showing up.",
       "fit": "1 to 5 locations, classes or personal training",
-      "engines": ["leads", "agents"], "license": "core",
-      "tools": ["Instagram DMs", "Google Calendar", "Stripe", "SMS", "your booking app"],
+      "engines": [
+        "leads",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Instagram DMs",
+        "Google Calendar",
+        "Stripe",
+        "SMS",
+        "your booking app"
+      ],
       "pains": [
-        ["Trial requests come in at night and we call back two days later.", "leads"],
-        ["People take one class and we never hear from them again.", "agents"],
-        ["We only notice someone quit when their card stops.", "agents"]
+        [
+          "Trial requests come in at night and we call back two days later.",
+          "leads"
+        ],
+        [
+          "People take one class and we never hear from them again.",
+          "agents"
+        ],
+        [
+          "We only notice someone quit when their card stops.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["leads", "when a trial request comes in", "Fast replies to new leads", "Replies in minutes with class times and books the first visit."],
-        ["agents", "the day after a first class", "First class follow-ups", "Checks in, answers questions and offers a membership."],
-        ["agents", "when attendance drops", "Members at risk", "Spots members who haven't been in for two weeks and drafts a personal check-in."],
-        ["agents", "when a card declines", "Failed payment follow-ups", "Sends a friendly note with a link to update their card."]
+        [
+          "leads",
+          "when a trial request comes in",
+          "Fast replies to new leads",
+          "Replies in minutes with class times and books the first visit."
+        ],
+        [
+          "agents",
+          "the day after a first class",
+          "First class follow-ups",
+          "Checks in, answers questions and offers a membership."
+        ],
+        [
+          "agents",
+          "when attendance drops",
+          "Members at risk",
+          "Spots members who haven't been in for two weeks and drafts a personal check-in."
+        ],
+        [
+          "agents",
+          "when a card declines",
+          "Failed payment follow-ups",
+          "Sends a friendly note with a link to update their card."
+        ]
       ],
       "day": [
-        ["05:30:00", "@ops", "morning summary: 4 new trials, 3 members at risk", "ready"],
-        ["06:45:10", "@leads", "trial request from Instagram, booked for 6am tomorrow", "booked"],
-        ["09:00:00", "@agents", "followed up with yesterday's first-timers", "5 sent"],
-        ["11:20:33", "@agents", "2 people asked about memberships", "drafted"],
-        ["11:20:40", "you", "approve 2 membership offers", "pending", "need"],
-        ["14:00:00", "@agents", "3 members haven't been in for 14 days", "check-ins drafted"]
+        [
+          "05:30:00",
+          "@ops",
+          "morning summary: 4 new trials, 3 members at risk",
+          "ready"
+        ],
+        [
+          "06:45:10",
+          "@leads",
+          "trial request from Instagram, booked for 6am tomorrow",
+          "booked"
+        ],
+        [
+          "09:00:00",
+          "@agents",
+          "followed up with yesterday's first-timers",
+          "5 sent"
+        ],
+        [
+          "11:20:33",
+          "@agents",
+          "2 people asked about memberships",
+          "drafted"
+        ],
+        [
+          "11:20:40",
+          "you",
+          "approve 2 membership offers",
+          "pending",
+          "need"
+        ],
+        [
+          "14:00:00",
+          "@agents",
+          "3 members haven't been in for 14 days",
+          "check-ins drafted"
+        ]
       ],
       "day_t": "A Monday at a gym",
-      "case": "fit-funnels", "os": null
+      "case": "fit-funnels",
+      "os": null,
+      "extra": {
+        "ops": [
+          [
+            "Class and coach schedule",
+            "Classes, coaches and attendance in one view."
+          ],
+          [
+            "Membership numbers",
+            "New members, cancellations and revenue every Monday."
+          ]
+        ],
+        "leads": [
+          [
+            "Trial class booking",
+            "Visitors pick a class and book a free trial from your site."
+          ]
+        ],
+        "marketing": [
+          [
+            "Member spotlights",
+            "Turns member milestones into posts, with their OK."
+          ],
+          [
+            "Challenge campaigns",
+            "Emails and posts for a 30-day challenge, ready to schedule."
+          ]
+        ]
+      }
     },
     {
-      "id": "pool-service", "group": "home", "name": "Pool service", "biz": "pool company", "sid": "pool-service", "demo": null,
-      "form": ["field", ""],
+      "id": "pool-service",
+      "group": "home",
+      "name": "Pool service",
+      "biz": "pool company",
+      "sid": "pool-service",
+      "demo": null,
+      "form": [
+        "field",
+        ""
+      ],
       "h1": "More pools on the route. Less time on the phone.",
       "lede": "We build engines that price weekly service on your website, text customers when their tech is on the way and chase unpaid invoices for you.",
       "fit": "2 to 30 techs on routes, weekly service plus repairs",
-      "engines": ["leads", "agents", "ops"], "license": "company",
-      "tools": ["Google Calendar", "QuickBooks", "Stripe", "SMS", "your route software"],
+      "engines": [
+        "leads",
+        "agents",
+        "ops"
+      ],
+      "license": "company",
+      "tools": [
+        "Google Calendar",
+        "QuickBooks",
+        "Stripe",
+        "SMS",
+        "your route software"
+      ],
       "pains": [
-        ["Every spring the phone rings nonstop and half the calls get missed.", "leads"],
-        ["Customers text me asking when the tech is coming.", "agents"],
-        ["Repair quotes sit for a week because I'm in the field.", "agents"]
+        [
+          "Every spring the phone rings nonstop and half the calls get missed.",
+          "leads"
+        ],
+        [
+          "Customers text me asking when the tech is coming.",
+          "agents"
+        ],
+        [
+          "Repair quotes sit for a week because I'm in the field.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["leads", "on your website", "Instant price quotes", "Homeowners get a weekly service price on the spot, and the quote becomes a lead."],
-        ["agents", "the morning of a visit", "On my way texts", "Tells each customer their tech is coming and sends a photo when the pool is done."],
-        ["agents", "3 days after a repair quote", "Quote follow-ups", "Checks in on repair quotes nobody answered."],
-        ["agents", "7 days after an invoice is due", "Unpaid invoice reminders", "Polite reminders first, then a flag for you."]
+        [
+          "leads",
+          "on your website",
+          "Instant price quotes",
+          "Homeowners get a weekly service price on the spot, and the quote becomes a lead."
+        ],
+        [
+          "agents",
+          "the morning of a visit",
+          "On my way texts",
+          "Tells each customer their tech is coming and sends a photo when the pool is done."
+        ],
+        [
+          "agents",
+          "3 days after a repair quote",
+          "Quote follow-ups",
+          "Checks in on repair quotes nobody answered."
+        ],
+        [
+          "agents",
+          "7 days after an invoice is due",
+          "Unpaid invoice reminders",
+          "Polite reminders first, then a flag for you."
+        ]
       ],
       "day": [
-        ["06:00:00", "@ops", "route summary: 4 techs, 61 pools", "ready"],
-        ["07:30:00", "@agents", "on-my-way texts for the morning stops", "24 sent"],
-        ["10:12:18", "@leads", "a homeowner priced weekly service online", "lead saved"],
-        ["10:12:20", "@agents", "drafted a welcome with a start date", "drafted"],
-        ["10:12:21", "you", "approve the welcome", "pending", "need"],
-        ["15:40:00", "@agents", "checked in on 3 open repair quotes", "sent"]
+        [
+          "06:00:00",
+          "@ops",
+          "route summary: 4 techs, 61 pools",
+          "ready"
+        ],
+        [
+          "07:30:00",
+          "@agents",
+          "on-my-way texts for the morning stops",
+          "24 sent"
+        ],
+        [
+          "10:12:18",
+          "@leads",
+          "a homeowner priced weekly service online",
+          "lead saved"
+        ],
+        [
+          "10:12:20",
+          "@agents",
+          "drafted a welcome with a start date",
+          "drafted"
+        ],
+        [
+          "10:12:21",
+          "you",
+          "approve the welcome",
+          "pending",
+          "need"
+        ],
+        [
+          "15:40:00",
+          "@agents",
+          "checked in on 3 open repair quotes",
+          "sent"
+        ]
       ],
       "day_t": "A Tuesday at a pool company",
-      "case": "element-glo", "os": "field-service"
+      "case": "element-glo",
+      "os": "field-service",
+      "extra": {
+        "ops": [
+          [
+            "Route summary",
+            "Each tech's stops, pools and notes for the day, in driving order."
+          ],
+          [
+            "Chemical log",
+            "Readings from every visit, saved to each pool's history."
+          ]
+        ],
+        "leads": [
+          [
+            "Repair request form",
+            "Customers send photos of the problem, and you get a request ready to quote."
+          ]
+        ],
+        "marketing": [
+          [
+            "Season opening campaign",
+            "Reminds past customers to book their spring opening."
+          ],
+          [
+            "Pool of the week posts",
+            "Turns your best finished pools into posts."
+          ]
+        ]
+      }
     },
     {
-      "id": "hvac-plumbing", "group": "home", "name": "HVAC + plumbing", "biz": "company", "sid": null, "demo": null,
-      "form": ["field", ""],
+      "id": "hvac-plumbing",
+      "group": "home",
+      "name": "HVAC + plumbing",
+      "biz": "company",
+      "sid": null,
+      "demo": null,
+      "form": [
+        "field",
+        ""
+      ],
       "h1": "Stop losing jobs to voicemail.",
       "lede": "We build engines that answer new requests in minutes, follow up on every estimate and remind plan members when their tune-up is due.",
       "fit": "3 to 40 techs, service calls plus installs",
-      "engines": ["leads", "agents", "ops"], "license": "company",
-      "tools": ["Google Calendar", "QuickBooks", "Stripe", "SMS", "your dispatch software"],
+      "engines": [
+        "leads",
+        "agents",
+        "ops"
+      ],
+      "license": "company",
+      "tools": [
+        "Google Calendar",
+        "QuickBooks",
+        "Stripe",
+        "SMS",
+        "your dispatch software"
+      ],
       "pains": [
-        ["If we don't call back within the hour, they've booked someone else.", "leads"],
-        ["We send big install estimates and never follow up.", "agents"],
-        ["Maintenance plans renew only if someone remembers.", "agents"]
+        [
+          "If we don't call back within the hour, they've booked someone else.",
+          "leads"
+        ],
+        [
+          "We send big install estimates and never follow up.",
+          "agents"
+        ],
+        [
+          "Maintenance plans renew only if someone remembers.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["agents", "when a request comes in", "Fast replies to new leads", "Replies in minutes, asks the right questions and offers a time."],
-        ["agents", "3 days after an estimate", "Quote follow-ups", "Checks in on every install estimate until you get a yes or a no."],
-        ["agents", "before the season", "Tune-up reminders", "Reaches out to plan members and books their visit before it gets busy."],
-        ["agents", "after a job", "Review requests", "Asks happy customers for a review the day after."]
+        [
+          "agents",
+          "when a request comes in",
+          "Fast replies to new leads",
+          "Replies in minutes, asks the right questions and offers a time."
+        ],
+        [
+          "agents",
+          "3 days after an estimate",
+          "Quote follow-ups",
+          "Checks in on every install estimate until you get a yes or a no."
+        ],
+        [
+          "agents",
+          "before the season",
+          "Tune-up reminders",
+          "Reaches out to plan members and books their visit before it gets busy."
+        ],
+        [
+          "agents",
+          "after a job",
+          "Review requests",
+          "Asks happy customers for a review the day after."
+        ]
       ],
       "day": [
-        ["06:00:00", "@ops", "morning summary: 18 calls, 5 open estimates", "ready"],
-        ["07:05:44", "@leads", "no-heat request from the website", "saved"],
-        ["07:06:10", "@agents", "replied with a 10am window", "sent"],
-        ["09:30:00", "@agents", "tune-up reminders to plan members", "40 sent"],
-        ["13:12:00", "@agents", "checked in on a $12,400 install estimate", "sent"],
-        ["16:45:00", "@agents", "asked today's happy customers for a review", "9 sent"]
+        [
+          "06:00:00",
+          "@ops",
+          "morning summary: 18 calls, 5 open estimates",
+          "ready"
+        ],
+        [
+          "07:05:44",
+          "@leads",
+          "no-heat request from the website",
+          "saved"
+        ],
+        [
+          "07:06:10",
+          "@agents",
+          "replied with a 10am window",
+          "sent"
+        ],
+        [
+          "09:30:00",
+          "@agents",
+          "tune-up reminders to plan members",
+          "40 sent"
+        ],
+        [
+          "13:12:00",
+          "@agents",
+          "checked in on a $12,400 install estimate",
+          "sent"
+        ],
+        [
+          "16:45:00",
+          "@agents",
+          "asked today's happy customers for a review",
+          "9 sent"
+        ]
       ],
       "day_t": "A Monday at an HVAC company",
-      "case": null, "os": "field-service"
+      "case": null,
+      "os": "field-service",
+      "extra": {
+        "ops": [
+          [
+            "Dispatch board",
+            "Calls, techs and open jobs on one screen."
+          ],
+          [
+            "Maintenance plan tracker",
+            "Every plan member, their last visit and what's due."
+          ]
+        ],
+        "leads": [
+          [
+            "Emergency request line",
+            "No heat or no water requests jump the line and alert you."
+          ],
+          [
+            "Install estimate builder",
+            "Homeowners answer a few questions and get a ballpark for a new system."
+          ]
+        ],
+        "marketing": [
+          [
+            "Seasonal reminders",
+            "Before summer and winter, a note to past customers with a booking link."
+          ],
+          [
+            "Job photo posts",
+            "Turns clean installs into posts for your site and social."
+          ]
+        ]
+      }
     },
     {
-      "id": "landscaping", "group": "home", "name": "Landscaping", "biz": "company", "sid": null, "demo": null,
-      "form": ["field", ""],
+      "id": "landscaping",
+      "group": "home",
+      "name": "Landscaping",
+      "biz": "company",
+      "sid": null,
+      "demo": null,
+      "form": [
+        "field",
+        ""
+      ],
       "h1": "Sell the season before it starts.",
       "lede": "We build engines that price projects on your website, follow up on every estimate and line up spring work before the phone gets busy.",
       "fit": "Design-build or maintenance crews, 5 to 50 people",
-      "engines": ["leads", "agents"], "license": "core",
-      "tools": ["Google Calendar", "QuickBooks", "Stripe", "SMS", "Gmail"],
+      "engines": [
+        "leads",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Google Calendar",
+        "QuickBooks",
+        "Stripe",
+        "SMS",
+        "Gmail"
+      ],
       "pains": [
-        ["Every estimate means driving out to measure.", "leads"],
-        ["We're too busy in spring to answer the phone.", "agents"],
-        ["Last year's customers forget to book again.", "agents"]
+        [
+          "Every estimate means driving out to measure.",
+          "leads"
+        ],
+        [
+          "We're too busy in spring to answer the phone.",
+          "agents"
+        ],
+        [
+          "Last year's customers forget to book again.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["leads", "on your website", "Instant price quotes", "Homeowners price a project online, and you get the lead with the job size."],
-        ["agents", "3 days after an estimate", "Quote follow-ups", "Checks in on every estimate nobody answered."],
-        ["agents", "before the season starts", "Season rebooking", "Offers last year's customers their spot for spring before the rush."],
-        ["ops", "every morning", "Crew day sheets", "Sends each crew its stops, notes and materials for the day."]
+        [
+          "leads",
+          "on your website",
+          "Instant price quotes",
+          "Homeowners price a project online, and you get the lead with the job size."
+        ],
+        [
+          "agents",
+          "3 days after an estimate",
+          "Quote follow-ups",
+          "Checks in on every estimate nobody answered."
+        ],
+        [
+          "agents",
+          "before the season starts",
+          "Season rebooking",
+          "Offers last year's customers their spot for spring before the rush."
+        ],
+        [
+          "ops",
+          "every morning",
+          "Crew day sheets",
+          "Sends each crew its stops, notes and materials for the day."
+        ]
       ],
       "day": [
-        ["06:00:00", "@ops", "day sheets for 4 crews", "sent"],
-        ["08:40:12", "@leads", "a homeowner priced a 400 sq ft patio online", "lead saved"],
-        ["08:40:15", "@leads", "emailed the full quote", "sent"],
-        ["11:00:00", "@agents", "offered spring cleanup to past customers", "120 sent"],
-        ["14:22:30", "@agents", "past customers booked their spring spot", "38 booked"],
-        ["16:10:00", "@agents", "checked in on 4 open estimates", "sent"]
+        [
+          "06:00:00",
+          "@ops",
+          "day sheets for 4 crews",
+          "sent"
+        ],
+        [
+          "08:40:12",
+          "@leads",
+          "a homeowner priced a 400 sq ft patio online",
+          "lead saved"
+        ],
+        [
+          "08:40:15",
+          "@leads",
+          "emailed the full quote",
+          "sent"
+        ],
+        [
+          "11:00:00",
+          "@agents",
+          "offered spring cleanup to past customers",
+          "120 sent"
+        ],
+        [
+          "14:22:30",
+          "@agents",
+          "past customers booked their spring spot",
+          "38 booked"
+        ],
+        [
+          "16:10:00",
+          "@agents",
+          "checked in on 4 open estimates",
+          "sent"
+        ]
       ],
       "day_t": "A March day at a landscaping company",
-      "case": null, "os": "field-service"
+      "case": null,
+      "os": "field-service",
+      "extra": {
+        "ops": [
+          [
+            "Job costing",
+            "Hours and materials for every job, against what you quoted."
+          ]
+        ],
+        "leads": [
+          [
+            "Design consult booking",
+            "Bigger projects book a consult and send photos of the yard first."
+          ]
+        ],
+        "marketing": [
+          [
+            "Before and after yards",
+            "Turns finished yards into posts and portfolio pages."
+          ],
+          [
+            "Seasonal tips email",
+            "A short monthly email that keeps you in mind until spring."
+          ]
+        ]
+      }
     },
     {
-      "id": "contractors", "group": "home", "name": "Contractors + remodelers", "biz": "company", "sid": null, "demo": null,
-      "form": ["field", ""],
+      "id": "contractors",
+      "group": "home",
+      "name": "Contractors + remodelers",
+      "biz": "company",
+      "sid": null,
+      "demo": null,
+      "form": [
+        "field",
+        ""
+      ],
       "h1": "Stop driving out to quote jobs you won't win.",
       "lede": "We build engines that give homeowners a ballpark price online, qualify them before you drive out and send every client a weekly project update.",
       "fit": "Remodelers and specialty trades, 5 to 60 people",
-      "engines": ["leads", "agents", "ops"], "license": "company",
-      "tools": ["Google Calendar", "QuickBooks", "Gmail", "SMS", "Stripe"],
+      "engines": [
+        "leads",
+        "agents",
+        "ops"
+      ],
+      "license": "company",
+      "tools": [
+        "Google Calendar",
+        "QuickBooks",
+        "Gmail",
+        "SMS",
+        "Stripe"
+      ],
       "pains": [
-        ["I drive out to quote jobs that were never going to happen.", "leads"],
-        ["Homeowners call me asking how the project's going.", "agents"],
-        ["Change orders live in text messages.", "ops"]
+        [
+          "I drive out to quote jobs that were never going to happen.",
+          "leads"
+        ],
+        [
+          "Homeowners call me asking how the project's going.",
+          "agents"
+        ],
+        [
+          "Change orders live in text messages.",
+          "ops"
+        ]
       ],
       "jobs": [
-        ["leads", "on your website", "Instant price quotes", "Homeowners get a ballpark price, so the ones who call already know the range."],
-        ["agents", "every Friday", "Project updates", "Sends each homeowner a weekly update with photos and what's next."],
-        ["ops", "when a homeowner asks for more", "Change orders", "Catches requests outside the contract and drafts a change order for you to send."],
-        ["agents", "3 days after an estimate", "Quote follow-ups", "Checks in on every estimate until you get an answer."]
+        [
+          "leads",
+          "on your website",
+          "Instant price quotes",
+          "Homeowners get a ballpark price, so the ones who call already know the range."
+        ],
+        [
+          "agents",
+          "every Friday",
+          "Project updates",
+          "Sends each homeowner a weekly update with photos and what's next."
+        ],
+        [
+          "ops",
+          "when a homeowner asks for more",
+          "Change orders",
+          "Catches requests outside the contract and drafts a change order for you to send."
+        ],
+        [
+          "agents",
+          "3 days after an estimate",
+          "Quote follow-ups",
+          "Checks in on every estimate until you get an answer."
+        ]
       ],
       "day": [
-        ["06:30:00", "@ops", "morning summary: 7 projects, 2 open change orders", "ready"],
-        ["08:15:40", "@leads", "a homeowner priced a kitchen remodel online", "lead saved"],
-        ["08:15:45", "@leads", "budget fits, site visit booked", "booked"],
-        ["11:30:00", "@ops", "a homeowner asked for added outlets", "change order drafted"],
-        ["11:30:05", "you", "approve a $640 change order", "pending", "need"],
-        ["16:00:00", "@agents", "weekly updates to 7 homeowners", "sent"]
+        [
+          "06:30:00",
+          "@ops",
+          "morning summary: 7 projects, 2 open change orders",
+          "ready"
+        ],
+        [
+          "08:15:40",
+          "@leads",
+          "a homeowner priced a kitchen remodel online",
+          "lead saved"
+        ],
+        [
+          "08:15:45",
+          "@leads",
+          "budget fits, site visit booked",
+          "booked"
+        ],
+        [
+          "11:30:00",
+          "@ops",
+          "a homeowner asked for added outlets",
+          "change order drafted"
+        ],
+        [
+          "11:30:05",
+          "you",
+          "approve a $640 change order",
+          "pending",
+          "need"
+        ],
+        [
+          "16:00:00",
+          "@agents",
+          "weekly updates to 7 homeowners",
+          "sent"
+        ]
       ],
       "day_t": "A Friday at a remodeling company",
-      "case": null, "os": "field-service"
+      "case": null,
+      "os": "field-service",
+      "extra": {
+        "ops": [
+          [
+            "Job schedule and subs",
+            "Every project, phase and subcontractor on one calendar."
+          ]
+        ],
+        "leads": [
+          [
+            "Lead qualifier",
+            "Asks budget, timeline and scope before you drive out."
+          ]
+        ],
+        "marketing": [
+          [
+            "Project stories",
+            "Turns finished remodels into case studies and posts."
+          ],
+          [
+            "Referral check-ins",
+            "Stays in touch with past clients so they send you their friends."
+          ]
+        ]
+      }
     },
     {
-      "id": "ecommerce", "group": "brands", "name": "Online brands", "biz": "brand", "sid": "brand", "demo": "brand",
-      "form": ["brand", ""],
+      "id": "ecommerce",
+      "group": "brands",
+      "name": "Online brands",
+      "biz": "brand",
+      "sid": "brand",
+      "demo": "brand",
+      "form": [
+        "brand",
+        ""
+      ],
       "h1": "Answer every customer without hiring a support team.",
       "lede": "We build engines that answer order questions at any hour, answer product questions before people buy and tell you before a best seller runs out.",
       "fit": "Brands selling online, $1M to $20M a year",
-      "engines": ["agents", "ops"], "license": "core",
-      "tools": ["Shopify", "Gmail", "Klaviyo", "Stripe", "your warehouse"],
+      "engines": [
+        "agents",
+        "ops"
+      ],
+      "license": "core",
+      "tools": [
+        "Shopify",
+        "Gmail",
+        "Klaviyo",
+        "Stripe",
+        "your warehouse"
+      ],
       "pains": [
-        ["\"Where's my order?\" is half our inbox.", "agents"],
-        ["We sold out of our best seller and found out from a customer.", "ops"],
-        ["Wholesale emails sit for weeks.", "agents"]
+        [
+          "\"Where's my order?\" is half our inbox.",
+          "agents"
+        ],
+        [
+          "We sold out of our best seller and found out from a customer.",
+          "ops"
+        ],
+        [
+          "Wholesale emails sit for weeks.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["agents", "when an order question comes in", "\"Where's my order?\" answers", "Looks up the order and replies with tracking, any hour."],
-        ["agents", "when someone asks before buying", "Product questions", "Answers sizing and ingredient questions from your product info, in your voice."],
-        ["ops", "when stock runs low", "Low stock alerts", "Drafts the purchase order before you sell out, then waits for your OK."],
-        ["agents", "when a store applies", "Wholesale applications", "Checks fit, sends the line sheet and terms, and books a call with the good ones."]
+        [
+          "agents",
+          "when an order question comes in",
+          "\"Where's my order?\" answers",
+          "Looks up the order and replies with tracking, any hour."
+        ],
+        [
+          "agents",
+          "when someone asks before buying",
+          "Product questions",
+          "Answers sizing and ingredient questions from your product info, in your voice."
+        ],
+        [
+          "ops",
+          "when stock runs low",
+          "Low stock alerts",
+          "Drafts the purchase order before you sell out, then waits for your OK."
+        ],
+        [
+          "agents",
+          "when a store applies",
+          "Wholesale applications",
+          "Checks fit, sends the line sheet and terms, and books a call with the good ones."
+        ]
       ],
       "day": [
-        ["02:14:00", "@agents", "answered order questions overnight", "11 sent"],
-        ["06:00:00", "@ops", "morning summary: 184 orders, 1 item low", "ready"],
-        ["06:00:05", "@ops", "drafted a purchase order for the best seller", "drafted"],
-        ["06:00:06", "you", "approve the purchase order", "pending", "need"],
-        ["10:30:12", "@agents", "a store in Portland applied for wholesale", "good fit"],
-        ["10:30:20", "@agents", "sent the line sheet and booked a call", "booked"]
+        [
+          "02:14:00",
+          "@agents",
+          "answered order questions overnight",
+          "11 sent"
+        ],
+        [
+          "06:00:00",
+          "@ops",
+          "morning summary: 184 orders, 1 item low",
+          "ready"
+        ],
+        [
+          "06:00:05",
+          "@ops",
+          "drafted a purchase order for the best seller",
+          "drafted"
+        ],
+        [
+          "06:00:06",
+          "you",
+          "approve the purchase order",
+          "pending",
+          "need"
+        ],
+        [
+          "10:30:12",
+          "@agents",
+          "a store in Portland applied for wholesale",
+          "good fit"
+        ],
+        [
+          "10:30:20",
+          "@agents",
+          "sent the line sheet and booked a call",
+          "booked"
+        ]
       ],
       "day_t": "A Wednesday at an online brand",
-      "case": "element-glo", "os": "showroom"
+      "case": "element-glo",
+      "os": "showroom",
+      "extra": {
+        "ops": [
+          [
+            "Returns tracker",
+            "Every return, its reason and its refund, in one place."
+          ]
+        ],
+        "leads": [
+          [
+            "Product finder quiz",
+            "A few questions, then the right product, and an email for you."
+          ],
+          [
+            "Back in stock alerts",
+            "Shoppers sign up and hear the moment it's back."
+          ]
+        ],
+        "marketing": [
+          [
+            "Launch emails",
+            "Drafts the launch emails for a new product."
+          ],
+          [
+            "Customer photo posts",
+            "Turns tagged customer photos into posts, with their OK."
+          ]
+        ]
+      }
     },
     {
-      "id": "food-beverage", "group": "brands", "name": "Food + beverage", "biz": "brand", "sid": "brand", "demo": "brand",
-      "form": ["brand", ""],
+      "id": "food-beverage",
+      "group": "brands",
+      "name": "Food + beverage",
+      "biz": "brand",
+      "sid": "brand",
+      "demo": "brand",
+      "form": [
+        "brand",
+        ""
+      ],
       "h1": "Get into more stores without more spreadsheets.",
       "lede": "We build engines that handle wholesale applications, catch stores that stopped reordering and keep every launch on schedule.",
       "fit": "Packaged food and drink brands selling online and in stores",
-      "engines": ["ops", "agents"], "license": "core",
-      "tools": ["Shopify", "Gmail", "QuickBooks", "Google Drive", "your distributor portals"],
+      "engines": [
+        "ops",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Shopify",
+        "Gmail",
+        "QuickBooks",
+        "Google Drive",
+        "your distributor portals"
+      ],
       "pains": [
-        ["Every store wants the same five answers.", "agents"],
-        ["Our launch plan is a 400-row spreadsheet.", "ops"],
-        ["We don't know which stores stopped reordering.", "ops"]
+        [
+          "Every store wants the same five answers.",
+          "agents"
+        ],
+        [
+          "Our launch plan is a 400-row spreadsheet.",
+          "ops"
+        ],
+        [
+          "We don't know which stores stopped reordering.",
+          "ops"
+        ]
       ],
       "jobs": [
-        ["agents", "when a store applies", "Wholesale applications", "Checks fit, sends the line sheet and terms, and books a call with the good ones."],
-        ["ops", "every Monday", "Store reorder check", "Finds stores that haven't reordered on schedule and drafts a check-in."],
-        ["ops", "before a launch", "Launch checklist", "Tracks every task, owner and date, and nudges whoever is behind."],
-        ["ops", "when stock runs low", "Low stock alerts", "Drafts the purchase order before you sell out, then waits for your OK."]
+        [
+          "agents",
+          "when a store applies",
+          "Wholesale applications",
+          "Checks fit, sends the line sheet and terms, and books a call with the good ones."
+        ],
+        [
+          "ops",
+          "every Monday",
+          "Store reorder check",
+          "Finds stores that haven't reordered on schedule and drafts a check-in."
+        ],
+        [
+          "ops",
+          "before a launch",
+          "Launch checklist",
+          "Tracks every task, owner and date, and nudges whoever is behind."
+        ],
+        [
+          "ops",
+          "when stock runs low",
+          "Low stock alerts",
+          "Drafts the purchase order before you sell out, then waits for your OK."
+        ]
       ],
       "day": [
-        ["06:00:00", "@ops", "morning summary: 3 new stores, 1 launch task late", "ready"],
-        ["08:20:00", "@ops", "nudged the printer about Friday's label proofs", "sent"],
-        ["09:00:00", "@ops", "12 stores past their usual reorder date", "found"],
-        ["09:00:10", "@agents", "drafted a check-in for each store", "drafted"],
-        ["09:00:12", "you", "approve 12 check-ins", "pending", "need"],
-        ["14:45:30", "@agents", "a grocery co-op applied for wholesale", "call booked"]
+        [
+          "06:00:00",
+          "@ops",
+          "morning summary: 3 new stores, 1 launch task late",
+          "ready"
+        ],
+        [
+          "08:20:00",
+          "@ops",
+          "nudged the printer about Friday's label proofs",
+          "sent"
+        ],
+        [
+          "09:00:00",
+          "@ops",
+          "12 stores past their usual reorder date",
+          "found"
+        ],
+        [
+          "09:00:10",
+          "@agents",
+          "drafted a check-in for each store",
+          "drafted"
+        ],
+        [
+          "09:00:12",
+          "you",
+          "approve 12 check-ins",
+          "pending",
+          "need"
+        ],
+        [
+          "14:45:30",
+          "@agents",
+          "a grocery co-op applied for wholesale",
+          "call booked"
+        ]
       ],
       "day_t": "A Monday at a beverage brand",
-      "case": "mawa", "os": "showroom"
+      "case": "mawa",
+      "os": "showroom",
+      "extra": {
+        "agents": [
+          [
+            "Store buyer questions",
+            "Answers buyers' questions about case packs, minimums and shipping."
+          ]
+        ],
+        "leads": [
+          [
+            "Ask your store requests",
+            "Shoppers ask for you at their store, and you get a list of where to pitch next."
+          ],
+          [
+            "Sample requests",
+            "Buyers request samples, and you see who's worth a call."
+          ]
+        ],
+        "marketing": [
+          [
+            "Retail launch kits",
+            "Shelf talkers, posts and emails for every new store."
+          ],
+          [
+            "Recipe posts",
+            "Turns your recipes and customer photos into posts."
+          ]
+        ]
+      }
     },
     {
-      "id": "beauty", "group": "brands", "name": "Beauty + skincare", "biz": "brand", "sid": "brand", "demo": "brand",
-      "form": ["brand", ""],
+      "id": "beauty",
+      "group": "brands",
+      "name": "Beauty + skincare",
+      "biz": "brand",
+      "sid": "brand",
+      "demo": "brand",
+      "form": [
+        "brand",
+        ""
+      ],
       "h1": "Help every customer find the right product.",
       "lede": "We build engines that recommend the right routine, answer product questions in your voice and handle order questions at any hour.",
       "fit": "Skincare, haircare and cosmetics brands selling online",
-      "engines": ["leads", "agents"], "license": "core",
-      "tools": ["Shopify", "Instagram DMs", "Klaviyo", "Gmail", "Stripe"],
+      "engines": [
+        "leads",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Shopify",
+        "Instagram DMs",
+        "Klaviyo",
+        "Gmail",
+        "Stripe"
+      ],
       "pains": [
-        ["We answer \"is this OK for sensitive skin?\" fifty times a day.", "agents"],
-        ["People buy the wrong thing and send it back.", "leads"],
-        ["Our DMs are full and nobody owns them.", "agents"]
+        [
+          "We answer \"is this OK for sensitive skin?\" fifty times a day.",
+          "agents"
+        ],
+        [
+          "People buy the wrong thing and send it back.",
+          "leads"
+        ],
+        [
+          "Our DMs are full and nobody owns them.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["leads", "on your website", "Routine finder", "A few quick questions, then the right products for their skin. You get the lead."],
-        ["agents", "when a DM or email comes in", "Product questions", "Answers ingredient and how-to questions from your product info, in your voice."],
-        ["agents", "when an order question comes in", "\"Where's my order?\" answers", "Looks up the order and replies with tracking, any hour."],
-        ["ops", "when stock runs low", "Low stock alerts", "Drafts the purchase order before you sell out, then waits for your OK."]
+        [
+          "leads",
+          "on your website",
+          "Routine finder",
+          "A few quick questions, then the right products for their skin. You get the lead."
+        ],
+        [
+          "agents",
+          "when a DM or email comes in",
+          "Product questions",
+          "Answers ingredient and how-to questions from your product info, in your voice."
+        ],
+        [
+          "agents",
+          "when an order question comes in",
+          "\"Where's my order?\" answers",
+          "Looks up the order and replies with tracking, any hour."
+        ],
+        [
+          "ops",
+          "when stock runs low",
+          "Low stock alerts",
+          "Drafts the purchase order before you sell out, then waits for your OK."
+        ]
       ],
       "day": [
-        ["01:40:00", "@agents", "answered product questions overnight", "9 sent"],
-        ["06:00:00", "@ops", "morning summary: 212 orders, 3 returns", "ready"],
-        ["09:15:22", "@leads", "people took the routine finder this morning", "34 leads"],
-        ["11:02:10", "@agents", "a customer asked about a skin reaction", "flagged"],
-        ["11:02:12", "you", "reply to a customer about a reaction", "pending", "need"],
-        ["15:30:00", "@ops", "cleanser running low, purchase order drafted", "drafted"]
+        [
+          "01:40:00",
+          "@agents",
+          "answered product questions overnight",
+          "9 sent"
+        ],
+        [
+          "06:00:00",
+          "@ops",
+          "morning summary: 212 orders, 3 returns",
+          "ready"
+        ],
+        [
+          "09:15:22",
+          "@leads",
+          "people took the routine finder this morning",
+          "34 leads"
+        ],
+        [
+          "11:02:10",
+          "@agents",
+          "a customer asked about a skin reaction",
+          "flagged"
+        ],
+        [
+          "11:02:12",
+          "you",
+          "reply to a customer about a reaction",
+          "pending",
+          "need"
+        ],
+        [
+          "15:30:00",
+          "@ops",
+          "cleanser running low, purchase order drafted",
+          "drafted"
+        ]
       ],
       "day_t": "A Thursday at a skincare brand",
-      "case": null, "os": "showroom"
+      "case": null,
+      "os": "showroom",
+      "extra": {
+        "ops": [
+          [
+            "Batch and expiry tracking",
+            "Every batch, its date and where it shipped."
+          ]
+        ],
+        "leads": [
+          [
+            "Shade matcher",
+            "Shoppers upload a photo and get the right shade."
+          ]
+        ],
+        "marketing": [
+          [
+            "Creator gifting tracker",
+            "Who got product, who posted, and what it did."
+          ],
+          [
+            "Routine emails",
+            "Sends each customer tips for the products they bought."
+          ]
+        ]
+      }
     },
     {
-      "id": "showrooms", "group": "brands", "name": "Home goods + showrooms", "biz": "showroom", "sid": "brand", "demo": "brand",
-      "form": ["brand", ""],
+      "id": "showrooms",
+      "group": "brands",
+      "name": "Home goods + showrooms",
+      "biz": "showroom",
+      "sid": "brand",
+      "demo": "brand",
+      "form": [
+        "brand",
+        ""
+      ],
       "h1": "Let buyers see it in their space before they call.",
       "lede": "We build engines that price orders on your website, show products on the buyer's own photo and follow up on every quote.",
       "fit": "Tile, flooring, furniture and fixtures, with a showroom or trade program",
-      "engines": ["leads", "agents"], "license": "core",
-      "tools": ["Shopify", "Gmail", "QuickBooks", "Google Calendar", "SMS"],
+      "engines": [
+        "leads",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Shopify",
+        "Gmail",
+        "QuickBooks",
+        "Google Calendar",
+        "SMS"
+      ],
       "pains": [
-        ["People want a price before they'll come in.", "leads"],
-        ["Customers can't picture it, so they don't buy.", "leads"],
-        ["Trade quotes sit in someone's inbox.", "agents"]
+        [
+          "People want a price before they'll come in.",
+          "leads"
+        ],
+        [
+          "Customers can't picture it, so they don't buy.",
+          "leads"
+        ],
+        [
+          "Trade quotes sit in someone's inbox.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["leads", "on your website", "Instant price quotes", "Buyers work out how much they need and get a price. The estimate becomes a lead."],
-        ["leads", "on your website", "Preview on their own photo", "Shows the finished result on the buyer's own photo."],
-        ["agents", "3 days after a quote", "Quote follow-ups", "Checks in on every quote until you get an answer."],
-        ["agents", "when a form or chat comes in", "Fast replies to new leads", "Answers in minutes with product info and a showroom time."]
+        [
+          "leads",
+          "on your website",
+          "Instant price quotes",
+          "Buyers work out how much they need and get a price. The estimate becomes a lead."
+        ],
+        [
+          "leads",
+          "on your website",
+          "Preview on their own photo",
+          "Shows the finished result on the buyer's own photo."
+        ],
+        [
+          "agents",
+          "3 days after a quote",
+          "Quote follow-ups",
+          "Checks in on every quote until you get an answer."
+        ],
+        [
+          "agents",
+          "when a form or chat comes in",
+          "Fast replies to new leads",
+          "Answers in minutes with product info and a showroom time."
+        ]
       ],
       "day": [
-        ["08:05:00", "@leads", "a buyer worked out a 320 sq ft tile order", "lead saved"],
-        ["08:06:12", "@leads", "they previewed it on their own kitchen photo", "viewed"],
-        ["08:06:30", "@agents", "drafted a reply with a showroom time", "drafted"],
-        ["08:06:31", "you", "approve the reply", "pending", "need"],
-        ["12:00:00", "@agents", "checked in on 6 trade quotes", "sent"],
-        ["16:20:00", "@ops", "2 quotes turned into orders", "won"]
+        [
+          "08:05:00",
+          "@leads",
+          "a buyer worked out a 320 sq ft tile order",
+          "lead saved"
+        ],
+        [
+          "08:06:12",
+          "@leads",
+          "they previewed it on their own kitchen photo",
+          "viewed"
+        ],
+        [
+          "08:06:30",
+          "@agents",
+          "drafted a reply with a showroom time",
+          "drafted"
+        ],
+        [
+          "08:06:31",
+          "you",
+          "approve the reply",
+          "pending",
+          "need"
+        ],
+        [
+          "12:00:00",
+          "@agents",
+          "checked in on 6 trade quotes",
+          "sent"
+        ],
+        [
+          "16:20:00",
+          "@ops",
+          "2 quotes turned into orders",
+          "won"
+        ]
       ],
       "day_t": "A Saturday at a tile showroom",
-      "case": null, "os": "showroom"
+      "case": null,
+      "os": "showroom",
+      "extra": {
+        "ops": [
+          [
+            "Trade accounts",
+            "Every designer and contractor, their pricing and their open orders."
+          ],
+          [
+            "Special order tracking",
+            "Special orders from purchase to delivery, with dates."
+          ]
+        ],
+        "marketing": [
+          [
+            "Install spotlights",
+            "Turns customer installs into posts and gallery pages."
+          ],
+          [
+            "Trade newsletter",
+            "A monthly email to designers about what's new."
+          ]
+        ]
+      }
     },
     {
-      "id": "agencies", "group": "firms", "name": "Marketing agencies", "biz": "agency", "sid": "agency", "demo": "agency",
-      "form": ["agency", ""],
+      "id": "agencies",
+      "group": "firms",
+      "name": "Marketing agencies",
+      "biz": "agency",
+      "sid": "agency",
+      "demo": "agency",
+      "form": [
+        "agency",
+        ""
+      ],
       "h1": "Take on more clients without more project managers.",
       "lede": "We build engines that onboard new clients, build Friday reports from live data and catch extra work before it turns into free work.",
       "fit": "Creative, marketing and web agencies, 5 to 50 people",
-      "engines": ["ops", "agents"], "license": "core",
-      "tools": ["Slack", "Google Drive", "Gmail", "QuickBooks", "your project tool"],
+      "engines": [
+        "ops",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Slack",
+        "Google Drive",
+        "Gmail",
+        "QuickBooks",
+        "your project tool"
+      ],
       "pains": [
-        ["Onboarding a client takes a week of emails.", "agents"],
-        ["Friday is report day. All of Friday.", "agents"],
-        ["We do so much work outside the contract.", "ops"]
+        [
+          "Onboarding a client takes a week of emails.",
+          "agents"
+        ],
+        [
+          "Friday is report day. All of Friday.",
+          "agents"
+        ],
+        [
+          "We do so much work outside the contract.",
+          "ops"
+        ]
       ],
       "jobs": [
-        ["agents", "when a contract is signed", "Client onboarding", "Sends the welcome, intake form and asset request, and chases anything missing."],
-        ["agents", "every Friday", "Weekly client report", "Builds each client's report from live data, ready for your review."],
-        ["ops", "when a request is out of scope", "Extra work alerts", "Spots asks outside the agreement and drafts a change order."],
-        ["ops", "every Monday", "Weekly numbers", "Revenue, team load and open work across every client."]
+        [
+          "agents",
+          "when a contract is signed",
+          "Client onboarding",
+          "Sends the welcome, intake form and asset request, and chases anything missing."
+        ],
+        [
+          "agents",
+          "every Friday",
+          "Weekly client report",
+          "Builds each client's report from live data, ready for your review."
+        ],
+        [
+          "ops",
+          "when a request is out of scope",
+          "Extra work alerts",
+          "Spots asks outside the agreement and drafts a change order."
+        ],
+        [
+          "ops",
+          "every Monday",
+          "Weekly numbers",
+          "Revenue, team load and open work across every client."
+        ]
       ],
       "day": [
-        ["07:00:00", "@ops", "weekly numbers: 14 clients, team at 92%", "ready"],
-        ["09:12:00", "@agents", "new client signed, welcome and intake sent", "sent"],
-        ["11:40:30", "@ops", "a client asked for 3 extra landing pages", "change order drafted"],
-        ["11:40:32", "you", "approve a change order", "pending", "need"],
-        ["14:00:00", "@agents", "chased missing files for 2 clients", "sent"],
-        ["16:00:00", "@agents", "Friday reports drafted for 14 clients", "ready"]
+        [
+          "07:00:00",
+          "@ops",
+          "weekly numbers: 14 clients, team at 92%",
+          "ready"
+        ],
+        [
+          "09:12:00",
+          "@agents",
+          "new client signed, welcome and intake sent",
+          "sent"
+        ],
+        [
+          "11:40:30",
+          "@ops",
+          "a client asked for 3 extra landing pages",
+          "change order drafted"
+        ],
+        [
+          "11:40:32",
+          "you",
+          "approve a change order",
+          "pending",
+          "need"
+        ],
+        [
+          "14:00:00",
+          "@agents",
+          "chased missing files for 2 clients",
+          "sent"
+        ],
+        [
+          "16:00:00",
+          "@agents",
+          "Friday reports drafted for 14 clients",
+          "ready"
+        ]
       ],
       "day_t": "A Friday at an agency",
-      "case": "fit-funnels", "os": "agency"
+      "case": "fit-funnels",
+      "os": "agency",
+      "extra": {
+        "leads": [
+          [
+            "Project scoper",
+            "Prospects answer a few questions and see a range before the call."
+          ],
+          [
+            "Inquiry routing",
+            "Every inquiry lands with the right person, with a summary."
+          ]
+        ],
+        "marketing": [
+          [
+            "Case study writer",
+            "Turns finished projects into case studies for your site."
+          ],
+          [
+            "Agency newsletter",
+            "A monthly note on what you shipped and what you learned."
+          ]
+        ]
+      }
     },
     {
-      "id": "law", "group": "firms", "name": "Law firms", "biz": "firm", "sid": "law", "demo": null,
-      "form": ["agency", ""],
+      "id": "law",
+      "group": "firms",
+      "name": "Law firms",
+      "biz": "firm",
+      "sid": "law",
+      "demo": null,
+      "form": [
+        "agency",
+        ""
+      ],
       "h1": "Answer new clients before they call the next firm.",
       "lede": "We build engines that respond to new inquiries in minutes, collect documents without the chasing and keep clients updated without a phone call.",
       "fit": "Small and mid-size firms with new inquiries every week",
-      "engines": ["agents", "ops"], "license": "core",
-      "tools": ["Gmail", "Google Calendar", "your case software", "e-signature", "Stripe"],
+      "engines": [
+        "agents",
+        "ops"
+      ],
+      "license": "core",
+      "tools": [
+        "Gmail",
+        "Google Calendar",
+        "your case software",
+        "e-signature",
+        "Stripe"
+      ],
       "pains": [
-        ["Someone calls at 6pm and hires whoever calls back first.", "agents"],
-        ["We chase clients for the same documents three times.", "agents"],
-        ["Clients call just to ask what's happening with their case.", "ops"]
+        [
+          "Someone calls at 6pm and hires whoever calls back first.",
+          "agents"
+        ],
+        [
+          "We chase clients for the same documents three times.",
+          "agents"
+        ],
+        [
+          "Clients call just to ask what's happening with their case.",
+          "ops"
+        ]
       ],
       "jobs": [
-        ["agents", "when an inquiry comes in", "New client intake", "Asks the intake questions, checks for conflicts and offers a consult time."],
-        ["agents", "when documents are missing", "Document chasing", "Asks for what's missing, tracks what came in and stops once it's all there."],
-        ["ops", "when a matter moves", "Case updates", "Drafts a plain-English update for the client. Nothing goes out without your OK."],
-        ["agents", "7 days after an invoice is due", "Unpaid invoice reminders", "Polite reminders first, then a flag for you."]
+        [
+          "agents",
+          "when an inquiry comes in",
+          "New client intake",
+          "Asks the intake questions, checks for conflicts and offers a consult time."
+        ],
+        [
+          "agents",
+          "when documents are missing",
+          "Document chasing",
+          "Asks for what's missing, tracks what came in and stops once it's all there."
+        ],
+        [
+          "ops",
+          "when a matter moves",
+          "Case updates",
+          "Drafts a plain-English update for the client. Nothing goes out without your OK."
+        ],
+        [
+          "agents",
+          "7 days after an invoice is due",
+          "Unpaid invoice reminders",
+          "Polite reminders first, then a flag for you."
+        ]
       ],
       "day": [
-        ["06:30:00", "@ops", "morning summary: 3 new inquiries, 5 deadlines this week", "ready"],
-        ["07:52:10", "@agents", "overnight inquiry, intake questions sent", "sent"],
-        ["09:30:00", "@agents", "reminded 2 clients about missing documents", "sent"],
-        ["11:15:00", "@ops", "filing confirmed, client update drafted", "drafted"],
-        ["11:15:02", "you", "approve a client update", "pending", "need"],
-        ["15:00:00", "@agents", "last night's inquiry booked a consult", "booked"]
+        [
+          "06:30:00",
+          "@ops",
+          "morning summary: 3 new inquiries, 5 deadlines this week",
+          "ready"
+        ],
+        [
+          "07:52:10",
+          "@agents",
+          "overnight inquiry, intake questions sent",
+          "sent"
+        ],
+        [
+          "09:30:00",
+          "@agents",
+          "reminded 2 clients about missing documents",
+          "sent"
+        ],
+        [
+          "11:15:00",
+          "@ops",
+          "filing confirmed, client update drafted",
+          "drafted"
+        ],
+        [
+          "11:15:02",
+          "you",
+          "approve a client update",
+          "pending",
+          "need"
+        ],
+        [
+          "15:00:00",
+          "@agents",
+          "last night's inquiry booked a consult",
+          "booked"
+        ]
       ],
       "day_t": "A Tuesday at a law firm",
-      "case": null, "os": null
+      "case": null,
+      "os": null,
+      "extra": {
+        "ops": [
+          [
+            "Deadline calendar",
+            "Every matter's deadlines, with reminders to the right person."
+          ]
+        ],
+        "leads": [
+          [
+            "Case evaluation form",
+            "Prospective clients describe their situation and book a consult."
+          ],
+          [
+            "Practice area pages",
+            "Pages that answer common questions and turn readers into consults."
+          ]
+        ],
+        "marketing": [
+          [
+            "Plain-English explainers",
+            "Short posts that answer the questions clients always ask."
+          ],
+          [
+            "Referral thank-yous",
+            "A note to everyone who sends you a client."
+          ]
+        ]
+      }
     },
     {
-      "id": "accounting", "group": "firms", "name": "Accounting + bookkeeping", "biz": "firm", "sid": "agency", "demo": null,
-      "form": ["agency", ""],
+      "id": "accounting",
+      "group": "firms",
+      "name": "Accounting + bookkeeping",
+      "biz": "firm",
+      "sid": "agency",
+      "demo": null,
+      "form": [
+        "agency",
+        ""
+      ],
       "h1": "Stop chasing clients for receipts.",
       "lede": "We build engines that collect documents every month, remind clients before deadlines and show your team who's waiting on what.",
       "fit": "Firms with 30 to 500 recurring clients",
-      "engines": ["agents", "ops"], "license": "core",
-      "tools": ["QuickBooks", "Gmail", "Google Drive", "Stripe", "your practice software"],
+      "engines": [
+        "agents",
+        "ops"
+      ],
+      "license": "core",
+      "tools": [
+        "QuickBooks",
+        "Gmail",
+        "Google Drive",
+        "Stripe",
+        "your practice software"
+      ],
       "pains": [
-        ["Month-end is three days of \"can you send the statements?\"", "agents"],
-        ["It's tax season and nobody knows who's waiting on what.", "ops"],
-        ["Onboarding a new client is a pile of forms.", "agents"]
+        [
+          "Month-end is three days of \"can you send the statements?\"",
+          "agents"
+        ],
+        [
+          "It's tax season and nobody knows who's waiting on what.",
+          "ops"
+        ],
+        [
+          "Onboarding a new client is a pile of forms.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["agents", "on the 1st of every month", "Monthly document requests", "Asks each client for statements and receipts, and follows up until they're in."],
-        ["agents", "when a client signs", "Client onboarding", "Sends the welcome, the engagement letter and the document list, and chases what's missing."],
-        ["agents", "weeks before a deadline", "Deadline reminders", "Tells each client what you need and by when."],
-        ["ops", "every Monday", "Weekly numbers", "Revenue, team load and open work across every client."]
+        [
+          "agents",
+          "on the 1st of every month",
+          "Monthly document requests",
+          "Asks each client for statements and receipts, and follows up until they're in."
+        ],
+        [
+          "agents",
+          "when a client signs",
+          "Client onboarding",
+          "Sends the welcome, the engagement letter and the document list, and chases what's missing."
+        ],
+        [
+          "agents",
+          "weeks before a deadline",
+          "Deadline reminders",
+          "Tells each client what you need and by when."
+        ],
+        [
+          "ops",
+          "every Monday",
+          "Weekly numbers",
+          "Revenue, team load and open work across every client."
+        ]
       ],
       "day": [
-        ["07:00:00", "@ops", "weekly numbers: 212 clients, 38 waiting on documents", "ready"],
-        ["08:00:00", "@agents", "monthly document requests", "212 sent"],
-        ["10:30:00", "@agents", "clients uploaded their statements", "64 in"],
-        ["13:00:00", "@agents", "reminded 18 clients about the quarterly deadline", "sent"],
-        ["15:20:00", "@agents", "a client asked about a late fee", "drafted"],
-        ["15:20:02", "you", "approve a reply about a late fee", "pending", "need"]
+        [
+          "07:00:00",
+          "@ops",
+          "weekly numbers: 212 clients, 38 waiting on documents",
+          "ready"
+        ],
+        [
+          "08:00:00",
+          "@agents",
+          "monthly document requests",
+          "212 sent"
+        ],
+        [
+          "10:30:00",
+          "@agents",
+          "clients uploaded their statements",
+          "64 in"
+        ],
+        [
+          "13:00:00",
+          "@agents",
+          "reminded 18 clients about the quarterly deadline",
+          "sent"
+        ],
+        [
+          "15:20:00",
+          "@agents",
+          "a client asked about a late fee",
+          "drafted"
+        ],
+        [
+          "15:20:02",
+          "you",
+          "approve a reply about a late fee",
+          "pending",
+          "need"
+        ]
       ],
       "day_t": "The 1st of the month at a bookkeeping firm",
-      "case": null, "os": null
+      "case": null,
+      "os": null,
+      "extra": {
+        "ops": [
+          [
+            "Client work tracker",
+            "Who's waiting on what, across every client and deadline."
+          ]
+        ],
+        "leads": [
+          [
+            "Service quote builder",
+            "Prospects pick services and see a monthly price."
+          ],
+          [
+            "Fit check form",
+            "Prospects answer a few questions, so you only take calls with good fits."
+          ]
+        ],
+        "marketing": [
+          [
+            "Tax season reminders",
+            "Emails that get clients ready before the rush."
+          ],
+          [
+            "Money tips newsletter",
+            "A short monthly email small businesses actually read."
+          ]
+        ]
+      }
     },
     {
-      "id": "real-estate", "group": "firms", "name": "Real estate teams", "biz": "team", "sid": null, "demo": null,
-      "form": ["agency", ""],
+      "id": "real-estate",
+      "group": "firms",
+      "name": "Real estate teams",
+      "biz": "team",
+      "sid": null,
+      "demo": null,
+      "form": [
+        "agency",
+        ""
+      ],
       "h1": "Reply to every lead while it's still warm.",
       "lede": "We build engines that answer new leads in minutes, track every deadline from offer to close and keep past clients close until they sell again.",
       "fit": "Teams of 3 to 30 agents",
-      "engines": ["leads", "agents", "ops"], "license": "company",
-      "tools": ["Gmail", "Google Calendar", "SMS", "your CRM", "e-signature"],
+      "engines": [
+        "leads",
+        "agents",
+        "ops"
+      ],
+      "license": "company",
+      "tools": [
+        "Gmail",
+        "Google Calendar",
+        "SMS",
+        "your CRM",
+        "e-signature"
+      ],
       "pains": [
-        ["Leads sit while I'm at a showing.", "leads"],
-        ["Past clients forget us by the time they sell.", "agents"],
-        ["Closing deadlines live in my head.", "ops"]
+        [
+          "Leads sit while I'm at a showing.",
+          "leads"
+        ],
+        [
+          "Past clients forget us by the time they sell.",
+          "agents"
+        ],
+        [
+          "Closing deadlines live in my head.",
+          "ops"
+        ]
       ],
       "jobs": [
-        ["agents", "when a lead comes in", "Fast replies to new leads", "Replies in minutes, asks what they're looking for and books a showing."],
-        ["ops", "from offer to close", "Closing timeline", "Tracks every deadline on a deal and reminds the right person before it's due."],
-        ["agents", "on home anniversaries", "Past client check-ins", "Remembers the date they moved in and checks in with a note that sounds like you."],
-        ["agents", "after closing", "Review requests", "Asks happy clients for a review while the keys are still new."]
+        [
+          "agents",
+          "when a lead comes in",
+          "Fast replies to new leads",
+          "Replies in minutes, asks what they're looking for and books a showing."
+        ],
+        [
+          "ops",
+          "from offer to close",
+          "Closing timeline",
+          "Tracks every deadline on a deal and reminds the right person before it's due."
+        ],
+        [
+          "agents",
+          "on home anniversaries",
+          "Past client check-ins",
+          "Remembers the date they moved in and checks in with a note that sounds like you."
+        ],
+        [
+          "agents",
+          "after closing",
+          "Review requests",
+          "Asks happy clients for a review while the keys are still new."
+        ]
       ],
       "day": [
-        ["06:30:00", "@ops", "morning summary: 6 open deals, 2 deadlines today", "ready"],
-        ["08:12:40", "@leads", "new lead on a listing, asked about Saturday", "saved"],
-        ["08:13:05", "@agents", "replied with 3 showing times", "sent"],
-        ["10:00:00", "@ops", "inspection deadline tomorrow", "reminder sent"],
-        ["12:30:00", "@agents", "3 past clients hit their home anniversary", "drafted"],
-        ["12:30:02", "you", "approve 3 anniversary notes", "pending", "need"]
+        [
+          "06:30:00",
+          "@ops",
+          "morning summary: 6 open deals, 2 deadlines today",
+          "ready"
+        ],
+        [
+          "08:12:40",
+          "@leads",
+          "new lead on a listing, asked about Saturday",
+          "saved"
+        ],
+        [
+          "08:13:05",
+          "@agents",
+          "replied with 3 showing times",
+          "sent"
+        ],
+        [
+          "10:00:00",
+          "@ops",
+          "inspection deadline tomorrow",
+          "reminder sent"
+        ],
+        [
+          "12:30:00",
+          "@agents",
+          "3 past clients hit their home anniversary",
+          "drafted"
+        ],
+        [
+          "12:30:02",
+          "you",
+          "approve 3 anniversary notes",
+          "pending",
+          "need"
+        ]
       ],
       "day_t": "A Thursday on a real estate team",
-      "case": null, "os": null
+      "case": null,
+      "os": null,
+      "extra": {
+        "ops": [
+          [
+            "Transaction checklist",
+            "Every document and signature per deal, checked off."
+          ]
+        ],
+        "leads": [
+          [
+            "Home value requests",
+            "Owners ask what their home is worth, and you get a seller lead."
+          ],
+          [
+            "Showing requests",
+            "Buyers pick a time to see a listing, and it lands on your calendar."
+          ]
+        ],
+        "marketing": [
+          [
+            "Listing launch kit",
+            "Posts, emails and a property page for every new listing."
+          ],
+          [
+            "Market update email",
+            "A monthly email with local numbers, in your voice."
+          ]
+        ]
+      }
     },
     {
-      "id": "startups", "group": "founders", "name": "Startups", "biz": "company", "sid": "startup", "demo": "startup",
-      "form": ["startup", ""],
+      "id": "startups",
+      "group": "founders",
+      "name": "Startups",
+      "biz": "company",
+      "sid": "startup",
+      "demo": "startup",
+      "form": [
+        "startup",
+        ""
+      ],
       "h1": "Run the company like you have a COO.",
       "lede": "We build engines that book demos from your waitlist, put your numbers on one screen and draft the investor update for you.",
       "fit": "Seed to Series A, 3 to 40 people",
-      "engines": ["leads", "ops"], "license": "core",
-      "tools": ["Stripe", "HubSpot", "Gmail", "Slack", "Google Calendar"],
+      "engines": [
+        "leads",
+        "ops"
+      ],
+      "license": "core",
+      "tools": [
+        "Stripe",
+        "HubSpot",
+        "Gmail",
+        "Slack",
+        "Google Calendar"
+      ],
       "pains": [
-        ["Our waitlist is a spreadsheet nobody follows up on.", "leads"],
-        ["I spend Monday pulling numbers from six tools.", "ops"],
-        ["The investor update is always late.", "ops"]
+        [
+          "Our waitlist is a spreadsheet nobody follows up on.",
+          "leads"
+        ],
+        [
+          "I spend Monday pulling numbers from six tools.",
+          "ops"
+        ],
+        [
+          "The investor update is always late.",
+          "ops"
+        ]
       ],
       "jobs": [
-        ["leads", "on your website", "Waitlist and demo booking", "Captures signups, qualifies them and books demos with the right ones."],
-        ["ops", "every Monday", "Weekly numbers", "Revenue, deals in progress, spending and open work on one screen."],
-        ["ops", "when someone joins", "New hire setup", "Accounts, guides and first-week tasks, set up the same way every time."],
-        ["ops", "first of the month", "Monthly investor update", "Pulls the month's numbers into a draft update for you to edit."]
+        [
+          "leads",
+          "on your website",
+          "Waitlist and demo booking",
+          "Captures signups, qualifies them and books demos with the right ones."
+        ],
+        [
+          "ops",
+          "every Monday",
+          "Weekly numbers",
+          "Revenue, deals in progress, spending and open work on one screen."
+        ],
+        [
+          "ops",
+          "when someone joins",
+          "New hire setup",
+          "Accounts, guides and first-week tasks, set up the same way every time."
+        ],
+        [
+          "ops",
+          "first of the month",
+          "Monthly investor update",
+          "Pulls the month's numbers into a draft update for you to edit."
+        ]
       ],
       "day": [
-        ["06:00:00", "@ops", "overnight: 41 signups, 3 demos booked", "ready"],
-        ["07:30:00", "@ops", "weekly numbers: revenue up 6%, spending flat", "ready"],
-        ["09:10:12", "@leads", "signup from a 200-person company", "demo booked"],
-        ["11:00:00", "@ops", "new engineer starts Monday, accounts ready", "done"],
-        ["16:00:00", "@ops", "investor update drafted from this month's numbers", "drafted"],
-        ["16:00:02", "you", "edit and send the investor update", "pending", "need"]
+        [
+          "06:00:00",
+          "@ops",
+          "overnight: 41 signups, 3 demos booked",
+          "ready"
+        ],
+        [
+          "07:30:00",
+          "@ops",
+          "weekly numbers: revenue up 6%, spending flat",
+          "ready"
+        ],
+        [
+          "09:10:12",
+          "@leads",
+          "signup from a 200-person company",
+          "demo booked"
+        ],
+        [
+          "11:00:00",
+          "@ops",
+          "new engineer starts Monday, accounts ready",
+          "done"
+        ],
+        [
+          "16:00:00",
+          "@ops",
+          "investor update drafted from this month's numbers",
+          "drafted"
+        ],
+        [
+          "16:00:02",
+          "you",
+          "edit and send the investor update",
+          "pending",
+          "need"
+        ]
       ],
       "day_t": "The 1st of the month at a startup",
-      "case": null, "os": "founder"
+      "case": null,
+      "os": "founder",
+      "extra": {
+        "agents": [
+          [
+            "Support inbox",
+            "Answers common questions and passes the hard ones to the team."
+          ],
+          [
+            "Trial follow-ups",
+            "Checks in with trial users before they go quiet."
+          ]
+        ],
+        "leads": [
+          [
+            "Pricing calculator",
+            "Visitors see what they'd pay before they book a demo."
+          ]
+        ],
+        "marketing": [
+          [
+            "Changelog posts",
+            "Turns every release into a short post and email."
+          ],
+          [
+            "Founder posts",
+            "Drafts posts from your notes, in your voice."
+          ]
+        ]
+      }
     },
     {
-      "id": "creators", "group": "founders", "name": "Creators + podcasters", "biz": "channel", "sid": "creator", "demo": "creator",
-      "form": ["creator", ""],
+      "id": "creators",
+      "group": "founders",
+      "name": "Creators + podcasters",
+      "biz": "channel",
+      "sid": "creator",
+      "demo": "creator",
+      "form": [
+        "creator",
+        ""
+      ],
       "h1": "Make the work. We'll handle the inbox.",
       "lede": "We build engines that publish every release everywhere, sort your inbox and send you only the sponsor deals worth a look.",
       "fit": "Creators with a team of 1 to 10 and a real business behind the channel",
-      "engines": ["agents", "ops"], "license": "core",
-      "tools": ["YouTube", "Spotify", "Gmail", "Instagram", "Stripe"],
+      "engines": [
+        "agents",
+        "ops"
+      ],
+      "license": "core",
+      "tools": [
+        "YouTube",
+        "Spotify",
+        "Gmail",
+        "Instagram",
+        "Stripe"
+      ],
       "pains": [
-        ["Publishing one episode takes a whole afternoon.", "agents"],
-        ["Good sponsor deals get lost in the inbox.", "agents"],
-        ["I answer the same fan questions every day.", "agents"]
+        [
+          "Publishing one episode takes a whole afternoon.",
+          "agents"
+        ],
+        [
+          "Good sponsor deals get lost in the inbox.",
+          "agents"
+        ],
+        [
+          "I answer the same fan questions every day.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["agents", "when a release is ready", "New episode publishing", "Writes titles, descriptions and tags, and queues the drop across every channel."],
-        ["agents", "every hour", "Inbox sorting", "Sorts messages into fans, partners and noise, with drafts ready."],
-        ["agents", "when a brand reaches out", "Sponsor requests", "Checks fit and rates, then sends the good deals to you with a summary."],
-        ["agents", "when a fan asks a common question", "Fan replies", "Answers from your FAQ in your voice, for your review."]
+        [
+          "agents",
+          "when a release is ready",
+          "New episode publishing",
+          "Writes titles, descriptions and tags, and queues the drop across every channel."
+        ],
+        [
+          "agents",
+          "every hour",
+          "Inbox sorting",
+          "Sorts messages into fans, partners and noise, with drafts ready."
+        ],
+        [
+          "agents",
+          "when a brand reaches out",
+          "Sponsor requests",
+          "Checks fit and rates, then sends the good deals to you with a summary."
+        ],
+        [
+          "agents",
+          "when a fan asks a common question",
+          "Fan replies",
+          "Answers from your FAQ in your voice, for your review."
+        ]
       ],
       "day": [
-        ["06:00:00", "@agents", "sorted 140 messages overnight", "sorted"],
-        ["06:00:10", "@agents", "2 sponsor requests worth a look", "summary ready"],
-        ["09:00:00", "@agents", "new episode published to 5 channels", "live"],
-        ["12:15:00", "@agents", "answered fan questions from your FAQ", "23 drafted"],
-        ["12:15:02", "you", "approve 23 fan replies", "pending", "need"],
-        ["17:00:00", "@agents", "sponsor reports drafted for 3 partners", "drafted"]
+        [
+          "06:00:00",
+          "@agents",
+          "sorted 140 messages overnight",
+          "sorted"
+        ],
+        [
+          "06:00:10",
+          "@agents",
+          "2 sponsor requests worth a look",
+          "summary ready"
+        ],
+        [
+          "09:00:00",
+          "@agents",
+          "new episode published to 5 channels",
+          "live"
+        ],
+        [
+          "12:15:00",
+          "@agents",
+          "answered fan questions from your FAQ",
+          "23 drafted"
+        ],
+        [
+          "12:15:02",
+          "you",
+          "approve 23 fan replies",
+          "pending",
+          "need"
+        ],
+        [
+          "17:00:00",
+          "@agents",
+          "sponsor reports drafted for 3 partners",
+          "drafted"
+        ]
       ],
       "day_t": "Release day for a podcast",
-      "case": "jason-stephenson", "os": "creator"
+      "case": "jason-stephenson",
+      "os": "creator",
+      "extra": {
+        "ops": [
+          [
+            "Sponsor tracker",
+            "Every deal, deliverable, date and payment in one place."
+          ],
+          [
+            "Revenue view",
+            "Sponsors, products and platforms, one monthly number."
+          ]
+        ],
+        "leads": [
+          [
+            "Media kit page",
+            "Brands see your numbers and rates and request a deal."
+          ],
+          [
+            "Email list signup",
+            "Turns listeners into subscribers with a simple offer."
+          ]
+        ],
+        "marketing": [
+          [
+            "Clip and post",
+            "Pulls the best moments from each episode into short posts."
+          ],
+          [
+            "Episode newsletter",
+            "Turns each episode into a weekly email."
+          ]
+        ]
+      }
     },
     {
-      "id": "coaches", "group": "founders", "name": "Coaches + courses", "biz": "business", "sid": "coaches", "demo": null,
-      "form": ["creator", ""],
+      "id": "coaches",
+      "group": "founders",
+      "name": "Coaches + courses",
+      "biz": "business",
+      "sid": "coaches",
+      "demo": null,
+      "form": [
+        "creator",
+        ""
+      ],
       "h1": "Spend your time coaching, not chasing.",
       "lede": "We build engines that book discovery calls with the right people, onboard every new client the same way and check in on students before they fall behind.",
       "fit": "Coaches and course businesses with 30 to 3,000 clients or students",
-      "engines": ["leads", "agents"], "license": "core",
-      "tools": ["Stripe", "Google Calendar", "Gmail", "Zoom", "your course platform"],
+      "engines": [
+        "leads",
+        "agents"
+      ],
+      "license": "core",
+      "tools": [
+        "Stripe",
+        "Google Calendar",
+        "Gmail",
+        "Zoom",
+        "your course platform"
+      ],
       "pains": [
-        ["I spend more time booking calls than taking them.", "leads"],
-        ["Students buy the course and never finish it.", "agents"],
-        ["Every new client gets a slightly different welcome.", "agents"]
+        [
+          "I spend more time booking calls than taking them.",
+          "leads"
+        ],
+        [
+          "Students buy the course and never finish it.",
+          "agents"
+        ],
+        [
+          "Every new client gets a slightly different welcome.",
+          "agents"
+        ]
       ],
       "jobs": [
-        ["leads", "when someone applies", "Discovery call booking", "Asks a few questions, books the good fits and politely turns away the rest."],
-        ["agents", "when someone buys", "Client onboarding", "Sends the welcome, the first steps and a kickoff time, the same way every time."],
-        ["agents", "when a student goes quiet", "Student check-ins", "Notices who stopped logging in and sends a nudge in your voice."],
-        ["agents", "when a card declines", "Failed payment follow-ups", "Sends a friendly note with a link to update their card."]
+        [
+          "leads",
+          "when someone applies",
+          "Discovery call booking",
+          "Asks a few questions, books the good fits and politely turns away the rest."
+        ],
+        [
+          "agents",
+          "when someone buys",
+          "Client onboarding",
+          "Sends the welcome, the first steps and a kickoff time, the same way every time."
+        ],
+        [
+          "agents",
+          "when a student goes quiet",
+          "Student check-ins",
+          "Notices who stopped logging in and sends a nudge in your voice."
+        ],
+        [
+          "agents",
+          "when a card declines",
+          "Failed payment follow-ups",
+          "Sends a friendly note with a link to update their card."
+        ]
       ],
       "day": [
-        ["06:00:00", "@ops", "morning summary: 4 calls today, 12 new students", "ready"],
-        ["08:40:00", "@leads", "new application, good fit, call booked Thursday", "booked"],
-        ["10:00:00", "@agents", "welcome sent to 12 new students", "sent"],
-        ["13:30:00", "@agents", "9 students haven't logged in for 10 days", "nudged"],
-        ["15:10:00", "@agents", "a client asked to pause their plan", "drafted"],
-        ["15:10:02", "you", "approve a reply about pausing", "pending", "need"]
+        [
+          "06:00:00",
+          "@ops",
+          "morning summary: 4 calls today, 12 new students",
+          "ready"
+        ],
+        [
+          "08:40:00",
+          "@leads",
+          "new application, good fit, call booked Thursday",
+          "booked"
+        ],
+        [
+          "10:00:00",
+          "@agents",
+          "welcome sent to 12 new students",
+          "sent"
+        ],
+        [
+          "13:30:00",
+          "@agents",
+          "9 students haven't logged in for 10 days",
+          "nudged"
+        ],
+        [
+          "15:10:00",
+          "@agents",
+          "a client asked to pause their plan",
+          "drafted"
+        ],
+        [
+          "15:10:02",
+          "you",
+          "approve a reply about pausing",
+          "pending",
+          "need"
+        ]
       ],
       "day_t": "A Monday for a coaching business",
-      "case": null, "os": null
+      "case": null,
+      "os": null,
+      "extra": {
+        "ops": [
+          [
+            "Client progress tracker",
+            "Every client's goals, sessions and wins in one place."
+          ],
+          [
+            "Cohort dashboard",
+            "Who's active, who's behind and who finished."
+          ]
+        ],
+        "leads": [
+          [
+            "Free class signup",
+            "A free class or guide that turns visitors into leads."
+          ]
+        ],
+        "marketing": [
+          [
+            "Win stories",
+            "Turns client wins into posts, with their OK."
+          ],
+          [
+            "Weekly email",
+            "A short weekly email from your notes."
+          ]
+        ]
+      }
     },
     {
-      "id": "events", "group": "founders", "name": "Events + venues", "biz": "business", "sid": null, "demo": null,
-      "form": ["other", "Events or venue"],
+      "id": "events",
+      "group": "founders",
+      "name": "Events + venues",
+      "biz": "business",
+      "sid": null,
+      "demo": null,
+      "form": [
+        "other",
+        "Events or venue"
+      ],
       "h1": "Answer every inquiry while the date is still open.",
       "lede": "We build engines that reply to inquiries with availability and pricing, follow up on proposals and confirm every vendor before the day.",
       "fit": "Venues, planners and producers with 30+ events a year",
-      "engines": ["leads", "agents", "ops"], "license": "company",
-      "tools": ["Gmail", "Google Calendar", "Stripe", "e-signature", "Google Drive"],
+      "engines": [
+        "leads",
+        "agents",
+        "ops"
+      ],
+      "license": "company",
+      "tools": [
+        "Gmail",
+        "Google Calendar",
+        "Stripe",
+        "e-signature",
+        "Google Drive"
+      ],
       "pains": [
-        ["People ask if a date is open and we reply two days later.", "leads"],
-        ["Proposals go out and we never hear back.", "agents"],
-        ["Vendor details are spread across 40 email threads.", "ops"]
+        [
+          "People ask if a date is open and we reply two days later.",
+          "leads"
+        ],
+        [
+          "Proposals go out and we never hear back.",
+          "agents"
+        ],
+        [
+          "Vendor details are spread across 40 email threads.",
+          "ops"
+        ]
       ],
       "jobs": [
-        ["leads", "when an inquiry comes in", "Date and price replies", "Checks the calendar and replies with availability and pricing in minutes."],
-        ["agents", "3 days after a proposal", "Quote follow-ups", "Checks in on every proposal until you get an answer."],
-        ["ops", "2 weeks before an event", "Vendor check-ins", "Confirms times and details with every vendor and flags anything missing."],
-        ["agents", "7 days after an invoice is due", "Unpaid invoice reminders", "Polite reminders first, then a flag for you."]
+        [
+          "leads",
+          "when an inquiry comes in",
+          "Date and price replies",
+          "Checks the calendar and replies with availability and pricing in minutes."
+        ],
+        [
+          "agents",
+          "3 days after a proposal",
+          "Quote follow-ups",
+          "Checks in on every proposal until you get an answer."
+        ],
+        [
+          "ops",
+          "2 weeks before an event",
+          "Vendor check-ins",
+          "Confirms times and details with every vendor and flags anything missing."
+        ],
+        [
+          "agents",
+          "7 days after an invoice is due",
+          "Unpaid invoice reminders",
+          "Polite reminders first, then a flag for you."
+        ]
       ],
       "day": [
-        ["06:30:00", "@ops", "morning summary: 3 events this week, 1 vendor unconfirmed", "ready"],
-        ["07:45:12", "@leads", "inquiry for June 14, 120 guests", "date open"],
-        ["07:45:20", "@agents", "replied with pricing and a tour link", "sent"],
-        ["10:00:00", "@ops", "confirmed times with Saturday's vendors", "6 confirmed"],
-        ["10:00:05", "@ops", "the florist hasn't confirmed", "flagged"],
-        ["14:30:00", "@agents", "checked in on 4 open proposals", "sent"]
+        [
+          "06:30:00",
+          "@ops",
+          "morning summary: 3 events this week, 1 vendor unconfirmed",
+          "ready"
+        ],
+        [
+          "07:45:12",
+          "@leads",
+          "inquiry for June 14, 120 guests",
+          "date open"
+        ],
+        [
+          "07:45:20",
+          "@agents",
+          "replied with pricing and a tour link",
+          "sent"
+        ],
+        [
+          "10:00:00",
+          "@ops",
+          "confirmed times with Saturday's vendors",
+          "6 confirmed"
+        ],
+        [
+          "10:00:05",
+          "@ops",
+          "the florist hasn't confirmed",
+          "flagged"
+        ],
+        [
+          "14:30:00",
+          "@agents",
+          "checked in on 4 open proposals",
+          "sent"
+        ]
       ],
       "day_t": "A Wednesday at an event venue",
-      "case": null, "os": null
+      "case": null,
+      "os": null,
+      "extra": {
+        "ops": [
+          [
+            "Event day timeline",
+            "Every vendor, time and task for the day, shared with your team."
+          ]
+        ],
+        "leads": [
+          [
+            "Venue tour booking",
+            "People pick a time to tour and get a reminder."
+          ]
+        ],
+        "marketing": [
+          [
+            "Event recap posts",
+            "Turns photos from each event into posts, with the client's OK."
+          ],
+          [
+            "Open dates email",
+            "Tells past inquiries when a popular date opens up."
+          ]
+        ]
+      }
     }
   ]
 }

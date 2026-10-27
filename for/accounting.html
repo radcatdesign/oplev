@@ -1028,6 +1028,44 @@ html.sheet-open{overflow:hidden}
 @media (max-width:599px){.say-ctl{width:100%}.say-n{margin-right:auto}}
 @media (prefers-reduced-motion:reduce){.say-card{transition:none}.say-card:hover{transform:none}}
 
+
+/* ---------- tools: what plugs into each engine, by industry ---------- */
+.tools-hd{display:grid;gap:18px 48px;align-items:end;margin-bottom:clamp(24px,3vw,36px)}
+@media (min-width:980px){.tools-hd{grid-template-columns:minmax(0,6fr) minmax(0,6fr)}}
+.tools-hd .lede{margin:0}
+.tpick{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-bottom:22px}
+.tpick-l{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(20px,2.3vw,32px);letter-spacing:-.04em}
+.tpick-s{position:relative;display:inline-flex;max-width:100%}
+.tpick-s select{appearance:none;-webkit-appearance:none;background:var(--paper);color:var(--ink);border:0;border-radius:0;font:500 clamp(20px,2.3vw,32px)/1.15 var(--display);font-stretch:87.5%;letter-spacing:-.04em;padding:6px 50px 8px 14px;cursor:pointer;max-width:100%}
+.tpick-s::after{content:"";position:absolute;right:18px;top:50%;width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.tpick-go{color:var(--soft);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-left:auto}
+.tpick-go svg{width:13px;height:13px}
+.tpick-go:hover{color:var(--paper)}
+@media (max-width:699px){.tpick-go{margin-left:0;width:100%}}
+.tboard{display:grid;gap:1px;background:var(--line-2);border:1px solid var(--line-2);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.tboard{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1180px){.tboard{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tcol{background:var(--ink);display:flex;flex-direction:column;min-width:0;border-top:3px solid var(--e)}
+.tcol-hd{display:flex;align-items:center;gap:9px;padding:16px 16px 12px;flex-wrap:wrap}
+.tcol-hd b{font:500 19px/1 var(--display);font-stretch:87.5%;letter-spacing:-.03em;color:var(--e)}
+.tcol-hd .bot-xs{margin:0}
+.tcol-hd .bot-xs svg{height:18px}
+.tcol-st{margin-left:auto;color:var(--dim-2)}
+.tcol.usual .tcol-st{color:var(--e)}
+.tcol-core{margin:0 16px;padding:0 0 14px;border-bottom:1px solid var(--line);color:var(--soft);font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.tcol-core .label{color:var(--dim-2)}
+.tlist{list-style:none;margin:0;padding:12px;display:flex;flex-direction:column;gap:8px}
+.tlist .tl{position:relative}
+.tlist .tool-in{display:flex;flex-direction:column;gap:5px;padding:12px 12px 13px;background:var(--ink-2);border:1px solid var(--line);border-left:3px solid var(--e);text-align:left;width:100%;color:var(--paper);font:inherit}
+.tlist button.tool-in{cursor:pointer;transition:background .15s,border-color .15s}
+.tlist button.tool-in:hover{background:#151518;border-color:var(--e)}
+.tl-k{color:var(--e)}
+.tl-n{font:500 15px/1.25 var(--display);font-stretch:92%;letter-spacing:-.02em}
+.tl-d{color:var(--soft);font-size:13.5px;line-height:1.45}
+.lic-tools{border-top:3px solid;border-image:linear-gradient(90deg,var(--ops) 0 25%,var(--agents) 25% 50%,var(--leads) 50% 75%,var(--marketing) 75%) 1}
+.lic-more{color:var(--soft)!important;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.lic-more svg{width:13px;height:13px}
+.lic-more:hover{color:var(--paper)!important}
 </style>
 </head>
 <body>
@@ -1118,7 +1156,7 @@ html.sheet-open{overflow:hidden}
       <p class="eyebrow">For accounting + bookkeeping</p>
       <h1 class="h1 lp-h1" id="h1">Stop chasing clients for receipts.</h1>
       <p class="lede">We build engines that collect documents every month, remind clients before deadlines and show your team who&#x27;s waiting on what.</p>
-      <div class="actions"><a class="btn" href="#start">Apply for a spot <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="#jobs">What we'd build <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a></div>
+      <div class="actions"><a class="btn" href="#start">Apply for a spot <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="#tools">See the tools <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a></div>
       <div class="spots lp-spots"><span class="sp-meter" aria-hidden="true"><i class="taken"></i><i class="taken"></i><i class="open"></i><i class="open"></i></span><span class="label">Q1 2027 / <b>2 of 4 client spots open</b></span></div>
     </div>
     <div class="lp-r">
@@ -1143,22 +1181,21 @@ html.sheet-open{overflow:hidden}
   </div>
 </section>
 
-<section class="sec" id="jobs" aria-labelledby="jobs-h">
+<section class="sec" id="tools" aria-labelledby="tools-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">What we'd build</p>
-        <h2 class="h2" id="jobs-h">Your first four jobs.</h2>
-        <p class="lede">Where most accounting + bookkeeping start. We build each one around how you work. Tap any job to see what happens, step by step.</p>
+        <p class="eyebrow">Tools for accounting + bookkeeping</p>
+        <h2 class="h2" id="tools-h">What you can add to each engine.</h2>
+        <p class="lede">Every engine takes tools built for accounting + bookkeeping. Start with the engines you need, then add tools as you grow. Tap any tool marked "see it run" to watch it work, step by step.</p>
       </div>
-      <span class="etags"><span class="etag e-agents">Agents</span><span class="etag e-ops">Ops</span></span>
     </div>
-    <ul class="plays plays-top lp-jobs" data-jobs="jobs-data">
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">on the 1st of every month</span></div><h3 class="h3"><button class="play-open" type="button" data-job="0" aria-haspopup="dialog">Monthly document requests</button></h3><p>Asks each client for statements and receipts, and follows up until they&#x27;re in.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">when a client signs</span></div><h3 class="h3"><button class="play-open" type="button" data-job="1" aria-haspopup="dialog">Client onboarding</button></h3><p>Sends the welcome, the engagement letter and the document list, and chases what&#x27;s missing.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">weeks before a deadline</span></div><h3 class="h3"><button class="play-open" type="button" data-job="2" aria-haspopup="dialog">Deadline reminders</button></h3><p>Tells each client what you need and by when.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">every Monday</span></div><h3 class="h3"><button class="play-open" type="button" data-job="3" aria-haspopup="dialog">Weekly numbers</button></h3><p>Revenue, team load and open work across every client.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
-    </ul>
+    <div class="tboard" data-jobs="jobs-data">
+      <div class="tcol e-ops usual"><div class="tcol-hd"><span class="bot bot-xs" data-bot="ops"></span><b>Ops</b><span class="label">water</span><span class="label tcol-st">usually first</span></div><p class="tcol-core"><span class="label">the engine</span>Keeps your schedule, clients, orders and numbers in one place.</p><ul class="tlist"><li class="tl"><button class="play-open tool-in" type="button" data-job="3" aria-haspopup="dialog"><span class="label tl-k">+ tool / see it run</span><b class="tl-n">Weekly numbers</b><span class="tl-d">Revenue, team load and open work across every client.</span></button></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Client work tracker</b><span class="tl-d">Who&#x27;s waiting on what, across every client and deadline.</span></div></li></ul></div>
+      <div class="tcol e-agents usual"><div class="tcol-hd"><span class="bot bot-xs" data-bot="agents"></span><b>Agents</b><span class="label">earth</span><span class="label tcol-st">usually first</span></div><p class="tcol-core"><span class="label">the engine</span>Answers, books, reminds and follows up, and checks with you first.</p><ul class="tlist"><li class="tl"><button class="play-open tool-in" type="button" data-job="0" aria-haspopup="dialog"><span class="label tl-k">+ tool / see it run</span><b class="tl-n">Monthly document requests</b><span class="tl-d">Asks each client for statements and receipts, and follows up until they&#x27;re in.</span></button></li><li class="tl"><button class="play-open tool-in" type="button" data-job="1" aria-haspopup="dialog"><span class="label tl-k">+ tool / see it run</span><b class="tl-n">Client onboarding</b><span class="tl-d">Sends the welcome, the engagement letter and the document list, and chases what&#x27;s missing.</span></button></li><li class="tl"><button class="play-open tool-in" type="button" data-job="2" aria-haspopup="dialog"><span class="label tl-k">+ tool / see it run</span><b class="tl-n">Deadline reminders</b><span class="tl-d">Tells each client what you need and by when.</span></button></li></ul></div>
+      <div class="tcol e-leads"><div class="tcol-hd"><span class="bot bot-xs" data-bot="leads"></span><b>Leads</b><span class="label">fire</span><span class="label tcol-st">add any time</span></div><p class="tcol-core"><span class="label">the engine</span>Turns website visitors into real conversations.</p><ul class="tlist"><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Service quote builder</b><span class="tl-d">Prospects pick services and see a monthly price.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Fit check form</b><span class="tl-d">Prospects answer a few questions, so you only take calls with good fits.</span></div></li></ul></div>
+      <div class="tcol e-marketing"><div class="tcol-hd"><span class="bot bot-xs" data-bot="marketing"></span><b>Marketing</b><span class="label">wind</span><span class="label tcol-st">add any time</span></div><p class="tcol-core"><span class="label">the engine</span>Gets your name in front of the right people, week after week.</p><ul class="tlist"><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Tax season reminders</b><span class="tl-d">Emails that get clients ready before the rush.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Money tips newsletter</b><span class="tl-d">A short monthly email small businesses actually read.</span></div></li></ul></div>
+    </div>
     <script type="application/json" id="jobs-data">{"start": "#start", "demo": "../how-it-works.html", "jobs": [{"e": "agents", "name": "Agents", "trig": "on the 1st of every month", "title": "Monthly document requests", "desc": "Asks each client for statements and receipts, and follows up until they're in.", "ex": "It's the 1st of the month", "steps": [["8:00am", "@ops", "lists what each client needs to send", "listed"], ["8:00am", "@agents", "emails each client their list and an upload link", "212 sent"], ["10:30am", "Client", "uploads last month's statements", "received"], ["day 5", "@agents", "reminds anyone still missing something", "sent"], ["day 8", "@ops", "lists the few still missing for you", "flagged"]], "you": "You only deal with the handful who still haven't sent anything.", "get": "Month-end starts with everything in, not with a week of emails."}, {"e": "agents", "name": "Agents", "trig": "when a client signs", "title": "Client onboarding", "desc": "Sends the welcome, the engagement letter and the document list, and chases what's missing.", "ex": "A new client signs the engagement letter", "steps": [["2:00pm", "Client", "signs the engagement letter", "signed"], ["2:01pm", "@agents", "sends a welcome and a kickoff time", "sent"], ["2:01pm", "@ops", "sets up their folder and checklist", "created"], ["2:02pm", "@agents", "sends the list of documents you need", "sent"], ["day 3", "@agents", "last year's return is missing, so it asks again", "sent"], ["day 4", "Client", "uploads everything", "received"]], "you": "You run the kickoff call. The paperwork and chasing happen on their own.", "get": "Every client starts the same way, with nothing missing."}, {"e": "agents", "name": "Agents", "trig": "weeks before a deadline", "title": "Deadline reminders", "desc": "Tells each client what you need and by when.", "ex": "A quarterly deadline is three weeks out", "steps": [["day 1", "@ops", "finds clients with something due this quarter", "42 found"], ["day 1", "@agents", "tells each one what you need and by when", "sent"], ["day 8", "@agents", "reminds anyone who hasn't sent it yet", "sent"], ["day 14", "@ops", "lists who's still missing for your team", "flagged"], ["day 15", "you", "call the last two yourself", "done", "me"]], "you": "You only call the few who need a personal nudge.", "get": "Fewer late nights before every deadline."}, {"e": "ops", "name": "Ops", "trig": "every Monday", "title": "Weekly numbers", "desc": "Revenue, team load and open work across every client.", "ex": "Every Monday morning", "steps": [["Mon 6am", "@ops", "pulls last week's revenue by client", "pulled"], ["Mon 6am", "@ops", "checks how booked each person is", "checked"], ["Mon 6am", "@ops", "lists open work and what is running late", "listed"], ["Mon 6am", "@ops", "points out anyone with too much on", "flagged"], ["Mon 7am", "@ops", "sends one page to you", "sent"]], "you": "Nothing to build. You just read it.", "get": "You see money, workload and late work across every client in one place."}]}</script>
   </div>
 </section>
@@ -1168,7 +1205,7 @@ html.sheet-open{overflow:hidden}
     <div class="head-l">
       <p class="eyebrow">What it costs</p>
       <h2 class="h2" id="cost-h">Usually Agents + Ops. $10k a month.</h2>
-      <p class="lede">Hosting, fixes and updates are included. Every build starts from how your firm already works.</p>
+      <p class="lede">That covers the engines, hosting, fixes and updates. Tools go on top, one at a time, so you only pay for the ones your firm uses.</p>
       <div class="actions"><a class="btn" href="#start">Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="../pricing.html">See pricing <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
     </div>
     <div class="split-r">
@@ -1602,7 +1639,7 @@ $$('[data-jobs]').forEach(list=>{
       +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
       +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
       +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
-      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">See an example</a></div></div>';
     document.body.appendChild(dlg);
     $('.sheet-x',dlg).addEventListener('click',close);
     dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
@@ -1621,7 +1658,7 @@ $$('[data-jobs]').forEach(list=>{
     $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
     const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
     st.href=J.start;st.innerHTML='Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
-    dm.href=J.demo;dm.innerHTML='Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
+    dm.href=J.demo;dm.innerHTML='See an example <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
     const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
     const pane=$('.pane',dlg);
@@ -1653,6 +1690,23 @@ $$('.eng,.strip').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng
 $$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name',a),380,CAPS+'abcdefghijklmnopqrstuvwxyz')));
 /* jobs rail arrows */
 $$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
+
+/* ---------- tools board: pick an industry, see what plugs into each engine ---------- */
+(function(){
+  const sel=$('#tool-for'),board=$('#tboard'),src=$('#tools-data'),go=$('#tool-go');if(!sel||!board||!src)return;
+  let D;try{D=JSON.parse(src.textContent)}catch(e){return;}
+  const cols=$$('.tcol',board);
+  sel.addEventListener('change',()=>{
+    const x=D[sel.value];if(!x)return;
+    cols.forEach(c=>{
+      const k=([...c.classList].find(z=>z.indexOf('e-')===0)||'e-').slice(2),u=x.u.indexOf(k)>-1;
+      c.classList.toggle('usual',u);$('.tcol-st',c).textContent=u?'usually first':'add any time';
+      $('.tlist',c).innerHTML=(x.t[k]||[]).map(([n,d])=>'<li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">'+esc(n)+'</b><span class="tl-d">'+esc(d)+'</span></div></li>').join('');
+      if(!RM)$$('.tl-n',c).forEach((el,i)=>setTimeout(()=>decode(el,380),i*60));
+    });
+    if(go){go.href='for/'+sel.value+'.html#tools';if(go.firstChild&&go.firstChild.nodeType===3)go.firstChild.nodeValue='Open the '+x.n.toLowerCase()+' page ';}
+  });
+})();
 
 /* ---------- sound familiar: card carousel ---------- */
 (function(){

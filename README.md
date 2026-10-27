@@ -6,6 +6,7 @@ Static site. Every page is a self-contained HTML file, so Vercel serves the repo
 
 - Case studies: `content/cases.json`
 - Who it's for: `content/icps.json`. Each business type gets a landing page at `for/<id>.html`, a spot in the "Who it's for" mega menu, the home page list and the pricing "common for" lines. Groups set the menu columns.
+- Industry tools: the add-ons that plug into each engine. Each business type in `content/icps.json` lists its tools: `jobs` (tools with a step-by-step walkthrough in `jobs.json`) plus `extra` (more tools per engine, name and one line). They show on the home page tool picker, each landing page and the pricing page.
 - Example dashboard sample data: `content/setups.json`
 - Job walkthroughs (what happens when a job runs): `content/jobs.json`, keyed by job title. Use `id:Title` for a version specific to one business type (a landing page id from `icps.json`, or a setup id).
 - Marketplace listings: `content/marketplace.json` (currently example listings)

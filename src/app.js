@@ -9,7 +9,7 @@ const FUNCS=['Planning','Getting customers','Doing the work','Team','Day-to-day'
 const DIMS=[0,1,2,3,4];
 const LEVELS=['Not set up','Runs on one person','Partly handled','Runs without you'];
 const FUNC_E={'Planning':'ops','Getting customers':'leads','Doing the work':'ops','Team':'ops','Day-to-day':'ops','Money':'agents','Customer care':'agents','Approvals and rules':'ops'};
-const FUNC_TIP={'Planning':'Put your goals and weekly numbers on one screen.','Getting customers':'Save every lead and answer it within minutes.','Doing the work':'Make the work run the same way every time.','Team':'Set up every new person the same way.','Day-to-day':'Hand routine jobs to automations.','Money':'Send invoice reminders and match payments automatically.','Customer care':'Follow up with every client without anyone having to remember.','Approvals and rules':'Decide what needs a person, and log everything else.'};
+const FUNC_TIP={'Planning':'Put your goals and weekly numbers on one screen.','Getting customers':'Save every lead and answer it within minutes.','Doing the work':'Make the work run the same way every time.','Team':'Set up every new person the same way.','Day-to-day':'Hand routine work to tools.','Money':'Send invoice reminders and match payments automatically.','Customer care':'Follow up with every client without anyone having to remember.','Approvals and rules':'Decide what needs a person, and log everything else.'};
 const STAGES=['New','In conversation','Booked','Won','Lost'];
 const TRIGGERS=['when a form or chat comes in','when a new inquiry comes in','on your website','every hour','every morning at 6','every Monday','every Friday','first of the month','after every visit','after a job is done','24 hours before a visit','3 days after a quote','7 days after an invoice is due','when a client misses a visit','when a client misses a booking','when stock runs low','when someone joins','when a contract is signed'];
 let RM=false;try{RM=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
@@ -100,7 +100,7 @@ function pushLog(a,m,r,f){
 /* ================= shell ================= */
 const NAV=[
   [null,[['overview','Home'],['approvals','Needs your OK','badge'],['activity','Activity']]],
-  ['Engines',ENG.map(e=>['engine-'+e.id,e.name,'e']).concat([['plays','Automations']])],
+  ['Engines',ENG.map(e=>['engine-'+e.id,e.name,'e']).concat([['plays','Tools']])],
   ['Your business',[['pipeline','Inquiries'],['records','Records'],['score','Progress score'],['settings','Settings']]]
 ];
 function shell(){
@@ -143,7 +143,7 @@ function renderSide(){
   const lb=$('#live-btn');lb.setAttribute('aria-pressed',String(S.live));lb.title=S.live?'Pause live activity':'Resume live activity';
   $('#avatar').textContent=initials(owner());$('#avatar').title=owner();
 }
-const ROUTE_NAME=Object.assign({overview:'Home',approvals:'Needs your OK',activity:'Activity',engines:'Engines'},Object.fromEntries(ENG.map(e=>['engine-'+e.id,e.name])),{plays:'Automations',pipeline:'Inquiries',records:'Records',score:'Progress score',settings:'Settings'});
+const ROUTE_NAME=Object.assign({overview:'Home',approvals:'Needs your OK',activity:'Activity',engines:'Engines'},Object.fromEntries(ENG.map(e=>['engine-'+e.id,e.name])),{plays:'Tools',pipeline:'Inquiries',records:'Records',score:'Progress score',settings:'Settings'});
 function setCrumb(){$('#crumb').innerHTML=`${esc(S.biz)} / <b>${esc(ROUTE_NAME[route]||'Home')}</b>`;}
 
 /* ================= views ================= */
@@ -161,7 +161,7 @@ function vOverview(){
   const tiles=ENG.map(e=>{
     const L=!has(e.id),st=L?'<span class="state lock">not built</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>');
     return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">${esc(e.triad)}</span>${st}</div><div class="et-name">${esc(e.name)}</div>
-    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">automations on</span></div></div><div class="bars" aria-hidden="true">${bars(S.type+e.id)}</div></a>`;}).join('');
+    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">tools on</span></div></div><div class="bars" aria-hidden="true">${bars(S.type+e.id)}</div></a>`;}).join('');
   const kp=S.kpis.map(([l,v,s])=>`<div class="cell kpi"><span class="label">${esc(l)}</span><b>${esc(v)}</b><span class="label">${esc(s)}</span></div>`).join('');
   const sc=S.score,d=sc.now-sc.prev;
   return head('overview',`${greet()}, ${esc(first(owner()))}.`,sub,n?`<a class="btn" href="#approvals">Review approvals</a>`:`<a class="btn ghost" href="#activity">See activity</a>`)+`
@@ -209,7 +209,7 @@ function vEngines(){
   return head('engines','Engines','The engines we built for this business.')+`<div class="g g4">${ENG.map(e=>{
     const L=!has(e.id);
     return `<a class="cell etile e-${e.id}${L?' locked':''}" href="#engine-${e.id}"><div class="et-top"><span class="label">${esc(e.triad)}</span>${L?'<span class="state lock">not built</span>':(S.running[e.id]?'<span class="state on">running</span>':'<span class="state">paused</span>')}</div><div class="et-name">${esc(e.name)}</div><p class="v-sub" style="font-size:15px">${esc(e.line)}</p>
-    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">automations on</span></div></div><span class="lnk">${L?'See what it adds':'Open'} &rarr;</span></a>`;}).join('')}</div>`;
+    <div class="et-stats"><div><b data-k="count-${e.id}">${S.counts[e.id]}</b><span class="label">done today</span></div><div><b>${playsOn(e.id)}</b><span class="label">tools on</span></div></div><span class="lnk">${L?'See what it adds':'Open'} &rarr;</span></a>`;}).join('')}</div>`;
 }
 function triggerSel(p){const opts=TRIGGERS.includes(p.trig)?TRIGGERS:[p.trig].concat(TRIGGERS);return `<select class="dd" data-act="play-trig" data-id="${p.id}" aria-label="When ${esc(p.title)} runs">${opts.map(t=>`<option${t===p.trig?' selected':''}>${esc(t)}</option>`).join('')}</select>`;}
 function vEngine(eid){
@@ -218,7 +218,7 @@ function vEngine(eid){
     const preview=S.plays.filter(p=>p.e===eid).slice(0,5);
     return head('engines/'+eid,esc(e.name),esc(e.triad)+'. '+esc(e.line),'',`ec e-${eid}`)+`
     <div class="lock-card e-${eid}"><div style="display:flex;flex-direction:column;gap:16px"><span class="label">not built for this business</span><h2>What a ${esc(e.name)} engine would add.</h2><p>${esc(e.line)} We'd build it to work with the engines already here, so nothing gets set up twice.</p><div class="v-actions"><button class="btn" type="button" data-act="lic-add" data-e="${eid}">Show it in this example</button><a class="btn ghost" href="start.html">Ask us about ${esc(e.name)}</a></div></div>
-    <div><ul class="rowlist">${e.caps.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><p class="label" style="margin:18px 0 10px">jobs we often build in</p><div class="etags">${preview.map(p=>`<span class="etag e-${eid}">${esc(p.title)}</span>`).join('')}</div></div></div>`;
+    <div><ul class="rowlist">${e.caps.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><p class="label" style="margin:18px 0 10px">tools we often add</p><div class="etags">${preview.map(p=>`<span class="etag e-${eid}">${esc(p.title)}</span>`).join('')}</div></div></div>`;
   }
   const mine=S.plays.filter(p=>p.e===eid&&p.added);
   const waiting=S.approvals.filter(a=>a.e===eid).length;
@@ -227,11 +227,11 @@ function vEngine(eid){
     <td><div class="pt-title"><b><button class="pt-open" type="button" data-act="job-open" data-id="${p.id}" aria-haspopup="dialog">${esc(p.title)}</button></b><span>${esc(p.desc)}</span></div></td><td>${triggerSel(p)}</td>
     <td><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>check with me</label></td>
     <td class="num">${p.runs}</td><td class="num">${esc(p.last)}</td><td><button class="btn ghost btn-xs" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[eid]?'':' disabled'}>Run now</button></td></tr>`).join('');
-  return head('engines/'+eid,esc(e.name),esc(e.triad)+'. '+esc(e.line),`<button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Add automations</button>`,`ec e-${eid}`)+`
+  return head('engines/'+eid,esc(e.name),esc(e.triad)+'. '+esc(e.line),`<button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Add tools</button>`,`ec e-${eid}`)+`
   <div class="e-${eid}"><div class="eh-row"><span class="state${S.running[eid]?' on':''}">${S.running[eid]?'running':'paused'}</span><span class="label">${S.running[eid]?'pause everything in this engine':'turn this engine back on'}</span><button class="sw" type="button" role="switch" aria-checked="${S.running[eid]}" data-act="eng-run" data-e="${eid}" aria-label="${S.running[eid]?'Pause':'Resume'} ${esc(e.name)}"></button></div>
-  <div class="g g4" style="border-top:0"><div class="cell kpi"><span class="label">done today</span><b data-k="count-${eid}">${S.counts[eid]}</b></div><div class="cell kpi"><span class="label">automations on</span><b>${playsOn(eid)}</b></div><div class="cell kpi"><span class="label">waiting on you</span><b>${waiting}</b></div><div class="cell kpi"><span class="label">last action</span><b style="font-size:20px">${lastE?esc(lastE.t.slice(0,5)):'none'}</b></div></div></div>
-  <div class="sec-t"><h2>Automations</h2><span class="label">${mine.length} in this engine</span></div>
-  ${mine.length?`<div class="tbl-w"><table class="tbl"><thead><tr><th>On</th><th>Automation</th><th>When it runs</th><th>Your OK</th><th>Times run</th><th>Last run</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="pnl empty"><p>No automations in ${esc(e.name)} yet.</p><button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Browse automations</button></div>`}
+  <div class="g g4" style="border-top:0"><div class="cell kpi"><span class="label">done today</span><b data-k="count-${eid}">${S.counts[eid]}</b></div><div class="cell kpi"><span class="label">tools on</span><b>${playsOn(eid)}</b></div><div class="cell kpi"><span class="label">waiting on you</span><b>${waiting}</b></div><div class="cell kpi"><span class="label">last action</span><b style="font-size:20px">${lastE?esc(lastE.t.slice(0,5)):'none'}</b></div></div></div>
+  <div class="sec-t"><h2>Tools</h2><span class="label">${mine.length} in this engine</span></div>
+  ${mine.length?`<div class="tbl-w"><table class="tbl"><thead><tr><th>On</th><th>Tool</th><th>When it runs</th><th>Your OK</th><th>Times run</th><th>Last run</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="pnl empty"><p>No tools in ${esc(e.name)} yet.</p><button class="btn ghost" type="button" data-act="go-plays" data-e="${eid}">Browse tools</button></div>`}
   <div class="sec-t"><h2>Recent activity</h2><a class="label" href="#activity" data-act="act-pre" data-f="${eid}">all &rarr;</a></div>
   <section class="pnl"><div class="feed" data-live data-engine="${eid}" data-max="10">${feedRows(S.log.filter(x=>x.a==='@'+eid),10)}</div></section>`;
 }
@@ -239,8 +239,8 @@ function vEngine(eid){
 function vPlays(){
   const f=[['all','All']].concat(ENG.map(e=>[e.id,e.name]));
   const list=S.plays.filter(p=>ui.playF==='all'||p.e===ui.playF);
-  return head('plays','Automations','Jobs built into this business\'s engines, plus others we often build. Tap any one to see how it works.')+`
-  <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter automations">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="play-f" data-f="${k}" aria-pressed="${ui.playF===k}">${t}</button>`).join('')}</div></div>
+  return head('plays','Tools','Tools added to this business\'s engines, plus others we often add. Tap any one to see how it works.')+`
+  <div class="toolbar"><div class="tabs filters" role="group" aria-label="Filter tools">${f.map(([k,t])=>`<button class="tab${ENGN[k]?' e-'+k:''}" type="button" data-act="play-f" data-f="${k}" aria-pressed="${ui.playF===k}">${t}</button>`).join('')}</div></div>
   <ul class="plib">${list.map(p=>{
     let ft;
     if(!has(p.e))ft=`<span class="label">needs the ${esc(ENGN[p.e].name)} engine</span><a class="lnk" href="#engine-${p.e}">see it &rarr;</a>`;
@@ -294,7 +294,7 @@ function vSettings(){
   if(ui.setTab==='team')body=`<div class="set-card"><h2>Team</h2><div class="tbl-w"><table class="tbl" style="min-width:420px"><thead><tr><th>Name</th><th>Role</th><th>Can approve</th></tr></thead><tbody>${S.people.map((p,i)=>`<tr><td class="n">${esc(p.name)}</td><td><select class="dd" data-act="role" data-i="${i}">${['Owner','Admin','Approver','Member'].concat([p.role]).filter((v,j,a)=>a.indexOf(v)===j).map(r=>`<option${r===p.role?' selected':''}>${esc(r)}</option>`).join('')}</select></td><td>${/Owner|Admin|Approver|Founder/.test(p.role)?'yes':'no'}</td></tr>`).join('')}</tbody></table></div>
     <div class="invite"><input class="inp" id="inv-name" placeholder="Name or email" autocomplete="off"><select class="dd" id="inv-role"><option>Member</option><option>Approver</option><option>Admin</option></select><button class="btn" type="button" data-act="invite">Invite</button></div></div>`;
   if(ui.setTab==='tools')body=`<div class="set-card"><h2>Tools</h2><div class="conn">${S.integrations.map((t,i)=>`<div class="${t.on?'on':''}"><span class="cn-ic">${esc(t.n[0])}</span><span class="cn-n">${esc(t.n)}</span><span class="cn-s">${t.on?'connected':''}</span><button class="btn ${t.on?'ghost ':''}btn-xs" type="button" data-act="tool" data-i="${i}">${t.on?'Disconnect':'Connect'}</button></div>`).join('')}</div></div>`;
-  if(ui.setTab==='rules')body=`<div class="set-card"><h2>What needs your OK</h2><p class="v-sub">Anything that matches one of these waits for you first. Each automation can also check with you on its own.</p>${rulesHTML(S.rules,'set')}</div>`;
+  if(ui.setTab==='rules')body=`<div class="set-card"><h2>What needs your OK</h2><p class="v-sub">Anything that matches one of these waits for you first. Each tool can also check with you on its own.</p>${rulesHTML(S.rules,'set')}</div>`;
   if(ui.setTab==='data')body=`<div class="set-card"><h2>Your data</h2><p class="v-sub">OpLev owns the code. Your business data is yours, and you can download all of it any time.</p><div class="v-actions"><button class="btn ghost" type="button" data-act="export">Export all data</button><button class="btn ghost" type="button" data-act="reset">Reset this example</button></div></div>`;
   return head('settings','Settings','Your team, tools and what needs your OK.')+`<div class="tabs filters stabs" role="tablist" aria-label="Settings">${T.map(([k,t])=>`<button class="tab" type="button" role="tab" data-act="set-tab" data-t="${k}" aria-selected="${ui.setTab===k}" aria-pressed="${ui.setTab===k}">${t}</button>`).join('')}</div>${body}`;
 }
@@ -311,7 +311,7 @@ function jobHTML(p,still){
   else if(!p.added)acts=`<button class="btn" type="button" data-act="play-add" data-id="${p.id}">Add to ${esc(e.name)}</button>`;
   else acts=`<button class="btn" type="button" data-act="play-run" data-id="${p.id}"${p.on&&S.running[p.e]?'':' disabled'}>Run now</button><button class="btn ghost" type="button" data-act="play-on" data-id="${p.id}">${p.on?'Turn off':'Turn on'}</button>`;
   const settings=has(p.e)&&p.added?`<p class="label">your settings</p><dl class="kv"><dt>status</dt><dd>${p.on&&S.running[p.e]?'on':'off'}</dd><dt>when it runs</dt><dd>${triggerSel(p)}</dd><dt>your OK</dt><dd><label class="ck-l"><input type="checkbox" data-act="play-appr" data-id="${p.id}"${p.appr?' checked':''}>check with me first</label></dd><dt>times run</dt><dd>${p.runs}</dd><dt>last run</dt><dd>${esc(p.last)}</dd></dl>`:'';
-  return `<div class="dr-hd"><span class="label">automation</span><button class="lnk" type="button" data-act="dr-close">close &times;</button></div><div class="dr-bd e-${p.e}">
+  return `<div class="dr-hd"><span class="label">tool</span><button class="lnk" type="button" data-act="dr-close">close &times;</button></div><div class="dr-bd e-${p.e}">
   <div class="pl-top">${tag(p.e)}<span class="label">runs ${esc(p.trig)}</span></div>
   <h2 class="dr-t" id="dr-t">${esc(p.title)}</h2><p class="v-sub" style="font-size:15px;margin-top:-6px">${esc(p.desc)}</p>
   ${j?`<div class="job-run${still?' still':''}"><div class="job-hd"><span class="label">what happens</span><span class="label">example</span></div><p class="job-ex"><span aria-hidden="true">$ </span>${esc(j.ex)}</p><div class="feed">${steps}</div><p class="job-sum label">${j.steps.filter(r=>!r[4]).length} steps / ${checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own'}</p></div>

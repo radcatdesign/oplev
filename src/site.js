@@ -370,7 +370,7 @@ $$('[data-jobs]').forEach(list=>{
       +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
       +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
       +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
-      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">See an example</a></div></div>';
     document.body.appendChild(dlg);
     $('.sheet-x',dlg).addEventListener('click',close);
     dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
@@ -389,7 +389,7 @@ $$('[data-jobs]').forEach(list=>{
     $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
     const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
     st.href=J.start;st.innerHTML='Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
-    dm.href=J.demo;dm.innerHTML='Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
+    dm.href=J.demo;dm.innerHTML='See an example <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
     const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
     const pane=$('.pane',dlg);
@@ -421,6 +421,23 @@ $$('.eng,.strip').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng
 $$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name',a),380,CAPS+'abcdefghijklmnopqrstuvwxyz')));
 /* jobs rail arrows */
 $$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
+
+/* ---------- tools board: pick an industry, see what plugs into each engine ---------- */
+(function(){
+  const sel=$('#tool-for'),board=$('#tboard'),src=$('#tools-data'),go=$('#tool-go');if(!sel||!board||!src)return;
+  let D;try{D=JSON.parse(src.textContent)}catch(e){return;}
+  const cols=$$('.tcol',board);
+  sel.addEventListener('change',()=>{
+    const x=D[sel.value];if(!x)return;
+    cols.forEach(c=>{
+      const k=([...c.classList].find(z=>z.indexOf('e-')===0)||'e-').slice(2),u=x.u.indexOf(k)>-1;
+      c.classList.toggle('usual',u);$('.tcol-st',c).textContent=u?'usually first':'add any time';
+      $('.tlist',c).innerHTML=(x.t[k]||[]).map(([n,d])=>'<li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">'+esc(n)+'</b><span class="tl-d">'+esc(d)+'</span></div></li>').join('');
+      if(!RM)$$('.tl-n',c).forEach((el,i)=>setTimeout(()=>decode(el,380),i*60));
+    });
+    if(go){go.href='for/'+sel.value+'.html#tools';if(go.firstChild&&go.firstChild.nodeType===3)go.firstChild.nodeValue='Open the '+x.n.toLowerCase()+' page ';}
+  });
+})();
 
 /* ---------- sound familiar: card carousel ---------- */
 (function(){

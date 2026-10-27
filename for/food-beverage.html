@@ -1028,6 +1028,44 @@ html.sheet-open{overflow:hidden}
 @media (max-width:599px){.say-ctl{width:100%}.say-n{margin-right:auto}}
 @media (prefers-reduced-motion:reduce){.say-card{transition:none}.say-card:hover{transform:none}}
 
+
+/* ---------- tools: what plugs into each engine, by industry ---------- */
+.tools-hd{display:grid;gap:18px 48px;align-items:end;margin-bottom:clamp(24px,3vw,36px)}
+@media (min-width:980px){.tools-hd{grid-template-columns:minmax(0,6fr) minmax(0,6fr)}}
+.tools-hd .lede{margin:0}
+.tpick{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-bottom:22px}
+.tpick-l{font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(20px,2.3vw,32px);letter-spacing:-.04em}
+.tpick-s{position:relative;display:inline-flex;max-width:100%}
+.tpick-s select{appearance:none;-webkit-appearance:none;background:var(--paper);color:var(--ink);border:0;border-radius:0;font:500 clamp(20px,2.3vw,32px)/1.15 var(--display);font-stretch:87.5%;letter-spacing:-.04em;padding:6px 50px 8px 14px;cursor:pointer;max-width:100%}
+.tpick-s::after{content:"";position:absolute;right:18px;top:50%;width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.tpick-go{color:var(--soft);text-decoration:none;display:inline-flex;gap:8px;align-items:center;margin-left:auto}
+.tpick-go svg{width:13px;height:13px}
+.tpick-go:hover{color:var(--paper)}
+@media (max-width:699px){.tpick-go{margin-left:0;width:100%}}
+.tboard{display:grid;gap:1px;background:var(--line-2);border:1px solid var(--line-2);grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.tboard{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1180px){.tboard{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tcol{background:var(--ink);display:flex;flex-direction:column;min-width:0;border-top:3px solid var(--e)}
+.tcol-hd{display:flex;align-items:center;gap:9px;padding:16px 16px 12px;flex-wrap:wrap}
+.tcol-hd b{font:500 19px/1 var(--display);font-stretch:87.5%;letter-spacing:-.03em;color:var(--e)}
+.tcol-hd .bot-xs{margin:0}
+.tcol-hd .bot-xs svg{height:18px}
+.tcol-st{margin-left:auto;color:var(--dim-2)}
+.tcol.usual .tcol-st{color:var(--e)}
+.tcol-core{margin:0 16px;padding:0 0 14px;border-bottom:1px solid var(--line);color:var(--soft);font-size:14px;line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.tcol-core .label{color:var(--dim-2)}
+.tlist{list-style:none;margin:0;padding:12px;display:flex;flex-direction:column;gap:8px}
+.tlist .tl{position:relative}
+.tlist .tool-in{display:flex;flex-direction:column;gap:5px;padding:12px 12px 13px;background:var(--ink-2);border:1px solid var(--line);border-left:3px solid var(--e);text-align:left;width:100%;color:var(--paper);font:inherit}
+.tlist button.tool-in{cursor:pointer;transition:background .15s,border-color .15s}
+.tlist button.tool-in:hover{background:#151518;border-color:var(--e)}
+.tl-k{color:var(--e)}
+.tl-n{font:500 15px/1.25 var(--display);font-stretch:92%;letter-spacing:-.02em}
+.tl-d{color:var(--soft);font-size:13.5px;line-height:1.45}
+.lic-tools{border-top:3px solid;border-image:linear-gradient(90deg,var(--ops) 0 25%,var(--agents) 25% 50%,var(--leads) 50% 75%,var(--marketing) 75%) 1}
+.lic-more{color:var(--soft)!important;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.lic-more svg{width:13px;height:13px}
+.lic-more:hover{color:var(--paper)!important}
 </style>
 </head>
 <body>
@@ -1118,7 +1156,7 @@ html.sheet-open{overflow:hidden}
       <p class="eyebrow">For food + beverage</p>
       <h1 class="h1 lp-h1" id="h1">Get into more stores without more spreadsheets.</h1>
       <p class="lede">We build engines that handle wholesale applications, catch stores that stopped reordering and keep every launch on schedule.</p>
-      <div class="actions"><a class="btn" href="#start">Apply for a spot <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="#jobs">What we'd build <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a></div>
+      <div class="actions"><a class="btn" href="#start">Apply for a spot <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="#tools">See the tools <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a></div>
       <div class="spots lp-spots"><span class="sp-meter" aria-hidden="true"><i class="taken"></i><i class="taken"></i><i class="open"></i><i class="open"></i></span><span class="label">Q1 2027 / <b>2 of 4 client spots open</b></span></div>
     </div>
     <div class="lp-r">
@@ -1143,22 +1181,21 @@ html.sheet-open{overflow:hidden}
   </div>
 </section>
 
-<section class="sec" id="jobs" aria-labelledby="jobs-h">
+<section class="sec" id="tools" aria-labelledby="tools-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">What we'd build</p>
-        <h2 class="h2" id="jobs-h">Your first four jobs.</h2>
-        <p class="lede">Where most food + beverage start. We build each one around how you work. Tap any job to see what happens, step by step.</p>
+        <p class="eyebrow">Tools for food + beverage</p>
+        <h2 class="h2" id="tools-h">What you can add to each engine.</h2>
+        <p class="lede">Every engine takes tools built for food + beverage. Start with the engines you need, then add tools as you grow. Tap any tool marked "see it run" to watch it work, step by step.</p>
       </div>
-      <span class="etags"><span class="etag e-ops">Ops</span><span class="etag e-agents">Agents</span></span>
     </div>
-    <ul class="plays plays-top lp-jobs" data-jobs="jobs-data">
-      <li class="play e-agents" data-e="agents"><div class="play-top"><span class="etags"><span class="etag e-agents">Agents</span></span><span class="label play-trig">when a store applies</span></div><h3 class="h3"><button class="play-open" type="button" data-job="0" aria-haspopup="dialog">Wholesale applications</button></h3><p>Checks fit, sends the line sheet and terms, and books a call with the good ones.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">every Monday</span></div><h3 class="h3"><button class="play-open" type="button" data-job="1" aria-haspopup="dialog">Store reorder check</button></h3><p>Finds stores that haven&#x27;t reordered on schedule and drafts a check-in.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">before a launch</span></div><h3 class="h3"><button class="play-open" type="button" data-job="2" aria-haspopup="dialog">Launch checklist</button></h3><p>Tracks every task, owner and date, and nudges whoever is behind.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
-      <li class="play e-ops" data-e="ops"><div class="play-top"><span class="etags"><span class="etag e-ops">Ops</span></span><span class="label play-trig">when stock runs low</span></div><h3 class="h3"><button class="play-open" type="button" data-job="3" aria-haspopup="dialog">Low stock alerts</button></h3><p>Drafts the purchase order before you sell out, then waits for your OK.</p><span class="play-go label" aria-hidden="true">see how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></span></li>
-    </ul>
+    <div class="tboard" data-jobs="jobs-data">
+      <div class="tcol e-ops usual"><div class="tcol-hd"><span class="bot bot-xs" data-bot="ops"></span><b>Ops</b><span class="label">water</span><span class="label tcol-st">usually first</span></div><p class="tcol-core"><span class="label">the engine</span>Keeps your schedule, clients, orders and numbers in one place.</p><ul class="tlist"><li class="tl"><button class="play-open tool-in" type="button" data-job="1" aria-haspopup="dialog"><span class="label tl-k">+ tool / see it run</span><b class="tl-n">Store reorder check</b><span class="tl-d">Finds stores that haven&#x27;t reordered on schedule and drafts a check-in.</span></button></li><li class="tl"><button class="play-open tool-in" type="button" data-job="2" aria-haspopup="dialog"><span class="label tl-k">+ tool / see it run</span><b class="tl-n">Launch checklist</b><span class="tl-d">Tracks every task, owner and date, and nudges whoever is behind.</span></button></li><li class="tl"><button class="play-open tool-in" type="button" data-job="3" aria-haspopup="dialog"><span class="label tl-k">+ tool / see it run</span><b class="tl-n">Low stock alerts</b><span class="tl-d">Drafts the purchase order before you sell out, then waits for your OK.</span></button></li></ul></div>
+      <div class="tcol e-agents usual"><div class="tcol-hd"><span class="bot bot-xs" data-bot="agents"></span><b>Agents</b><span class="label">earth</span><span class="label tcol-st">usually first</span></div><p class="tcol-core"><span class="label">the engine</span>Answers, books, reminds and follows up, and checks with you first.</p><ul class="tlist"><li class="tl"><button class="play-open tool-in" type="button" data-job="0" aria-haspopup="dialog"><span class="label tl-k">+ tool / see it run</span><b class="tl-n">Wholesale applications</b><span class="tl-d">Checks fit, sends the line sheet and terms, and books a call with the good ones.</span></button></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Store buyer questions</b><span class="tl-d">Answers buyers&#x27; questions about case packs, minimums and shipping.</span></div></li></ul></div>
+      <div class="tcol e-leads"><div class="tcol-hd"><span class="bot bot-xs" data-bot="leads"></span><b>Leads</b><span class="label">fire</span><span class="label tcol-st">add any time</span></div><p class="tcol-core"><span class="label">the engine</span>Turns website visitors into real conversations.</p><ul class="tlist"><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Ask your store requests</b><span class="tl-d">Shoppers ask for you at their store, and you get a list of where to pitch next.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Sample requests</b><span class="tl-d">Buyers request samples, and you see who&#x27;s worth a call.</span></div></li></ul></div>
+      <div class="tcol e-marketing"><div class="tcol-hd"><span class="bot bot-xs" data-bot="marketing"></span><b>Marketing</b><span class="label">wind</span><span class="label tcol-st">add any time</span></div><p class="tcol-core"><span class="label">the engine</span>Gets your name in front of the right people, week after week.</p><ul class="tlist"><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Retail launch kits</b><span class="tl-d">Shelf talkers, posts and emails for every new store.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Recipe posts</b><span class="tl-d">Turns your recipes and customer photos into posts.</span></div></li></ul></div>
+    </div>
     <script type="application/json" id="jobs-data">{"start": "#start", "demo": "../app.html#brand", "jobs": [{"e": "agents", "name": "Agents", "trig": "when a store applies", "title": "Wholesale applications", "desc": "Checks fit, sends the line sheet and terms, and books a call with the good ones.", "ex": "A store applies to carry your products", "steps": [["10:20am", "Store", "fills in the wholesale form", "received"], ["10:21am", "@agents", "checks the location, type of store and order size", "checked"], ["10:21am", "@agents", "good fit, so it sends the line sheet and terms", "sent"], ["10:22am", "@agents", "offers times for a call", "sent"], ["1:40pm", "Store", "books Thursday at 11am", "booked"], ["1:40pm", "@ops", "adds the store to your list with notes", "saved"]], "you": "You take the call. Stores that don't fit get a polite no, and you can check those first.", "get": "Good stores hear back the same day, and you only talk to the right ones."}, {"e": "ops", "name": "Ops", "trig": "every Monday", "title": "Store reorder check", "desc": "Finds stores that haven't reordered on schedule and drafts a check-in.", "ex": "Every Monday morning", "steps": [["Mon 9am", "@ops", "compares each store's orders to their usual timing", "compared"], ["Mon 9am", "@ops", "finds 12 stores past due", "found"], ["Mon 9am", "@agents", "drafts a check-in for each store buyer", "drafted"], ["Mon 9am", "you", "check-ins waiting for your OK", "waiting", "need"], ["Mon 9am", "you", "approve them", "ok", "me"], ["Mon 9am", "@agents", "sends them", "sent"], ["Tue", "Store", "places a reorder", "ordered"]], "you": "You approve the first round. After that it can send on its own.", "get": "You hear about a slow store in week one, not month three."}, {"e": "ops", "name": "Ops", "trig": "before a launch", "title": "Launch checklist", "desc": "Tracks every task, owner and date, and nudges whoever is behind.", "ex": "A new flavor launches in six weeks", "steps": [["week 1", "@ops", "builds the launch plan from your template", "built"], ["week 1", "@ops", "assigns each task an owner and a date", "assigned"], ["week 3", "@ops", "label proofs are two days late", "late"], ["week 3", "@agents", "nudges the printer for an update", "sent"], ["week 3", "@ops", "adds the new date to the plan", "updated"], ["week 6", "@ops", "every task done, launch is on", "ready"]], "you": "You see one list instead of chasing ten people.", "get": "Launches go out on the date you picked."}, {"e": "ops", "name": "Ops", "trig": "when stock runs low", "title": "Low stock alerts", "desc": "Drafts the purchase order before you sell out, then waits for your OK.", "ex": "A best seller is running low", "steps": [["2:10pm", "@ops", "sees only 40 boxes left of a best seller", "low"], ["2:10pm", "@ops", "checks how fast it sells: about 3 weeks left", "checked"], ["2:11pm", "@ops", "drafts a reorder with your usual supplier", "drafted"], ["2:11pm", "you", "reorder sent to you for an OK", "waiting", "need"], ["2:30pm", "you", "approve it", "ok", "me"], ["2:30pm", "@ops", "sends the order and tracks delivery", "ordered"]], "you": "You approve every order before it goes out.", "get": "You reorder before you sell out, not after."}]}</script>
   </div>
 </section>
@@ -1168,7 +1205,7 @@ html.sheet-open{overflow:hidden}
     <div class="head-l">
       <p class="eyebrow">What it costs</p>
       <h2 class="h2" id="cost-h">Usually Ops + Agents. $10k a month.</h2>
-      <p class="lede">Hosting, fixes and updates are included. Every build starts from how your brand already works.</p>
+      <p class="lede">That covers the engines, hosting, fixes and updates. Tools go on top, one at a time, so you only pay for the ones your brand uses.</p>
       <div class="actions"><a class="btn" href="#start">Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn ghost" href="../pricing.html">See pricing <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
     </div>
     <div class="split-r">
@@ -1602,7 +1639,7 @@ $$('[data-jobs]').forEach(list=>{
       +'<div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows" aria-live="polite"></div></div>'
       +'<div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div></div>'
       +'<dl class="sheet-kv"><div><dt class="label">Where you come in</dt><dd id="js-you"></dd></div><div><dt class="label">What you get</dt><dd id="js-get"></dd></div></dl>'
-      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">Try the demo</a></div></div>';
+      +'<div class="actions"><a class="btn" id="js-start">Apply</a><a class="btn ghost" id="js-demo">See an example</a></div></div>';
     document.body.appendChild(dlg);
     $('.sheet-x',dlg).addEventListener('click',close);
     dlg.addEventListener('click',e=>{if(e.target===dlg)close();});
@@ -1621,7 +1658,7 @@ $$('[data-jobs]').forEach(list=>{
     $('#js-you',dlg).textContent=j.you;$('#js-get',dlg).textContent=j.get;
     const st=$('#js-start',dlg),dm=$('#js-demo',dlg);
     st.href=J.start;st.innerHTML='Apply <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
-    dm.href=J.demo;dm.innerHTML='Try the demo <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
+    dm.href=J.demo;dm.innerHTML='See an example <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg>';
     const steps=j.steps.filter(r=>!r[4]).length,checks=j.steps.filter(r=>r[4]==='need').length;
     const c={cmd:j.ex,run:j.steps,fast:true,sum:steps+' steps / '+(checks?checks+' check'+(checks===1?'':'s')+' with you':'runs on its own')};
     const pane=$('.pane',dlg);
@@ -1653,6 +1690,23 @@ $$('.eng,.strip').forEach(e=>e.addEventListener('mouseenter',()=>{decode($('.eng
 $$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name',a),380,CAPS+'abcdefghijklmnopqrstuvwxyz')));
 /* jobs rail arrows */
 $$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
+
+/* ---------- tools board: pick an industry, see what plugs into each engine ---------- */
+(function(){
+  const sel=$('#tool-for'),board=$('#tboard'),src=$('#tools-data'),go=$('#tool-go');if(!sel||!board||!src)return;
+  let D;try{D=JSON.parse(src.textContent)}catch(e){return;}
+  const cols=$$('.tcol',board);
+  sel.addEventListener('change',()=>{
+    const x=D[sel.value];if(!x)return;
+    cols.forEach(c=>{
+      const k=([...c.classList].find(z=>z.indexOf('e-')===0)||'e-').slice(2),u=x.u.indexOf(k)>-1;
+      c.classList.toggle('usual',u);$('.tcol-st',c).textContent=u?'usually first':'add any time';
+      $('.tlist',c).innerHTML=(x.t[k]||[]).map(([n,d])=>'<li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">'+esc(n)+'</b><span class="tl-d">'+esc(d)+'</span></div></li>').join('');
+      if(!RM)$$('.tl-n',c).forEach((el,i)=>setTimeout(()=>decode(el,380),i*60));
+    });
+    if(go){go.href='for/'+sel.value+'.html#tools';if(go.firstChild&&go.firstChild.nodeType===3)go.firstChild.nodeValue='Open the '+x.n.toLowerCase()+' page ';}
+  });
+})();
 
 /* ---------- sound familiar: card carousel ---------- */
 (function(){

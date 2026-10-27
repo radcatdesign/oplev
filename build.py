@@ -428,6 +428,34 @@ def job_cards(items, sid=None, p='', extra_cls='', start=None, demo=None):
             f'    <script type="application/json" id="jobs-data">{blob}</script>')
 
 
+def tools_for(x):
+    """Tools for one kind of business, by engine: (name, line, index of its walkthrough or None)."""
+    out = {k: [] for k, *_ in ENGINES}
+    for i, (e, _trig, title, desc) in enumerate(x['jobs']):
+        out[e].append((title, desc, i))
+    for e, items in x.get('extra', {}).items():
+        out[e] += [(n, line, None) for n, line in items]
+    return out
+
+
+def tool_cols(x, run=False):
+    T = tools_for(x)
+    cols = ''
+    for k, name, _i, _triad, line, *_ in ENGINES:
+        usual = k in x['engines']
+        items = ''
+        for tname, tline, ji in T[k]:
+            live = run and ji is not None
+            inner = (f'<span class="label tl-k">+ tool{" / see it run" if live else ""}</span>'
+                     f'<b class="tl-n">{E(tname)}</b><span class="tl-d">{E(tline)}</span>')
+            items += (f'<li class="tl"><button class="play-open tool-in" type="button" data-job="{ji}" aria-haspopup="dialog">{inner}</button></li>'
+                      if live else f'<li class="tl"><div class="tool-in">{inner}</div></li>')
+        cols += (f'\n      <div class="tcol e-{k}{" usual" if usual else ""}"><div class="tcol-hd"><span class="bot bot-xs" data-bot="{k}"></span>'
+                 f'<b>{E(name)}</b><span class="label">{E(ELEMENT[k].lower())}</span><span class="label tcol-st">{"usually first" if usual else "add any time"}</span></div>'
+                 f'<p class="tcol-core"><span class="label">the engine</span>{E(line)}</p><ul class="tlist">{items}</ul></div>')
+    return cols
+
+
 def cta(title, text, p):
     return f'''
 <section class="sec" id="next" aria-labelledby="next-h">
@@ -506,6 +534,11 @@ def home(mode='full'):
               f'<span class="tag br label">1600 x 900</span></figure>')
     pains = ''.join(pain_card(i, t, k) for i, (t, k) in enumerate(PAINS))
     say_meter = ''.join('<i></i>' for _ in PAINS)
+    tool0 = ICP['pool-service']
+    tool_opts = ''.join(f'<optgroup label="{E(g["name"])}">' + ''.join(
+        f'<option value="{x["id"]}"{" selected" if x is tool0 else ""}>{E(x["name"])}</option>' for x in icps_in(g['id'])) + '</optgroup>' for g in GROUPS)
+    tools_json = json.dumps({x['id']: {'n': x['name'], 'u': x['engines'], 't': {k: [[a, b] for a, b, _ in v] for k, v in tools_for(x).items()}}
+                             for x in ICPS}, separators=(',', ':')).replace('</', '<\\/')
     wall = ''.join(
         f'\n      <li><a class="wl" href="for/{x["id"]}.html" data-e="{x["engines"][0]}">{E(x["name"])}</a></li>'
         for x in ICPS)
@@ -528,7 +561,7 @@ def home(mode='full'):
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
     <p class="eyebrow">An agency that builds custom engines</p>
     <h1 class="h1" id="h1">Your business shouldn't need you for everything.</h1>
-    <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span>, <span class="e-leads ec">Leads</span> and <span class="e-marketing ec">Marketing</span> engines around how you already work, and run them for you every month. Then you can license yours to others.</p>
+    <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span>, <span class="e-leads ec">Leads</span> and <span class="e-marketing ec">Marketing</span> engines, then add tools made for your industry. We run them for you every month, and you can license yours to others.</p>
     {spots(' hero-spots')}
     <div class="actions">
       <a class="btn" href="#work">See the work {ARR_D}</a>
@@ -595,10 +628,26 @@ def home(mode='full'):
     <div class="center-hd">
       <p class="eyebrow">What we build</p>
       <h2 class="h2" id="engines-h">Four engines. Four elements.</h2>
-      <p class="lede">Water, earth, fire and wind. We build one or all four for your business. They share the same information, so nothing gets typed in twice.</p>
+      <p class="lede">Water, earth, fire and wind. We build one or all four for your business, then add tools made for your industry. They share the same information, so nothing gets typed in twice.</p>
     </div>
   </div>
   <div class="strips">{engines}
+  </div>
+</section>
+
+<section class="sec tools-sec" id="tools" aria-labelledby="tools-h">
+  <div class="wrap">
+    <div class="tools-hd">
+      <div class="head-l">
+        <p class="eyebrow">Tools</p>
+        <h2 class="h2" id="tools-h">Then add tools for your industry.</h2>
+      </div>
+      <p class="lede">Engines are the base. Tools make them yours. Each one is built for a kind of business and plugs into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, before and after posts in Marketing. Add the ones you need, to any engine, any time.</p>
+    </div>
+    <div class="tpick"><label class="tpick-l" for="tool-for">Show tools for</label><span class="tpick-s"><select id="tool-for">{tool_opts}</select></span><a class="label tpick-go" id="tool-go" href="for/{tool0['id']}.html#tools">Open the {E(tool0['name'].lower())} page {ARR_R}</a></div>
+    <div class="tboard" id="tboard" aria-live="polite">{tool_cols(tool0)}
+    </div>
+    <script type="application/json" id="tools-data">{tools_json}</script>
   </div>
 </section>
 
@@ -625,9 +674,9 @@ def home(mode='full'):
   <div class="wrap">
     <div class="rail-hd">
       <div class="head-l">
-        <p class="eyebrow">What they handle</p>
-        <h2 class="h2" id="plays-h">Jobs we build engines to handle.</h2>
-        <p class="lede">A few of the jobs our engines take off your plate. Tap any one to see exactly what happens, step by step.</p>
+        <p class="eyebrow">Tools at work</p>
+        <h2 class="h2" id="plays-h">Watch a tool work.</h2>
+        <p class="lede">A few of the tools we add most. Tap any one to see exactly what happens, step by step.</p>
       </div>
       <div class="rail-ctl"><button class="rail-btn" type="button" data-rail="-1" aria-label="Scroll back">{ARR_L}</button><button class="rail-btn" type="button" data-rail="1" aria-label="Scroll forward">{ARR_R}</button></div>
     </div>
@@ -658,7 +707,7 @@ def home(mode='full'):
         <p class="eyebrow">Marketplace</p>
         <h2 class="h2" id="mk-h">Or start from one that works.</h2>
       </div>
-      <p class="lede">Operating systems we built for other businesses, ready to license and tailor to yours.</p>
+      <p class="lede">Engines and industry tools we built for other businesses, bundled and ready to license and tailor to yours.</p>
     </div>
     <ol class="idx">{''.join(f'<li><a href="marketplace/{x["id"]}.html"><span class="idx-n label">os {n + 1:02d}</span><span class="idx-name">{E(x["name"])}</span><span class="idx-type">{E(x["type_label"])}</span>{etags(x["engines"])}<span class="idx-go">{ARR_R}</span></a></li>' for n, x in enumerate(MARKET))}
     </ol>
@@ -757,7 +806,7 @@ def engmap():
         <p class="em-triad">{E(triad)}</p>
         <p class="em-line">{E(line)}</p>
         <ul class="em-caps">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul>
-        <p class="label em-pl">handles</p>
+        <p class="label em-pl">tools we add often</p>
         <ul class="em-plays">{plays}</ul>
       </div>'''
     return f'''
@@ -768,12 +817,12 @@ def engmap():
 
 def pricing():
     plans = (plan(1, 'one', 'One engine', '$5k', 'Start with the engine closest to your biggest bottleneck.',
-                  ['Built around your business', 'Automations set up for how you work',
+                  ['Built around your business', 'Add industry tools any time',
                    'We host it, fix it and update it', 'A monthly progress score', 'A monthly check-in call',
                    'Email support, reply within a business day'],
                   'Apply for one engine')
              + plan(2, 'core', 'Two engines', '$10k', 'Two engines that feed each other, so nothing falls between them.',
-                    ['Your two engines, working together', 'Automations across both', 'We interview your team',
+                    ['Your two engines, working together', 'Tools that work across both', 'We interview your team',
                      'A monthly progress score', 'We host it, fix it and update it',
                      'A weekly check-in call', 'Same-day support'],
                     'Apply for two engines')
@@ -784,6 +833,18 @@ def pricing():
                      'Price depends on team size'],
                     'Apply for three or more'))
     lic = f'''
+      <article class="lic lic-tools" aria-labelledby="tools-h">
+        <div class="lic-l">
+          <span class="label">add to any engine</span>
+          <h3 class="h3" id="tools-h">Industry tools</h3>
+          <p>Engines are the base. Tools are built for your kind of business and plug into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, before and after posts in Marketing. Add as many as you need.</p>
+          <a class="label lic-more" href="for.html">See the tools for your industry {ARR_R}</a>
+        </div>
+        <div class="lic-r">
+          <p class="price"><span class="amt">Per tool</span><span class="per">/ added monthly</span></p>
+          <a class="btn" href="start.html">Ask about tools {ARR_R}</a>
+        </div>
+      </article>
       <article class="lic" aria-labelledby="lic-h">
         <div class="lic-l">
           <span class="label">add to any plan</span>
@@ -914,6 +975,10 @@ def pricing():
         <p class="a">It starts at $15k a month for three engines and goes up with the fourth engine, your team size and how much we build into each one. We quote it after our first call, so you know the number before you commit.</p>
       </details>
       <details>
+        <summary><span class="h3">What's a tool?</span></summary>
+        <p class="a">Something we add to an engine for your kind of business. A pool company adds a route-based price calculator to Leads. A med spa adds treatment reminders to Agents. Engines are the base, tools make them yours, and you can add them to any engine at any time.</p>
+      </details>
+      <details>
         <summary><span class="h3">Can we change licenses?</span></summary>
         <p class="a">Yes. Add an engine or move down at the start of any month.</p>
       </details>
@@ -974,7 +1039,7 @@ def for_index():
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">Who it's for</p><span class="label">{len(ICPS):02d} kinds of business</span></div>
     <h1 class="h1" id="h1">Pick your business.</h1>
-    <p class="lede">Every engine we build is custom. These are the businesses we build for most, and what we'd start with for each. Yours starts from how you work.</p>
+    <p class="lede">Every engine we build is custom. These are the businesses we build for most, with the tools we add to each engine for them. Yours starts from how you work.</p>
     {spots()}
   </div>
 </section>
@@ -996,6 +1061,7 @@ def icp_page(x):
     demo = f'{p}app.html#{x["demo"]}' if x.get('demo') else None
     jobs = job_cards([tuple(j) for j in x['jobs']], sid=[k, x.get('sid')], p=p, extra_cls=' plays-top lp-jobs',
                      start='#start', demo=demo or f'{p}how-it-works.html')
+    jobs_json = jobs[jobs.index('<script'):]
     pains = ''.join(f'\n        <li><q>{E(t)}</q><span class="label lp-by"><span class="bot bot-xs" data-bot="{e}"></span>fixed by {ENGINE_NAME[e]}</span></li>'
                     for t, e in x['pains'])
     day = json.dumps({'cmd': x['day_t'], 'run': x['day']}).replace('</', '<\\/')
@@ -1020,7 +1086,7 @@ def icp_page(x):
       <p class="eyebrow">For {E(x['name'].lower())}</p>
       <h1 class="h1 lp-h1" id="h1">{E(x['h1'])}</h1>
       <p class="lede">{E(x['lede'])}</p>
-      <div class="actions"><a class="btn" href="#start">Apply for a spot {ARR_R}</a><a class="btn ghost" href="#jobs">What we'd build {ARR_D}</a></div>
+      <div class="actions"><a class="btn" href="#start">Apply for a spot {ARR_R}</a><a class="btn ghost" href="#tools">See the tools {ARR_D}</a></div>
       {spots(' lp-spots')}
     </div>
     <div class="lp-r">
@@ -1042,17 +1108,18 @@ def icp_page(x):
   </div>
 </section>
 
-<section class="sec" id="jobs" aria-labelledby="jobs-h">
+<section class="sec" id="tools" aria-labelledby="tools-h">
   <div class="wrap">
     <div class="head">
       <div class="head-l">
-        <p class="eyebrow">What we'd build</p>
-        <h2 class="h2" id="jobs-h">Your first four jobs.</h2>
-        <p class="lede">Where most {E(x['name'].lower())} start. We build each one around how you work. Tap any job to see what happens, step by step.</p>
+        <p class="eyebrow">Tools for {E(x['name'].lower())}</p>
+        <h2 class="h2" id="tools-h">What you can add to each engine.</h2>
+        <p class="lede">Every engine takes tools built for {E(x['name'].lower())}. Start with the engines you need, then add tools as you grow. Tap any tool marked "see it run" to watch it work, step by step.</p>
       </div>
-      {etags(x['engines'])}
     </div>
-    {jobs}
+    <div class="tboard" data-jobs="jobs-data">{tool_cols(x, run=True)}
+    </div>
+    {jobs_json}
   </div>
 </section>
 
@@ -1061,7 +1128,7 @@ def icp_page(x):
     <div class="head-l">
       <p class="eyebrow">What it costs</p>
       <h2 class="h2" id="cost-h">Usually {E(eng_names)}. {E(L['price'])} a month.</h2>
-      <p class="lede">Hosting, fixes and updates are included. Every build starts from how your {E(x['biz'])} already works.</p>
+      <p class="lede">That covers the engines, hosting, fixes and updates. Tools go on top, one at a time, so you only pay for the ones your {E(x['biz'])} uses.</p>
       <div class="actions"><a class="btn" href="#start">Apply {ARR_R}</a><a class="btn ghost" href="{p}pricing.html">See pricing {ARR_R}</a></div>
     </div>
     <div class="split-r">
@@ -1120,7 +1187,7 @@ def os_card(x, p=''):
 
 
 LICENSE_STEPS = [
-    ('Pick one', 'Find an OS built for a business like yours, and see every job it handles.'),
+    ('Pick one', 'Find an OS built for a business like yours, and see every tool in it.'),
     ('We tailor it', 'We connect it to your tools and set it up with your wording, your prices and your rules.'),
     ('We run it', 'You pay monthly. We host it, fix it and keep it improving. The owner earns on every license.'),
 ]
@@ -1155,7 +1222,7 @@ def market_index():
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">Marketplace</p><span class="label">{len(MARKET):02d} example listings</span></div>
     <h1 class="h1" id="h1">Operating systems, ready to license.</h1>
-    <p class="lede">Each OS here was built by OpLev for a business like yours, then listed by its owner. Pick one, apply, and we tailor it to you and run it every month. Faster than starting from scratch.</p>
+    <p class="lede">Each OS here is a set of engines and industry tools, built by OpLev for a business like yours, then listed by its owner. Pick one, apply, and we tailor it to you and run it every month. Faster than starting from scratch.</p>
     <p class="label mk-note">These are example listings while the first ones go live.</p>
     <div class="tabs filters mk-filters" role="group" aria-label="Filter by business">{filters}</div>
     <div class="cards mk-cards">{cards}
@@ -1224,10 +1291,10 @@ def market_page(i):
     <div class="head">
       <div class="head-l">
         <p class="eyebrow">What's inside</p>
-        <h2 class="h2" id="inside-h">Jobs it takes off your plate.</h2>
-        <p class="lede">Tap any job to see what happens, step by step. We tailor each one to how you work before it goes live.</p>
+        <h2 class="h2" id="inside-h">The tools it comes with.</h2>
+        <p class="lede">Tap any tool to see what happens, step by step. We tailor each one to how you work before it goes live.</p>
       </div>
-      <p class="label">{len(x['jobs'])} jobs</p>
+      <p class="label">{len(x['jobs'])} tools</p>
     </div>
     {jobs}
   </div>
@@ -1270,7 +1337,7 @@ PHASES = [
      'Walk us through a normal week.', 'A plan with what we would build first, the monthly price and a launch date.'),
     ('build', 'Build', 'We build your engines around how you already work and connect them to the tools you use, like your calendar, inbox and payments.',
      'Answer our questions and try it early.', 'Engines built for your business, tested on your real work.'),
-    ('implement', 'Launch', 'We roll it out one piece at a time. Every job checks with you first until you trust it, then it runs on its own.',
+    ('implement', 'Launch', 'We roll it out one piece at a time. Every tool checks with you first until you trust it, then it runs on its own.',
      'Approve drafts from your phone.', 'Busywork off your plate. Nothing important goes out without your OK.'),
     ('measure', 'Improve', 'Every month we track how much of the business runs without you, then pick the next thing to fix.',
      'Join a short check-in call.', 'Engines that keep getting better for as long as you use them.'),
@@ -1281,7 +1348,7 @@ DUO = [
 ]
 MONTHLY = [
     ('Hosting, fixes and updates', 'We keep it running. You never hire a developer.'),
-    ('Changes when you ask', 'New jobs, new rules, new wording. We build them in.'),
+    ('Changes when you ask', 'New tools, new rules, new wording. We build them in.'),
     ('A progress score', 'A simple number for how much runs without you.'),
     ('Check-in calls', 'We review what is working and pick what to fix next.'),
     ('Approvals your way', 'You decide what needs your OK and what runs on its own.'),
@@ -1347,7 +1414,7 @@ def how_page():
       <div class="head-l">
         <p class="eyebrow">What we build</p>
         <h2 class="h2" id="eng-h">Four engines. Four elements.</h2>
-        <p class="lede">We build one or all four. They share the same information, so nothing gets typed in twice.</p>
+        <p class="lede">We build one or all four, then add tools made for your industry. They share the same information, so nothing gets typed in twice.</p>
       </div>
     </div>{engmap()}
   </div>
