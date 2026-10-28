@@ -155,12 +155,12 @@
         ],
         "marketing": [
           [
-            "Before and after posts",
-            "Turns approved before and after photos into posts, with client consent tracked."
+            "Consult landing page",
+            "A page for one treatment with a booking form that starts a follow-up series."
           ],
           [
-            "Monthly specials email",
-            "Sends this month's offers to past clients who are due."
+            "New client offer",
+            "A one-time code for every new subscriber, sent in the welcome email."
           ]
         ]
       }
@@ -286,12 +286,12 @@
         ],
         "marketing": [
           [
-            "Recall campaigns",
-            "Reminds patients who are overdue for a cleaning, by email and text."
+            "Recall email series",
+            "Emails that bring overdue patients back for a cleaning."
           ],
           [
-            "Review highlights",
-            "Turns your best new reviews into posts for your site and social."
+            "New patient page",
+            "A landing page with a form that books the first visit."
           ]
         ]
       }
@@ -422,12 +422,12 @@
         ],
         "marketing": [
           [
-            "Recovery stories",
-            "Turns patient wins into short posts, with consent tracked."
+            "Condition pages",
+            "A page for each thing you treat, set up to show up in search."
           ],
           [
-            "Referral partner updates",
-            "A monthly note to the doctors who send you patients."
+            "Referral partner newsletter",
+            "A monthly email to the doctors who send you patients."
           ]
         ]
       }
@@ -559,12 +559,12 @@
         ],
         "marketing": [
           [
-            "Member spotlights",
-            "Turns member milestones into posts, with their OK."
+            "Free trial pass page",
+            "A page that hands out trial passes and starts a follow-up series."
           ],
           [
-            "Challenge campaigns",
-            "Emails and posts for a 30-day challenge, ready to schedule."
+            "Six-week challenge",
+            "A challenge page, signup form and email series, filed as one campaign."
           ]
         ]
       }
@@ -698,11 +698,11 @@
         "marketing": [
           [
             "Season opening campaign",
-            "Reminds past customers to book their spring opening."
+            "A page, a newsletter and a reminder series for spring openings."
           ],
           [
-            "Pool of the week posts",
-            "Turns your best finished pools into posts."
+            "Homeowner welcome series",
+            "Emails that turn a quote request into a weekly service customer."
           ]
         ]
       }
@@ -838,12 +838,12 @@
         ],
         "marketing": [
           [
-            "Seasonal reminders",
-            "Before summer and winter, a note to past customers with a booking link."
+            "Tune-up season campaign",
+            "A page and an email to past customers before every season."
           ],
           [
-            "Job photo posts",
-            "Turns clean installs into posts for your site and social."
+            "New system page",
+            "A page for installs with a form that starts a follow-up series."
           ]
         ]
       }
@@ -970,12 +970,12 @@
         ],
         "marketing": [
           [
-            "Before and after yards",
-            "Turns finished yards into posts and portfolio pages."
+            "Spring booking page",
+            "A page that books spring cleanups, with a form and a follow-up series."
           ],
           [
-            "Seasonal tips email",
-            "A short monthly email that keeps you in mind until spring."
+            "Seasonal newsletter",
+            "A short email that keeps you in mind until spring."
           ]
         ]
       }
@@ -1104,12 +1104,12 @@
         ],
         "marketing": [
           [
-            "Project stories",
-            "Turns finished remodels into case studies and posts."
+            "Remodel pages",
+            "A page for each kind of project, set up to show up in search."
           ],
           [
-            "Referral check-ins",
-            "Stays in touch with past clients so they send you their friends."
+            "Estimate follow-up series",
+            "Emails that follow every estimate, so nobody goes cold."
           ]
         ]
       }
@@ -1241,12 +1241,12 @@
         ],
         "marketing": [
           [
-            "Launch emails",
-            "Drafts the launch emails for a new product."
+            "Abandoned cart series",
+            "Emails that bring shoppers back to a cart they left."
           ],
           [
-            "Customer photo posts",
-            "Turns tagged customer photos into posts, with their OK."
+            "Launch page test",
+            "A product launch page, tested against a second version."
           ]
         ]
       }
@@ -1378,12 +1378,12 @@
         ],
         "marketing": [
           [
-            "Retail launch kits",
-            "Shelf talkers, posts and emails for every new store."
+            "Retail launch campaign",
+            "A page, an email and graphics for every new store, filed together."
           ],
           [
-            "Recipe posts",
-            "Turns your recipes and customer photos into posts."
+            "Welcome offer",
+            "A one-time code for every new subscriber."
           ]
         ]
       }
@@ -1511,12 +1511,12 @@
         ],
         "marketing": [
           [
-            "Creator gifting tracker",
-            "Who got product, who posted, and what it did."
+            "Welcome series with offer",
+            "Emails and a first-order code for every new subscriber."
           ],
           [
-            "Routine emails",
-            "Sends each customer tips for the products they bought."
+            "Page tests",
+            "Test two versions of a page and keep the one that brings in more orders."
           ]
         ]
       }
@@ -1642,8 +1642,8 @@
         ],
         "marketing": [
           [
-            "Install spotlights",
-            "Turns customer installs into posts and gallery pages."
+            "Trade program page",
+            "A page that signs up designers and contractors and starts a series."
           ],
           [
             "Trade newsletter",
@@ -1773,8 +1773,8 @@
         ],
         "marketing": [
           [
-            "Case study writer",
-            "Turns finished projects into case studies for your site."
+            "Service pages",
+            "A page per service, tested, with a form that starts a follow-up series."
           ],
           [
             "Agency newsletter",
@@ -1910,12 +1910,12 @@
         ],
         "marketing": [
           [
-            "Plain-English explainers",
-            "Short posts that answer the questions clients always ask."
+            "Plain-English newsletter",
+            "A monthly email that answers the questions clients always ask."
           ],
           [
-            "Referral thank-yous",
-            "A note to everyone who sends you a client."
+            "Consult follow-up series",
+            "Emails after a consult request, until they book or say no."
           ]
         ]
       }
@@ -2047,7 +2047,7 @@
         ],
         "marketing": [
           [
-            "Tax season reminders",
+            "Tax season series",
             "Emails that get clients ready before the rush."
           ],
           [
@@ -2185,11 +2185,11 @@
         ],
         "marketing": [
           [
-            "Listing launch kit",
-            "Posts, emails and a property page for every new listing."
+            "Listing pages",
+            "A page for every listing with a showing form and a follow-up series."
           ],
           [
-            "Market update email",
+            "Market update newsletter",
             "A monthly email with local numbers, in your voice."
           ]
         ]
@@ -2322,12 +2322,12 @@
         ],
         "marketing": [
           [
-            "Changelog posts",
-            "Turns every release into a short post and email."
+            "Launch page test",
+            "A page for every launch, tested against a second version."
           ],
           [
-            "Founder posts",
-            "Drafts posts from your notes, in your voice."
+            "Waitlist series",
+            "Emails that keep your waitlist warm until launch."
           ]
         ]
       }
@@ -2463,12 +2463,12 @@
         ],
         "marketing": [
           [
-            "Clip and post",
-            "Pulls the best moments from each episode into short posts."
+            "Episode newsletter",
+            "Turns each episode into a weekly email to your list."
           ],
           [
-            "Episode newsletter",
-            "Turns each episode into a weekly email."
+            "List signup page",
+            "A page that grows your list with a free guide or a code."
           ]
         ]
       }
@@ -2600,8 +2600,8 @@
         ],
         "marketing": [
           [
-            "Win stories",
-            "Turns client wins into posts, with their OK."
+            "Free guide page",
+            "A page that gives away a guide and starts a welcome series."
           ],
           [
             "Weekly email",
@@ -2733,8 +2733,8 @@
         ],
         "marketing": [
           [
-            "Event recap posts",
-            "Turns photos from each event into posts, with the client's OK."
+            "Event page and RSVP",
+            "A page for each event with a form that builds your list."
           ],
           [
             "Open dates email",

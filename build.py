@@ -86,10 +86,10 @@ ENGINES = [
      ['Price calculators and quote tools', 'A helper on your site that answers questions any hour',
       'Quotes customers can accept online', 'Every new lead saved with the full conversation'],
      ['element-glo']),
-    ('marketing', 'Marketing', 'wind', 'Get the word out', 'Gets your name in front of the right people, week after week.',
-     ['Posts and emails in your voice, made from your real work', 'A content calendar that stays full',
-      'Newsletters and campaigns that go out on schedule', 'A monthly report on what actually brought people in'],
-     []),
+    ('marketing', 'Marketing', 'wind', 'Get the word out', 'Emails and landing pages that keep your name in front of the right people.',
+     ['Newsletters and email series, sent from your own domain', 'Landing pages with forms that turn visitors into leads',
+      'A brand kit, so every email and page looks like you', 'Page tests and search setup that show what works'],
+     ['fit-funnels']),
 ]
 ENGINE_NAME = {k: n for k, n, *_ in ENGINES}
 NE = len(ENGINES)
@@ -113,7 +113,7 @@ BOT_ROLE = {
     'ops': ('The organizer', 'Calm and steady, like water. Gets into every corner of the business and keeps it all flowing. Up at 6 with your day sorted.'),
     'agents': ('The helpers', 'Solid as a mountain range. There are a few of them, they do the heavy lifting every shift, and they always ask before sending anything new.'),
     'leads': ('The go-getter', 'All fire. First to say hi, answers at 10pm, remembers every name and never lets a quote go cold.'),
-    'marketing': ('The messenger', 'Quick as the wind. Carries your name further every week, with posts, emails and stories made from your real work.'),
+    'marketing': ('The messenger', 'Quick as the wind. Carries your name further: emails from your own domain, landing pages that capture leads, and tests that show what works.'),
 }
 
 
@@ -136,9 +136,9 @@ PLAYS = [
     ('ops', 'every Monday', 'Weekly numbers', 'Sales, open jobs and money in, without building a report.'),
     ('ops', 'when someone joins', 'New hire setup', 'Accounts, guides and first-week tasks, set up the same way every time.'),
     ('ops', 'when stock runs low', 'Low stock alerts', 'Drafts the reorder before you run out, then waits for your OK.'),
-    ('marketing', 'every Monday', 'Weekly posts from your work', "Turns last week's jobs, photos and wins into posts in your voice, ready for your OK."),
-    ('marketing', 'first Tuesday of the month', 'Monthly newsletter', 'Drafts the newsletter from what happened this month and sends it once you approve.'),
-    ('marketing', 'when a project wraps', 'Case studies from finished work', 'Writes up the before and after from your notes, photos and a client quote.'),
+    ('marketing', 'when someone joins your list', 'Welcome series', 'Welcome emails on a schedule, with a one-time offer code. Nobody gets the same series twice.'),
+    ('marketing', 'once a month', 'Monthly newsletter', 'Built from your brand kit, tested on your team, then sent from your own domain.'),
+    ('marketing', 'when you need a page', 'Landing page from a brief', 'Describe the page and it builds it, with a form that turns visitors into leads.'),
 ]
 
 NIGHT = {
@@ -150,7 +150,7 @@ NIGHT = {
         ['23:58:12', '@agents', 'sorted 14 messages into clients, vendors and noise', 'sorted'],
         ['01:12:40', '@ops', 'invoice paid, client record updated', 'reconciled'],
         ['03:30:00', '@agents', 'flagged a late invoice for follow-up', 'queued'],
-        ['04:10:00', '@marketing', "drafted this week's posts from finished jobs", 'drafted'],
+        ['04:10:00', '@marketing', 'welcome email 2 to 3 new subscribers', 'sent'],
         ['05:45:00', '@ops', 'morning summary ready: 1 approval, 2 new leads', 'ready'],
         ['06:58:21', 'you', 'approve reply to the new lead', 'pending', 'need'],
         ['07:04:02', 'you', 'approved over coffee', 'ok', 'me'],
@@ -642,7 +642,7 @@ def home(mode='full'):
         <p class="eyebrow">Tools</p>
         <h2 class="h2" id="tools-h">Then add tools for your industry.</h2>
       </div>
-      <p class="lede">Engines are the base. Tools make them yours. Each one is built for a kind of business and plugs into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, before and after posts in Marketing. Add the ones you need, to any engine, any time.</p>
+      <p class="lede">Engines are the base. Tools make them yours. Each one is built for a kind of business and plugs into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, a welcome series in Marketing. Add the ones you need, to any engine, any time.</p>
     </div>
     <div class="tpick"><label class="tpick-l" for="tool-for">Show tools for</label><span class="tpick-s"><select id="tool-for">{tool_opts}</select></span><a class="label tpick-go" id="tool-go" href="for/{tool0['id']}.html#tools">Open the {E(tool0['name'].lower())} page {ARR_R}</a></div>
     <div class="tboard" id="tboard" aria-live="polite">{tool_cols(tool0)}
@@ -837,7 +837,7 @@ def pricing():
         <div class="lic-l">
           <span class="label">add to any engine</span>
           <h3 class="h3" id="tools-h">Industry tools</h3>
-          <p>Engines are the base. Tools are built for your kind of business and plug into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, before and after posts in Marketing. Add as many as you need.</p>
+          <p>Engines are the base. Tools are built for your kind of business and plug into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, a welcome series in Marketing. Add as many as you need.</p>
           <a class="label lic-more" href="for.html">See the tools for your industry {ARR_R}</a>
         </div>
         <div class="lic-r">
@@ -976,7 +976,7 @@ def pricing():
       </details>
       <details>
         <summary><span class="h3">What's a tool?</span></summary>
-        <p class="a">Something we add to an engine for your kind of business. A pool company adds a route-based price calculator to Leads. A med spa adds treatment reminders to Agents. Engines are the base, tools make them yours, and you can add them to any engine at any time.</p>
+        <p class="a">Something we add to an engine for your kind of business. A pool company adds a route-based price calculator to Leads. A med spa adds treatment reminders to Agents. A gym adds a free trial page to Marketing. Engines are the base, tools make them yours, and you can add them to any engine at any time.</p>
       </details>
       <details>
         <summary><span class="h3">Can we change licenses?</span></summary>

@@ -2813,151 +2813,155 @@
   "you": "You only hear about the vendor who doesn't answer.",
   "get": "Event day starts with every vendor confirmed."
  },
- "Weekly posts from your work": {
-  "ex": "Every Monday morning",
-  "steps": [
-   [
-    "Mon 8am",
-    "@marketing",
-    "pulls last week's finished jobs and photos",
-    "pulled"
-   ],
-   [
-    "Mon 8am",
-    "@marketing",
-    "picks the three best stories",
-    "picked"
-   ],
-   [
-    "Mon 8am",
-    "@marketing",
-    "writes a post for each, in your voice",
-    "drafted"
-   ],
-   [
-    "Mon 8am",
-    "you",
-    "posts waiting for your OK",
-    "waiting",
-    "need"
-   ],
-   [
-    "Mon 9am",
-    "you",
-    "swap one photo and approve",
-    "ok",
-    "me"
-   ],
-   [
-    "Mon 9am",
-    "@marketing",
-    "schedules them for Tuesday, Thursday and Saturday",
-    "scheduled"
-   ]
-  ],
-  "you": "You approve every post before it goes out.",
-  "get": "You show up every week without writing a thing."
- },
  "Monthly newsletter": {
   "ex": "The first Tuesday of the month",
   "steps": [
    [
     "8:00am",
     "@marketing",
-    "gathers this month's news, wins and offers",
-    "gathered"
-   ],
-   [
-    "8:01am",
-    "@marketing",
-    "drafts the newsletter in your voice",
+    "drafts the newsletter from this month's news",
     "drafted"
    ],
    [
-    "8:01am",
+    "8:00am",
+    "@marketing",
+    "marks 2 facts only you know with [Add ...]",
+    "flagged"
+   ],
+   [
+    "8:00am",
     "you",
     "draft waiting for your OK",
     "waiting",
     "need"
    ],
    [
-    "10:15am",
+    "8:00am",
     "you",
-    "add one line and approve",
+    "fill in the two blanks and approve",
     "ok",
     "me"
    ],
    [
-    "10:15am",
+    "9:10am",
     "@marketing",
-    "sends it to your list",
+    "sends a test to your team",
+    "test sent"
+   ],
+   [
+    "9:30am",
+    "@marketing",
+    "sends it to 1,240 subscribers from your own domain",
     "sent"
    ],
    [
     "next day",
     "@marketing",
-    "reports opens, clicks and replies",
+    "reports delivered, bounced and unsubscribed",
     "reported"
    ]
   ],
-  "you": "You edit and approve. It handles the list and the sending.",
-  "get": "Past customers hear from you every month and think of you first."
+  "you": "You fill in the facts and approve. Nothing sends with a blank left in it.",
+  "get": "Your list hears from you every month, from your own address, looking like your brand."
  },
- "Case studies from finished work": {
-  "ex": "A project wraps up",
+ "Welcome series": {
+  "ex": "Someone joins your email list from a landing page",
   "steps": [
    [
-    "day 1",
-    "@ops",
-    "marks the project done",
-    "done"
+    "day 0",
+    "Customer",
+    "signs up on your landing page",
+    "joined"
    ],
    [
-    "day 1",
+    "day 0",
     "@marketing",
-    "pulls the before and after photos and your notes",
-    "pulled"
+    "adds them to your list and starts the welcome series",
+    "started"
    ],
    [
-    "day 2",
-    "@agents",
-    "asks the client for a short quote",
+    "day 0",
+    "@marketing",
+    "sends email 1 with their one-time offer code",
     "sent"
    ],
    [
-    "day 3",
-    "Client",
-    "replies with a kind word",
-    "received"
-   ],
-   [
-    "day 3",
+    "day 2",
     "@marketing",
-    "writes the case study and a short post",
-    "drafted"
+    "sends email 2 with your best work",
+    "sent"
    ],
    [
-    "day 3",
+    "day 5",
+    "@marketing",
+    "sends email 3 with a link to book",
+    "sent"
+   ],
+   [
+    "day 6",
+    "Customer",
+    "books with the code",
+    "booked"
+   ]
+  ],
+  "you": "You write the series once and approve it. Anyone who unsubscribes stops getting it right away.",
+  "get": "Every new subscriber hears from you, in order, without you remembering to send anything."
+ },
+ "Landing page from a brief": {
+  "ex": "You need a page for a spring offer",
+  "steps": [
+   [
+    "10:00am",
     "you",
-    "case study waiting for your OK",
+    "describe the page in two sentences",
+    "brief"
+   ],
+   [
+    "10:01am",
+    "@marketing",
+    "builds a page with a hero, three sections and a form",
+    "built"
+   ],
+   [
+    "10:01am",
+    "@marketing",
+    "marks the price and dates with [Add ...]",
+    "flagged"
+   ],
+   [
+    "10:01am",
+    "you",
+    "page waiting on two blanks only you can fill",
     "waiting",
     "need"
    ],
    [
-    "day 3",
+    "10:20am",
     "you",
-    "approve it",
-    "ok",
+    "fill in the price and dates, then publish",
+    "live",
     "me"
    ],
    [
-    "day 3",
+    "2:14pm",
+    "Customer",
+    "fills in the form on the page",
+    "received"
+   ],
+   [
+    "2:14pm",
+    "@leads",
+    "saves them as a lead",
+    "saved"
+   ],
+   [
+    "2:14pm",
     "@marketing",
-    "publishes it on your website",
-    "live"
+    "adds them to your list and starts the welcome series",
+    "started"
    ]
   ],
-  "you": "You approve before anything is published.",
-  "get": "Your best work stops living only in your camera roll."
+  "you": "You describe it and fill in the facts. It never makes up prices, dates or reviews.",
+  "get": "A page in minutes, and every form on it turns into a lead and a subscriber."
  }
 }
