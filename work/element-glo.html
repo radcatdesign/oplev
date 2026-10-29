@@ -1212,6 +1212,15 @@ html.sheet-open{overflow:hidden}
 .close-h{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(36px,5.6vw,84px);line-height:1;letter-spacing:-.055em;max-width:16ch;text-wrap:balance}
 .close-in .lede{margin:0 auto;max-width:46ch}
 .close-in .actions{justify-content:center}
+
+/* hero strike: "website" crossed out for "engine" */
+.h1-x{max-width:17ch}
+.h1-x .xo{text-decoration:none;color:var(--dim);position:relative;display:inline-block}
+.h1-x .xo::after{content:'';position:absolute;left:-.06em;right:-.06em;top:54%;height:.08em;background:var(--paper);transform-origin:left center}
+.h1-x.x-pre .xo{color:var(--paper)}
+.h1-x.x-pre .xo::after{transform:scaleX(0)}
+.h1-x.x-pre.x-on .xo{color:var(--dim);transition:color .5s .25s}
+.h1-x.x-pre.x-on .xo::after{transform:scaleX(1);transition:transform .5s cubic-bezier(.75,0,.2,1)}
 </style>
 </head>
 <body>
@@ -1483,7 +1492,7 @@ function decode(el,dur,glyphs){
     while(w.nextNode()) if(w.currentNode.nodeValue.trim()) nodes.push(w.currentNode);
     r={nodes,finals:nodes.map(n=>n.nodeValue),id:0};
     recs.set(el,r);
-    el.setAttribute('aria-label',r.finals.join('').replace(/\s+/g,' ').trim());
+    if(!el.hasAttribute('aria-label'))el.setAttribute('aria-label',r.finals.join('').replace(/\s+/g,' ').trim());
   }
   const id=++r.id,total=r.finals.join('').length;
   if(!total) return;
@@ -2149,10 +2158,11 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
 /* ---------- loader (once per visit) ---------- */
 (function(){
   const html=document.documentElement,L=$('#loader');
-  const after=()=>{decode($('#h1'));};
+  const hx=$('#h1.h1-x');if(hx&&!RM)hx.classList.add('x-pre');
+  const after=()=>{decode($('#h1'));if(hx&&!RM)setTimeout(()=>hx.classList.add('x-on'),1250);};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','the business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','the ultimate business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

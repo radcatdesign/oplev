@@ -68,7 +68,7 @@ function decode(el,dur,glyphs){
     while(w.nextNode()) if(w.currentNode.nodeValue.trim()) nodes.push(w.currentNode);
     r={nodes,finals:nodes.map(n=>n.nodeValue),id:0};
     recs.set(el,r);
-    el.setAttribute('aria-label',r.finals.join('').replace(/\s+/g,' ').trim());
+    if(!el.hasAttribute('aria-label'))el.setAttribute('aria-label',r.finals.join('').replace(/\s+/g,' ').trim());
   }
   const id=++r.id,total=r.finals.join('').length;
   if(!total) return;
@@ -734,10 +734,11 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
 /* ---------- loader (once per visit) ---------- */
 (function(){
   const html=document.documentElement,L=$('#loader');
-  const after=()=>{decode($('#h1'));};
+  const hx=$('#h1.h1-x');if(hx&&!RM)hx.classList.add('x-pre');
+  const after=()=>{decode($('#h1'));if(hx&&!RM)setTimeout(()=>hx.classList.add('x-on'),1250);};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','the business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','the ultimate business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

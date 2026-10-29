@@ -670,9 +670,9 @@ def home(mode='full'):
   <canvas class="field" id="field" aria-hidden="true"></canvas>
   <div class="wrap">
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
-    <p class="eyebrow">Built for you. Run by us.</p>
-    <h1 class="h1" id="h1">The business engine that operates itself.</h1>
-    <p class="lede">We build it around how your business already works, starting with your website. It answers, books, follows up and brings people back. You step in when something needs your OK.</p>
+    <p class="eyebrow">Custom built for your business</p>
+    <h1 class="h1 h1-x" id="h1" aria-label="The ultimate business engine.">The ultimate business <s class="xo">website</s> engine.</h1>
+    <p class="lede">It answers leads, books, follows up and brings people back, on its own. We build it around how you work and keep it tuned.</p>
     {spots(' hero-spots')}
     <div class="actions">
       <a class="btn" href="start.html">Apply for a spot {ARR_R}</a>
@@ -791,7 +791,7 @@ def home(mode='full'):
   </div>
 </section>
 '''
-    return page('OpLev', 'OpLev builds the business engine that operates itself: a website built to convert, plus the engines that answer leads, follow up, run the day and bring customers back. Built around how you work, kept running by us, licensed monthly.',
+    return page('OpLev', 'OpLev builds the ultimate business engine, one that operates itself: a website built to convert, plus the engines that answer leads, follow up, run the day and bring customers back. Built around how you work, kept running by us, licensed monthly.',
                 body, p='', home=True, active=None, mode=mode)
 
 

@@ -1200,3 +1200,12 @@ html.sheet-open{overflow:hidden}
 .close-h{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(36px,5.6vw,84px);line-height:1;letter-spacing:-.055em;max-width:16ch;text-wrap:balance}
 .close-in .lede{margin:0 auto;max-width:46ch}
 .close-in .actions{justify-content:center}
+
+/* hero strike: "website" crossed out for "engine" */
+.h1-x{max-width:17ch}
+.h1-x .xo{text-decoration:none;color:var(--dim);position:relative;display:inline-block}
+.h1-x .xo::after{content:'';position:absolute;left:-.06em;right:-.06em;top:54%;height:.08em;background:var(--paper);transform-origin:left center}
+.h1-x.x-pre .xo{color:var(--paper)}
+.h1-x.x-pre .xo::after{transform:scaleX(0)}
+.h1-x.x-pre.x-on .xo{color:var(--dim);transition:color .5s .25s}
+.h1-x.x-pre.x-on .xo::after{transform:scaleX(1);transition:transform .5s cubic-bezier(.75,0,.2,1)}

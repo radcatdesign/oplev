@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OpLev</title>
-<meta name="description" content="OpLev builds the business engine that operates itself: a website built to convert, plus the engines that answer leads, follow up, run the day and bring customers back. Built around how you work, kept running by us, licensed monthly.">
+<meta name="description" content="OpLev builds the ultimate business engine, one that operates itself: a website built to convert, plus the engines that answer leads, follow up, run the day and bring customers back. Built around how you work, kept running by us, licensed monthly.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
@@ -1212,6 +1212,15 @@ html.sheet-open{overflow:hidden}
 .close-h{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(36px,5.6vw,84px);line-height:1;letter-spacing:-.055em;max-width:16ch;text-wrap:balance}
 .close-in .lede{margin:0 auto;max-width:46ch}
 .close-in .actions{justify-content:center}
+
+/* hero strike: "website" crossed out for "engine" */
+.h1-x{max-width:17ch}
+.h1-x .xo{text-decoration:none;color:var(--dim);position:relative;display:inline-block}
+.h1-x .xo::after{content:'';position:absolute;left:-.06em;right:-.06em;top:54%;height:.08em;background:var(--paper);transform-origin:left center}
+.h1-x.x-pre .xo{color:var(--paper)}
+.h1-x.x-pre .xo::after{transform:scaleX(0)}
+.h1-x.x-pre.x-on .xo{color:var(--dim);transition:color .5s .25s}
+.h1-x.x-pre.x-on .xo::after{transform:scaleX(1);transition:transform .5s cubic-bezier(.75,0,.2,1)}
 </style>
 </head>
 <body>
@@ -1299,9 +1308,9 @@ html.sheet-open{overflow:hidden}
   <canvas class="field" id="field" aria-hidden="true"></canvas>
   <div class="wrap">
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
-    <p class="eyebrow">Built for you. Run by us.</p>
-    <h1 class="h1" id="h1">The business engine that operates itself.</h1>
-    <p class="lede">We build it around how your business already works, starting with your website. It answers, books, follows up and brings people back. You step in when something needs your OK.</p>
+    <p class="eyebrow">Custom built for your business</p>
+    <h1 class="h1 h1-x" id="h1" aria-label="The ultimate business engine.">The ultimate business <s class="xo">website</s> engine.</h1>
+    <p class="lede">It answers leads, books, follows up and brings people back, on its own. We build it around how you work and keep it tuned.</p>
     <div class="spots hero-spots"><span class="sp-meter" aria-hidden="true"><i class="taken"></i><i class="taken"></i><i class="open"></i><i class="open"></i></span><span class="label">Q1 2027 / <b>2 of 4 client spots open</b></span></div>
     <div class="actions">
       <a class="btn" href="start.html">Apply for a spot <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
@@ -1671,7 +1680,7 @@ function decode(el,dur,glyphs){
     while(w.nextNode()) if(w.currentNode.nodeValue.trim()) nodes.push(w.currentNode);
     r={nodes,finals:nodes.map(n=>n.nodeValue),id:0};
     recs.set(el,r);
-    el.setAttribute('aria-label',r.finals.join('').replace(/\s+/g,' ').trim());
+    if(!el.hasAttribute('aria-label'))el.setAttribute('aria-label',r.finals.join('').replace(/\s+/g,' ').trim());
   }
   const id=++r.id,total=r.finals.join('').length;
   if(!total) return;
@@ -2337,10 +2346,11 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
 /* ---------- loader (once per visit) ---------- */
 (function(){
   const html=document.documentElement,L=$('#loader');
-  const after=()=>{decode($('#h1'));};
+  const hx=$('#h1.h1-x');if(hx&&!RM)hx.classList.add('x-pre');
+  const after=()=>{decode($('#h1'));if(hx&&!RM)setTimeout(()=>hx.classList.add('x-on'),1250);};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','the business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','the ultimate business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);
