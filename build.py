@@ -606,18 +606,65 @@ def home(mode='full'):
     wall = ''.join(
         f'\n      <li><a class="wl" href="for/{x["id"]}.html" data-e="{x["engines"][0]}">{E(x["name"])}</a></li>'
         for x in ICPS)
-    engines = ''.join(f'''
-    <article class="strip e-{k}" id="engine-{k}">
-      <div class="wrap strip-in">
-        <div class="strip-id"><span class="label strip-el">{elem(k)}engine {i + 1} / {E(ELEMENT[k].lower())} / {E(triad)}</span><h3 class="strip-name">{E(name)}</h3><p class="strip-who"><b>{E(BOT_ROLE[k][0])}.</b> {E(BOT_ROLE[k][1])}</p></div>
-        <div class="strip-bd"><p class="strip-line">{E(line)}</p><p class="strip-site"><span class="label">{E(SITE_LINK[k][0])}</span>{E(SITE_LINK[k][1])}</p><ul class="strip-caps">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul></div>
-        <div class="strip-ft">{bot_card(k)}{(f'<span class="label">see it in</span>' + ''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)) if seen else '<span class="label">new engine</span><a href="start.html">Ask us about it</a>'}</div>
+    feats = [
+        ('leads', 'Quotes in seconds. Replies in minutes.',
+         'Visitors price the job on your site, and every inquiry gets a real answer, day or night.',
+         ('leads', 'on your website', 'Instant price quotes', 'Customers price the job themselves, and you get their details.'),
+         f"""<div class="fv fv-quote">
+            <div class="fv-hd"><span class="label">instant price</span><span class="label">on your website</span></div>
+            <div class="fvq-row"><span>Patio</span><b>400 sq ft</b></div>
+            <div class="fvq-row"><span>Material</span><b>Pavers</b></div>
+            <div class="fvq-amt"><span class="label">your price range</span><b>$8,400 to $9,600</b></div>
+            <ul class="fv-log"><li><span class="bot bot-xs" data-bot="leads"></span>lead saved with the quote<em>8:14pm</em></li><li><span class="bot bot-xs" data-bot="agents"></span>reply drafted in your voice<em>8:15pm</em></li><li><span class="fv-you">You</span>approved from the couch<em>8:19pm</em></li></ul>
+          </div>"""),
+        ('agents', 'Follow-ups that never forget.',
+         'Reminders, rebooking and invoice nudges in your voice. Anything new waits for your OK.',
+         ('agents', '3 days after a quote', 'Quote follow-ups', 'Checks in on open quotes before they go cold.'),
+         f"""<div class="fv fv-ok">
+            <div class="fv-hd"><span class="label">needs your OK</span><span class="label">1 of 3</span></div>
+            <p class="fvo-to"><b>Maya Chen</b><span>quote sent 3 days ago</span></p>
+            <p class="fvo-msg">Hi Maya, just checking in on the patio quote. Happy to walk through options, or hold a spot for May. Want me to pencil you in?</p>
+            <div class="fvo-act"><span class="fv-btn">Approve and send</span><span class="fv-btn ghost">Edit</span></div>
+          </div>"""),
+        ('ops', 'The whole business on one screen.',
+         'Schedule, clients, orders and numbers in one place, with a summary on your phone at 6am.',
+         ('ops', 'every morning at 6', 'Morning summary', 'What happened overnight and what needs you, on one screen.'),
+         f"""<div class="fv fv-sum">
+            <div class="fv-hd"><span class="label">morning summary</span><span class="label">6:00am</span></div>
+            <ul><li><b>9</b><span>visits on the schedule today</span></li><li><b>2</b><span>notes to sign</span></li><li><b>3</b><span>unpaid invoices, $1,240 open</span></li><li><b>1</b><span>reply waiting for your OK</span></li></ul>
+          </div>"""),
+        ('marketing', 'Emails and pages that bring them back.',
+         'Newsletters and welcome emails from your own domain, and landing pages that turn visitors into leads.',
+         ('marketing', 'when someone joins your list', 'Welcome series', 'Welcome emails on a schedule, with a one-time offer code.'),
+         f"""<div class="fv fv-mail">
+            <div class="fv-hd"><span class="label">newsletter</span><span class="label">sent tuesday</span></div>
+            <p class="fvm-from">From <b>Juniper Physio</b> &lt;hello@juniperphysio.com&gt;</p>
+            <p class="fvm-sub">What's new at Juniper this month</p>
+            <div class="fvm-body"><i></i><i></i><i class="s"></i></div>
+            <div class="fvm-stats"><span><b>1,240</b> delivered</span><span><b>6</b> bounced</span><span><b>3</b> unsubscribed</span></div>
+          </div>"""),
+    ]
+    feat_jobs = job_cards([f[3] for f in feats], start='start.html', demo='how-it-works.html')
+    feat_jobs = feat_jobs[feat_jobs.index('<script'):]
+    feat_html = ''.join(f"""
+  <section class="feat e-{k}{' flip' if i % 2 else ''}" id="f-{k}" aria-labelledby="f-{k}-h">
+    <div class="wrap feat-in">
+      <div class="feat-t">
+        <p class="feat-k"><i aria-hidden="true"></i>{E(ENGINE_NAME[k])}<span>/ {E(ELEMENT[k].lower())}</span></p>
+        <h2 class="feat-h" id="f-{k}-h">{E(h)}</h2>
+        <p class="feat-p">{E(p)}</p>
+        <button class="play-open feat-go" type="button" data-job="{i}" aria-haspopup="dialog">See it run {ARR_R}</button>
       </div>
-    </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
-    filters = '<button class="tab" type="button" aria-pressed="true" data-f="all">All</button>' + ''.join(
-        f'<button class="tab e-{k}" type="button" aria-pressed="false" data-f="{k}">{E(name)}</button>' for k, name, *_ in ENGINES)
-    plays = job_cards(PLAYS, extra_cls=' rail')
-    night = json.dumps(NIGHT).replace('</', '<\\/')
+      <div class="feat-v">{vis}
+        {bot_card(k)}
+      </div>
+    </div>
+  </section>""" for i, (k, h, p, _job, vis) in enumerate(feats))
+    TABS = [('Website', 'site', '#website'), ('Instant quotes', 'leads', '#f-leads'), ('Fast replies', 'leads', '#f-leads'),
+            ('Follow-ups', 'agents', '#f-agents'), ('Rebooking', 'agents', '#f-agents'), ('Reminders', 'agents', '#f-agents'),
+            ('Morning summary', 'ops', '#f-ops'), ('Records', 'ops', '#f-ops'), ('Newsletters', 'marketing', '#f-marketing'),
+            ('Landing pages', 'marketing', '#f-marketing'), ('Industry tools', 'site', '#tools')]
+    tabs_html = ''.join(f'<a class="htab{"" if k == "site" else " e-" + k}" href="{h}">{E(t)}</a>' for t, k, h in TABS)
     body = f'''
 <section class="hero" id="hero">
   <canvas class="field" id="field" aria-hidden="true"></canvas>
@@ -625,16 +672,56 @@ def home(mode='full'):
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
     <p class="eyebrow">Websites and engines, built as one</p>
     <h1 class="h1" id="h1">A website that sells. Engines that run the rest.</h1>
-    <p class="lede">We design a fast, beautiful website built to convert, then connect <span class="e-leads ec">Leads</span>, <span class="e-agents ec">Agents</span>, <span class="e-ops ec">Ops</span> and <span class="e-marketing ec">Marketing</span> engines to it, with tools made for your industry. We run it all for you every month.</p>
+    <p class="lede">We design a website built to convert, then connect the engines that answer, book, follow up and keep track. We run it all for you.</p>
     {spots(' hero-spots')}
     <div class="actions">
-      <a class="btn" href="#work">See the work {ARR_D}</a>
-      <a class="btn ghost" href="#start">Apply for a spot {ARR_R}</a>
+      <a class="btn" href="start.html">Apply for a spot {ARR_R}</a>
+      <a class="btn ghost" href="#website">See how it works {ARR_D}</a>
     </div>
+    <nav class="htabs" aria-label="What we build">{tabs_html}</nav>
   </div>
 </section>
-''' + site_section('It starts with your website', 'Everything grows from the website.',
-                   'We design a site people want to stay on and built to turn them into customers. Every form, quote and booking on it feeds your engines, and Marketing keeps sending people back.') + f'''
+
+<section class="sec say" id="familiar" aria-labelledby="familiar-h">
+  <div class="wrap say-hd">
+    <div>
+      <p class="eyebrow">Sound familiar?</p>
+      <h2 class="say-h" id="familiar-h">You started a business. Then it became a job.</h2>
+    </div>
+    <div class="say-ctl">
+      <span class="label say-n" aria-hidden="true"><b>01</b> / {len(PAINS):02d}</span>
+      <button class="say-btn" type="button" data-say="-1" aria-label="Previous">{ARR_L}</button>
+      <button class="say-btn" type="button" data-say="1" aria-label="Next">{ARR_R}</button>
+    </div>
+  </div>
+  <ul class="say-rail" tabindex="0" aria-label="Things owners tell us">{pains}
+  </ul>
+  <div class="wrap">
+    <div class="say-meter" aria-hidden="true">{say_meter}</div>
+  </div>
+</section>
+''' + site_section('It starts with your website', 'Everything runs off your website.',
+                   'Every form, quote and booking feeds your engines. Marketing keeps sending people back.') + f'''
+<div class="feats" data-jobs="jobs-data">{feat_html}
+  {feat_jobs}
+</div>
+
+<section class="sec tools-sec" id="tools" aria-labelledby="tools-h">
+  <div class="wrap">
+    <div class="tools-hd">
+      <div class="head-l">
+        <p class="eyebrow">Tools</p>
+        <h2 class="h2" id="tools-h">Built for your industry.</h2>
+      </div>
+      <p class="lede">Every engine takes tools made for the work you do. Pick your business.</p>
+    </div>
+    <div class="tpick"><label class="tpick-l" for="tool-for">Show tools for</label><span class="tpick-s"><select id="tool-for">{tool_opts}</select></span><a class="label tpick-go" id="tool-go" href="for/{tool0['id']}.html#tools">Open the {E(tool0['name'].lower())} page {ARR_R}</a></div>
+    <div class="tboard compact" id="tboard" aria-live="polite">{tool_cols(tool0)}
+    </div>
+    <script type="application/json" id="tools-data">{tools_json}</script>
+  </div>
+</section>
+
 <section class="sec" id="work" aria-labelledby="work-h">
   <div class="wrap">
     <div class="head">
@@ -662,94 +749,6 @@ def home(mode='full'):
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true">
-  <div class="tk-track" id="tk-track">
-    <div class="tk-set"><b>booking</b><i>/</i><span>reminders</span><i>/</i><span>follow-ups</span><i>/</i><b>price quotes</b><i>/</i><span>unpaid invoices</span><i>/</i><span>reviews</span><i>/</i><b>morning summary</b><i>/</i><span>weekly numbers</span><i>/</i><span>new hires</span><i>/</i><b>new leads</b><i>/</i><span>answers any hour</span><i>/</i></div>
-  </div>
-</div>
-
-<section class="sec say" id="familiar" aria-labelledby="familiar-h">
-  <div class="wrap say-hd">
-    <div>
-      <p class="eyebrow">Sound familiar?</p>
-      <h2 class="say-h" id="familiar-h">You started a business. Then it became a job.</h2>
-    </div>
-    <div class="say-ctl">
-      <span class="label say-n" aria-hidden="true"><b>01</b> / {len(PAINS):02d}</span>
-      <button class="say-btn" type="button" data-say="-1" aria-label="Previous">{ARR_L}</button>
-      <button class="say-btn" type="button" data-say="1" aria-label="Next">{ARR_R}</button>
-    </div>
-  </div>
-  <ul class="say-rail" tabindex="0" aria-label="Things owners tell us">{pains}
-  </ul>
-  <div class="wrap">
-    <div class="say-meter" aria-hidden="true">{say_meter}</div>
-    <div class="say-ft"><p>If you've said any of these this month, we should talk.</p><a class="btn" href="#start">Tell us yours {ARR_R}</a></div>
-  </div>
-</section>
-
-<section class="sec eng-sec" id="engines" aria-labelledby="engines-h">
-  <div class="wrap">
-    <div class="center-hd">
-      <p class="eyebrow">What we build</p>
-      <h2 class="h2" id="engines-h">Four engines. Four elements.</h2>
-      <p class="lede">Water, earth, fire and wind. Each one plugs into your website, and they share the same information, so nothing gets typed in twice. Start with one or run all four.</p>
-    </div>
-  </div>
-  <div class="strips">{engines}
-  </div>
-</section>
-
-<section class="sec tools-sec" id="tools" aria-labelledby="tools-h">
-  <div class="wrap">
-    <div class="tools-hd">
-      <div class="head-l">
-        <p class="eyebrow">Tools</p>
-        <h2 class="h2" id="tools-h">Then add tools for your industry.</h2>
-      </div>
-      <p class="lede">Engines are the base. Tools make them yours. Each one is built for a kind of business and plugs into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, a welcome series in Marketing. Add the ones you need, to any engine, any time.</p>
-    </div>
-    <div class="tpick"><label class="tpick-l" for="tool-for">Show tools for</label><span class="tpick-s"><select id="tool-for">{tool_opts}</select></span><a class="label tpick-go" id="tool-go" href="for/{tool0['id']}.html#tools">Open the {E(tool0['name'].lower())} page {ARR_R}</a></div>
-    <div class="tboard" id="tboard" aria-live="polite">{tool_cols(tool0)}
-    </div>
-    <script type="application/json" id="tools-data">{tools_json}</script>
-  </div>
-</section>
-
-<section class="sec night" id="overnight" aria-labelledby="night-h">
-  <div class="wrap night-in">
-    <div class="night-l">
-      <p class="eyebrow">While you sleep</p>
-      <h2 class="h2" id="night-h">You slept. Your engines didn't.</h2>
-      <p class="lede">A night at a business running all four engines we built. Anything important waits for the owner in the morning summary.</p>
-      <p class="night-clock" id="night-clock" aria-hidden="true">22:00</p>
-    </div>
-    <div class="night-r">
-      <div class="pane" data-src="night-data" data-state="idle">
-        <div class="pane-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">Last night</span><span class="label">example</span></div>
-        <div class="pane-bd"><div class="cmd"><span class="pr">$</span><span class="cmd-tx"></span><span class="caret" aria-hidden="true"></span></div><div class="rows"></div></div>
-        <div class="pane-ft"><span class="dot" aria-hidden="true"></span><span class="label st">idle</span><button class="replay" type="button">Replay</button></div>
-      </div>
-      <script type="application/json" id="night-data">{night}</script>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="plays" aria-labelledby="plays-h">
-  <div class="wrap">
-    <div class="rail-hd">
-      <div class="head-l">
-        <p class="eyebrow">Tools at work</p>
-        <h2 class="h2" id="plays-h">Watch a tool work.</h2>
-        <p class="lede">A few of the tools we add most. Tap any one to see exactly what happens, step by step.</p>
-      </div>
-      <div class="rail-ctl"><button class="rail-btn" type="button" data-rail="-1" aria-label="Scroll back">{ARR_L}</button><button class="rail-btn" type="button" data-rail="1" aria-label="Scroll forward">{ARR_R}</button></div>
-    </div>
-    <div class="tabs filters" role="group" aria-label="Filter by engine">{filters}</div>
-    {plays}
-  </div>
-</section>
-
 <section class="sec wall-sec" id="for" aria-labelledby="for-h">
   <div class="wrap">
     <div class="wall-hd">
@@ -757,42 +756,11 @@ def home(mode='full'):
         <p class="eyebrow">Who it's for</p>
         <h2 class="h2" id="for-h">Pick your business.</h2>
       </div>
-      <p class="lede">Each one opens a short page: what we'd build for you, what it costs and a normal day with it running.</p>
+      <p class="lede">Each one opens a short page: what we'd build for you, the tools you'd get and what it costs.</p>
     </div>
     <ul class="wall">{wall}
     </ul>
     <div class="wall-ft"><p class="label">not on the list? every build starts from how you work</p><a class="btn ghost" href="for.html">See all {len(ICPS)} {ARR_R}</a></div>
-  </div>
-</section>
-
-<section class="sec" id="marketplace" aria-labelledby="mk-h">
-  <div class="wrap">
-    <div class="idx-hd">
-      <div class="head-l">
-        <p class="eyebrow">Marketplace</p>
-        <h2 class="h2" id="mk-h">Or start from one that works.</h2>
-      </div>
-      <p class="lede">Engines and industry tools we built for other businesses, bundled and ready to license and tailor to yours.</p>
-    </div>
-    <ol class="idx">{''.join(f'<li><a href="marketplace/{x["id"]}.html"><span class="idx-n label">os {n + 1:02d}</span><span class="idx-name">{E(x["name"])}</span><span class="idx-type">{E(x["type_label"])}</span>{etags(x["engines"])}<span class="idx-go">{ARR_R}</span></a></li>' for n, x in enumerate(MARKET))}
-    </ol>
-    <div class="idx-ft"><a class="btn ghost" href="marketplace.html">Browse the marketplace {ARR_R}</a></div>
-  </div>
-</section>
-
-<section class="sec band poster" id="model" aria-labelledby="model-h">
-  <div class="wrap">
-    <div class="poster-hd"><p class="eyebrow">How pricing works</p><p class="label">simple monthly pricing</p></div>
-    <h2 class="sr" id="model-h">Run it. Grow it. Sell it.</h2>
-    <ol class="poster-list">
-      <li><span class="poster-w">Run it.</span><p>We build your engines around how your business works and keep them running. One monthly price covers hosting, fixes and updates.</p></li>
-      <li><span class="poster-w">Grow it.</span><p>We add to your engines as the business grows. No big build fee, then you're on your own.</p></li>
-      <li><span class="poster-w">Sell it.</span><p>What works for you will work for businesses like yours. A resale license lets you sell it to them.</p></li>
-    </ol>
-    <div class="kicker">
-      <p class="kicker-t">Most custom builds are a cost. Yours can earn.</p>
-      <div class="actions"><a class="btn" href="pricing.html">See pricing {ARR_R}</a><a class="btn ghost" href="#start">Apply {ARR_R}</a></div>
-    </div>
   </div>
 </section>
 
@@ -807,14 +775,22 @@ def home(mode='full'):
     </div>
     <ol class="track">
       <li class="tk-step"><span class="tk-n">01</span><span class="tk-dot"><svg class="px" data-icon="discuss" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Discuss</h3><p>We talk with you and your team and see how the work really gets done.</p></li>
-      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We design your website, then build your engines around it and connect them to the tools you already use.</p></li>
-      <li class="tk-step"><span class="tk-n">03</span><span class="tk-dot"><svg class="px" data-icon="implement" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Launch</h3><p>We roll it out with your team one piece at a time, until it runs without you in the middle.</p></li>
-      <li class="tk-step"><span class="tk-n">04</span><span class="tk-dot"><svg class="px" data-icon="measure" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Improve</h3><p>We track how much of the business runs without you, and pick what to fix next.</p></li>
+      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We design your website, then build your engines around it.</p></li>
+      <li class="tk-step"><span class="tk-n">03</span><span class="tk-dot"><svg class="px" data-icon="implement" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Launch</h3><p>We roll it out one piece at a time, until it runs without you in the middle.</p></li>
+      <li class="tk-step"><span class="tk-n">04</span><span class="tk-dot"><svg class="px" data-icon="measure" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Improve</h3><p>Every month we pick the next thing to take off your plate.</p></li>
     </ol>
   </div>
 </section>
-''' + inquiry('h2', 'Stop being the system.',
-              "We only take on a few clients at a time, so every build gets our full attention. Apply in two minutes.")
+
+<section class="sec close-sec" id="start" aria-labelledby="close-h">
+  <div class="wrap close-in">
+    {spots(' close-spots')}
+    <h2 class="close-h" id="close-h">{CAPACITY['open']} client spots left for {E(CAPACITY['window'])}.</h2>
+    <p class="lede">From $5k a month, website included. Tell us what still runs through you. We reply to every application.</p>
+    <div class="actions"><a class="btn" href="start.html">Apply for a spot {ARR_R}</a><a class="btn ghost" href="pricing.html">See pricing {ARR_R}</a></div>
+  </div>
+</section>
+'''
     return page('OpLev', 'OpLev is an agency that designs and builds beautiful, high-converting websites and the engines that run off them: Ops, Agents, Leads and Marketing. Built around how you work, kept running by us, licensed monthly.',
                 body, p='', home=True, active=None, mode=mode)
 

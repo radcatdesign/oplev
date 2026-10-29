@@ -1133,6 +1133,85 @@ html.sheet-open{overflow:hidden}
 .lf-n{font:500 15px/1.25 var(--display);font-stretch:92%;letter-spacing:-.02em}
 .lf-a svg{width:14px;height:14px;color:var(--dim)}
 .lp-site .split-r{gap:22px}
+
+/* ---------- home, paced like a product page: one idea per section ---------- */
+.htabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(28px,4vw,48px);max-width:900px}
+@media (max-width:699px){.htabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:calc(-1 * var(--gut));padding-right:var(--gut)}.htabs::-webkit-scrollbar{display:none}}
+.htab{flex:none;font:400 11px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--soft);text-decoration:none;border:1px solid var(--line-2);background:rgba(7,7,8,.6);padding:9px 11px;display:inline-flex;align-items:center;gap:8px;transition:border-color .15s,color .15s}
+.htab::before{content:"";width:6px;height:6px;background:var(--e,var(--paper))}
+.htab:hover{color:var(--paper);border-color:var(--e,var(--paper))}
+.feats{border-top:1px solid var(--line)}
+.feat{border-bottom:1px solid var(--line);scroll-margin-top:var(--nav)}
+.feat-in{display:grid;gap:clamp(32px,4vw,64px);align-items:center;padding-block:clamp(72px,9vw,128px)}
+@media (min-width:980px){.feat-in{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}.feat.flip .feat-t{order:2}.feat.flip .feat-v{order:1}}
+.feat-t{display:flex;flex-direction:column;gap:18px;align-items:flex-start;min-width:0}
+.feat-k{margin:0;display:inline-flex;align-items:center;gap:10px;font:500 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--e)}
+.feat-k i{width:8px;height:8px;background:var(--e)}
+.feat-k span{color:var(--dim-2);letter-spacing:.08em}
+.feat-h{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(34px,4.6vw,64px);line-height:1;letter-spacing:-.055em;text-wrap:balance}
+.feat-p{margin:0;color:var(--soft);font-size:clamp(17px,1.4vw,19px);line-height:1.5;max-width:40ch}
+.feat-go.play-open{display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:12px 0 4px;font:500 12px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--paper);border-bottom:1px solid var(--e)}
+.feat-go.play-open::after{display:none}
+.feat-go svg{width:13px;height:13px;transition:transform .18s}
+.feat-go:hover svg{transform:translateX(4px)}
+.feat-go:focus-visible{outline:2px solid var(--e);outline-offset:4px}
+.feat-v{min-width:0;display:flex;flex-direction:column;width:100%;max-width:560px;justify-self:end}
+.feat.flip .feat-v{justify-self:start}
+.feat-v .fv{width:100%}
+.feat-v .bot-card{position:relative;z-index:1;flex-direction:row;align-items:center;gap:14px;width:auto;max-width:min(340px,92%);margin:-14px 0 0 0;padding:10px 16px 10px 12px;align-self:flex-start;box-shadow:0 10px 24px rgba(0,0,0,.35);border:1px solid var(--line-2)}
+.feat.flip .feat-v .bot-card{align-self:flex-end}
+@media (min-width:980px){.feat-v .bot-card{margin-left:-28px}.feat.flip .feat-v .bot-card{margin:-14px -28px 0 0}}
+.feat-v .bot-stage{min-height:0;height:auto;flex:none}
+.feat-v .bot-stage .bot{width:52px!important}
+.feat-v .bot-stage.n3{gap:4px}
+.feat-v .bot-stage.n3 .bot{width:26px!important}
+.feat-v .bot-stage.n3 .bot:nth-child(2){width:32px!important}
+.feat-v .bot-say{min-height:0;font-size:12px}
+/* example cards: what the engine actually does, in one glance */
+.fv{background:var(--ink-2);border:1px solid var(--line-2);border-top:3px solid var(--e);padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px;max-width:560px;margin-left:auto}
+.feat.flip .fv{margin-left:0;margin-right:auto}
+.fv-hd{display:flex;justify-content:space-between;gap:12px}
+.fv-hd .label:first-child{color:var(--e)}
+.fvq-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line-2);font-size:15px}
+.fvq-row span{color:var(--soft)}
+.fvq-row b{font:500 15px/1.2 var(--display)}
+.fvq-amt{display:flex;flex-direction:column;gap:6px;padding:8px 0}
+.fvq-amt b{font:900 clamp(26px,2.6vw,36px)/1 var(--num);color:var(--e)}
+.fv-log{list-style:none;margin:0;padding:12px 0 0;border-top:1px solid var(--line-2);display:flex;flex-direction:column;gap:9px;font:400 12.5px/1.3 var(--display);color:var(--paper)}
+.fv-log li{display:flex;align-items:center;gap:9px}
+.fv-log em{margin-left:auto;font-style:normal;color:var(--dim-2)}
+.fv-log .bot-xs{margin:0}.fv-log .bot-xs svg{height:13px}
+.fv-you{background:var(--paper);color:var(--ink);padding:1px 5px;font-size:11px}
+.fvo-to{margin:0;display:flex;flex-direction:column;gap:3px}
+.fvo-to b{font:500 18px/1.2 var(--display);font-stretch:92%}
+.fvo-to span{color:var(--dim);font-size:13px}
+.fvo-msg{margin:0;padding:14px;background:var(--ink);border:1px solid var(--line-2);color:var(--paper);font-size:15px;line-height:1.55}
+.fvo-act{display:flex;gap:8px;flex-wrap:wrap}
+.fv-btn{font:500 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;padding:11px 14px;background:var(--e);color:var(--ink)}
+.fv-btn.ghost{background:transparent;color:var(--paper);border:1px solid var(--line-2)}
+.fv-sum ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.fv-sum li{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-2)}
+.fv-sum li:last-child{border-bottom:0}
+.fv-sum b{font:900 30px/1 var(--num);color:var(--e)}
+.fv-sum span{font-size:15px;color:var(--paper)}
+.fvm-from{margin:0;font-size:13.5px;color:var(--dim)}
+.fvm-from b{color:var(--paper);font-weight:500}
+.fvm-sub{margin:0;font:500 clamp(19px,1.8vw,24px)/1.15 var(--display);font-stretch:87.5%;letter-spacing:-.03em}
+.fvm-body{display:flex;flex-direction:column;gap:8px;padding:6px 0 4px}
+.fvm-body i{height:7px;background:var(--line-2)}
+.fvm-body i.s{width:60%}
+.fvm-stats{display:flex;flex-wrap:wrap;gap:8px 18px;padding-top:12px;border-top:1px solid var(--line-2);font-size:13px;color:var(--soft)}
+.fvm-stats b{font:900 18px/1 var(--num);color:var(--paper);margin-right:4px}
+/* the tools board, tool names only */
+.tboard.compact .tcol-core,.tboard.compact .tl-d,.tboard.compact .tl-k{display:none}
+.tboard.compact .tlist{gap:6px;padding:10px 12px 14px}
+.tboard.compact .tool-in{padding:10px 12px}
+/* the close: one line, one ask */
+.close-sec{background:var(--ink-2)}
+.close-in{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
+.close-h{margin:0;font-family:var(--display);font-weight:500;font-stretch:87.5%;font-size:clamp(36px,5.6vw,84px);line-height:1;letter-spacing:-.055em;max-width:16ch;text-wrap:balance}
+.close-in .lede{margin:0 auto;max-width:46ch}
+.close-in .actions{justify-content:center}
 </style>
 </head>
 <body>
