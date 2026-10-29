@@ -1221,6 +1221,188 @@ html.sheet-open{overflow:hidden}
 .h1-x.x-pre .xo::after{transform:scaleX(0)}
 .h1-x.x-pre.x-on .xo{color:var(--dim);transition:color .5s .25s}
 .h1-x.x-pre.x-on .xo::after{transform:scaleX(1);transition:transform .5s cubic-bezier(.75,0,.2,1)}
+
+/* ---------- build your engine: the home walkthrough ---------- */
+.hsteps .htab::before{display:none}
+.hsteps .htab b{font:900 13px/1 var(--num);color:var(--paper);letter-spacing:0}
+.bstep{scroll-margin-top:var(--nav)}
+.bstep>.wrap{padding-block:clamp(64px,8vw,112px)}
+.bs-hd{display:grid;gap:14px 40px;margin-bottom:clamp(28px,4vw,48px)}
+.bs-n{font:900 clamp(72px,9vw,136px)/.78 var(--num);color:var(--paper);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.bs-hd .head-l{display:flex;flex-direction:column;gap:14px}
+@media (min-width:980px){.bs-hd{grid-template-columns:auto minmax(0,1fr) minmax(0,.85fr);align-items:end}}
+.bs-next{margin-top:clamp(32px,4vw,48px)}
+.bx-pick{margin:0 0 18px}
+.bx-base{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.bx-eng,.bx-site{appearance:none;-webkit-appearance:none;font:inherit;text-align:left;color:var(--paper);background:var(--ink-2);border:1px solid var(--line-2);border-top:3px solid var(--line-2);border-radius:0;padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.bx-eng{cursor:pointer;transition:border-color .15s,background .15s,opacity .15s}
+.bx-eng[aria-pressed="false"]{background:transparent}
+.bx-eng[aria-pressed="false"] .bx-eng-h,.bx-eng[aria-pressed="false"] .bx-eng-p{opacity:.55}
+.bx-eng[aria-pressed="true"]{border-top-color:var(--e);box-shadow:inset 0 0 0 1px var(--el)}
+.bx-eng:hover{border-color:var(--el);border-top-color:var(--e)}
+.bx-eng:focus-visible,.bx-tool:focus-visible,.bx-add:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+.bx-site{border-top-color:var(--paper)}
+.bx-eng-top{display:flex;align-items:center;gap:8px;min-width:0}
+.bx-eng-top b{font:500 14px/1 var(--display);letter-spacing:-.01em}
+.bx-eng-top .bot-xs{margin:0}
+.bx-eng-top .label{font-size:10px}
+.bx-check{margin-left:auto;flex:none;width:18px;height:18px;border:1px solid var(--line-2);position:relative}
+[aria-pressed="true"] .bx-check{background:var(--e,var(--paper));border-color:var(--e,var(--paper))}
+[aria-pressed="true"] .bx-check::after{content:"";position:absolute;left:5px;top:2px;width:5px;height:9px;border:solid var(--ink);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.bx-eng-h{font:500 clamp(17px,1.5vw,20px)/1.15 var(--display);letter-spacing:-.04em;font-stretch:87.5%}
+.bx-eng-p{font-size:14px;line-height:1.45;color:var(--soft)}
+.bx-site .label{margin-left:auto;color:var(--paper)}
+.bx-site-ic{width:20px;height:15px;border:1.5px solid var(--paper);display:inline-flex;gap:2px;padding:2px 3px;align-items:flex-start}
+.bx-site-ic i{width:2px;height:2px;background:var(--paper)}
+.bx-eng.nope{animation:bxNope .32s steps(4,end)}
+@keyframes bxNope{25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+.bx-total{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:18px}
+.bx-total b{color:var(--paper);font-weight:400}
+.bx-meter{display:inline-flex;gap:4px}
+.bx-meter i{width:22px;height:8px;border:1px solid var(--line-2)}
+.bx-meter i.on{background:var(--paper);border-color:var(--paper)}
+
+.bx-tools{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));align-items:start}
+.bx-col{border:1px solid var(--line-2);border-top:3px solid var(--e);padding:16px;min-width:0;background:var(--ink-2)}
+.bx-col.off{border-top-style:dashed;background:transparent}
+.bx-col-hd{display:flex;align-items:center;gap:8px}
+.bx-col-hd b{font:500 14px/1 var(--display);color:var(--e)}
+.bx-col-hd .bot-mini{margin:0}
+.bx-col-hd .bot-mini svg{height:15px}
+.bx-col-hd .label{font-size:10px}
+.bx-tl{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+.bx-tool{appearance:none;-webkit-appearance:none;width:100%;font:inherit;text-align:left;color:var(--paper);background:var(--ink);border:1px solid var(--line-2);border-left:3px solid var(--line-2);border-radius:0;padding:12px 12px 13px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:border-color .15s}
+.bx-tool:hover{border-color:var(--el);border-left-color:var(--e)}
+.bx-tool[aria-pressed="true"]{border-left-color:var(--e);background:#121214}
+.bx-tool[aria-pressed="false"] .bx-tool-d{opacity:.7}
+.bx-tool-top{display:flex;align-items:flex-start;gap:10px}
+.bx-tool-top b{font:500 13px/1.3 var(--display);letter-spacing:-.01em}
+.bx-tool .bx-check{width:16px;height:16px}
+.bx-tool[aria-pressed="true"] .bx-check::after{left:4px;top:1px}
+.bx-tool-d{font-size:13px;line-height:1.45;color:var(--soft)}
+.bx-pop{font-size:9.5px;color:var(--e)}
+.bx-off-p{margin:12px 0 12px;font-size:14px;color:var(--dim)}
+.bx-add{appearance:none;-webkit-appearance:none;border:1px dashed var(--el);border-radius:0;background:transparent;color:var(--e);font:500 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;padding:11px 12px;cursor:pointer;display:inline-flex;gap:10px}
+.bx-add:hover{border-style:solid}
+.bx-note{margin-top:16px}
+.bx-note b{color:var(--paper);font-weight:400}
+
+.bx-look{display:grid;gap:clamp(16px,3vw,40px)}
+@media (min-width:980px){.bx-look{grid-template-columns:minmax(260px,4fr) minmax(0,8fr);align-items:start}}
+.bx-styles{border:0;margin:0;padding:0;display:grid;gap:8px;min-width:0}
+@media (max-width:979px){.bx-styles{grid-template-columns:1fr 1fr}}
+.bx-style{position:relative;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;border:1px solid var(--line-2);padding:14px 16px;cursor:pointer;transition:border-color .15s,background .15s}
+.bx-style input{position:absolute;opacity:0;pointer-events:none}
+.bx-style b{font:500 15px/1 var(--display);letter-spacing:-.02em}
+.bx-style>span:last-child{grid-column:1/-1;font-size:13px;line-height:1.4;color:var(--soft)}
+.bx-style:hover{border-color:var(--dim)}
+.bx-style:has(input:checked){border-color:var(--paper);background:var(--ink-2)}
+.bx-style:has(input:focus-visible){outline:2px solid var(--paper);outline-offset:2px}
+.bx-sw{display:inline-flex}
+.bx-sw i{width:14px;height:14px;border:1px solid rgba(255,255,255,.12)}
+.s-clean .bx-sw i:nth-child(1){background:#F7F7F4}.s-clean .bx-sw i:nth-child(2){background:#111113}.s-clean .bx-sw i:nth-child(3){background:#D9D9D3}
+.s-bold .bx-sw i:nth-child(1){background:#0B0B0C}.s-bold .bx-sw i:nth-child(2){background:#E6FF4F}.s-bold .bx-sw i:nth-child(3){background:#F4F4EF}
+.s-warm .bx-sw i:nth-child(1){background:#F3ECE1}.s-warm .bx-sw i:nth-child(2){background:#B4532A}.s-warm .bx-sw i:nth-child(3){background:#2E2219}
+.s-playful .bx-sw i:nth-child(1){background:#FFF3D1}.s-playful .bx-sw i:nth-child(2){background:#5B45FF}.s-playful .bx-sw i:nth-child(3){background:#FF8FB8}
+
+/* the website mock: one markup, four looks */
+.bm{--bg:#F7F7F4;--fg:#111113;--mut:#D9D9D3;--ac:#111113;--acfg:#F7F7F4;--card:#fff;--ln:#E2E2DC;--hf:var(--body);--hw:600;--hls:-.035em;--r:2px;
+  position:relative;margin:0;background:var(--bg);color:var(--fg);border:1px solid var(--line-2);overflow:hidden;font-family:var(--body);transition:background .3s,color .3s}
+.bm.st-bold{--bg:#0B0B0C;--fg:#F4F4EF;--mut:#2C2C30;--ac:#E6FF4F;--acfg:#0B0B0C;--card:#151517;--ln:#2A2A2E;--hf:var(--display);--hw:700;--hls:-.065em;--r:0px}
+.bm.st-warm{--bg:#F3ECE1;--fg:#2E2219;--mut:#E0D4C3;--ac:#B4532A;--acfg:#FFF8EF;--card:#FBF6EE;--ln:#E3D7C6;--hf:Georgia,"Times New Roman",serif;--hw:400;--hls:-.02em;--r:14px}
+.bm.st-playful{--bg:#FFF3D1;--fg:#1B1A3A;--mut:#F2DB97;--ac:#5B45FF;--acfg:#fff;--card:#fff;--ln:#EED48A;--hf:var(--body);--hw:700;--hls:-.045em;--r:22px}
+.bm-bar{display:flex;align-items:center;gap:6px;height:30px;padding:0 10px;background:#18181B;border-bottom:1px solid #26262A}
+.bm-bar i{width:7px;height:7px;border-radius:50%;background:#3A3A40}
+.bm-bar span{margin-left:10px;font:400 10.5px/1 var(--display);letter-spacing:.04em;color:#9A9AA0;background:#0E0E10;padding:5px 10px;border-radius:3px;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bm-page{padding:clamp(16px,2.6vw,30px);display:grid;gap:clamp(16px,2.4vw,26px)}
+.bm-nav{display:flex;align-items:center;gap:12px;min-width:0}
+.bm-nav b{font:var(--hw) 14px/1 var(--hf);letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bm-links{display:flex;gap:10px;margin-left:auto}
+.bm-links i{width:30px;height:5px;background:var(--mut);border-radius:var(--r)}
+.bm-nav em,.bm-btn,.bm-w em{font-style:normal;background:var(--ac);color:var(--acfg);border-radius:var(--r);font:600 11px/1 var(--body);padding:8px 11px;white-space:nowrap}
+@media (max-width:599px){.bm-links{display:none}.bm-nav em{margin-left:auto}}
+.bm-hero{display:grid;gap:10px;justify-items:start}
+.bm-h{margin:0;font:var(--hw) clamp(24px,3.3vw,46px)/1.02 var(--hf);letter-spacing:var(--hls);max-width:15ch}
+.st-bold .bm-h{text-transform:uppercase;font-size:clamp(22px,3vw,42px)}
+.bm-p{margin:0;height:8px;width:min(380px,72%);background:var(--mut);border-radius:var(--r)}
+.bm-p.s{width:min(250px,48%)}
+.bm-btn{margin-top:6px;padding:12px 16px;font-size:12px}
+.bm-row{display:grid;gap:10px}
+@media (min-width:600px){.bm-row{grid-template-columns:1fr 1fr}}
+.bm-w{display:grid;gap:9px;align-content:start;background:var(--card);border:1px solid var(--ln);border-radius:var(--r);padding:14px;transition:box-shadow .25s,transform .25s;min-width:0}
+.st-playful .bm-w:nth-child(2){background:#FFD9E8;border-color:#F7BCD4}
+.bm-w.hit{box-shadow:0 0 0 2px var(--ac);transform:translateY(-2px)}
+.bm-wl{font:500 10px/1.2 var(--display);letter-spacing:.08em;text-transform:uppercase;opacity:.65}
+.bm-sl{position:relative;height:6px;background:var(--mut);border-radius:9px}
+.bm-sl i{position:absolute;left:0;top:0;bottom:0;width:58%;background:var(--ac);border-radius:9px}
+.bm-sl i::after{content:"";position:absolute;right:-7px;top:-4px;width:14px;height:14px;border-radius:50%;background:var(--ac);border:2px solid var(--card)}
+.bm-amt{font:var(--hw) 22px/1 var(--hf);letter-spacing:-.03em}
+.bm-q{font-size:13px}
+.bm-chips{display:flex;flex-wrap:wrap;gap:6px}
+.bm-chips i{font:500 11px/1 var(--body);font-style:normal;border:1px solid var(--ln);border-radius:var(--r);padding:6px 9px;min-width:34px;min-height:24px}
+.bm-chips.t i:first-child{background:var(--ac);color:var(--acfg);border-color:var(--ac)}
+.bm-in{height:26px;border:1px solid var(--ln);background:var(--bg);border-radius:var(--r)}
+.bm-w em{justify-self:start}
+.bm-bub{justify-self:start;background:var(--ac);color:var(--acfg);border-radius:12px 12px 12px 2px;padding:8px 11px;font-size:12px}
+.bm-toast{position:absolute;right:12px;bottom:12px;max-width:calc(100% - 24px);background:var(--ink);color:var(--paper);border:1px solid var(--line-2);font:400 11px/1.35 var(--display);padding:10px 12px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.bm-toast.pop{animation:bmPop .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes bmPop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* step 4 */
+.bx-run{display:grid;gap:12px}
+@media (min-width:980px){.bx-run{grid-template-columns:minmax(0,6fr) minmax(0,6fr);align-items:start}}
+.bx-stage{display:grid;gap:12px;min-width:0}
+.bx-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line-2)}
+.bx-stats>div{padding:12px 14px;display:grid;gap:8px;min-width:0}
+.bx-stats>div+div{border-left:1px solid var(--line-2)}
+.bx-stats b{font:900 clamp(26px,3.2vw,44px)/.9 var(--num);font-variant-numeric:tabular-nums;color:var(--paper);white-space:nowrap}
+.bx-stats .label{font-size:10px}
+.bx-log{border:1px solid var(--line-2);background:var(--ink-2);display:flex;flex-direction:column;min-width:0}
+.bx-log-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line-2);min-height:56px}
+.bx-log-hd .btn{min-width:0;padding:11px 14px}
+.bx-rows{list-style:none;margin:0;padding:0;height:clamp(340px,40vw,470px);overflow:auto;scrollbar-width:thin}
+.bx-row{display:grid;grid-template-columns:58px 20px minmax(0,1fr) auto;gap:4px 10px;align-items:start;padding:11px 14px;border-bottom:1px solid var(--line)}
+.bx-row.in{animation:bxIn .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes bxIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.bx-t{font:400 11px/1.5 var(--display);color:var(--dim);white-space:nowrap}
+.bx-who .bot-mini{margin:0}
+.bx-who .bot-mini svg{height:14px}
+.bx-txt{display:grid;gap:3px;min-width:0}
+.bx-txt b{font:500 13px/1.35 var(--display);letter-spacing:-.01em;color:var(--paper)}
+.bx-txt span{font-size:13px;line-height:1.45;color:var(--soft)}
+.bx-st{font-size:10px;color:var(--e,var(--paper));white-space:nowrap;padding-top:2px}
+.bx-row.is-need .bx-st{color:var(--ink);background:var(--leads);padding:3px 6px}
+.bx-row.is-you{background:rgba(242,242,239,.045)}
+.bx-you{display:inline-block;font:500 9px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;background:var(--paper);color:var(--ink);padding:3px 4px;margin-top:1px}
+@media (max-width:599px){.bx-row{grid-template-columns:50px 18px minmax(0,1fr)}.bx-st{grid-column:3;justify-self:start}}
+.bx-done{padding:16px 14px 18px;border-top:1px solid var(--line-2);display:grid;gap:14px}
+.bx-done-h{margin:0;font:500 clamp(17px,1.6vw,21px)/1.3 var(--display);letter-spacing:-.04em;font-stretch:87.5%;color:var(--paper)}
+.bx-done .actions{margin:0}
+
+/* the bar that follows you through the build */
+.bx-bar{position:sticky;bottom:0;z-index:30;background:rgba(7,7,8,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line-2)}
+.bx-bar-in{display:flex;align-items:center;gap:12px 24px;padding-block:12px}
+.bxb-sum{display:flex;align-items:baseline;gap:4px 12px;flex-wrap:wrap;min-width:0;flex:1}
+.bxb-sum b{font:500 15px/1.2 var(--display);letter-spacing:-.02em}
+.bxb-meta{font-size:13px;color:var(--soft);min-width:0}
+.bxb-price{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+.bxb-price b{font:900 28px/1 var(--num);color:var(--paper)}
+.bx-bar .bxb-go{min-width:0}
+.bx-log-hd .bx-play{min-width:0}
+@media (max-width:759px){
+  .bx-bar-in{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;padding-block:10px}
+  .bxb-sum{grid-column:1/-1;flex-wrap:nowrap;overflow:hidden;white-space:nowrap}
+  .bxb-sum b{font-size:14px}
+  .bxb-long{display:none}
+  .bxb-price b{font-size:24px}
+  .bxb-meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .bx-bar .btn{width:100%;padding:13px 14px}
+  .bxb-sum>.label{display:none}
+}
+@media (max-width:979px){.bx-stage{display:contents}.bx-stats{order:1}.bx-log{order:2}.bx-stage .bx-prev{order:3}}
+.bx-js .bx-bar{transform:translateY(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.bx-js .bx-bar.on{transform:none}
+.inq-build .inq-os-n{font:400 14px/1.5 var(--body);flex-basis:100%;order:3}
 </style>
 </head>
 <body>
@@ -1313,12 +1495,125 @@ html.sheet-open{overflow:hidden}
     <p class="lede">It answers leads, books, follows up and brings people back, on its own. We build it around how you work and keep it tuned.</p>
     <div class="spots hero-spots"><span class="sp-meter" aria-hidden="true"><i class="taken"></i><i class="taken"></i><i class="open"></i><i class="open"></i></span><span class="label">Q1 2027 / <b>2 of 4 client spots open</b></span></div>
     <div class="actions">
-      <a class="btn" href="start.html">Apply for a spot <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
-      <a class="btn ghost" href="#website">See how it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a>
+      <a class="btn" href="#step-1">Build your engine <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a>
+      <a class="btn ghost" href="start.html">Apply for a spot <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
     </div>
-    <nav class="htabs" aria-label="What we build"><a class="htab" href="#website">Website</a><a class="htab e-leads" href="#f-leads">Instant quotes</a><a class="htab e-leads" href="#f-leads">Fast replies</a><a class="htab e-agents" href="#f-agents">Follow-ups</a><a class="htab e-agents" href="#f-agents">Rebooking</a><a class="htab e-agents" href="#f-agents">Reminders</a><a class="htab e-ops" href="#f-ops">Morning summary</a><a class="htab e-ops" href="#f-ops">Records</a><a class="htab e-marketing" href="#f-marketing">Newsletters</a><a class="htab e-marketing" href="#f-marketing">Landing pages</a><a class="htab" href="#tools">Industry tools</a></nav>
+    <nav class="htabs hsteps" aria-label="Build your engine in four steps"><a class="htab" href="#step-1"><b>01</b>Set your base</a><a class="htab" href="#step-2"><b>02</b>Choose your add-ons</a><a class="htab" href="#step-3"><b>03</b>Choose your build style</a><a class="htab" href="#step-4"><b>04</b>Watch it run</a></nav>
   </div>
 </section>
+
+<div class="bx" id="build" data-bx>
+  <script type="application/json" id="bx-data">{"icps":{"med-spas":{"n":"Med spas","f":"clinic","e":["leads","agents"],"site":["Lumen Aesthetics","Look like you. Just rested.","Book a consult"],"t":{"ops":[["Treatment and package tracking","Every client's treatments, packages and what's left on them, in one place.",0],["Provider schedule view","Who's booked, who's open and which rooms are free today.",0]],"agents":[["Fast replies to new leads","Answers pricing questions in minutes and offers a consult time.",1],["Treatment due reminders","Texts clients when it's time for their next visit, with open times.",1],["Review requests","Asks happy clients for a review while the results are fresh.",1]],"leads":[["Consult follow-ups","Checks in with anyone who didn't book and answers what held them back.",1],["Treatment price finder","Visitors pick a treatment and area, see a price range and book a consult.",0]],"marketing":[["Consult landing page","A page for one treatment with a booking form that starts a follow-up series.",0],["New client offer","A one-time code for every new subscriber, sent in the welcome email.",0]]}},"dental":{"n":"Dental offices","f":"clinic","e":["agents","ops"],"site":["Brightside Dental","A dentist you won't dread.","Book a visit"],"t":{"ops":[["Unscheduled treatment follow-ups","Finds plans that never got booked and drafts a check-in for each patient.",1],["Morning summary","Today's schedule, open plans and anything waiting on you.",1]],"agents":[["Visit reminders","Confirms the visit and sends any forms that are still missing.",1],["Last-minute openings","Offers the open slot to patients on your waitlist. First to reply gets it.",1]],"leads":[["New patient booking","New patients pick a time online and fill in their forms before they arrive.",0],["Insurance check requests","Patients send their insurance details and hear back before the visit.",0]],"marketing":[["Recall email series","Emails that bring overdue patients back for a cleaning.",0],["New patient page","A landing page with a form that books the first visit.",0]]}},"physical-therapy":{"n":"PT + chiropractic","f":"clinic","e":["ops","agents"],"site":["Juniper Physio","Back to the things you love.","Book an evaluation"],"t":{"ops":[["Visit notes","Turns your dictated findings into a structured note for you to review.",1],["Plan progress tracker","Every patient's plan, visits done and visits left, on one screen.",0]],"agents":[["New client intake","Matches the request to the right provider and drafts a reply with open times.",1],["Missed visit rebooking","Reaches out the same day and offers the next open slot.",1],["Plan of care check-ins","Notices when a patient hasn't booked their next visit and reaches out.",1]],"leads":[["Doctor referral intake","Referrals from doctors land in one place and get a call the same day.",0],["Online evaluation booking","New patients book an evaluation from your site, any hour.",0]],"marketing":[["Condition pages","A page for each thing you treat, set up to show up in search.",0],["Referral partner newsletter","A monthly email to the doctors who send you patients.",0]]}},"gyms":{"n":"Gyms + studios","f":"clinic","e":["leads","agents"],"site":["Ironwood Fitness","Your first week is on us.","Start a free trial"],"t":{"ops":[["Class and coach schedule","Classes, coaches and attendance in one view.",0],["Membership numbers","New members, cancellations and revenue every Monday.",0]],"agents":[["First class follow-ups","Checks in, answers questions and offers a membership.",1],["Members at risk","Spots members who haven't been in for two weeks and drafts a personal check-in.",1],["Failed payment follow-ups","Sends a friendly note with a link to update their card.",1]],"leads":[["Fast replies to new leads","Replies in minutes with class times and books the first visit.",1],["Trial class booking","Visitors pick a class and book a free trial from your site.",0]],"marketing":[["Free trial pass page","A page that hands out trial passes and starts a follow-up series.",0],["Six-week challenge","A challenge page, signup form and email series, filed as one campaign.",0]]}},"pool-service":{"n":"Pool service","f":"field","e":["leads","agents","ops"],"site":["Clearwater Pools","A clean pool, every week.","Get a price"],"t":{"ops":[["Route summary","Each tech's stops, pools and notes for the day, in driving order.",0],["Chemical log","Readings from every visit, saved to each pool's history.",0]],"agents":[["On my way texts","Tells each customer their tech is coming and sends a photo when the pool is done.",1],["Quote follow-ups","Checks in on repair quotes nobody answered.",1],["Unpaid invoice reminders","Polite reminders first, then a flag for you.",1]],"leads":[["Instant price quotes","Homeowners get a weekly service price on the spot, and the quote becomes a lead.",1],["Repair request form","Customers send photos of the problem, and you get a request ready to quote.",0]],"marketing":[["Season opening campaign","A page, a newsletter and a reminder series for spring openings.",0],["Homeowner welcome series","Emails that turn a quote request into a weekly service customer.",0]]}},"hvac-plumbing":{"n":"HVAC + plumbing","f":"field","e":["leads","agents","ops"],"site":["Northside Heat + Air","Fixed today. Priced up front.","Request service"],"t":{"ops":[["Dispatch board","Calls, techs and open jobs on one screen.",0],["Maintenance plan tracker","Every plan member, their last visit and what's due.",0]],"agents":[["Fast replies to new leads","Replies in minutes, asks the right questions and offers a time.",1],["Quote follow-ups","Checks in on every install estimate until you get a yes or a no.",1],["Tune-up reminders","Reaches out to plan members and books their visit before it gets busy.",1],["Review requests","Asks happy customers for a review the day after.",1]],"leads":[["Emergency request line","No heat or no water requests jump the line and alert you.",0],["Install estimate builder","Homeowners answer a few questions and get a ballpark for a new system.",0]],"marketing":[["Tune-up season campaign","A page and an email to past customers before every season.",0],["New system page","A page for installs with a form that starts a follow-up series.",0]]}},"landscaping":{"n":"Landscaping","f":"field","e":["leads","agents"],"site":["Greenline Yards","A yard you want to be in.","Price your project"],"t":{"ops":[["Crew day sheets","Sends each crew its stops, notes and materials for the day.",1],["Job costing","Hours and materials for every job, against what you quoted.",0]],"agents":[["Quote follow-ups","Checks in on every estimate nobody answered.",1],["Season rebooking","Offers last year's customers their spot for spring before the rush.",1]],"leads":[["Instant price quotes","Homeowners price a project online, and you get the lead with the job size.",1],["Design consult booking","Bigger projects book a consult and send photos of the yard first.",0]],"marketing":[["Spring booking page","A page that books spring cleanups, with a form and a follow-up series.",0],["Seasonal newsletter","A short email that keeps you in mind until spring.",0]]}},"contractors":{"n":"Contractors + remodelers","f":"field","e":["leads","agents","ops"],"site":["Benchmark Builders","Remodels done right, on time.","Get a ballpark"],"t":{"ops":[["Change orders","Catches requests outside the contract and drafts a change order for you to send.",1],["Job schedule and subs","Every project, phase and subcontractor on one calendar.",0]],"agents":[["Project updates","Sends each homeowner a weekly update with photos and what's next.",1],["Quote follow-ups","Checks in on every estimate until you get an answer.",1]],"leads":[["Instant price quotes","Homeowners get a ballpark price, so the ones who call already know the range.",1],["Lead qualifier","Asks budget, timeline and scope before you drive out.",0]],"marketing":[["Remodel pages","A page for each kind of project, set up to show up in search.",0],["Estimate follow-up series","Emails that follow every estimate, so nobody goes cold.",0]]}},"ecommerce":{"n":"Online brands","f":"brand","e":["agents","ops"],"site":["Fieldday Goods","Made to be used every day.","Shop now"],"t":{"ops":[["Low stock alerts","Drafts the purchase order before you sell out, then waits for your OK.",1],["Returns tracker","Every return, its reason and its refund, in one place.",0]],"agents":[["\"Where's my order?\" answers","Looks up the order and replies with tracking, any hour.",1],["Product questions","Answers sizing and ingredient questions from your product info, in your voice.",1],["Wholesale applications","Checks fit, sends the line sheet and terms, and books a call with the good ones.",1]],"leads":[["Product finder quiz","A few questions, then the right product, and an email for you.",0],["Back in stock alerts","Shoppers sign up and hear the moment it's back.",0]],"marketing":[["Abandoned cart series","Emails that bring shoppers back to a cart they left.",0],["Launch page test","A product launch page, tested against a second version.",0]]}},"food-beverage":{"n":"Food + beverage","f":"brand","e":["ops","agents"],"site":["Sunday Soda Co.","Real fruit. Nothing weird.","Find a store"],"t":{"ops":[["Store reorder check","Finds stores that haven't reordered on schedule and drafts a check-in.",1],["Launch checklist","Tracks every task, owner and date, and nudges whoever is behind.",1],["Low stock alerts","Drafts the purchase order before you sell out, then waits for your OK.",1]],"agents":[["Wholesale applications","Checks fit, sends the line sheet and terms, and books a call with the good ones.",1],["Store buyer questions","Answers buyers' questions about case packs, minimums and shipping.",0]],"leads":[["Ask your store requests","Shoppers ask for you at their store, and you get a list of where to pitch next.",0],["Sample requests","Buyers request samples, and you see who's worth a call.",0]],"marketing":[["Retail launch campaign","A page, an email and graphics for every new store, filed together.",0],["Welcome offer","A one-time code for every new subscriber.",0]]}},"beauty":{"n":"Beauty + skincare","f":"brand","e":["leads","agents"],"site":["Kindred Skin","Skin care that fits your skin.","Find your routine"],"t":{"ops":[["Low stock alerts","Drafts the purchase order before you sell out, then waits for your OK.",1],["Batch and expiry tracking","Every batch, its date and where it shipped.",0]],"agents":[["Product questions","Answers ingredient and how-to questions from your product info, in your voice.",1],["\"Where's my order?\" answers","Looks up the order and replies with tracking, any hour.",1]],"leads":[["Routine finder","A few quick questions, then the right products for their skin. You get the lead.",1],["Shade matcher","Shoppers upload a photo and get the right shade.",0]],"marketing":[["Welcome series with offer","Emails and a first-order code for every new subscriber.",0],["Page tests","Test two versions of a page and keep the one that brings in more orders.",0]]}},"showrooms":{"n":"Home goods + showrooms","f":"brand","e":["leads","agents"],"site":["Quarry House","Surfaces you'll love for decades.","Price your project"],"t":{"ops":[["Trade accounts","Every designer and contractor, their pricing and their open orders.",0],["Special order tracking","Special orders from purchase to delivery, with dates.",0]],"agents":[["Quote follow-ups","Checks in on every quote until you get an answer.",1],["Fast replies to new leads","Answers in minutes with product info and a showroom time.",1]],"leads":[["Instant price quotes","Buyers work out how much they need and get a price. The estimate becomes a lead.",1],["Preview on their own photo","Shows the finished result on the buyer's own photo.",1]],"marketing":[["Trade program page","A page that signs up designers and contractors and starts a series.",0],["Trade newsletter","A monthly email to designers about what's new.",0]]}},"agencies":{"n":"Marketing agencies","f":"agency","e":["ops","agents"],"site":["Northbound Studio","Work that moves the numbers.","Start a project"],"t":{"ops":[["Extra work alerts","Spots asks outside the agreement and drafts a change order.",1],["Weekly numbers","Revenue, team load and open work across every client.",1]],"agents":[["Client onboarding","Sends the welcome, intake form and asset request, and chases anything missing.",1],["Weekly client report","Builds each client's report from live data, ready for your review.",1]],"leads":[["Project scoper","Prospects answer a few questions and see a range before the call.",0],["Inquiry routing","Every inquiry lands with the right person, with a summary.",0]],"marketing":[["Service pages","A page per service, tested, with a form that starts a follow-up series.",0],["Agency newsletter","A monthly note on what you shipped and what you learned.",0]]}},"law":{"n":"Law firms","f":"agency","e":["agents","ops"],"site":["Hale + Ortiz Law","Clear answers. Fast.","Free consultation"],"t":{"ops":[["Case updates","Drafts a plain-English update for the client. Nothing goes out without your OK.",1],["Deadline calendar","Every matter's deadlines, with reminders to the right person.",0]],"agents":[["New client intake","Asks the intake questions, checks for conflicts and offers a consult time.",1],["Document chasing","Asks for what's missing, tracks what came in and stops once it's all there.",1],["Unpaid invoice reminders","Polite reminders first, then a flag for you.",1]],"leads":[["Case evaluation form","Prospective clients describe their situation and book a consult.",0],["Practice area pages","Pages that answer common questions and turn readers into consults.",0]],"marketing":[["Plain-English newsletter","A monthly email that answers the questions clients always ask.",0],["Consult follow-up series","Emails after a consult request, until they book or say no.",0]]}},"accounting":{"n":"Accounting + bookkeeping","f":"agency","e":["agents","ops"],"site":["Ledgerline CPA","Books done. Taxes handled.","Book a call"],"t":{"ops":[["Weekly numbers","Revenue, team load and open work across every client.",1],["Client work tracker","Who's waiting on what, across every client and deadline.",0]],"agents":[["Monthly document requests","Asks each client for statements and receipts, and follows up until they're in.",1],["Client onboarding","Sends the welcome, the engagement letter and the document list, and chases what's missing.",1],["Deadline reminders","Tells each client what you need and by when.",1]],"leads":[["Service quote builder","Prospects pick services and see a monthly price.",0],["Fit check form","Prospects answer a few questions, so you only take calls with good fits.",0]],"marketing":[["Tax season series","Emails that get clients ready before the rush.",0],["Money tips newsletter","A short monthly email small businesses actually read.",0]]}},"real-estate":{"n":"Real estate teams","f":"agency","e":["leads","agents","ops"],"site":["Summit Realty","Find home faster.","See listings"],"t":{"ops":[["Closing timeline","Tracks every deadline on a deal and reminds the right person before it's due.",1],["Transaction checklist","Every document and signature per deal, checked off.",0]],"agents":[["Fast replies to new leads","Replies in minutes, asks what they're looking for and books a showing.",1],["Past client check-ins","Remembers the date they moved in and checks in with a note that sounds like you.",1],["Review requests","Asks happy clients for a review while the keys are still new.",1]],"leads":[["Home value requests","Owners ask what their home is worth, and you get a seller lead.",0],["Showing requests","Buyers pick a time to see a listing, and it lands on your calendar.",0]],"marketing":[["Listing pages","A page for every listing with a showing form and a follow-up series.",0],["Market update newsletter","A monthly email with local numbers, in your voice.",0]]}},"startups":{"n":"Startups","f":"startup","e":["leads","ops"],"site":["Relay","Ship what your users asked for.","Join the waitlist"],"t":{"ops":[["Weekly numbers","Revenue, deals in progress, spending and open work on one screen.",1],["New hire setup","Accounts, guides and first-week tasks, set up the same way every time.",1],["Monthly investor update","Pulls the month's numbers into a draft update for you to edit.",1]],"agents":[["Support inbox","Answers common questions and passes the hard ones to the team.",0],["Trial follow-ups","Checks in with trial users before they go quiet.",0]],"leads":[["Waitlist and demo booking","Captures signups, qualifies them and books demos with the right ones.",1],["Pricing calculator","Visitors see what they'd pay before they book a demo.",0]],"marketing":[["Launch page test","A page for every launch, tested against a second version.",0],["Waitlist series","Emails that keep your waitlist warm until launch.",0]]}},"creators":{"n":"Creators + podcasters","f":"creator","e":["agents","ops"],"site":["Wren Talks","New episodes every Tuesday.","Subscribe"],"t":{"ops":[["Sponsor tracker","Every deal, deliverable, date and payment in one place.",0],["Revenue view","Sponsors, products and platforms, one monthly number.",0]],"agents":[["New episode publishing","Writes titles, descriptions and tags, and queues the drop across every channel.",1],["Inbox sorting","Sorts messages into fans, partners and noise, with drafts ready.",1],["Sponsor requests","Checks fit and rates, then sends the good deals to you with a summary.",1],["Fan replies","Answers from your FAQ in your voice, for your review.",1]],"leads":[["Media kit page","Brands see your numbers and rates and request a deal.",0],["Email list signup","Turns listeners into subscribers with a simple offer.",0]],"marketing":[["Episode newsletter","Turns each episode into a weekly email to your list.",0],["List signup page","A page that grows your list with a free guide or a code.",0]]}},"coaches":{"n":"Coaches + courses","f":"creator","e":["leads","agents"],"site":["Clear Path Coaching","Lead your team with less noise.","Book a discovery call"],"t":{"ops":[["Client progress tracker","Every client's goals, sessions and wins in one place.",0],["Cohort dashboard","Who's active, who's behind and who finished.",0]],"agents":[["Client onboarding","Sends the welcome, the first steps and a kickoff time, the same way every time.",1],["Student check-ins","Notices who stopped logging in and sends a nudge in your voice.",1],["Failed payment follow-ups","Sends a friendly note with a link to update their card.",1]],"leads":[["Discovery call booking","Asks a few questions, books the good fits and politely turns away the rest.",1],["Free class signup","A free class or guide that turns visitors into leads.",0]],"marketing":[["Free guide page","A page that gives away a guide and starts a welcome series.",0],["Weekly email","A short weekly email from your notes.",0]]}},"events":{"n":"Events + venues","f":"other","e":["leads","agents","ops"],"site":["Golden Hour Events","Weddings that feel like you.","Check your date"],"t":{"ops":[["Vendor check-ins","Confirms times and details with every vendor and flags anything missing.",1],["Event day timeline","Every vendor, time and task for the day, shared with your team.",0]],"agents":[["Quote follow-ups","Checks in on every proposal until you get an answer.",1],["Unpaid invoice reminders","Polite reminders first, then a flag for you.",1]],"leads":[["Date and price replies","Checks the calendar and replies with availability and pricing in minutes.",1],["Venue tour booking","People pick a time to tour and get a reminder.",0]],"marketing":[["Event page and RSVP","A page for each event with a form that builds your list.",0],["Open dates email","Tells past inquiries when a popular date opens up.",0]]}}},"eng":{"leads":{"n":"Leads","el":"Fire"},"agents":{"n":"Agents","el":"Earth"},"ops":{"n":"Ops","el":"Water"},"marketing":{"n":"Marketing","el":"Wind"}},"styles":{"clean":"Clean","bold":"Bold","warm":"Warm","playful":"Playful"}}</script>
+
+  <section class="sec bstep" id="step-1" aria-labelledby="step-1-h">
+    <div class="wrap">
+      <div class="bs-hd">
+        <span class="bs-n" aria-hidden="true">01</span>
+        <div class="head-l"><p class="eyebrow">Step 1 of 4</p><h2 class="h2" id="step-1-h">Set your base.</h2></div>
+        <p class="lede">Every engine starts with a website built to sell. Pick your business, then the engines it runs on.</p>
+      </div>
+      <div class="tpick bx-pick"><label class="tpick-l" for="bx-biz">My business</label><span class="tpick-s"><select id="bx-biz"><optgroup label="Health + wellness"><option value="med-spas">Med spas</option><option value="dental">Dental offices</option><option value="physical-therapy">PT + chiropractic</option><option value="gyms">Gyms + studios</option></optgroup><optgroup label="Home + field services"><option value="pool-service" selected>Pool service</option><option value="hvac-plumbing">HVAC + plumbing</option><option value="landscaping">Landscaping</option><option value="contractors">Contractors + remodelers</option></optgroup><optgroup label="Product brands"><option value="ecommerce">Online brands</option><option value="food-beverage">Food + beverage</option><option value="beauty">Beauty + skincare</option><option value="showrooms">Home goods + showrooms</option></optgroup><optgroup label="Agencies + firms"><option value="agencies">Marketing agencies</option><option value="law">Law firms</option><option value="accounting">Accounting + bookkeeping</option><option value="real-estate">Real estate teams</option></optgroup><optgroup label="Founders + creators"><option value="startups">Startups</option><option value="creators">Creators + podcasters</option><option value="coaches">Coaches + courses</option><option value="events">Events + venues</option></optgroup></select></span></div>
+      <div class="bx-base">
+        <div class="bx-site">
+          <span class="bx-eng-top"><span class="bx-site-ic" aria-hidden="true"><i></i><i></i><i></i></span><b>Website</b><span class="label">always on</span></span>
+          <span class="bx-eng-h">It brings them in.</span>
+          <span class="bx-eng-p">Designed to sell, fast, and set up for Google and AI search. Everything else runs off it.</span>
+        </div>
+        <button class="bx-eng e-leads" type="button" data-eng="leads" aria-pressed="true">
+          <span class="bx-eng-top"><span class="bot bot-xs" data-bot="leads"></span><b>Leads</b><span class="label">fire</span><span class="bx-check" aria-hidden="true"></span></span>
+          <span class="bx-eng-h">It answers every lead.</span>
+          <span class="bx-eng-p">Prices, questions and bookings from your website, answered in minutes, day or night.</span>
+        </button>
+        <button class="bx-eng e-agents" type="button" data-eng="agents" aria-pressed="true">
+          <span class="bx-eng-top"><span class="bot bot-xs" data-bot="agents"></span><b>Agents</b><span class="label">earth</span><span class="bx-check" aria-hidden="true"></span></span>
+          <span class="bx-eng-h">It follows up for you.</span>
+          <span class="bx-eng-p">Reminders, rebooking and invoice nudges in your voice. Anything new waits for your OK.</span>
+        </button>
+        <button class="bx-eng e-ops" type="button" data-eng="ops" aria-pressed="true">
+          <span class="bx-eng-top"><span class="bot bot-xs" data-bot="ops"></span><b>Ops</b><span class="label">water</span><span class="bx-check" aria-hidden="true"></span></span>
+          <span class="bx-eng-h">It keeps the day on track.</span>
+          <span class="bx-eng-p">Schedule, clients, orders and numbers stay current. A summary hits your phone at 6am.</span>
+        </button>
+        <button class="bx-eng e-marketing" type="button" data-eng="marketing" aria-pressed="false">
+          <span class="bx-eng-top"><span class="bot bot-xs" data-bot="marketing"></span><b>Marketing</b><span class="label">wind</span><span class="bx-check" aria-hidden="true"></span></span>
+          <span class="bx-eng-h">It brings people back.</span>
+          <span class="bx-eng-p">Newsletters and welcome emails from your own domain, and pages that turn visitors into leads.</span>
+        </button>
+      </div>
+      <div class="bx-total"><span class="bx-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="label"><b data-bx-count>3 engines</b> / <b data-bx-price>$15k+</b> a month / website included</span></div>
+      <div class="bs-next"><a class="btn ghost" href="#step-2">Next: choose your add-ons <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a></div>
+    </div>
+  </section>
+
+  <section class="sec bstep" id="step-2" aria-labelledby="step-2-h">
+    <div class="wrap">
+      <div class="bs-hd">
+        <span class="bs-n" aria-hidden="true">02</span>
+        <div class="head-l"><p class="eyebrow">Step 2 of 4</p><h2 class="h2" id="step-2-h">Choose your add-ons.</h2></div>
+        <p class="lede">Tools made for your kind of business. Each one plugs into an engine. Add any, any time.</p>
+      </div>
+      <div class="bx-tools" id="bx-tools"></div>
+      <p class="label bx-note"><b data-bx-tcount>4 add-ons</b> / priced per tool, added monthly</p>
+      <div class="bs-next"><a class="btn ghost" href="#step-3">Next: choose your build style <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a></div>
+    </div>
+  </section>
+
+  <section class="sec bstep" id="step-3" aria-labelledby="step-3-h">
+    <div class="wrap">
+      <div class="bs-hd">
+        <span class="bs-n" aria-hidden="true">03</span>
+        <div class="head-l"><p class="eyebrow">Step 3 of 4</p><h2 class="h2" id="step-3-h">Choose your build style.</h2></div>
+        <p class="lede">How your website looks and feels. We design every site from scratch. This sets the direction.</p>
+      </div>
+      <div class="bx-look">
+        <fieldset class="bx-styles"><legend class="sr">Build style</legend>
+        <label class="bx-style s-clean"><input type="radio" name="bx-style" value="clean" checked><span class="bx-sw" aria-hidden="true"><i></i><i></i><i></i></span><b>Clean</b><span>Light, sharp and roomy. Lets the work speak.</span></label>
+        <label class="bx-style s-bold"><input type="radio" name="bx-style" value="bold"><span class="bx-sw" aria-hidden="true"><i></i><i></i><i></i></span><b>Bold</b><span>Dark, big type, hard to miss.</span></label>
+        <label class="bx-style s-warm"><input type="radio" name="bx-style" value="warm"><span class="bx-sw" aria-hidden="true"><i></i><i></i><i></i></span><b>Warm</b><span>Soft color and serif type. Feels personal.</span></label>
+        <label class="bx-style s-playful"><input type="radio" name="bx-style" value="playful"><span class="bx-sw" aria-hidden="true"><i></i><i></i><i></i></span><b>Playful</b><span>Bright blocks and round shapes. Full of energy.</span></label>
+        </fieldset>
+        <div class="bx-prev" data-bx-mock="style"></div>
+      </div>
+      <div class="bs-next"><a class="btn ghost" href="#step-4">Next: watch it run <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a></div>
+    </div>
+  </section>
+
+  <section class="sec bstep bs-run" id="step-4" aria-labelledby="step-4-h">
+    <div class="wrap">
+      <div class="bs-hd">
+        <span class="bs-n" aria-hidden="true">04</span>
+        <div class="head-l"><p class="eyebrow">Step 4 of 4</p><h2 class="h2" id="step-4-h">Now watch it run.</h2></div>
+        <p class="lede">One day in your business with this build. It does the work. You step in when it asks.</p>
+      </div>
+      <div class="bx-run">
+        <div class="bx-stage">
+          <div class="bx-stats">
+            <div><span class="label">time</span><b data-bx-clock>5:59am</b></div>
+            <div><span class="label">done on its own</span><b data-bx-auto>0</b></div>
+            <div><span class="label">needed you</span><b data-bx-you>0</b></div>
+          </div>
+          <div class="bx-prev" data-bx-mock="run"></div>
+        </div>
+        <div class="bx-log">
+          <div class="bx-log-hd"><span class="label" data-bx-logt>a day at clearwater pools</span><button class="btn bx-play" type="button" data-bx-play>Run the day <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></button></div>
+          <ol class="bx-rows" data-bx-rows></ol>
+          <div class="bx-done" data-bx-done hidden>
+            <p class="bx-done-h" data-bx-sum aria-live="polite"></p>
+            <div class="actions"><a class="btn" href="start.html#build" data-bx-apply>Apply with this build <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><button class="btn ghost" type="button" data-bx-again>Run it again <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bx-bar" data-bx-bar>
+    <div class="wrap bx-bar-in">
+      <div class="bxb-sum"><span class="label">your build</span><b data-bx-biz>Pool service</b><span class="bxb-meta" data-bx-meta></span></div>
+      <div class="bxb-price"><b data-bx-price>$15k+</b><span class="label">a month</span></div>
+      <a class="btn bxb-go" href="start.html#build" data-bx-apply><span>Apply<span class="bxb-long"> with this build</span></span> <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+    </div>
+  </div>
+</div>
 
 <section class="sec say" id="familiar" aria-labelledby="familiar-h">
   <div class="wrap say-hd">
@@ -1345,139 +1640,6 @@ html.sheet-open{overflow:hidden}
   </ul>
   <div class="wrap">
     <div class="say-meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  </div>
-</section>
-
-<section class="sec site-sec" id="website" aria-labelledby="site-h">
-  <div class="wrap">
-    <div class="site-hd">
-      <div class="head-l">
-        <p class="eyebrow">How it fits together</p>
-        <h2 class="h2" id="site-h">It starts at your website.</h2>
-      </div>
-      <p class="lede">Your website is the front of the engine. Every visit, form, quote and booking flows in, and the engine takes it from there.</p>
-    </div>
-    <div class="site-map">
-      <div class="site-stage">
-        <ul class="site-notes">
-          <li><b>Fast</b><span>Loads before people lose interest.</span></li>
-          <li><b>Found</b><span>Set up for Google and AI search.</span></li>
-        </ul>
-        <figure class="site-mock" aria-label="Your website">
-          <div class="sm-bar"><i></i><i></i><i></i><span>yourbusiness.com</span></div>
-          <div class="sm-body">
-            <div class="sm-nav"><b></b><i></i><i></i><i></i><em>Book now</em></div>
-            <div class="sm-hero"><p class="sm-h">Your headline, written to sell.</p><p class="sm-p"></p><p class="sm-p s"></p><span class="sm-cta">Get a price</span></div>
-            <div class="sm-row">
-              <div class="sm-card sm-calc"><span class="label">instant price</span><div class="sm-sl"><i></i></div><b class="sm-amt">$<span data-sm-amt>1,240</span></b></div>
-              <div class="sm-card sm-form"><span class="label">talk to us</span><i></i><i></i><em>Send</em></div>
-            </div>
-          </div>
-        </figure>
-        <ul class="site-notes">
-          <li><b>Convincing</b><span>Design and words that make the case.</span></li>
-          <li><b>Converting</b><span>Every page ends in a next step, and we test what works.</span></li>
-        </ul>
-      </div>
-      <svg class="stems" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path class="stem e-leads" d="M500 0 C 500 60, 125 50, 125 120" vector-effect="non-scaling-stroke"/><path class="stem e-agents" d="M500 0 C 500 60, 375 50, 375 120" vector-effect="non-scaling-stroke"/><path class="stem e-ops" d="M500 0 C 500 60, 625 50, 625 120" vector-effect="non-scaling-stroke"/><path class="stem e-marketing up" d="M500 0 C 500 60, 875 50, 875 120" vector-effect="non-scaling-stroke"/></svg>
-      <div class="site-nodes"><div class="sn e-leads"><div class="sn-hd"><span class="bot bot-xs" data-bot="leads"></span><b>Leads</b><span class="label">fire</span></div><p>Quotes, calculators and fast replies turn visitors into real conversations.</p><span class="label sn-flow">site to leads</span></div><div class="sn e-agents"><div class="sn-hd"><span class="bot bot-xs" data-bot="agents"></span><b>Agents</b><span class="label">earth</span></div><p>Answers everyone who reaches out through the site, and books the visit.</p><span class="label sn-flow">site to agents</span></div><div class="sn e-ops"><div class="sn-hd"><span class="bot bot-xs" data-bot="ops"></span><b>Ops</b><span class="label">water</span></div><p>Every booking, order and form from the site lands in one place.</p><span class="label sn-flow">site to ops</span></div><div class="sn e-marketing"><div class="sn-hd"><span class="bot bot-xs" data-bot="marketing"></span><b>Marketing</b><span class="label">wind</span></div><p>Emails, pages and search keep sending people back.</p><span class="label sn-flow">back to the site</span></div></div>
-    </div>
-  </div>
-</section>
-
-<div class="feats" data-jobs="jobs-data">
-  <section class="feat e-leads" id="f-leads" aria-labelledby="f-leads-h">
-    <div class="wrap feat-in">
-      <div class="feat-t">
-        <p class="feat-k"><i aria-hidden="true"></i>Leads<span>/ fire</span></p>
-        <h2 class="feat-h" id="f-leads-h">It answers every lead.</h2>
-        <p class="feat-p">Visitors price the job on your site and get a real reply in minutes, day or night. Every lead lands with its quote.</p>
-        <button class="play-open feat-go" type="button" data-job="0" aria-haspopup="dialog">See it run <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></button>
-      </div>
-      <div class="feat-v"><div class="fv fv-quote">
-            <div class="fv-hd"><span class="label">instant price</span><span class="label">on your website</span></div>
-            <div class="fvq-row"><span>Patio</span><b>400 sq ft</b></div>
-            <div class="fvq-row"><span>Material</span><b>Pavers</b></div>
-            <div class="fvq-amt"><span class="label">your price range</span><b>$8,400 to $9,600</b></div>
-            <ul class="fv-log"><li><span class="bot bot-xs" data-bot="leads"></span>lead saved with the quote<em>8:14pm</em></li><li><span class="bot bot-xs" data-bot="agents"></span>reply drafted in your voice<em>8:15pm</em></li><li><span class="fv-you">You</span>approved from the couch<em>8:19pm</em></li></ul>
-          </div>
-        <button class="bot-card e-leads" type="button" aria-label="Say hi to Leads"><span class="bot-stage n1"><span class="bot" data-bot="leads"></span></span><span class="bot-say" aria-live="polite"></span></button>
-      </div>
-    </div>
-  </section>
-  <section class="feat e-agents flip" id="f-agents" aria-labelledby="f-agents-h">
-    <div class="wrap feat-in">
-      <div class="feat-t">
-        <p class="feat-k"><i aria-hidden="true"></i>Agents<span>/ earth</span></p>
-        <h2 class="feat-h" id="f-agents-h">It follows up for you.</h2>
-        <p class="feat-p">Reminders, rebooking and invoice nudges go out in your voice. Anything new waits for your OK.</p>
-        <button class="play-open feat-go" type="button" data-job="1" aria-haspopup="dialog">See it run <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></button>
-      </div>
-      <div class="feat-v"><div class="fv fv-ok">
-            <div class="fv-hd"><span class="label">needs your OK</span><span class="label">1 of 3</span></div>
-            <p class="fvo-to"><b>Maya Chen</b><span>quote sent 3 days ago</span></p>
-            <p class="fvo-msg">Hi Maya, just checking in on the patio quote. Happy to walk through options, or hold a spot for May. Want me to pencil you in?</p>
-            <div class="fvo-act"><span class="fv-btn">Approve and send</span><span class="fv-btn ghost">Edit</span></div>
-          </div>
-        <button class="bot-card e-agents" type="button" aria-label="Say hi to Agents"><span class="bot-stage n3"><span class="bot" data-bot="agents"></span><span class="bot" data-bot="agents"></span><span class="bot" data-bot="agents"></span></span><span class="bot-say" aria-live="polite"></span></button>
-      </div>
-    </div>
-  </section>
-  <section class="feat e-ops" id="f-ops" aria-labelledby="f-ops-h">
-    <div class="wrap feat-in">
-      <div class="feat-t">
-        <p class="feat-k"><i aria-hidden="true"></i>Ops<span>/ water</span></p>
-        <h2 class="feat-h" id="f-ops-h">It keeps the day on track.</h2>
-        <p class="feat-p">Schedule, clients, orders and numbers stay current on their own. A summary hits your phone at 6am.</p>
-        <button class="play-open feat-go" type="button" data-job="2" aria-haspopup="dialog">See it run <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></button>
-      </div>
-      <div class="feat-v"><div class="fv fv-sum">
-            <div class="fv-hd"><span class="label">morning summary</span><span class="label">6:00am</span></div>
-            <ul><li><b>9</b><span>visits on the schedule today</span></li><li><b>2</b><span>notes to sign</span></li><li><b>3</b><span>unpaid invoices, $1,240 open</span></li><li><b>1</b><span>reply waiting for your OK</span></li></ul>
-          </div>
-        <button class="bot-card e-ops" type="button" aria-label="Say hi to Ops"><span class="bot-stage n1"><span class="bot" data-bot="ops"></span></span><span class="bot-say" aria-live="polite"></span></button>
-      </div>
-    </div>
-  </section>
-  <section class="feat e-marketing flip" id="f-marketing" aria-labelledby="f-marketing-h">
-    <div class="wrap feat-in">
-      <div class="feat-t">
-        <p class="feat-k"><i aria-hidden="true"></i>Marketing<span>/ wind</span></p>
-        <h2 class="feat-h" id="f-marketing-h">It brings people back.</h2>
-        <p class="feat-p">Newsletters and welcome emails from your own domain, and landing pages that turn visitors into leads.</p>
-        <button class="play-open feat-go" type="button" data-job="3" aria-haspopup="dialog">See it run <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></button>
-      </div>
-      <div class="feat-v"><div class="fv fv-mail">
-            <div class="fv-hd"><span class="label">newsletter</span><span class="label">sent tuesday</span></div>
-            <p class="fvm-from">From <b>Juniper Physio</b> &lt;hello@juniperphysio.com&gt;</p>
-            <p class="fvm-sub">What's new at Juniper this month</p>
-            <div class="fvm-body"><i></i><i></i><i class="s"></i></div>
-            <div class="fvm-stats"><span><b>1,240</b> delivered</span><span><b>6</b> bounced</span><span><b>3</b> unsubscribed</span></div>
-          </div>
-        <button class="bot-card e-marketing" type="button" aria-label="Say hi to Marketing"><span class="bot-stage n1"><span class="bot" data-bot="marketing"></span></span><span class="bot-say" aria-live="polite"></span></button>
-      </div>
-    </div>
-  </section>
-  <script type="application/json" id="jobs-data">{"start": "start.html", "demo": "how-it-works.html", "jobs": [{"e": "leads", "name": "Leads", "trig": "on your website", "title": "Instant price quotes", "desc": "Customers price the job themselves, and you get their details.", "ex": "A homeowner prices a patio project on your website", "steps": [["8:12pm", "Customer", "opens the price calculator on your website", "started"], ["8:14pm", "Customer", "enters the size, material and finish", "entered"], ["8:14pm", "@leads", "shows a price range on the spot", "priced"], ["8:15pm", "Customer", "adds their email to get the full quote", "lead"], ["8:15pm", "@leads", "emails the quote", "sent"], ["8:15pm", "@ops", "saves the lead with the quote attached", "saved"]], "you": "You set your prices and rules once. Change them any time and the calculator updates.", "get": "People get a price without calling, and you get their details and the job size up front."}, {"e": "agents", "name": "Agents", "trig": "3 days after a quote", "title": "Quote follow-ups", "desc": "Checks in on open quotes before they go cold.", "ex": "A quote has been sitting for 3 days", "steps": [["day 1", "@ops", "notes a $4,800 quote sent to Taylor", "sent"], ["day 4", "@agents", "sees no reply and writes a short check-in", "drafted"], ["day 4", "@agents", "sends it from your email", "sent"], ["day 5", "Customer", "replies with a question about timing", "replied"], ["day 5", "@agents", "drafts an answer for you", "drafted"], ["day 5", "you", "answer sent to you for an OK", "waiting", "need"], ["day 5", "you", "change one line and send it", "sent", "me"]], "you": "You handle the real questions. The check-ins go out on their own.", "get": "No quote goes quiet because someone forgot to follow up."}, {"e": "ops", "name": "Ops", "trig": "every morning at 6", "title": "Morning summary", "desc": "What happened overnight and what needs you, on one screen.", "ex": "Every morning at 6", "steps": [["6:00am", "@ops", "checks what happened overnight", "checked"], ["6:00am", "@ops", "counts new leads, payments and messages", "counted"], ["6:01am", "@ops", "lists anything waiting for your OK", "listed"], ["6:01am", "@ops", "puts today's schedule at the top", "added"], ["6:02am", "@ops", "sends it to your phone", "sent"], ["7:05am", "you", "read it in two minutes", "read"]], "you": "You read one message instead of checking five apps.", "get": "You start the day knowing what needs you and what is already handled."}, {"e": "marketing", "name": "Marketing", "trig": "when someone joins your list", "title": "Welcome series", "desc": "Welcome emails on a schedule, with a one-time offer code.", "ex": "Someone joins your email list from a landing page", "steps": [["day 0", "Customer", "signs up on your landing page", "joined"], ["day 0", "@marketing", "adds them to your list and starts the welcome series", "started"], ["day 0", "@marketing", "sends email 1 with their one-time offer code", "sent"], ["day 2", "@marketing", "sends email 2 with your best work", "sent"], ["day 5", "@marketing", "sends email 3 with a link to book", "sent"], ["day 6", "Customer", "books with the code", "booked"]], "you": "You write the series once and approve it. Anyone who unsubscribes stops getting it right away.", "get": "Every new subscriber hears from you, in order, without you remembering to send anything."}]}</script>
-</div>
-
-<section class="sec tools-sec" id="tools" aria-labelledby="tools-h">
-  <div class="wrap">
-    <div class="tools-hd">
-      <div class="head-l">
-        <p class="eyebrow">Tools</p>
-        <h2 class="h2" id="tools-h">Built for your industry.</h2>
-      </div>
-      <p class="lede">Every engine takes tools made for the work you do. Pick your business.</p>
-    </div>
-    <div class="tpick"><label class="tpick-l" for="tool-for">Show tools for</label><span class="tpick-s"><select id="tool-for"><optgroup label="Health + wellness"><option value="med-spas">Med spas</option><option value="dental">Dental offices</option><option value="physical-therapy">PT + chiropractic</option><option value="gyms">Gyms + studios</option></optgroup><optgroup label="Home + field services"><option value="pool-service" selected>Pool service</option><option value="hvac-plumbing">HVAC + plumbing</option><option value="landscaping">Landscaping</option><option value="contractors">Contractors + remodelers</option></optgroup><optgroup label="Product brands"><option value="ecommerce">Online brands</option><option value="food-beverage">Food + beverage</option><option value="beauty">Beauty + skincare</option><option value="showrooms">Home goods + showrooms</option></optgroup><optgroup label="Agencies + firms"><option value="agencies">Marketing agencies</option><option value="law">Law firms</option><option value="accounting">Accounting + bookkeeping</option><option value="real-estate">Real estate teams</option></optgroup><optgroup label="Founders + creators"><option value="startups">Startups</option><option value="creators">Creators + podcasters</option><option value="coaches">Coaches + courses</option><option value="events">Events + venues</option></optgroup></select></span><a class="label tpick-go" id="tool-go" href="for/pool-service.html#tools">Open the pool service page <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
-    <div class="tboard compact" id="tboard" aria-live="polite">
-      <div class="tcol e-ops usual"><div class="tcol-hd"><span class="bot bot-xs" data-bot="ops"></span><b>Ops</b><span class="label">water</span><span class="label tcol-st">usually first</span></div><p class="tcol-core"><span class="label">the engine</span>Keeps your schedule, clients, orders and numbers in one place.</p><ul class="tlist"><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Route summary</b><span class="tl-d">Each tech&#x27;s stops, pools and notes for the day, in driving order.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Chemical log</b><span class="tl-d">Readings from every visit, saved to each pool&#x27;s history.</span></div></li></ul></div>
-      <div class="tcol e-agents usual"><div class="tcol-hd"><span class="bot bot-xs" data-bot="agents"></span><b>Agents</b><span class="label">earth</span><span class="label tcol-st">usually first</span></div><p class="tcol-core"><span class="label">the engine</span>Answers, books, reminds and follows up, and checks with you first.</p><ul class="tlist"><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">On my way texts</b><span class="tl-d">Tells each customer their tech is coming and sends a photo when the pool is done.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Quote follow-ups</b><span class="tl-d">Checks in on repair quotes nobody answered.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Unpaid invoice reminders</b><span class="tl-d">Polite reminders first, then a flag for you.</span></div></li></ul></div>
-      <div class="tcol e-leads usual"><div class="tcol-hd"><span class="bot bot-xs" data-bot="leads"></span><b>Leads</b><span class="label">fire</span><span class="label tcol-st">usually first</span></div><p class="tcol-core"><span class="label">the engine</span>Turns website visitors into real conversations.</p><ul class="tlist"><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Instant price quotes</b><span class="tl-d">Homeowners get a weekly service price on the spot, and the quote becomes a lead.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Repair request form</b><span class="tl-d">Customers send photos of the problem, and you get a request ready to quote.</span></div></li></ul></div>
-      <div class="tcol e-marketing"><div class="tcol-hd"><span class="bot bot-xs" data-bot="marketing"></span><b>Marketing</b><span class="label">wind</span><span class="label tcol-st">add any time</span></div><p class="tcol-core"><span class="label">the engine</span>Emails and landing pages that keep your name in front of the right people.</p><ul class="tlist"><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Season opening campaign</b><span class="tl-d">A page, a newsletter and a reminder series for spring openings.</span></div></li><li class="tl"><div class="tool-in"><span class="label tl-k">+ tool</span><b class="tl-n">Homeowner welcome series</b><span class="tl-d">Emails that turn a quote request into a weekly service customer.</span></div></li></ul></div>
-    </div>
-    <script type="application/json" id="tools-data">{"med-spas":{"n":"Med spas","u":["leads","agents"],"t":{"ops":[["Treatment and package tracking","Every client's treatments, packages and what's left on them, in one place."],["Provider schedule view","Who's booked, who's open and which rooms are free today."]],"agents":[["Fast replies to new leads","Answers pricing questions in minutes and offers a consult time."],["Treatment due reminders","Texts clients when it's time for their next visit, with open times."],["Review requests","Asks happy clients for a review while the results are fresh."]],"leads":[["Consult follow-ups","Checks in with anyone who didn't book and answers what held them back."],["Treatment price finder","Visitors pick a treatment and area, see a price range and book a consult."]],"marketing":[["Consult landing page","A page for one treatment with a booking form that starts a follow-up series."],["New client offer","A one-time code for every new subscriber, sent in the welcome email."]]}},"dental":{"n":"Dental offices","u":["agents","ops"],"t":{"ops":[["Unscheduled treatment follow-ups","Finds plans that never got booked and drafts a check-in for each patient."],["Morning summary","Today's schedule, open plans and anything waiting on you."]],"agents":[["Visit reminders","Confirms the visit and sends any forms that are still missing."],["Last-minute openings","Offers the open slot to patients on your waitlist. First to reply gets it."]],"leads":[["New patient booking","New patients pick a time online and fill in their forms before they arrive."],["Insurance check requests","Patients send their insurance details and hear back before the visit."]],"marketing":[["Recall email series","Emails that bring overdue patients back for a cleaning."],["New patient page","A landing page with a form that books the first visit."]]}},"physical-therapy":{"n":"PT + chiropractic","u":["ops","agents"],"t":{"ops":[["Visit notes","Turns your dictated findings into a structured note for you to review."],["Plan progress tracker","Every patient's plan, visits done and visits left, on one screen."]],"agents":[["New client intake","Matches the request to the right provider and drafts a reply with open times."],["Missed visit rebooking","Reaches out the same day and offers the next open slot."],["Plan of care check-ins","Notices when a patient hasn't booked their next visit and reaches out."]],"leads":[["Doctor referral intake","Referrals from doctors land in one place and get a call the same day."],["Online evaluation booking","New patients book an evaluation from your site, any hour."]],"marketing":[["Condition pages","A page for each thing you treat, set up to show up in search."],["Referral partner newsletter","A monthly email to the doctors who send you patients."]]}},"gyms":{"n":"Gyms + studios","u":["leads","agents"],"t":{"ops":[["Class and coach schedule","Classes, coaches and attendance in one view."],["Membership numbers","New members, cancellations and revenue every Monday."]],"agents":[["First class follow-ups","Checks in, answers questions and offers a membership."],["Members at risk","Spots members who haven't been in for two weeks and drafts a personal check-in."],["Failed payment follow-ups","Sends a friendly note with a link to update their card."]],"leads":[["Fast replies to new leads","Replies in minutes with class times and books the first visit."],["Trial class booking","Visitors pick a class and book a free trial from your site."]],"marketing":[["Free trial pass page","A page that hands out trial passes and starts a follow-up series."],["Six-week challenge","A challenge page, signup form and email series, filed as one campaign."]]}},"pool-service":{"n":"Pool service","u":["leads","agents","ops"],"t":{"ops":[["Route summary","Each tech's stops, pools and notes for the day, in driving order."],["Chemical log","Readings from every visit, saved to each pool's history."]],"agents":[["On my way texts","Tells each customer their tech is coming and sends a photo when the pool is done."],["Quote follow-ups","Checks in on repair quotes nobody answered."],["Unpaid invoice reminders","Polite reminders first, then a flag for you."]],"leads":[["Instant price quotes","Homeowners get a weekly service price on the spot, and the quote becomes a lead."],["Repair request form","Customers send photos of the problem, and you get a request ready to quote."]],"marketing":[["Season opening campaign","A page, a newsletter and a reminder series for spring openings."],["Homeowner welcome series","Emails that turn a quote request into a weekly service customer."]]}},"hvac-plumbing":{"n":"HVAC + plumbing","u":["leads","agents","ops"],"t":{"ops":[["Dispatch board","Calls, techs and open jobs on one screen."],["Maintenance plan tracker","Every plan member, their last visit and what's due."]],"agents":[["Fast replies to new leads","Replies in minutes, asks the right questions and offers a time."],["Quote follow-ups","Checks in on every install estimate until you get a yes or a no."],["Tune-up reminders","Reaches out to plan members and books their visit before it gets busy."],["Review requests","Asks happy customers for a review the day after."]],"leads":[["Emergency request line","No heat or no water requests jump the line and alert you."],["Install estimate builder","Homeowners answer a few questions and get a ballpark for a new system."]],"marketing":[["Tune-up season campaign","A page and an email to past customers before every season."],["New system page","A page for installs with a form that starts a follow-up series."]]}},"landscaping":{"n":"Landscaping","u":["leads","agents"],"t":{"ops":[["Crew day sheets","Sends each crew its stops, notes and materials for the day."],["Job costing","Hours and materials for every job, against what you quoted."]],"agents":[["Quote follow-ups","Checks in on every estimate nobody answered."],["Season rebooking","Offers last year's customers their spot for spring before the rush."]],"leads":[["Instant price quotes","Homeowners price a project online, and you get the lead with the job size."],["Design consult booking","Bigger projects book a consult and send photos of the yard first."]],"marketing":[["Spring booking page","A page that books spring cleanups, with a form and a follow-up series."],["Seasonal newsletter","A short email that keeps you in mind until spring."]]}},"contractors":{"n":"Contractors + remodelers","u":["leads","agents","ops"],"t":{"ops":[["Change orders","Catches requests outside the contract and drafts a change order for you to send."],["Job schedule and subs","Every project, phase and subcontractor on one calendar."]],"agents":[["Project updates","Sends each homeowner a weekly update with photos and what's next."],["Quote follow-ups","Checks in on every estimate until you get an answer."]],"leads":[["Instant price quotes","Homeowners get a ballpark price, so the ones who call already know the range."],["Lead qualifier","Asks budget, timeline and scope before you drive out."]],"marketing":[["Remodel pages","A page for each kind of project, set up to show up in search."],["Estimate follow-up series","Emails that follow every estimate, so nobody goes cold."]]}},"ecommerce":{"n":"Online brands","u":["agents","ops"],"t":{"ops":[["Low stock alerts","Drafts the purchase order before you sell out, then waits for your OK."],["Returns tracker","Every return, its reason and its refund, in one place."]],"agents":[["\"Where's my order?\" answers","Looks up the order and replies with tracking, any hour."],["Product questions","Answers sizing and ingredient questions from your product info, in your voice."],["Wholesale applications","Checks fit, sends the line sheet and terms, and books a call with the good ones."]],"leads":[["Product finder quiz","A few questions, then the right product, and an email for you."],["Back in stock alerts","Shoppers sign up and hear the moment it's back."]],"marketing":[["Abandoned cart series","Emails that bring shoppers back to a cart they left."],["Launch page test","A product launch page, tested against a second version."]]}},"food-beverage":{"n":"Food + beverage","u":["ops","agents"],"t":{"ops":[["Store reorder check","Finds stores that haven't reordered on schedule and drafts a check-in."],["Launch checklist","Tracks every task, owner and date, and nudges whoever is behind."],["Low stock alerts","Drafts the purchase order before you sell out, then waits for your OK."]],"agents":[["Wholesale applications","Checks fit, sends the line sheet and terms, and books a call with the good ones."],["Store buyer questions","Answers buyers' questions about case packs, minimums and shipping."]],"leads":[["Ask your store requests","Shoppers ask for you at their store, and you get a list of where to pitch next."],["Sample requests","Buyers request samples, and you see who's worth a call."]],"marketing":[["Retail launch campaign","A page, an email and graphics for every new store, filed together."],["Welcome offer","A one-time code for every new subscriber."]]}},"beauty":{"n":"Beauty + skincare","u":["leads","agents"],"t":{"ops":[["Low stock alerts","Drafts the purchase order before you sell out, then waits for your OK."],["Batch and expiry tracking","Every batch, its date and where it shipped."]],"agents":[["Product questions","Answers ingredient and how-to questions from your product info, in your voice."],["\"Where's my order?\" answers","Looks up the order and replies with tracking, any hour."]],"leads":[["Routine finder","A few quick questions, then the right products for their skin. You get the lead."],["Shade matcher","Shoppers upload a photo and get the right shade."]],"marketing":[["Welcome series with offer","Emails and a first-order code for every new subscriber."],["Page tests","Test two versions of a page and keep the one that brings in more orders."]]}},"showrooms":{"n":"Home goods + showrooms","u":["leads","agents"],"t":{"ops":[["Trade accounts","Every designer and contractor, their pricing and their open orders."],["Special order tracking","Special orders from purchase to delivery, with dates."]],"agents":[["Quote follow-ups","Checks in on every quote until you get an answer."],["Fast replies to new leads","Answers in minutes with product info and a showroom time."]],"leads":[["Instant price quotes","Buyers work out how much they need and get a price. The estimate becomes a lead."],["Preview on their own photo","Shows the finished result on the buyer's own photo."]],"marketing":[["Trade program page","A page that signs up designers and contractors and starts a series."],["Trade newsletter","A monthly email to designers about what's new."]]}},"agencies":{"n":"Marketing agencies","u":["ops","agents"],"t":{"ops":[["Extra work alerts","Spots asks outside the agreement and drafts a change order."],["Weekly numbers","Revenue, team load and open work across every client."]],"agents":[["Client onboarding","Sends the welcome, intake form and asset request, and chases anything missing."],["Weekly client report","Builds each client's report from live data, ready for your review."]],"leads":[["Project scoper","Prospects answer a few questions and see a range before the call."],["Inquiry routing","Every inquiry lands with the right person, with a summary."]],"marketing":[["Service pages","A page per service, tested, with a form that starts a follow-up series."],["Agency newsletter","A monthly note on what you shipped and what you learned."]]}},"law":{"n":"Law firms","u":["agents","ops"],"t":{"ops":[["Case updates","Drafts a plain-English update for the client. Nothing goes out without your OK."],["Deadline calendar","Every matter's deadlines, with reminders to the right person."]],"agents":[["New client intake","Asks the intake questions, checks for conflicts and offers a consult time."],["Document chasing","Asks for what's missing, tracks what came in and stops once it's all there."],["Unpaid invoice reminders","Polite reminders first, then a flag for you."]],"leads":[["Case evaluation form","Prospective clients describe their situation and book a consult."],["Practice area pages","Pages that answer common questions and turn readers into consults."]],"marketing":[["Plain-English newsletter","A monthly email that answers the questions clients always ask."],["Consult follow-up series","Emails after a consult request, until they book or say no."]]}},"accounting":{"n":"Accounting + bookkeeping","u":["agents","ops"],"t":{"ops":[["Weekly numbers","Revenue, team load and open work across every client."],["Client work tracker","Who's waiting on what, across every client and deadline."]],"agents":[["Monthly document requests","Asks each client for statements and receipts, and follows up until they're in."],["Client onboarding","Sends the welcome, the engagement letter and the document list, and chases what's missing."],["Deadline reminders","Tells each client what you need and by when."]],"leads":[["Service quote builder","Prospects pick services and see a monthly price."],["Fit check form","Prospects answer a few questions, so you only take calls with good fits."]],"marketing":[["Tax season series","Emails that get clients ready before the rush."],["Money tips newsletter","A short monthly email small businesses actually read."]]}},"real-estate":{"n":"Real estate teams","u":["leads","agents","ops"],"t":{"ops":[["Closing timeline","Tracks every deadline on a deal and reminds the right person before it's due."],["Transaction checklist","Every document and signature per deal, checked off."]],"agents":[["Fast replies to new leads","Replies in minutes, asks what they're looking for and books a showing."],["Past client check-ins","Remembers the date they moved in and checks in with a note that sounds like you."],["Review requests","Asks happy clients for a review while the keys are still new."]],"leads":[["Home value requests","Owners ask what their home is worth, and you get a seller lead."],["Showing requests","Buyers pick a time to see a listing, and it lands on your calendar."]],"marketing":[["Listing pages","A page for every listing with a showing form and a follow-up series."],["Market update newsletter","A monthly email with local numbers, in your voice."]]}},"startups":{"n":"Startups","u":["leads","ops"],"t":{"ops":[["Weekly numbers","Revenue, deals in progress, spending and open work on one screen."],["New hire setup","Accounts, guides and first-week tasks, set up the same way every time."],["Monthly investor update","Pulls the month's numbers into a draft update for you to edit."]],"agents":[["Support inbox","Answers common questions and passes the hard ones to the team."],["Trial follow-ups","Checks in with trial users before they go quiet."]],"leads":[["Waitlist and demo booking","Captures signups, qualifies them and books demos with the right ones."],["Pricing calculator","Visitors see what they'd pay before they book a demo."]],"marketing":[["Launch page test","A page for every launch, tested against a second version."],["Waitlist series","Emails that keep your waitlist warm until launch."]]}},"creators":{"n":"Creators + podcasters","u":["agents","ops"],"t":{"ops":[["Sponsor tracker","Every deal, deliverable, date and payment in one place."],["Revenue view","Sponsors, products and platforms, one monthly number."]],"agents":[["New episode publishing","Writes titles, descriptions and tags, and queues the drop across every channel."],["Inbox sorting","Sorts messages into fans, partners and noise, with drafts ready."],["Sponsor requests","Checks fit and rates, then sends the good deals to you with a summary."],["Fan replies","Answers from your FAQ in your voice, for your review."]],"leads":[["Media kit page","Brands see your numbers and rates and request a deal."],["Email list signup","Turns listeners into subscribers with a simple offer."]],"marketing":[["Episode newsletter","Turns each episode into a weekly email to your list."],["List signup page","A page that grows your list with a free guide or a code."]]}},"coaches":{"n":"Coaches + courses","u":["leads","agents"],"t":{"ops":[["Client progress tracker","Every client's goals, sessions and wins in one place."],["Cohort dashboard","Who's active, who's behind and who finished."]],"agents":[["Client onboarding","Sends the welcome, the first steps and a kickoff time, the same way every time."],["Student check-ins","Notices who stopped logging in and sends a nudge in your voice."],["Failed payment follow-ups","Sends a friendly note with a link to update their card."]],"leads":[["Discovery call booking","Asks a few questions, books the good fits and politely turns away the rest."],["Free class signup","A free class or guide that turns visitors into leads."]],"marketing":[["Free guide page","A page that gives away a guide and starts a welcome series."],["Weekly email","A short weekly email from your notes."]]}},"events":{"n":"Events + venues","u":["leads","agents","ops"],"t":{"ops":[["Vendor check-ins","Confirms times and details with every vendor and flags anything missing."],["Event day timeline","Every vendor, time and task for the day, shared with your team."]],"agents":[["Quote follow-ups","Checks in on every proposal until you get an answer."],["Unpaid invoice reminders","Polite reminders first, then a flag for you."]],"leads":[["Date and price replies","Checks the calendar and replies with availability and pricing in minutes."],["Venue tour booking","People pick a time to tour and get a reminder."]],"marketing":[["Event page and RSVP","A page for each event with a form that builds your list."],["Open dates email","Tells past inquiries when a popular date opens up."]]}}}</script>
   </div>
 </section>
 
@@ -1529,59 +1691,6 @@ html.sheet-open{overflow:hidden}
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="sec wall-sec" id="for" aria-labelledby="for-h">
-  <div class="wrap">
-    <div class="wall-hd">
-      <div class="head-l">
-        <p class="eyebrow">Who it's for</p>
-        <h2 class="h2" id="for-h">Pick your business.</h2>
-      </div>
-      <p class="lede">Each one opens a short page: what we'd build for you, the tools you'd get and what it costs.</p>
-    </div>
-    <ul class="wall">
-      <li><a class="wl" href="for/med-spas.html" data-e="leads">Med spas</a></li>
-      <li><a class="wl" href="for/dental.html" data-e="agents">Dental offices</a></li>
-      <li><a class="wl" href="for/physical-therapy.html" data-e="ops">PT + chiropractic</a></li>
-      <li><a class="wl" href="for/gyms.html" data-e="leads">Gyms + studios</a></li>
-      <li><a class="wl" href="for/pool-service.html" data-e="leads">Pool service</a></li>
-      <li><a class="wl" href="for/hvac-plumbing.html" data-e="leads">HVAC + plumbing</a></li>
-      <li><a class="wl" href="for/landscaping.html" data-e="leads">Landscaping</a></li>
-      <li><a class="wl" href="for/contractors.html" data-e="leads">Contractors + remodelers</a></li>
-      <li><a class="wl" href="for/ecommerce.html" data-e="agents">Online brands</a></li>
-      <li><a class="wl" href="for/food-beverage.html" data-e="ops">Food + beverage</a></li>
-      <li><a class="wl" href="for/beauty.html" data-e="leads">Beauty + skincare</a></li>
-      <li><a class="wl" href="for/showrooms.html" data-e="leads">Home goods + showrooms</a></li>
-      <li><a class="wl" href="for/agencies.html" data-e="ops">Marketing agencies</a></li>
-      <li><a class="wl" href="for/law.html" data-e="agents">Law firms</a></li>
-      <li><a class="wl" href="for/accounting.html" data-e="agents">Accounting + bookkeeping</a></li>
-      <li><a class="wl" href="for/real-estate.html" data-e="leads">Real estate teams</a></li>
-      <li><a class="wl" href="for/startups.html" data-e="leads">Startups</a></li>
-      <li><a class="wl" href="for/creators.html" data-e="agents">Creators + podcasters</a></li>
-      <li><a class="wl" href="for/coaches.html" data-e="leads">Coaches + courses</a></li>
-      <li><a class="wl" href="for/events.html" data-e="leads">Events + venues</a></li>
-    </ul>
-    <div class="wall-ft"><p class="label">not on the list? every build starts from how you work</p><a class="btn ghost" href="for.html">See all 20 <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
-  </div>
-</section>
-
-<section class="sec" id="method" aria-labelledby="method-h">
-  <div class="wrap">
-    <div class="head">
-      <div class="head-l">
-        <p class="eyebrow">How we work together</p>
-        <h2 class="h2" id="method-h">How a build runs.</h2>
-      </div>
-      <a class="btn ghost" href="how-it-works.html">How it works <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
-    </div>
-    <ol class="track">
-      <li class="tk-step"><span class="tk-n">01</span><span class="tk-dot"><svg class="px" data-icon="discuss" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Discuss</h3><p>We talk with you and your team and see how the work really gets done.</p></li>
-      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We build your engine around how you work, starting with your website.</p></li>
-      <li class="tk-step"><span class="tk-n">03</span><span class="tk-dot"><svg class="px" data-icon="implement" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Launch</h3><p>We turn it on one piece at a time, until it runs without you in the middle.</p></li>
-      <li class="tk-step"><span class="tk-n">04</span><span class="tk-dot"><svg class="px" data-icon="measure" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Improve</h3><p>Every month we pick the next thing to take off your plate.</p></li>
-    </ol>
   </div>
 </section>
 
@@ -2194,6 +2303,20 @@ $$('form.inq').forEach(f=>{
     osBox.hidden=!nm;osIn.disabled=!nm;osIn.value=nm||'';$('.inq-os-n',osBox).textContent=nm||'';
   }
   if(h.indexOf('os-')===0)setOS(h.slice(3));
+  // a build from the home walkthrough (start.html#build=...)
+  const bBox=$('.inq-build',f),raw=location.hash||'';
+  if(bBox&&raw.indexOf('#build=')===0){
+    let B=null;try{B=JSON.parse(decodeURIComponent(raw.slice(7)));}catch(e){}
+    if(B&&B.b){
+      const N={leads:'Leads',agents:'Agents',ops:'Ops',marketing:'Marketing'},eng=(B.e||[]).filter(k=>N[k]);
+      const txt=B.b+' / '+eng.map(k=>N[k]).join(', ')+(B.t&&B.t.length?' / add-ons: '+B.t.join(', '):'')+(B.s?' / '+B.s+' style':'');
+      const inp=$('input',bBox);inp.value=txt.slice(0,600);inp.disabled=false;$('.inq-os-n',bBox).textContent=txt;bBox.hidden=false;
+      const ty=document.getElementById('inq-type-'+B.f);if(ty&&f.contains(ty))ty.checked=true;
+      eng.forEach(k=>{const c=document.getElementById('inq-build-'+k);if(c)c.checked=true;});
+      const lic=document.getElementById('inq-license-'+(eng.length>=3?'company':eng.length===2?'core':'one'));if(lic)lic.checked=true;
+      $('.inq-os-x',bBox).addEventListener('click',()=>{bBox.hidden=true;inp.disabled=true;inp.value='';});
+    }
+  }
   if(osBox)$('.inq-os-x',osBox).addEventListener('click',()=>{setOS(null);const m=f.elements.message;if(m)m.focus();});
   const other=$('.type-other',f),otherIn=other&&$('input',other);
   function syncOther(focus){
@@ -2226,7 +2349,7 @@ $$('form.inq').forEach(f=>{
     return d;
   }
   function compose(d){
-    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Asking about',d.os],['Business',d.type_other||d.type],['Team size',d.team],
+    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Asking about',d.os],['Their build',d.setup],['Business',d.type_other||d.type],['Team size',d.team],
       ['Build',(d.build||[]).join(', ')],['License',d.license],['Sell to others',d.resale],['Start',d.timing]];
     return rows.filter(r=>r[1]).map(r=>r[0]+': '+r[1]).join('\n')+'\n\nWhat still runs through me:\n'+(d.message||'');
   }
@@ -2342,6 +2465,199 @@ $$('.bot-card').forEach(card=>{
 
 let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{drawAllMinis();refreshThumbs(false);},150);});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThumbs(true));
+
+/* ---------- build your engine: the home walkthrough ---------- */
+(function(){
+  const root=$('[data-bx]');if(!root)return;
+  let D;try{D=JSON.parse($('#bx-data',root).textContent);}catch(e){return;}
+  const ORDER=['leads','agents','ops','marketing'],KEY='oplev-build';
+  const sel=$('#bx-biz',root),toolsEl=$('#bx-tools',root),rowsEl=$('[data-bx-rows]',root),doneEl=$('[data-bx-done]',root);
+  const playBtn=$('[data-bx-play]',root);
+  const S={biz:sel.value,eng:[],tools:new Set(),style:'clean'};
+  const tk=(k,n)=>k+'|'+n;
+  const price=n=>n>=3?'$15k+':n===2?'$10k':'$5k';
+  const plural=(n,w)=>n+' '+w+(n===1?'':'s');
+  const ICP=()=>D.icps[S.biz];
+  function firstTools(k){
+    const list=(ICP().t[k]||[]);let picked=list.filter(t=>t[2]);
+    if(!picked.length&&list.length)picked=[list[0]];
+    picked.forEach(t=>S.tools.add(tk(k,t[0])));
+  }
+  function defaults(id){S.biz=id;S.eng=ICP().e.slice();S.tools=new Set();S.eng.forEach(firstTools);}
+  // pick up where this visitor left off
+  let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
+  if(saved&&D.icps[saved.biz]){
+    S.biz=saved.biz;sel.value=saved.biz;
+    S.eng=(saved.eng||[]).filter(k=>ORDER.includes(k));if(!S.eng.length)S.eng=ICP().e.slice();
+    const valid=new Set();S.eng.forEach(k=>(ICP().t[k]||[]).forEach(t=>valid.add(tk(k,t[0]))));
+    S.tools=new Set((saved.tools||[]).filter(t=>valid.has(t)));
+    if(D.styles[saved.style])S.style=saved.style;
+  }else defaults(sel.value);
+
+  /* website mock: restyles with the build style, shows the add-ons that live on the site */
+  const KINDS=[[/price|quote|estimate|calculat|scoper|value|ballpark|cost/,'calc'],[/finder|quiz|matcher|qualifier|fit check|preview|shade/,'quiz'],[/\bform\b/,'form'],
+    [/book|consult|discovery|demo|trial|tour|evaluation|showing/,'slots'],[/newsletter|series|signup|\blist\b|offer|welcome|waitlist|campaign|email|pass|guide|challenge|alert/,'sign'],
+    [/form|request|intake|application|referral/,'form'],[/repl|answer|question|line|routing/,'chat']];
+  const kindOf=n=>{n=n.toLowerCase();for(const [re,k] of KINDS)if(re.test(n))return k;return 'form';};
+  // follow-ups and tests run behind the scenes, everything else shows up on the website
+  const onSite=(k,n)=>(k==='leads'||k==='marketing')&&!/follow-up|page test|tests$/i.test(n);
+  function siteTools(){
+    const out=[];['leads','marketing'].forEach(k=>{if(!S.eng.includes(k))return;(ICP().t[k]||[]).forEach(t=>{if(S.tools.has(tk(k,t[0]))&&onSite(k,t[0]))out.push([k,t[0]]);});});
+    return out;
+  }
+  function widget(k,name){
+    const kd=kindOf(name),l='<span class="bm-wl">'+esc(name)+'</span>',a=' data-w="'+esc(tk(k,name))+'"';
+    const inner={calc:l+'<span class="bm-sl"><i></i></span><b class="bm-amt">$1,240</b>',
+      quiz:l+'<span class="bm-q">Which one fits you?</span><span class="bm-chips"><i></i><i></i><i></i></span>',
+      slots:l+'<span class="bm-chips t"><i>9:00</i><i>11:30</i><i>2:15</i></span>',
+      sign:l+'<span class="bm-in"></span><em>Join</em>',
+      form:l+'<span class="bm-in"></span><span class="bm-in s"></span><em>Send</em>',
+      chat:l+'<span class="bm-bub">Hi! How can we help?</span>'}[kd];
+    return '<div class="bm-w w-'+kd+' e-'+k+'"'+a+'>'+inner+'</div>';
+  }
+  function mock(){
+    const c=ICP().site,dom=c[0].toLowerCase().replace(/[^a-z0-9]/g,'')+'.com';
+    let w=siteTools().slice(0,2).map(t=>widget(t[0],t[1])).join('');
+    if(!w)w='<div class="bm-w w-form"><span class="bm-wl">Talk to us</span><span class="bm-in"></span><span class="bm-in s"></span><em>Send</em></div>';
+    return '<figure class="bm st-'+S.style+'" aria-label="'+esc(D.styles[S.style]+' website preview for '+c[0])+'">'+
+      '<div class="bm-bar"><i></i><i></i><i></i><span>'+esc(dom)+'</span></div>'+
+      '<div class="bm-page"><div class="bm-nav"><b>'+esc(c[0])+'</b><span class="bm-links"><i></i><i></i><i></i></span><em>'+esc(c[2])+'</em></div>'+
+      '<div class="bm-hero"><p class="bm-h">'+esc(c[1])+'</p><p class="bm-p"></p><p class="bm-p s"></p><span class="bm-btn">'+esc(c[2])+'</span></div>'+
+      '<div class="bm-row">'+w+'</div></div><div class="bm-toast" data-bm-toast hidden></div></figure>';
+  }
+
+  /* step 2: add-ons, one column per engine */
+  function renderTools(){
+    toolsEl.innerHTML=ORDER.map(k=>{
+      const on=S.eng.includes(k),e=D.eng[k],list=ICP().t[k]||[];
+      const hd='<div class="bx-col-hd">'+botTag(k)+'<b>'+esc(e.n)+'</b><span class="label">'+esc(e.el.toLowerCase())+'</span></div>';
+      if(!on)return '<div class="bx-col off e-'+k+'">'+hd+'<p class="bx-off-p">Not in your base yet.</p><button class="bx-add" type="button" data-add="'+k+'">Add '+esc(e.n)+' <span aria-hidden="true">+</span></button></div>';
+      if(!list.length)return '<div class="bx-col e-'+k+'">'+hd+'<p class="bx-off-p">We build these to order.</p></div>';
+      return '<div class="bx-col e-'+k+'">'+hd+'<ul class="bx-tl">'+list.map(t=>{
+        const p=S.tools.has(tk(k,t[0]));
+        return '<li><button class="bx-tool" type="button" data-tool="'+esc(tk(k,t[0]))+'" aria-pressed="'+p+'"><span class="bx-tool-top"><b>'+esc(t[0])+'</b><span class="bx-check" aria-hidden="true"></span></span><span class="bx-tool-d">'+esc(t[1])+'</span>'+(t[2]?'<span class="label bx-pop">most picked</span>':'')+'</button></li>';
+      }).join('')+'</ul></div>';
+    }).join('');
+  }
+
+  function summary(){
+    const tools=[];ORDER.forEach(k=>{if(!S.eng.includes(k))return;(ICP().t[k]||[]).forEach(t=>{if(S.tools.has(tk(k,t[0])))tools.push(t[0]);});});
+    return {b:ICP().n,f:ICP().f,e:S.eng.slice(),t:tools,s:D.styles[S.style]};
+  }
+  function sync(){
+    const n=S.eng.length,tc=summary().t.length;
+    $$('.bx-eng',root).forEach(b=>b.setAttribute('aria-pressed',S.eng.includes(b.dataset.eng)?'true':'false'));
+    $$('[data-bx-count]',root).forEach(el=>el.textContent=plural(n,'engine'));
+    $$('[data-bx-price]',root).forEach(el=>el.textContent=price(n));
+    $$('.bx-meter i',root).forEach((el,i)=>el.classList.toggle('on',i<n));
+    $$('[data-bx-tcount]',root).forEach(el=>el.textContent=plural(tc,'add-on'));
+    $$('[data-bx-biz]',root).forEach(el=>el.textContent=ICP().n);
+    const names=ORDER.filter(k=>S.eng.includes(k)).map(k=>D.eng[k].n).join(', ');
+    $$('[data-bx-meta]',root).forEach(el=>el.textContent=names+' / '+plural(tc,'add-on')+' / '+D.styles[S.style]);
+    $$('[data-bx-logt]',root).forEach(el=>el.textContent='a day at '+ICP().site[0].toLowerCase());
+    const href='start.html#build='+encodeURIComponent(JSON.stringify(summary()));
+    $$('[data-bx-apply]',root).forEach(a=>a.setAttribute('href',href));
+    $$('input[name="bx-style"]',root).forEach(r=>{r.checked=r.value===S.style;});
+    $$('[data-bx-mock]',root).forEach(el=>el.innerHTML=mock());
+    try{localStorage.setItem(KEY,JSON.stringify({biz:S.biz,eng:S.eng,tools:Array.from(S.tools),style:S.style}));}catch(e){}
+  }
+  function changed(){renderTools();sync();stale();}
+
+  sel.addEventListener('change',()=>{defaults(sel.value);changed();});
+  $$('.bx-eng',root).forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.eng,on=S.eng.includes(k);
+    if(on){
+      if(S.eng.length===1){b.classList.remove('nope');void b.offsetWidth;b.classList.add('nope');return;}
+      S.eng=S.eng.filter(x=>x!==k);Array.from(S.tools).forEach(t=>{if(t.indexOf(k+'|')===0)S.tools.delete(t);});
+    }else{S.eng=ORDER.filter(x=>x===k||S.eng.includes(x));firstTools(k);}
+    changed();
+  }));
+  toolsEl.addEventListener('click',e=>{
+    const t=e.target.closest('[data-tool]'),a=e.target.closest('[data-add]');
+    if(t){const v=t.dataset.tool;if(S.tools.has(v))S.tools.delete(v);else S.tools.add(v);t.setAttribute('aria-pressed',S.tools.has(v)?'true':'false');sync();stale();}
+    else if(a){const k=a.dataset.add;S.eng=ORDER.filter(x=>x===k||S.eng.includes(x));firstTools(k);changed();
+      const b=$('[data-tool^="'+k+'|"]',toolsEl);if(b)b.focus();}
+  });
+  $$('input[name="bx-style"]',root).forEach(r=>r.addEventListener('change',()=>{if(r.checked){S.style=r.value;sync();}}));
+
+  /* step 4: one day, run by the engine */
+  const BASE={
+    ops:[[360,'ops','Morning summary sent to your phone','What happened overnight and what needs you today.','sent'],[1050,'ops',"Today's numbers updated",'Sales, open jobs and money in, without a spreadsheet.','updated']],
+    leads:[[612,'leads','New question on your website','Answered in 2 minutes, with a link to book.','answered','chat'],[1241,'leads','New lead at 8:41pm','Answered on the spot and saved with the whole conversation.','saved','chat']],
+    agents:[[614,'agents','Reply drafted in your voice','For the 10:12 question. Waiting for your OK.','needs you',null,1],[619,'you','You approved it from your phone','Sent with a link to book.','approved'],[840,'agents','Reminders sent for tomorrow','Everyone on the schedule, in your voice.','sent']],
+    marketing:[[750,'marketing','New subscriber from your website','Welcome email 1 is on its way.','added','sign'],[962,'marketing','Newsletter draft ready','Built from your brand kit. Waiting for your OK.','needs you',null,1],[966,'you','You approved the newsletter','It goes out Tuesday at 9am, from your own domain.','approved']]
+  };
+  const SLOTS={ops:[365,455,720,1090,1110],agents:[510,585,680,810,915,1000,1145,1200],leads:[545,710,790,1170,1275,1350,1380],marketing:[435,765,930,1130,1160]};
+  function events(){
+    const ev=[];
+    ORDER.forEach(k=>{
+      if(!S.eng.includes(k))return;
+      BASE[k].forEach(b=>ev.push({m:b[0],k:b[1],t:b[2],d:b[3],st:b[4],site:b[5]||null,need:!!b[6]}));
+      let i=0;(ICP().t[k]||[]).forEach(t=>{
+        if(!S.tools.has(tk(k,t[0])))return;
+        const m=SLOTS[k][i%SLOTS[k].length]+Math.floor(i/SLOTS[k].length)*7;i++;
+        const site=onSite(k,t[0])?kindOf(t[0]):null;
+        ev.push({m,k,t:t[0],d:t[1],st:'done',site,w:site?tk(k,t[0]):null});
+      });
+    });
+    return ev.sort((a,b)=>a.m-b.m);
+  }
+  const clock=m=>{const h=Math.floor(m/60)%24,mm=m%60;return ((h%12)||12)+':'+pad2(mm)+(h<12?'am':'pm');};
+  const TOAST={calc:'New price request: $1,240',quiz:'Someone found their match',slots:'New booking: Thursday at 11:30',sign:'New subscriber joined',form:'New request came in',chat:'New question: "Any openings this week?"'};
+  function rowHTML(ev){
+    const who=ev.k==='you'?'<span class="bx-you">You</span>':botTag(ev.k);
+    return '<li class="bx-row'+(ev.k==='you'?' is-you':' e-'+ev.k)+(ev.need?' is-need':'')+'"><span class="bx-t">'+clock(ev.m)+'</span><span class="bx-who">'+who+'</span>'+
+      '<span class="bx-txt"><b>'+esc(ev.t)+'</b><span>'+esc(ev.d)+'</span></span><span class="bx-st label">'+esc(ev.st)+'</span></li>';
+  }
+  let run=0,played=false,dirty=false;
+  const setStat=(sel2,v)=>{const el=$(sel2,root);if(el)el.textContent=v;};
+  function stale(){
+    if(!played)return;run++;dirty=true;rowsEl.innerHTML='';doneEl.hidden=true;playBtn.hidden=false;
+    playBtn.firstChild.nodeValue='Run it with your changes ';setStat('[data-bx-clock]','5:59am');setStat('[data-bx-auto]','0');setStat('[data-bx-you]','0');
+  }
+  async function play(){
+    const id=++run;played=true;dirty=false;
+    const ev=events();rowsEl.innerHTML='';doneEl.hidden=true;playBtn.hidden=true;
+    let auto=0,you=0;setStat('[data-bx-auto]','0');setStat('[data-bx-you]','0');
+    const stage=$('[data-bx-mock="run"]',root);
+    for(const e of ev){
+      if(id!==run)return;
+      if(e.k==='you')you++;else auto++;
+      rowsEl.insertAdjacentHTML('beforeend',rowHTML(e));
+      const li=rowsEl.lastElementChild;
+      setStat('[data-bx-clock]',clock(e.m));setStat('[data-bx-auto]',String(auto));setStat('[data-bx-you]',String(you));
+      if(!RM){
+        li.classList.add('in');rowsEl.scrollTop=rowsEl.scrollHeight;
+        if(e.site&&stage){
+          const toast=$('[data-bm-toast]',stage),w=e.w&&stage.querySelector('[data-w="'+e.w.replace(/"/g,'\\"')+'"]');
+          if(toast){toast.textContent=TOAST[e.site]||TOAST.form;toast.hidden=false;toast.classList.remove('pop');void toast.offsetWidth;toast.classList.add('pop');}
+          $$('.bm-w.hit',stage).forEach(x=>x.classList.remove('hit'));if(w)w.classList.add('hit');
+          if(w&&e.site==='calc'){const a=$('.bm-amt',w);if(a)a.textContent=['$860','$1,240','$2,150','$3,400'][Math.random()*4|0];}
+        }
+        await sleep(e.k==='you'?900:620);
+      }
+    }
+    if(id!==run)return;
+    const mins=you*2;
+    $('[data-bx-sum]',root).textContent='One day. '+plural(auto,'thing')+' done on its own. '+(you?'You stepped in '+(you===1?'once':you+' times')+', about '+mins+' minutes.':"You didn't have to do a thing.");
+    doneEl.hidden=false;
+    const t=$('[data-bm-toast]',root);if(t)t.hidden=true;
+  }
+  playBtn.addEventListener('click',play);
+  $('[data-bx-again]',root).addEventListener('click',play);
+  const runEl=$('.bx-run',root);
+  if(hasIO&&runEl){
+    new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&(!played||dirty))play();}),{threshold:.35}).observe(runEl);
+  }
+  // the build bar shows up once you're into the steps
+  const bar=$('[data-bx-bar]',root);
+  if(bar){
+    root.classList.add('bx-js');let tick=false;
+    const place=()=>{tick=false;const r=root.getBoundingClientRect();bar.classList.toggle('on',r.top<innerHeight*.4&&r.bottom>innerHeight*.6);};
+    addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(place);}},{passive:true});addEventListener('resize',place);place();
+  }
+  renderTools();sync();
+})();
 
 /* ---------- loader (once per visit) ---------- */
 (function(){

@@ -24,6 +24,10 @@ python3 build.py
 
 This writes `index.html`, `how-it-works.html`, `pricing.html`, `work.html`, `start.html`, `for.html`, `for/<business>.html`, `marketplace.html`, `marketplace/<os>.html`, `app.html` and `work/<case>.html`.
 
+## Home walkthrough
+
+The home page is a four-step build: set your base (business type and engines, website always included), choose your add-ons (that business's tools), choose your build style (Clean, Bold, Warm or Playful, shown on a website mock) and watch it run (a simulated day). The mock's business name, headline and button for each business type live in `SITE_COPY` in `build.py`, the engine lines in `ENGINE_DOES`, the styles in `BUILD_STYLES`. The day's events and the logic live in the "build your engine" block in `src/site.js`. "Apply with this build" opens `/start` with the build filled in, and the application email includes it.
+
 ## Case images
 
 Put an image in `img/` and set `"img": "img/adessa-mind.jpg"` on that case. It replaces the generated placeholder everywhere the case appears.

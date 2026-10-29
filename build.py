@@ -492,6 +492,154 @@ def site_section(eyebrow, heading, lede, hid='site-h'):
 '''
 
 
+# ---------- the build walkthrough on home ----------
+# a made-up business per industry, for the website mock: (name, headline, button)
+SITE_COPY = {
+    'med-spas': ('Lumen Aesthetics', 'Look like you. Just rested.', 'Book a consult'),
+    'dental': ('Brightside Dental', "A dentist you won't dread.", 'Book a visit'),
+    'physical-therapy': ('Juniper Physio', 'Back to the things you love.', 'Book an evaluation'),
+    'gyms': ('Ironwood Fitness', 'Your first week is on us.', 'Start a free trial'),
+    'pool-service': ('Clearwater Pools', 'A clean pool, every week.', 'Get a price'),
+    'hvac-plumbing': ('Northside Heat + Air', 'Fixed today. Priced up front.', 'Request service'),
+    'landscaping': ('Greenline Yards', 'A yard you want to be in.', 'Price your project'),
+    'contractors': ('Benchmark Builders', 'Remodels done right, on time.', 'Get a ballpark'),
+    'ecommerce': ('Fieldday Goods', 'Made to be used every day.', 'Shop now'),
+    'food-beverage': ('Sunday Soda Co.', 'Real fruit. Nothing weird.', 'Find a store'),
+    'beauty': ('Kindred Skin', 'Skin care that fits your skin.', 'Find your routine'),
+    'showrooms': ('Quarry House', "Surfaces you'll love for decades.", 'Price your project'),
+    'agencies': ('Northbound Studio', 'Work that moves the numbers.', 'Start a project'),
+    'law': ('Hale + Ortiz Law', 'Clear answers. Fast.', 'Free consultation'),
+    'accounting': ('Ledgerline CPA', 'Books done. Taxes handled.', 'Book a call'),
+    'real-estate': ('Summit Realty', 'Find home faster.', 'See listings'),
+    'startups': ('Relay', 'Ship what your users asked for.', 'Join the waitlist'),
+    'creators': ('Wren Talks', 'New episodes every Tuesday.', 'Subscribe'),
+    'coaches': ('Clear Path Coaching', 'Lead your team with less noise.', 'Book a discovery call'),
+    'events': ('Golden Hour Events', 'Weddings that feel like you.', 'Check your date'),
+}
+# what each engine does on its own, in one line
+ENGINE_DOES = {
+    'leads': ('It answers every lead.', 'Prices, questions and bookings from your website, answered in minutes, day or night.'),
+    'agents': ('It follows up for you.', 'Reminders, rebooking and invoice nudges in your voice. Anything new waits for your OK.'),
+    'ops': ('It keeps the day on track.', 'Schedule, clients, orders and numbers stay current. A summary hits your phone at 6am.'),
+    'marketing': ('It brings people back.', 'Newsletters and welcome emails from your own domain, and pages that turn visitors into leads.'),
+}
+BUILD_ORDER = ['leads', 'agents', 'ops', 'marketing']
+BUILD_STYLES = [
+    ('clean', 'Clean', 'Light, sharp and roomy. Lets the work speak.'),
+    ('bold', 'Bold', 'Dark, big type, hard to miss.'),
+    ('warm', 'Warm', 'Soft color and serif type. Feels personal.'),
+    ('playful', 'Playful', 'Bright blocks and round shapes. Full of energy.'),
+]
+BUILD_STEPS = [('Set your base', 'step-1'), ('Choose your add-ons', 'step-2'),
+               ('Choose your build style', 'step-3'), ('Watch it run', 'step-4')]
+
+
+def builder(x0):
+    data = {
+        'icps': {x['id']: {'n': x['name'], 'f': x['form'][0], 'e': x['engines'],
+                           'site': SITE_COPY[x['id']],
+                           't': {k: [[n, line, 1 if ji is not None else 0] for n, line, ji in v] for k, v in tools_for(x).items()}}
+                 for x in ICPS},
+        'eng': {k: {'n': ENGINE_NAME[k], 'el': ELEMENT[k]} for k in BUILD_ORDER},
+        'styles': {k: n for k, n, _ in BUILD_STYLES},
+    }
+    blob = json.dumps(data, separators=(',', ':')).replace('</', '<\\/')
+    opts_html = ''.join(f'<optgroup label="{E(g["name"])}">' + ''.join(
+        f'<option value="{x["id"]}"{" selected" if x is x0 else ""}>{E(x["name"])}</option>' for x in icps_in(g['id'])) + '</optgroup>' for g in GROUPS)
+    base = ''.join(f'''
+        <button class="bx-eng e-{k}" type="button" data-eng="{k}" aria-pressed="{"true" if k in x0["engines"] else "false"}">
+          <span class="bx-eng-top"><span class="bot bot-xs" data-bot="{k}"></span><b>{E(ENGINE_NAME[k])}</b><span class="label">{E(ELEMENT[k].lower())}</span><span class="bx-check" aria-hidden="true"></span></span>
+          <span class="bx-eng-h">{E(ENGINE_DOES[k][0])}</span>
+          <span class="bx-eng-p">{E(ENGINE_DOES[k][1])}</span>
+        </button>''' for k in BUILD_ORDER)
+    styles = ''.join(f'''
+        <label class="bx-style s-{k}"><input type="radio" name="bx-style" value="{k}"{" checked" if i == 0 else ""}><span class="bx-sw" aria-hidden="true"><i></i><i></i><i></i></span><b>{E(n)}</b><span>{E(d)}</span></label>'''
+                     for i, (k, n, d) in enumerate(BUILD_STYLES))
+    site0 = SITE_COPY[x0['id']]
+
+    def head(i, title, lede):
+        return f'''
+      <div class="bs-hd">
+        <span class="bs-n" aria-hidden="true">0{i}</span>
+        <div class="head-l"><p class="eyebrow">Step {i} of 4</p><h2 class="h2" id="step-{i}-h">{title}</h2></div>
+        <p class="lede">{lede}</p>
+      </div>'''
+
+    def nxt(i, text):
+        return f'<div class="bs-next"><a class="btn ghost" href="#step-{i}">Next: {text} {ARR_D}</a></div>'
+
+    return f'''
+<div class="bx" id="build" data-bx>
+  <script type="application/json" id="bx-data">{blob}</script>
+
+  <section class="sec bstep" id="step-1" aria-labelledby="step-1-h">
+    <div class="wrap">{head(1, 'Set your base.', 'Every engine starts with a website built to sell. Pick your business, then the engines it runs on.')}
+      <div class="tpick bx-pick"><label class="tpick-l" for="bx-biz">My business</label><span class="tpick-s"><select id="bx-biz">{opts_html}</select></span></div>
+      <div class="bx-base">
+        <div class="bx-site">
+          <span class="bx-eng-top"><span class="bx-site-ic" aria-hidden="true"><i></i><i></i><i></i></span><b>Website</b><span class="label">always on</span></span>
+          <span class="bx-eng-h">It brings them in.</span>
+          <span class="bx-eng-p">Designed to sell, fast, and set up for Google and AI search. Everything else runs off it.</span>
+        </div>{base}
+      </div>
+      <div class="bx-total"><span class="bx-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="label"><b data-bx-count>{len(x0["engines"])} engines</b> / <b data-bx-price>$15k+</b> a month / website included</span></div>
+      {nxt(2, 'choose your add-ons')}
+    </div>
+  </section>
+
+  <section class="sec bstep" id="step-2" aria-labelledby="step-2-h">
+    <div class="wrap">{head(2, 'Choose your add-ons.', 'Tools made for your kind of business. Each one plugs into an engine. Add any, any time.')}
+      <div class="bx-tools" id="bx-tools"></div>
+      <p class="label bx-note"><b data-bx-tcount>4 add-ons</b> / priced per tool, added monthly</p>
+      {nxt(3, 'choose your build style')}
+    </div>
+  </section>
+
+  <section class="sec bstep" id="step-3" aria-labelledby="step-3-h">
+    <div class="wrap">{head(3, 'Choose your build style.', 'How your website looks and feels. We design every site from scratch. This sets the direction.')}
+      <div class="bx-look">
+        <fieldset class="bx-styles"><legend class="sr">Build style</legend>{styles}
+        </fieldset>
+        <div class="bx-prev" data-bx-mock="style"></div>
+      </div>
+      {nxt(4, 'watch it run')}
+    </div>
+  </section>
+
+  <section class="sec bstep bs-run" id="step-4" aria-labelledby="step-4-h">
+    <div class="wrap">{head(4, 'Now watch it run.', 'One day in your business with this build. It does the work. You step in when it asks.')}
+      <div class="bx-run">
+        <div class="bx-stage">
+          <div class="bx-stats">
+            <div><span class="label">time</span><b data-bx-clock>5:59am</b></div>
+            <div><span class="label">done on its own</span><b data-bx-auto>0</b></div>
+            <div><span class="label">needed you</span><b data-bx-you>0</b></div>
+          </div>
+          <div class="bx-prev" data-bx-mock="run"></div>
+        </div>
+        <div class="bx-log">
+          <div class="bx-log-hd"><span class="label" data-bx-logt>a day at {E(site0[0].lower())}</span><button class="btn bx-play" type="button" data-bx-play>Run the day {ARR_R}</button></div>
+          <ol class="bx-rows" data-bx-rows></ol>
+          <div class="bx-done" data-bx-done hidden>
+            <p class="bx-done-h" data-bx-sum aria-live="polite"></p>
+            <div class="actions"><a class="btn" href="start.html#build" data-bx-apply>Apply with this build {ARR_R}</a><button class="btn ghost" type="button" data-bx-again>Run it again {ARR_R}</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bx-bar" data-bx-bar>
+    <div class="wrap bx-bar-in">
+      <div class="bxb-sum"><span class="label">your build</span><b data-bx-biz>{E(x0['name'])}</b><span class="bxb-meta" data-bx-meta></span></div>
+      <div class="bxb-price"><b data-bx-price>$15k+</b><span class="label">a month</span></div>
+      <a class="btn bxb-go" href="start.html#build" data-bx-apply><span>Apply<span class="bxb-long"> with this build</span></span> {ARR_R}</a>
+    </div>
+  </div>
+</div>
+'''
+
+
 def tools_for(x):
     """Tools for one kind of business, by engine: (name, line, index of its walkthrough or None)."""
     out = {k: [] for k, *_ in ENGINES}
@@ -561,6 +709,7 @@ def inquiry(level='h2', heading='Apply to work with us.',
     <form class="inq" action="/api/inquiry" method="post" novalidate data-email="{EMAIL}" aria-label="Application">
       <div class="inq-hd"><span class="sq"></span><span class="sq"></span><span class="sq"></span><span class="pane-title">Application</span><span class="label">* required</span></div>
       <div class="inq-os" hidden><span class="label">asking about</span><b class="inq-os-n"></b><button class="label inq-os-x" type="button">remove &times;</button><input type="hidden" name="os" id="inq-os" disabled></div>
+      <div class="inq-os inq-build" hidden><span class="label">your build</span><b class="inq-os-n"></b><button class="label inq-os-x" type="button">remove &times;</button><input type="hidden" name="setup" disabled></div>
       <script type="application/json" class="os-names">{json.dumps({x['id']: x['name'] for x in MARKET})}</script>
       <div class="inq-grid">
         <label class="fl"><span class="label" data-err="add your name">Name *</span><input class="inp" id="inq-name" name="name" autocomplete="name" maxlength="120" required></label>
@@ -598,73 +747,7 @@ def home(mode='full'):
               f'<span class="tag br label">1600 x 900</span></figure>')
     pains = ''.join(pain_card(i, t, k) for i, (t, k) in enumerate(PAINS))
     say_meter = ''.join('<i></i>' for _ in PAINS)
-    tool0 = ICP['pool-service']
-    tool_opts = ''.join(f'<optgroup label="{E(g["name"])}">' + ''.join(
-        f'<option value="{x["id"]}"{" selected" if x is tool0 else ""}>{E(x["name"])}</option>' for x in icps_in(g['id'])) + '</optgroup>' for g in GROUPS)
-    tools_json = json.dumps({x['id']: {'n': x['name'], 'u': x['engines'], 't': {k: [[a, b] for a, b, _ in v] for k, v in tools_for(x).items()}}
-                             for x in ICPS}, separators=(',', ':')).replace('</', '<\\/')
-    wall = ''.join(
-        f'\n      <li><a class="wl" href="for/{x["id"]}.html" data-e="{x["engines"][0]}">{E(x["name"])}</a></li>'
-        for x in ICPS)
-    feats = [
-        ('leads', 'It answers every lead.',
-         'Visitors price the job on your site and get a real reply in minutes, day or night. Every lead lands with its quote.',
-         ('leads', 'on your website', 'Instant price quotes', 'Customers price the job themselves, and you get their details.'),
-         f"""<div class="fv fv-quote">
-            <div class="fv-hd"><span class="label">instant price</span><span class="label">on your website</span></div>
-            <div class="fvq-row"><span>Patio</span><b>400 sq ft</b></div>
-            <div class="fvq-row"><span>Material</span><b>Pavers</b></div>
-            <div class="fvq-amt"><span class="label">your price range</span><b>$8,400 to $9,600</b></div>
-            <ul class="fv-log"><li><span class="bot bot-xs" data-bot="leads"></span>lead saved with the quote<em>8:14pm</em></li><li><span class="bot bot-xs" data-bot="agents"></span>reply drafted in your voice<em>8:15pm</em></li><li><span class="fv-you">You</span>approved from the couch<em>8:19pm</em></li></ul>
-          </div>"""),
-        ('agents', 'It follows up for you.',
-         'Reminders, rebooking and invoice nudges go out in your voice. Anything new waits for your OK.',
-         ('agents', '3 days after a quote', 'Quote follow-ups', 'Checks in on open quotes before they go cold.'),
-         f"""<div class="fv fv-ok">
-            <div class="fv-hd"><span class="label">needs your OK</span><span class="label">1 of 3</span></div>
-            <p class="fvo-to"><b>Maya Chen</b><span>quote sent 3 days ago</span></p>
-            <p class="fvo-msg">Hi Maya, just checking in on the patio quote. Happy to walk through options, or hold a spot for May. Want me to pencil you in?</p>
-            <div class="fvo-act"><span class="fv-btn">Approve and send</span><span class="fv-btn ghost">Edit</span></div>
-          </div>"""),
-        ('ops', 'It keeps the day on track.',
-         'Schedule, clients, orders and numbers stay current on their own. A summary hits your phone at 6am.',
-         ('ops', 'every morning at 6', 'Morning summary', 'What happened overnight and what needs you, on one screen.'),
-         f"""<div class="fv fv-sum">
-            <div class="fv-hd"><span class="label">morning summary</span><span class="label">6:00am</span></div>
-            <ul><li><b>9</b><span>visits on the schedule today</span></li><li><b>2</b><span>notes to sign</span></li><li><b>3</b><span>unpaid invoices, $1,240 open</span></li><li><b>1</b><span>reply waiting for your OK</span></li></ul>
-          </div>"""),
-        ('marketing', 'It brings people back.',
-         'Newsletters and welcome emails from your own domain, and landing pages that turn visitors into leads.',
-         ('marketing', 'when someone joins your list', 'Welcome series', 'Welcome emails on a schedule, with a one-time offer code.'),
-         f"""<div class="fv fv-mail">
-            <div class="fv-hd"><span class="label">newsletter</span><span class="label">sent tuesday</span></div>
-            <p class="fvm-from">From <b>Juniper Physio</b> &lt;hello@juniperphysio.com&gt;</p>
-            <p class="fvm-sub">What's new at Juniper this month</p>
-            <div class="fvm-body"><i></i><i></i><i class="s"></i></div>
-            <div class="fvm-stats"><span><b>1,240</b> delivered</span><span><b>6</b> bounced</span><span><b>3</b> unsubscribed</span></div>
-          </div>"""),
-    ]
-    feat_jobs = job_cards([f[3] for f in feats], start='start.html', demo='how-it-works.html')
-    feat_jobs = feat_jobs[feat_jobs.index('<script'):]
-    feat_html = ''.join(f"""
-  <section class="feat e-{k}{' flip' if i % 2 else ''}" id="f-{k}" aria-labelledby="f-{k}-h">
-    <div class="wrap feat-in">
-      <div class="feat-t">
-        <p class="feat-k"><i aria-hidden="true"></i>{E(ENGINE_NAME[k])}<span>/ {E(ELEMENT[k].lower())}</span></p>
-        <h2 class="feat-h" id="f-{k}-h">{E(h)}</h2>
-        <p class="feat-p">{E(p)}</p>
-        <button class="play-open feat-go" type="button" data-job="{i}" aria-haspopup="dialog">See it run {ARR_R}</button>
-      </div>
-      <div class="feat-v">{vis}
-        {bot_card(k)}
-      </div>
-    </div>
-  </section>""" for i, (k, h, p, _job, vis) in enumerate(feats))
-    TABS = [('Website', 'site', '#website'), ('Instant quotes', 'leads', '#f-leads'), ('Fast replies', 'leads', '#f-leads'),
-            ('Follow-ups', 'agents', '#f-agents'), ('Rebooking', 'agents', '#f-agents'), ('Reminders', 'agents', '#f-agents'),
-            ('Morning summary', 'ops', '#f-ops'), ('Records', 'ops', '#f-ops'), ('Newsletters', 'marketing', '#f-marketing'),
-            ('Landing pages', 'marketing', '#f-marketing'), ('Industry tools', 'site', '#tools')]
-    tabs_html = ''.join(f'<a class="htab{"" if k == "site" else " e-" + k}" href="{h}">{E(t)}</a>' for t, k, h in TABS)
+    steps_html = ''.join(f'<a class="htab" href="#{h}"><b>0{i + 1}</b>{E(t)}</a>' for i, (t, h) in enumerate(BUILD_STEPS))
     body = f'''
 <section class="hero" id="hero">
   <canvas class="field" id="field" aria-hidden="true"></canvas>
@@ -675,13 +758,13 @@ def home(mode='full'):
     <p class="lede">It answers leads, books, follows up and brings people back, on its own. We build it around how you work and keep it tuned.</p>
     {spots(' hero-spots')}
     <div class="actions">
-      <a class="btn" href="start.html">Apply for a spot {ARR_R}</a>
-      <a class="btn ghost" href="#website">See how it works {ARR_D}</a>
+      <a class="btn" href="#step-1">Build your engine {ARR_D}</a>
+      <a class="btn ghost" href="start.html">Apply for a spot {ARR_R}</a>
     </div>
-    <nav class="htabs" aria-label="What we build">{tabs_html}</nav>
+    <nav class="htabs hsteps" aria-label="Build your engine in four steps">{steps_html}</nav>
   </div>
 </section>
-
+''' + builder(ICP['pool-service']) + f'''
 <section class="sec say" id="familiar" aria-labelledby="familiar-h">
   <div class="wrap say-hd">
     <div>
@@ -698,27 +781,6 @@ def home(mode='full'):
   </ul>
   <div class="wrap">
     <div class="say-meter" aria-hidden="true">{say_meter}</div>
-  </div>
-</section>
-''' + site_section('How it fits together', 'It starts at your website.',
-                   'Your website is the front of the engine. Every visit, form, quote and booking flows in, and the engine takes it from there.') + f'''
-<div class="feats" data-jobs="jobs-data">{feat_html}
-  {feat_jobs}
-</div>
-
-<section class="sec tools-sec" id="tools" aria-labelledby="tools-h">
-  <div class="wrap">
-    <div class="tools-hd">
-      <div class="head-l">
-        <p class="eyebrow">Tools</p>
-        <h2 class="h2" id="tools-h">Built for your industry.</h2>
-      </div>
-      <p class="lede">Every engine takes tools made for the work you do. Pick your business.</p>
-    </div>
-    <div class="tpick"><label class="tpick-l" for="tool-for">Show tools for</label><span class="tpick-s"><select id="tool-for">{tool_opts}</select></span><a class="label tpick-go" id="tool-go" href="for/{tool0['id']}.html#tools">Open the {E(tool0['name'].lower())} page {ARR_R}</a></div>
-    <div class="tboard compact" id="tboard" aria-live="polite">{tool_cols(tool0)}
-    </div>
-    <script type="application/json" id="tools-data">{tools_json}</script>
   </div>
 </section>
 
@@ -746,39 +808,6 @@ def home(mode='full'):
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="sec wall-sec" id="for" aria-labelledby="for-h">
-  <div class="wrap">
-    <div class="wall-hd">
-      <div class="head-l">
-        <p class="eyebrow">Who it's for</p>
-        <h2 class="h2" id="for-h">Pick your business.</h2>
-      </div>
-      <p class="lede">Each one opens a short page: what we'd build for you, the tools you'd get and what it costs.</p>
-    </div>
-    <ul class="wall">{wall}
-    </ul>
-    <div class="wall-ft"><p class="label">not on the list? every build starts from how you work</p><a class="btn ghost" href="for.html">See all {len(ICPS)} {ARR_R}</a></div>
-  </div>
-</section>
-
-<section class="sec" id="method" aria-labelledby="method-h">
-  <div class="wrap">
-    <div class="head">
-      <div class="head-l">
-        <p class="eyebrow">How we work together</p>
-        <h2 class="h2" id="method-h">How a build runs.</h2>
-      </div>
-      <a class="btn ghost" href="how-it-works.html">How it works {ARR_R}</a>
-    </div>
-    <ol class="track">
-      <li class="tk-step"><span class="tk-n">01</span><span class="tk-dot"><svg class="px" data-icon="discuss" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Discuss</h3><p>We talk with you and your team and see how the work really gets done.</p></li>
-      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We build your engine around how you work, starting with your website.</p></li>
-      <li class="tk-step"><span class="tk-n">03</span><span class="tk-dot"><svg class="px" data-icon="implement" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Launch</h3><p>We turn it on one piece at a time, until it runs without you in the middle.</p></li>
-      <li class="tk-step"><span class="tk-n">04</span><span class="tk-dot"><svg class="px" data-icon="measure" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Improve</h3><p>Every month we pick the next thing to take off your plate.</p></li>
-    </ol>
   </div>
 </section>
 

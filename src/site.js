@@ -582,6 +582,20 @@ $$('form.inq').forEach(f=>{
     osBox.hidden=!nm;osIn.disabled=!nm;osIn.value=nm||'';$('.inq-os-n',osBox).textContent=nm||'';
   }
   if(h.indexOf('os-')===0)setOS(h.slice(3));
+  // a build from the home walkthrough (start.html#build=...)
+  const bBox=$('.inq-build',f),raw=location.hash||'';
+  if(bBox&&raw.indexOf('#build=')===0){
+    let B=null;try{B=JSON.parse(decodeURIComponent(raw.slice(7)));}catch(e){}
+    if(B&&B.b){
+      const N={leads:'Leads',agents:'Agents',ops:'Ops',marketing:'Marketing'},eng=(B.e||[]).filter(k=>N[k]);
+      const txt=B.b+' / '+eng.map(k=>N[k]).join(', ')+(B.t&&B.t.length?' / add-ons: '+B.t.join(', '):'')+(B.s?' / '+B.s+' style':'');
+      const inp=$('input',bBox);inp.value=txt.slice(0,600);inp.disabled=false;$('.inq-os-n',bBox).textContent=txt;bBox.hidden=false;
+      const ty=document.getElementById('inq-type-'+B.f);if(ty&&f.contains(ty))ty.checked=true;
+      eng.forEach(k=>{const c=document.getElementById('inq-build-'+k);if(c)c.checked=true;});
+      const lic=document.getElementById('inq-license-'+(eng.length>=3?'company':eng.length===2?'core':'one'));if(lic)lic.checked=true;
+      $('.inq-os-x',bBox).addEventListener('click',()=>{bBox.hidden=true;inp.disabled=true;inp.value='';});
+    }
+  }
   if(osBox)$('.inq-os-x',osBox).addEventListener('click',()=>{setOS(null);const m=f.elements.message;if(m)m.focus();});
   const other=$('.type-other',f),otherIn=other&&$('input',other);
   function syncOther(focus){
@@ -614,7 +628,7 @@ $$('form.inq').forEach(f=>{
     return d;
   }
   function compose(d){
-    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Asking about',d.os],['Business',d.type_other||d.type],['Team size',d.team],
+    const rows=[['Name',d.name],['Email',d.email],['Company',d.company],['Asking about',d.os],['Their build',d.setup],['Business',d.type_other||d.type],['Team size',d.team],
       ['Build',(d.build||[]).join(', ')],['License',d.license],['Sell to others',d.resale],['Start',d.timing]];
     return rows.filter(r=>r[1]).map(r=>r[0]+': '+r[1]).join('\n')+'\n\nWhat still runs through me:\n'+(d.message||'');
   }
@@ -730,6 +744,199 @@ $$('.bot-card').forEach(card=>{
 
 let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{drawAllMinis();refreshThumbs(false);},150);});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThumbs(true));
+
+/* ---------- build your engine: the home walkthrough ---------- */
+(function(){
+  const root=$('[data-bx]');if(!root)return;
+  let D;try{D=JSON.parse($('#bx-data',root).textContent);}catch(e){return;}
+  const ORDER=['leads','agents','ops','marketing'],KEY='oplev-build';
+  const sel=$('#bx-biz',root),toolsEl=$('#bx-tools',root),rowsEl=$('[data-bx-rows]',root),doneEl=$('[data-bx-done]',root);
+  const playBtn=$('[data-bx-play]',root);
+  const S={biz:sel.value,eng:[],tools:new Set(),style:'clean'};
+  const tk=(k,n)=>k+'|'+n;
+  const price=n=>n>=3?'$15k+':n===2?'$10k':'$5k';
+  const plural=(n,w)=>n+' '+w+(n===1?'':'s');
+  const ICP=()=>D.icps[S.biz];
+  function firstTools(k){
+    const list=(ICP().t[k]||[]);let picked=list.filter(t=>t[2]);
+    if(!picked.length&&list.length)picked=[list[0]];
+    picked.forEach(t=>S.tools.add(tk(k,t[0])));
+  }
+  function defaults(id){S.biz=id;S.eng=ICP().e.slice();S.tools=new Set();S.eng.forEach(firstTools);}
+  // pick up where this visitor left off
+  let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
+  if(saved&&D.icps[saved.biz]){
+    S.biz=saved.biz;sel.value=saved.biz;
+    S.eng=(saved.eng||[]).filter(k=>ORDER.includes(k));if(!S.eng.length)S.eng=ICP().e.slice();
+    const valid=new Set();S.eng.forEach(k=>(ICP().t[k]||[]).forEach(t=>valid.add(tk(k,t[0]))));
+    S.tools=new Set((saved.tools||[]).filter(t=>valid.has(t)));
+    if(D.styles[saved.style])S.style=saved.style;
+  }else defaults(sel.value);
+
+  /* website mock: restyles with the build style, shows the add-ons that live on the site */
+  const KINDS=[[/price|quote|estimate|calculat|scoper|value|ballpark|cost/,'calc'],[/finder|quiz|matcher|qualifier|fit check|preview|shade/,'quiz'],[/\bform\b/,'form'],
+    [/book|consult|discovery|demo|trial|tour|evaluation|showing/,'slots'],[/newsletter|series|signup|\blist\b|offer|welcome|waitlist|campaign|email|pass|guide|challenge|alert/,'sign'],
+    [/form|request|intake|application|referral/,'form'],[/repl|answer|question|line|routing/,'chat']];
+  const kindOf=n=>{n=n.toLowerCase();for(const [re,k] of KINDS)if(re.test(n))return k;return 'form';};
+  // follow-ups and tests run behind the scenes, everything else shows up on the website
+  const onSite=(k,n)=>(k==='leads'||k==='marketing')&&!/follow-up|page test|tests$/i.test(n);
+  function siteTools(){
+    const out=[];['leads','marketing'].forEach(k=>{if(!S.eng.includes(k))return;(ICP().t[k]||[]).forEach(t=>{if(S.tools.has(tk(k,t[0]))&&onSite(k,t[0]))out.push([k,t[0]]);});});
+    return out;
+  }
+  function widget(k,name){
+    const kd=kindOf(name),l='<span class="bm-wl">'+esc(name)+'</span>',a=' data-w="'+esc(tk(k,name))+'"';
+    const inner={calc:l+'<span class="bm-sl"><i></i></span><b class="bm-amt">$1,240</b>',
+      quiz:l+'<span class="bm-q">Which one fits you?</span><span class="bm-chips"><i></i><i></i><i></i></span>',
+      slots:l+'<span class="bm-chips t"><i>9:00</i><i>11:30</i><i>2:15</i></span>',
+      sign:l+'<span class="bm-in"></span><em>Join</em>',
+      form:l+'<span class="bm-in"></span><span class="bm-in s"></span><em>Send</em>',
+      chat:l+'<span class="bm-bub">Hi! How can we help?</span>'}[kd];
+    return '<div class="bm-w w-'+kd+' e-'+k+'"'+a+'>'+inner+'</div>';
+  }
+  function mock(){
+    const c=ICP().site,dom=c[0].toLowerCase().replace(/[^a-z0-9]/g,'')+'.com';
+    let w=siteTools().slice(0,2).map(t=>widget(t[0],t[1])).join('');
+    if(!w)w='<div class="bm-w w-form"><span class="bm-wl">Talk to us</span><span class="bm-in"></span><span class="bm-in s"></span><em>Send</em></div>';
+    return '<figure class="bm st-'+S.style+'" aria-label="'+esc(D.styles[S.style]+' website preview for '+c[0])+'">'+
+      '<div class="bm-bar"><i></i><i></i><i></i><span>'+esc(dom)+'</span></div>'+
+      '<div class="bm-page"><div class="bm-nav"><b>'+esc(c[0])+'</b><span class="bm-links"><i></i><i></i><i></i></span><em>'+esc(c[2])+'</em></div>'+
+      '<div class="bm-hero"><p class="bm-h">'+esc(c[1])+'</p><p class="bm-p"></p><p class="bm-p s"></p><span class="bm-btn">'+esc(c[2])+'</span></div>'+
+      '<div class="bm-row">'+w+'</div></div><div class="bm-toast" data-bm-toast hidden></div></figure>';
+  }
+
+  /* step 2: add-ons, one column per engine */
+  function renderTools(){
+    toolsEl.innerHTML=ORDER.map(k=>{
+      const on=S.eng.includes(k),e=D.eng[k],list=ICP().t[k]||[];
+      const hd='<div class="bx-col-hd">'+botTag(k)+'<b>'+esc(e.n)+'</b><span class="label">'+esc(e.el.toLowerCase())+'</span></div>';
+      if(!on)return '<div class="bx-col off e-'+k+'">'+hd+'<p class="bx-off-p">Not in your base yet.</p><button class="bx-add" type="button" data-add="'+k+'">Add '+esc(e.n)+' <span aria-hidden="true">+</span></button></div>';
+      if(!list.length)return '<div class="bx-col e-'+k+'">'+hd+'<p class="bx-off-p">We build these to order.</p></div>';
+      return '<div class="bx-col e-'+k+'">'+hd+'<ul class="bx-tl">'+list.map(t=>{
+        const p=S.tools.has(tk(k,t[0]));
+        return '<li><button class="bx-tool" type="button" data-tool="'+esc(tk(k,t[0]))+'" aria-pressed="'+p+'"><span class="bx-tool-top"><b>'+esc(t[0])+'</b><span class="bx-check" aria-hidden="true"></span></span><span class="bx-tool-d">'+esc(t[1])+'</span>'+(t[2]?'<span class="label bx-pop">most picked</span>':'')+'</button></li>';
+      }).join('')+'</ul></div>';
+    }).join('');
+  }
+
+  function summary(){
+    const tools=[];ORDER.forEach(k=>{if(!S.eng.includes(k))return;(ICP().t[k]||[]).forEach(t=>{if(S.tools.has(tk(k,t[0])))tools.push(t[0]);});});
+    return {b:ICP().n,f:ICP().f,e:S.eng.slice(),t:tools,s:D.styles[S.style]};
+  }
+  function sync(){
+    const n=S.eng.length,tc=summary().t.length;
+    $$('.bx-eng',root).forEach(b=>b.setAttribute('aria-pressed',S.eng.includes(b.dataset.eng)?'true':'false'));
+    $$('[data-bx-count]',root).forEach(el=>el.textContent=plural(n,'engine'));
+    $$('[data-bx-price]',root).forEach(el=>el.textContent=price(n));
+    $$('.bx-meter i',root).forEach((el,i)=>el.classList.toggle('on',i<n));
+    $$('[data-bx-tcount]',root).forEach(el=>el.textContent=plural(tc,'add-on'));
+    $$('[data-bx-biz]',root).forEach(el=>el.textContent=ICP().n);
+    const names=ORDER.filter(k=>S.eng.includes(k)).map(k=>D.eng[k].n).join(', ');
+    $$('[data-bx-meta]',root).forEach(el=>el.textContent=names+' / '+plural(tc,'add-on')+' / '+D.styles[S.style]);
+    $$('[data-bx-logt]',root).forEach(el=>el.textContent='a day at '+ICP().site[0].toLowerCase());
+    const href='start.html#build='+encodeURIComponent(JSON.stringify(summary()));
+    $$('[data-bx-apply]',root).forEach(a=>a.setAttribute('href',href));
+    $$('input[name="bx-style"]',root).forEach(r=>{r.checked=r.value===S.style;});
+    $$('[data-bx-mock]',root).forEach(el=>el.innerHTML=mock());
+    try{localStorage.setItem(KEY,JSON.stringify({biz:S.biz,eng:S.eng,tools:Array.from(S.tools),style:S.style}));}catch(e){}
+  }
+  function changed(){renderTools();sync();stale();}
+
+  sel.addEventListener('change',()=>{defaults(sel.value);changed();});
+  $$('.bx-eng',root).forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.eng,on=S.eng.includes(k);
+    if(on){
+      if(S.eng.length===1){b.classList.remove('nope');void b.offsetWidth;b.classList.add('nope');return;}
+      S.eng=S.eng.filter(x=>x!==k);Array.from(S.tools).forEach(t=>{if(t.indexOf(k+'|')===0)S.tools.delete(t);});
+    }else{S.eng=ORDER.filter(x=>x===k||S.eng.includes(x));firstTools(k);}
+    changed();
+  }));
+  toolsEl.addEventListener('click',e=>{
+    const t=e.target.closest('[data-tool]'),a=e.target.closest('[data-add]');
+    if(t){const v=t.dataset.tool;if(S.tools.has(v))S.tools.delete(v);else S.tools.add(v);t.setAttribute('aria-pressed',S.tools.has(v)?'true':'false');sync();stale();}
+    else if(a){const k=a.dataset.add;S.eng=ORDER.filter(x=>x===k||S.eng.includes(x));firstTools(k);changed();
+      const b=$('[data-tool^="'+k+'|"]',toolsEl);if(b)b.focus();}
+  });
+  $$('input[name="bx-style"]',root).forEach(r=>r.addEventListener('change',()=>{if(r.checked){S.style=r.value;sync();}}));
+
+  /* step 4: one day, run by the engine */
+  const BASE={
+    ops:[[360,'ops','Morning summary sent to your phone','What happened overnight and what needs you today.','sent'],[1050,'ops',"Today's numbers updated",'Sales, open jobs and money in, without a spreadsheet.','updated']],
+    leads:[[612,'leads','New question on your website','Answered in 2 minutes, with a link to book.','answered','chat'],[1241,'leads','New lead at 8:41pm','Answered on the spot and saved with the whole conversation.','saved','chat']],
+    agents:[[614,'agents','Reply drafted in your voice','For the 10:12 question. Waiting for your OK.','needs you',null,1],[619,'you','You approved it from your phone','Sent with a link to book.','approved'],[840,'agents','Reminders sent for tomorrow','Everyone on the schedule, in your voice.','sent']],
+    marketing:[[750,'marketing','New subscriber from your website','Welcome email 1 is on its way.','added','sign'],[962,'marketing','Newsletter draft ready','Built from your brand kit. Waiting for your OK.','needs you',null,1],[966,'you','You approved the newsletter','It goes out Tuesday at 9am, from your own domain.','approved']]
+  };
+  const SLOTS={ops:[365,455,720,1090,1110],agents:[510,585,680,810,915,1000,1145,1200],leads:[545,710,790,1170,1275,1350,1380],marketing:[435,765,930,1130,1160]};
+  function events(){
+    const ev=[];
+    ORDER.forEach(k=>{
+      if(!S.eng.includes(k))return;
+      BASE[k].forEach(b=>ev.push({m:b[0],k:b[1],t:b[2],d:b[3],st:b[4],site:b[5]||null,need:!!b[6]}));
+      let i=0;(ICP().t[k]||[]).forEach(t=>{
+        if(!S.tools.has(tk(k,t[0])))return;
+        const m=SLOTS[k][i%SLOTS[k].length]+Math.floor(i/SLOTS[k].length)*7;i++;
+        const site=onSite(k,t[0])?kindOf(t[0]):null;
+        ev.push({m,k,t:t[0],d:t[1],st:'done',site,w:site?tk(k,t[0]):null});
+      });
+    });
+    return ev.sort((a,b)=>a.m-b.m);
+  }
+  const clock=m=>{const h=Math.floor(m/60)%24,mm=m%60;return ((h%12)||12)+':'+pad2(mm)+(h<12?'am':'pm');};
+  const TOAST={calc:'New price request: $1,240',quiz:'Someone found their match',slots:'New booking: Thursday at 11:30',sign:'New subscriber joined',form:'New request came in',chat:'New question: "Any openings this week?"'};
+  function rowHTML(ev){
+    const who=ev.k==='you'?'<span class="bx-you">You</span>':botTag(ev.k);
+    return '<li class="bx-row'+(ev.k==='you'?' is-you':' e-'+ev.k)+(ev.need?' is-need':'')+'"><span class="bx-t">'+clock(ev.m)+'</span><span class="bx-who">'+who+'</span>'+
+      '<span class="bx-txt"><b>'+esc(ev.t)+'</b><span>'+esc(ev.d)+'</span></span><span class="bx-st label">'+esc(ev.st)+'</span></li>';
+  }
+  let run=0,played=false,dirty=false;
+  const setStat=(sel2,v)=>{const el=$(sel2,root);if(el)el.textContent=v;};
+  function stale(){
+    if(!played)return;run++;dirty=true;rowsEl.innerHTML='';doneEl.hidden=true;playBtn.hidden=false;
+    playBtn.firstChild.nodeValue='Run it with your changes ';setStat('[data-bx-clock]','5:59am');setStat('[data-bx-auto]','0');setStat('[data-bx-you]','0');
+  }
+  async function play(){
+    const id=++run;played=true;dirty=false;
+    const ev=events();rowsEl.innerHTML='';doneEl.hidden=true;playBtn.hidden=true;
+    let auto=0,you=0;setStat('[data-bx-auto]','0');setStat('[data-bx-you]','0');
+    const stage=$('[data-bx-mock="run"]',root);
+    for(const e of ev){
+      if(id!==run)return;
+      if(e.k==='you')you++;else auto++;
+      rowsEl.insertAdjacentHTML('beforeend',rowHTML(e));
+      const li=rowsEl.lastElementChild;
+      setStat('[data-bx-clock]',clock(e.m));setStat('[data-bx-auto]',String(auto));setStat('[data-bx-you]',String(you));
+      if(!RM){
+        li.classList.add('in');rowsEl.scrollTop=rowsEl.scrollHeight;
+        if(e.site&&stage){
+          const toast=$('[data-bm-toast]',stage),w=e.w&&stage.querySelector('[data-w="'+e.w.replace(/"/g,'\\"')+'"]');
+          if(toast){toast.textContent=TOAST[e.site]||TOAST.form;toast.hidden=false;toast.classList.remove('pop');void toast.offsetWidth;toast.classList.add('pop');}
+          $$('.bm-w.hit',stage).forEach(x=>x.classList.remove('hit'));if(w)w.classList.add('hit');
+          if(w&&e.site==='calc'){const a=$('.bm-amt',w);if(a)a.textContent=['$860','$1,240','$2,150','$3,400'][Math.random()*4|0];}
+        }
+        await sleep(e.k==='you'?900:620);
+      }
+    }
+    if(id!==run)return;
+    const mins=you*2;
+    $('[data-bx-sum]',root).textContent='One day. '+plural(auto,'thing')+' done on its own. '+(you?'You stepped in '+(you===1?'once':you+' times')+', about '+mins+' minutes.':"You didn't have to do a thing.");
+    doneEl.hidden=false;
+    const t=$('[data-bm-toast]',root);if(t)t.hidden=true;
+  }
+  playBtn.addEventListener('click',play);
+  $('[data-bx-again]',root).addEventListener('click',play);
+  const runEl=$('.bx-run',root);
+  if(hasIO&&runEl){
+    new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&(!played||dirty))play();}),{threshold:.35}).observe(runEl);
+  }
+  // the build bar shows up once you're into the steps
+  const bar=$('[data-bx-bar]',root);
+  if(bar){
+    root.classList.add('bx-js');let tick=false;
+    const place=()=>{tick=false;const r=root.getBoundingClientRect();bar.classList.toggle('on',r.top<innerHeight*.4&&r.bottom>innerHeight*.6);};
+    addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(place);}},{passive:true});addEventListener('resize',place);place();
+  }
+  renderTools();sync();
+})();
 
 /* ---------- loader (once per visit) ---------- */
 (function(){
