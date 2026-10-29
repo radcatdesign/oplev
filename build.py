@@ -93,6 +93,13 @@ ENGINES = [
 ]
 ENGINE_NAME = {k: n for k, n, *_ in ENGINES}
 NE = len(ENGINES)
+# how each engine connects to the website everything grows from
+SITE_LINK = {
+    'leads': ('site to leads', 'Quotes, calculators and fast replies turn visitors into real conversations.'),
+    'agents': ('site to agents', 'Answers everyone who reaches out through the site, and books the visit.'),
+    'ops': ('site to ops', 'Every booking, order and form from the site lands in one place.'),
+    'marketing': ('back to the site', 'Emails, pages and search keep sending people back.'),
+}
 # every engine has an element
 ELEMENT = {'ops': 'Water', 'agents': 'Earth', 'leads': 'Fire', 'marketing': 'Wind'}
 ELEM_TILES = {
@@ -161,6 +168,7 @@ NIGHT = {
 # what owners tell us, and what fixes it: an engine key, 'system' (all of them together) or 'resale'
 PAINS = [
     ('Everything still runs through me.', 'ops'),
+    ('Our website looks fine and does nothing.', 'site'),
     ('I pay for a stack of apps and still live in spreadsheets.', 'system'),
     ('Leads come in at night and sit until Monday.', 'leads'),
     ("I can't take a week off.", 'agents'),
@@ -181,6 +189,8 @@ def qmark():
 def pain_card(i, text, k):
     if k in ENGINE_NAME:
         icon, who, cls = f'<span class="bot bot-xs" data-bot="{k}"></span>', f'{ENGINE_NAME[k]}', f'e-{k}'
+    elif k == 'site':
+        icon, who, cls = '<span class="sc-site" aria-hidden="true"><i></i></span>', 'A website that sells', 'e-sys'
     elif k == 'system':
         icon, who, cls = edots([e for e, *_ in ENGINES]), 'All four, as one system', 'e-sys'
     else:
@@ -190,6 +200,7 @@ def pain_card(i, text, k):
 
 CMP_HEAD = ('Off-the-shelf apps', 'A typical agency', 'OpLev')
 CMP = [
+    ('Starts with a website that sells', 'No. You bring your own.', 'Sometimes, as a separate project', 'Yes. Everything runs off it'),
     ('Built around how you work', 'No. You work around it.', 'Yes', 'Yes'),
     ('How you pay', 'Per app, per person, every month', 'A big build fee, then hourly fixes', 'One monthly price'),
     ('Who keeps it running', 'You do', 'You, or a developer you hire', 'We do, every month'),
@@ -337,7 +348,7 @@ def shell_bottom():
     <p class="wm" id="wm" role="img" aria-label="OpLev">{wordmark_svg()}</p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>Custom engines for companies</span>
+      <span>Websites that sell. Engines that run the rest.</span>
       <span>{E(LOCATION)}</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -426,6 +437,59 @@ def job_cards(items, sid=None, p='', extra_cls='', start=None, demo=None):
     blob = json.dumps({'start': start, 'demo': demo, 'jobs': data}).replace('</', '<\\/')
     return (f'<ul class="plays{extra_cls}" data-jobs="jobs-data">' + ''.join(cards) + '\n    </ul>\n'
             f'    <script type="application/json" id="jobs-data">{blob}</script>')
+
+
+def site_mock(domain='yourbusiness.com', cls=''):
+    return f'''<figure class="site-mock{cls}" aria-label="Your website">
+          <div class="sm-bar"><i></i><i></i><i></i><span>{E(domain)}</span></div>
+          <div class="sm-body">
+            <div class="sm-nav"><b></b><i></i><i></i><i></i><em>Book now</em></div>
+            <div class="sm-hero"><p class="sm-h">Your headline, written to sell.</p><p class="sm-p"></p><p class="sm-p s"></p><span class="sm-cta">Get a price</span></div>
+            <div class="sm-row">
+              <div class="sm-card sm-calc"><span class="label">instant price</span><div class="sm-sl"><i></i></div><b class="sm-amt">$<span data-sm-amt>1,240</span></b></div>
+              <div class="sm-card sm-form"><span class="label">talk to us</span><i></i><i></i><em>Send</em></div>
+            </div>
+          </div>
+        </figure>'''
+
+
+def site_section(eyebrow, heading, lede, hid='site-h'):
+    order = ['leads', 'agents', 'ops', 'marketing']
+    nodes = ''.join(
+        f'<div class="sn e-{k}"><div class="sn-hd"><span class="bot bot-xs" data-bot="{k}"></span><b>{E(ENGINE_NAME[k])}</b>'
+        f'<span class="label">{E(ELEMENT[k].lower())}</span></div><p>{E(SITE_LINK[k][1])}</p><span class="label sn-flow">{E(SITE_LINK[k][0])}</span></div>'
+        for k in order)
+    stems = ''.join(
+        f'<path class="stem e-{k}{" up" if k == "marketing" else ""}" d="M500 0 C 500 60, {x} 50, {x} 120" vector-effect="non-scaling-stroke"/>'
+        for k, x in zip(order, (125, 375, 625, 875)))
+    return f'''
+<section class="sec site-sec" id="website" aria-labelledby="{hid}">
+  <div class="wrap">
+    <div class="site-hd">
+      <div class="head-l">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 class="h2" id="{hid}">{heading}</h2>
+      </div>
+      <p class="lede">{lede}</p>
+    </div>
+    <div class="site-map">
+      <div class="site-stage">
+        <ul class="site-notes">
+          <li><b>Fast</b><span>Loads before people lose interest.</span></li>
+          <li><b>Found</b><span>Set up for Google and AI search.</span></li>
+        </ul>
+        {site_mock()}
+        <ul class="site-notes">
+          <li><b>Convincing</b><span>Design and words that make the case.</span></li>
+          <li><b>Converting</b><span>Every page ends in a next step, and we test what works.</span></li>
+        </ul>
+      </div>
+      <svg class="stems" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">{stems}</svg>
+      <div class="site-nodes">{nodes}</div>
+    </div>
+  </div>
+</section>
+'''
 
 
 def tools_for(x):
@@ -546,7 +610,7 @@ def home(mode='full'):
     <article class="strip e-{k}" id="engine-{k}">
       <div class="wrap strip-in">
         <div class="strip-id"><span class="label strip-el">{elem(k)}engine {i + 1} / {E(ELEMENT[k].lower())} / {E(triad)}</span><h3 class="strip-name">{E(name)}</h3><p class="strip-who"><b>{E(BOT_ROLE[k][0])}.</b> {E(BOT_ROLE[k][1])}</p></div>
-        <div class="strip-bd"><p class="strip-line">{E(line)}</p><ul class="strip-caps">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul></div>
+        <div class="strip-bd"><p class="strip-line">{E(line)}</p><p class="strip-site"><span class="label">{E(SITE_LINK[k][0])}</span>{E(SITE_LINK[k][1])}</p><ul class="strip-caps">{''.join(f'<li>{E(x)}</li>' for x in caps)}</ul></div>
         <div class="strip-ft">{bot_card(k)}{(f'<span class="label">see it in</span>' + ''.join(f'<a href="{case_href(BY_ID[cid])}">{E(BY_ID[cid]["name"])}</a>' for cid in seen if cid in BY_ID)) if seen else '<span class="label">new engine</span><a href="start.html">Ask us about it</a>'}</div>
       </div>
     </article>''' for i, (k, name, icon, triad, line, caps, seen) in enumerate(ENGINES))
@@ -559,9 +623,9 @@ def home(mode='full'):
   <canvas class="field" id="field" aria-hidden="true"></canvas>
   <div class="wrap">
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
-    <p class="eyebrow">An agency that builds custom engines</p>
-    <h1 class="h1" id="h1">Your business shouldn't need you for everything.</h1>
-    <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span>, <span class="e-leads ec">Leads</span> and <span class="e-marketing ec">Marketing</span> engines, then add tools made for your industry. We run them for you every month, and you can license yours to others.</p>
+    <p class="eyebrow">Websites and engines, built as one</p>
+    <h1 class="h1" id="h1">A website that sells. Engines that run the rest.</h1>
+    <p class="lede">We design a fast, beautiful website built to convert, then connect <span class="e-leads ec">Leads</span>, <span class="e-agents ec">Agents</span>, <span class="e-ops ec">Ops</span> and <span class="e-marketing ec">Marketing</span> engines to it, with tools made for your industry. We run it all for you every month.</p>
     {spots(' hero-spots')}
     <div class="actions">
       <a class="btn" href="#work">See the work {ARR_D}</a>
@@ -569,7 +633,8 @@ def home(mode='full'):
     </div>
   </div>
 </section>
-
+''' + site_section('It starts with your website', 'Everything grows from the website.',
+                   'We design a site people want to stay on and built to turn them into customers. Every form, quote and booking on it feeds your engines, and Marketing keeps sending people back.') + f'''
 <section class="sec" id="work" aria-labelledby="work-h">
   <div class="wrap">
     <div class="head">
@@ -628,7 +693,7 @@ def home(mode='full'):
     <div class="center-hd">
       <p class="eyebrow">What we build</p>
       <h2 class="h2" id="engines-h">Four engines. Four elements.</h2>
-      <p class="lede">Water, earth, fire and wind. We build one or all four for your business, then add tools made for your industry. They share the same information, so nothing gets typed in twice.</p>
+      <p class="lede">Water, earth, fire and wind. Each one plugs into your website, and they share the same information, so nothing gets typed in twice. Start with one or run all four.</p>
     </div>
   </div>
   <div class="strips">{engines}
@@ -742,7 +807,7 @@ def home(mode='full'):
     </div>
     <ol class="track">
       <li class="tk-step"><span class="tk-n">01</span><span class="tk-dot"><svg class="px" data-icon="discuss" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Discuss</h3><p>We talk with you and your team and see how the work really gets done.</p></li>
-      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We build your engines around it and connect them to the tools you already use.</p></li>
+      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We design your website, then build your engines around it and connect them to the tools you already use.</p></li>
       <li class="tk-step"><span class="tk-n">03</span><span class="tk-dot"><svg class="px" data-icon="implement" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Launch</h3><p>We roll it out with your team one piece at a time, until it runs without you in the middle.</p></li>
       <li class="tk-step"><span class="tk-n">04</span><span class="tk-dot"><svg class="px" data-icon="measure" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Improve</h3><p>We track how much of the business runs without you, and pick what to fix next.</p></li>
     </ol>
@@ -750,7 +815,7 @@ def home(mode='full'):
 </section>
 ''' + inquiry('h2', 'Stop being the system.',
               "We only take on a few clients at a time, so every build gets our full attention. Apply in two minutes.")
-    return page('OpLev', 'OpLev is an agency that designs and builds custom engines for companies: Ops, Agents, Leads and Marketing. Built around how you work, kept running by us, licensed monthly.',
+    return page('OpLev', 'OpLev is an agency that designs and builds beautiful, high-converting websites and the engines that run off them: Ops, Agents, Leads and Marketing. Built around how you work, kept running by us, licensed monthly.',
                 body, p='', home=True, active=None, mode=mode)
 
 
@@ -817,17 +882,17 @@ def engmap():
 
 def pricing():
     plans = (plan(1, 'one', 'One engine', '$5k', 'Start with the engine closest to your biggest bottleneck.',
-                  ['Built around your business', 'Add industry tools any time',
+                  ['Your website, designed and built to convert', 'Built around your business', 'Add industry tools any time',
                    'We host it, fix it and update it', 'A monthly progress score', 'A monthly check-in call',
                    'Email support, reply within a business day'],
                   'Apply for one engine')
              + plan(2, 'core', 'Two engines', '$10k', 'Two engines that feed each other, so nothing falls between them.',
-                    ['Your two engines, working together', 'Tools that work across both', 'We interview your team',
+                    ['Your website, designed and built to convert', 'Your two engines, working together', 'Tools that work across both', 'We interview your team',
                      'A monthly progress score', 'We host it, fix it and update it',
                      'A weekly check-in call', 'Same-day support'],
                     'Apply for two engines')
              + plan(3, 'company', 'Three or more', '$15k+', 'Three or all four engines, built around your whole business.',
-                    ['Three or four engines, working together', 'Custom tools built for you',
+                    ['Your website, designed and built to convert', 'Three or four engines, working together', 'Custom tools built for you',
                      'One place your team can look up how things are done', 'A progress score for every team',
                      'We host it, fix it and update it', 'Weekly calls and on-call support',
                      'Price depends on team size'],
@@ -871,10 +936,10 @@ def pricing():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">Pricing</p>
-    <h1 class="h1" id="h1">Four engines. One monthly license.</h1>
-    <p class="lede">We design and build anywhere from one to all four engines for your business, then host them, fix them and keep improving them. Want to sell what we build for you to other businesses? Add a resale license.</p>
+    <h1 class="h1" id="h1">One website. Four engines. One monthly license.</h1>
+    <p class="lede">Every plan starts with your website, designed and built to convert. We add anywhere from one to all four engines to it, then host them, fix them and keep improving them. Want to sell what we build for you to other businesses? Add a resale license.</p>
     <div class="every model-row">
-      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your engines, built and kept running by us.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your website and engines, built and kept running by us.</p></div>
       <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates included. Add engines as you grow.</p></div>
       <div class="ev"><span class="b" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>Add a resale license and sell it to others.</p></div>
     </div>
@@ -973,6 +1038,10 @@ def pricing():
       <details>
         <summary><span class="h3">What does the + on Three or more mean?</span></summary>
         <p class="a">It starts at $15k a month for three engines and goes up with the fourth engine, your team size and how much we build into each one. We quote it after our first call, so you know the number before you commit.</p>
+      </details>
+      <details>
+        <summary><span class="h3">Is the website included?</span></summary>
+        <p class="a">Yes. Every plan starts with your website: designed, built, hosted and kept fast by us. The engines run off it, so it's the first thing we build.</p>
       </details>
       <details>
         <summary><span class="h3">What's a tool?</span></summary>
@@ -1076,6 +1145,14 @@ def icp_page(x):
         proof += f'<a class="lp-link" href="{demo}"><span class="lp-ic" aria-hidden="true">{edots(x["engines"])}</span><span><span class="label">example</span><b>See an example dashboard</b></span><span class="go">{ARR_R}</span></a>'
     proof = f'<div class="lp-links">{proof}</div>' if proof else ''
     tools = ''.join(f'<span class="tool">{E(t)}</span>' for t in x['tools'])
+    T = tools_for(x)
+    site_facing = lambda j: j is None or any(w in x['jobs'][j][1] for w in ('website', 'form', 'comes in', 'applies'))
+    mk_page = [n for n, _l, _j in T['marketing'] if 'page' in n.lower() or 'signup' in n.lower()][:1]
+    ag_in = [n for n, _l, j in T['agents'] if j is not None and any(w in x['jobs'][j][1] for w in ('comes in', 'form', 'DM', 'applies'))][:1]
+    on_site = ([(n, 'leads') for n, _l, j in T['leads'] if site_facing(j)] + [(n, 'marketing') for n in mk_page]
+               + [(n, 'agents') for n in ag_in])
+    flow = ''.join(f'<li><span class="lf-n">{E(n)}</span><span class="lf-a" aria-hidden="true">{ARR_R}</span><span class="etag e-{e}">{E(ENGINE_NAME[e])}</span></li>' for n, e in on_site)
+    domain = 'your' + x['biz'].replace(' ', '') + '.com'
     same = [y for y in icps_in(g['id']) if y['id'] != k]
     others = ''.join(f'<a href="{y["id"]}.html">{E(y["name"])}</a>' for y in same)
     body = f'''
@@ -1085,7 +1162,7 @@ def icp_page(x):
       <div class="crumbs"><a class="label" href="{p}for.html">{ARR_L} Who it's for</a><a class="label" href="{p}for.html#{g['id']}">{E(g['name'])}</a></div>
       <p class="eyebrow">For {E(x['name'].lower())}</p>
       <h1 class="h1 lp-h1" id="h1">{E(x['h1'])}</h1>
-      <p class="lede">{E(x['lede'])}</p>
+      <p class="lede">{E(x['lede'])} It all runs off a website built to sell.</p>
       <div class="actions"><a class="btn" href="#start">Apply for a spot {ARR_R}</a><a class="btn ghost" href="#tools">See the tools {ARR_D}</a></div>
       {spots(' lp-spots')}
     </div>
@@ -1105,6 +1182,20 @@ def icp_page(x):
     <div class="lp-pains-hd"><p class="eyebrow">Sound familiar?</p><h2 class="sr" id="pains-h">Sound familiar?</h2><span class="label">what {E(x['name'].lower())} tell us</span></div>
     <ul class="lp-pains-list">{pains}
     </ul>
+  </div>
+</section>
+
+<section class="sec lp-site" id="website" aria-labelledby="site-h">
+  <div class="wrap split">
+    <div class="head-l">
+      <p class="eyebrow">It starts with your website</p>
+      <h2 class="h2" id="site-h">A website built for {E(x['name'].lower())}.</h2>
+      <p class="lede">Fast, beautiful and built to convert. Every visitor gets a next step, and everything they send goes straight into your engines.</p>
+    </div>
+    <div class="split-r">
+      {site_mock(domain, ' sm-sm')}
+      <div class="lp-flow-w"><span class="label">on your site</span><ul class="lp-flow">{flow}</ul></div>
+    </div>
   </div>
 </section>
 
@@ -1335,7 +1426,7 @@ PHASES = [
      'Fill in a two-minute application.', 'A reply from the people who would build it.'),
     ('discuss', 'Discuss', 'We get on a call with you and your team and see how the work really gets done: where leads come in, what you answer twice, what only one person knows.',
      'Walk us through a normal week.', 'A plan with what we would build first, the monthly price and a launch date.'),
-    ('build', 'Build', 'We build your engines around how you already work and connect them to the tools you use, like your calendar, inbox and payments.',
+    ('build', 'Build', 'We design your website first, then build your engines around it and around how you already work, connected to the tools you use, like your calendar, inbox and payments.',
      'Answer our questions and try it early.', 'Engines built for your business, tested on your real work.'),
     ('implement', 'Launch', 'We roll it out one piece at a time. Every tool checks with you first until you trust it, then it runs on its own.',
      'Approve drafts from your phone.', 'Busywork off your plate. Nothing important goes out without your OK.'),

@@ -422,6 +422,18 @@ $$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name'
 /* jobs rail arrows */
 $$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
 
+/* ---------- the site mock: the price slider moves like someone's using it ---------- */
+(function(){
+  if(RM)return;
+  $$('.site-mock').forEach(m=>{
+    const k=$('.sm-sl i',m),amt=$('[data-sm-amt]',m);if(!k||!amt)return;
+    const stops=[[18,640],[40,1240],[64,1980],[82,2560],[52,1610]];let i=0,on=false;
+    once([m],()=>{on=true;},.2);
+    setInterval(()=>{if(!on||document.hidden)return;i=(i+1)%stops.length;const [p,v]=stops[i];k.style.left=p+'%';
+      setTimeout(()=>{amt.textContent=v.toLocaleString('en-US');decode(amt,300);},350);},2200);
+  });
+})();
+
 /* ---------- tools board: pick an industry, see what plugs into each engine ---------- */
 (function(){
   const sel=$('#tool-for'),board=$('#tboard'),src=$('#tools-data'),go=$('#tool-go');if(!sel||!board||!src)return;
@@ -725,7 +737,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
   const after=()=>{decode($('#h1'));};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','custom engines'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','websites + engines'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

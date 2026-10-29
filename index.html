@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OpLev</title>
-<meta name="description" content="OpLev is an agency that designs and builds custom engines for companies: Ops, Agents, Leads and Marketing. Built around how you work, kept running by us, licensed monthly.">
+<meta name="description" content="OpLev is an agency that designs and builds beautiful, high-converting websites and the engines that run off them: Ops, Agents, Leads and Marketing. Built around how you work, kept running by us, licensed monthly.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Geist:wght@300..600&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
@@ -1066,6 +1066,73 @@ html.sheet-open{overflow:hidden}
 .lic-more{color:var(--soft)!important;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
 .lic-more svg{width:13px;height:13px}
 .lic-more:hover{color:var(--paper)!important}
+
+/* ---------- it starts with your website ---------- */
+.site-hd{display:grid;gap:18px 48px;align-items:end;margin-bottom:clamp(32px,4vw,56px)}
+@media (min-width:980px){.site-hd{grid-template-columns:minmax(0,6fr) minmax(0,6fr)}}
+.site-hd .lede{margin:0}
+.site-stage{display:grid;gap:24px;align-items:center}
+@media (min-width:1100px){.site-stage{grid-template-columns:minmax(0,1fr) minmax(0,600px) minmax(0,1fr);gap:32px}}
+.site-notes{list-style:none;margin:0;padding:0;display:grid;gap:22px}
+@media (max-width:1099px){.site-notes{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.site-stage .site-notes:first-child{order:2}.site-stage .site-notes:last-child{order:3}}
+.site-notes li{display:flex;flex-direction:column;gap:5px;padding-left:14px;border-left:1px solid var(--line-2)}
+@media (min-width:1100px){.site-notes:last-child li{text-align:right;padding:0 14px 0 0;border-left:0;border-right:1px solid var(--line-2)}}
+.site-notes b{font:500 clamp(20px,2vw,26px)/1.1 var(--display);font-stretch:87.5%;letter-spacing:-.04em}
+.site-notes span{color:var(--soft);font-size:14.5px;line-height:1.45}
+/* the site itself: light, so it reads as their site, not ours */
+.site-mock{margin:0;background:#FBFBF8;color:#111;border:1px solid var(--line-2);box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden;min-width:0}
+.sm-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:var(--ink-2);border-bottom:1px solid var(--line-2)}
+.sm-bar i{width:8px;height:8px;border:1px solid var(--dim-2);flex:none}
+.sm-bar span{margin-left:10px;font:400 11px/1 var(--display);color:var(--dim);letter-spacing:.04em;background:var(--ink);padding:5px 10px;flex:1;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sm-body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:18px}
+.sm-nav{display:flex;align-items:center;gap:10px}
+.sm-nav b{width:22px;height:22px;background:#111}
+.sm-nav i{height:5px;width:38px;background:#d9d9d4}
+.sm-nav em{margin-left:auto;font:500 10px/1 var(--display);font-style:normal;letter-spacing:.1em;text-transform:uppercase;background:#111;color:#FBFBF8;padding:7px 10px}
+.sm-hero{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.sm-h{margin:0 0 4px;font:500 clamp(22px,2.6vw,34px)/1.02 var(--display);font-stretch:87.5%;letter-spacing:-.05em;max-width:14ch}
+.sm-p{margin:0;height:6px;width:78%;background:#dcdcd7}
+.sm-p.s{width:56%}
+.sm-cta{margin-top:8px;font:500 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;background:var(--leads);color:#111;padding:11px 14px;animation:sm-pulse 2.4s ease-in-out infinite}
+@keyframes sm-pulse{0%,100%{box-shadow:0 0 0 0 rgba(240,172,102,.55)}50%{box-shadow:0 0 0 8px rgba(240,172,102,0)}}
+.sm-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sm-card{border:1px solid #e3e3de;background:#fff;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.sm-card .label{color:#8a8a86}
+.sm-sl{height:4px;background:#e6e6e1;position:relative}
+.sm-sl i{position:absolute;top:-5px;left:40%;width:14px;height:14px;background:#111;transition:left .8s cubic-bezier(.4,0,.2,1)}
+.sm-amt{font:900 22px/1 var(--num);color:#111}
+.sm-form i{height:16px;border:1px solid #e3e3de;background:#FBFBF8}
+.sm-form em{align-self:flex-start;font:500 9.5px/1 var(--display);font-style:normal;letter-spacing:.1em;text-transform:uppercase;background:#111;color:#fff;padding:6px 9px}
+.sm-sm .sm-h{font-size:clamp(18px,1.8vw,24px)}
+/* stems: what flows from the site into each engine */
+.stems{display:none;width:100%;height:110px;overflow:visible;margin-top:4px}
+@media (min-width:1100px){.stems{display:block}}
+.stem{fill:none;stroke:var(--e);stroke-width:1.5;stroke-dasharray:3 9;animation:stem-flow 1.1s linear infinite}
+.stem.up{animation-direction:reverse}
+@keyframes stem-flow{to{stroke-dashoffset:-24}}
+.site-nodes{display:grid;gap:1px;background:var(--line-2);border:1px solid var(--line-2);grid-template-columns:minmax(0,1fr);margin-top:24px}
+@media (min-width:700px){.site-nodes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.site-nodes{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:0}}
+.sn{background:var(--ink);border-top:3px solid var(--e);padding:16px 16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.sn-hd{display:flex;align-items:center;gap:9px}
+.sn-hd b{font:500 19px/1 var(--display);font-stretch:87.5%;letter-spacing:-.03em;color:var(--e)}
+.sn-hd .bot-xs{margin:0}.sn-hd .bot-xs svg{height:18px}
+.sn p{margin:0;color:var(--soft);font-size:14.5px;line-height:1.45}
+.sn-flow{margin-top:auto;color:var(--e)}
+@media (prefers-reduced-motion:reduce){.stem,.sm-cta{animation:none}}
+/* engine strips: how each one connects to the site */
+.strip-site{margin:0 0 6px;display:flex;flex-direction:column;gap:4px;font-size:15px;line-height:1.45;color:var(--ink);padding:10px 12px;background:rgba(7,7,8,.08);border-left:2px solid var(--ink)}
+.strip-site .label{color:rgba(7,7,8,.6)}
+/* the website card in sound familiar */
+.sc-site{width:18px;height:14px;border:2px solid var(--paper);position:relative;flex:none}
+.sc-site i{position:absolute;left:0;right:0;top:2px;height:2px;background:var(--paper)}
+/* landing pages: what lives on their site */
+.lp-flow-w{display:flex;flex-direction:column;gap:10px}
+.lp-flow{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-2)}
+.lp-flow li{display:grid;grid-template-columns:minmax(0,1fr) 16px auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line-2)}
+.lf-n{font:500 15px/1.25 var(--display);font-stretch:92%;letter-spacing:-.02em}
+.lf-a svg{width:14px;height:14px;color:var(--dim)}
+.lp-site .split-r{gap:22px}
 </style>
 </head>
 <body>
@@ -1153,13 +1220,50 @@ html.sheet-open{overflow:hidden}
   <canvas class="field" id="field" aria-hidden="true"></canvas>
   <div class="wrap">
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
-    <p class="eyebrow">An agency that builds custom engines</p>
-    <h1 class="h1" id="h1">Your business shouldn't need you for everything.</h1>
-    <p class="lede">We build custom <span class="e-ops ec">Ops</span>, <span class="e-agents ec">Agents</span>, <span class="e-leads ec">Leads</span> and <span class="e-marketing ec">Marketing</span> engines, then add tools made for your industry. We run them for you every month, and you can license yours to others.</p>
+    <p class="eyebrow">Websites and engines, built as one</p>
+    <h1 class="h1" id="h1">A website that sells. Engines that run the rest.</h1>
+    <p class="lede">We design a fast, beautiful website built to convert, then connect <span class="e-leads ec">Leads</span>, <span class="e-agents ec">Agents</span>, <span class="e-ops ec">Ops</span> and <span class="e-marketing ec">Marketing</span> engines to it, with tools made for your industry. We run it all for you every month.</p>
     <div class="spots hero-spots"><span class="sp-meter" aria-hidden="true"><i class="taken"></i><i class="taken"></i><i class="open"></i><i class="open"></i></span><span class="label">Q1 2027 / <b>2 of 4 client spots open</b></span></div>
     <div class="actions">
       <a class="btn" href="#work">See the work <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 2.5v9M3.5 8 7 11.5 10.5 8"/></svg></a>
       <a class="btn ghost" href="#start">Apply for a spot <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec site-sec" id="website" aria-labelledby="site-h">
+  <div class="wrap">
+    <div class="site-hd">
+      <div class="head-l">
+        <p class="eyebrow">It starts with your website</p>
+        <h2 class="h2" id="site-h">Everything grows from the website.</h2>
+      </div>
+      <p class="lede">We design a site people want to stay on and built to turn them into customers. Every form, quote and booking on it feeds your engines, and Marketing keeps sending people back.</p>
+    </div>
+    <div class="site-map">
+      <div class="site-stage">
+        <ul class="site-notes">
+          <li><b>Fast</b><span>Loads before people lose interest.</span></li>
+          <li><b>Found</b><span>Set up for Google and AI search.</span></li>
+        </ul>
+        <figure class="site-mock" aria-label="Your website">
+          <div class="sm-bar"><i></i><i></i><i></i><span>yourbusiness.com</span></div>
+          <div class="sm-body">
+            <div class="sm-nav"><b></b><i></i><i></i><i></i><em>Book now</em></div>
+            <div class="sm-hero"><p class="sm-h">Your headline, written to sell.</p><p class="sm-p"></p><p class="sm-p s"></p><span class="sm-cta">Get a price</span></div>
+            <div class="sm-row">
+              <div class="sm-card sm-calc"><span class="label">instant price</span><div class="sm-sl"><i></i></div><b class="sm-amt">$<span data-sm-amt>1,240</span></b></div>
+              <div class="sm-card sm-form"><span class="label">talk to us</span><i></i><i></i><em>Send</em></div>
+            </div>
+          </div>
+        </figure>
+        <ul class="site-notes">
+          <li><b>Convincing</b><span>Design and words that make the case.</span></li>
+          <li><b>Converting</b><span>Every page ends in a next step, and we test what works.</span></li>
+        </ul>
+      </div>
+      <svg class="stems" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path class="stem e-leads" d="M500 0 C 500 60, 125 50, 125 120" vector-effect="non-scaling-stroke"/><path class="stem e-agents" d="M500 0 C 500 60, 375 50, 375 120" vector-effect="non-scaling-stroke"/><path class="stem e-ops" d="M500 0 C 500 60, 625 50, 625 120" vector-effect="non-scaling-stroke"/><path class="stem e-marketing up" d="M500 0 C 500 60, 875 50, 875 120" vector-effect="non-scaling-stroke"/></svg>
+      <div class="site-nodes"><div class="sn e-leads"><div class="sn-hd"><span class="bot bot-xs" data-bot="leads"></span><b>Leads</b><span class="label">fire</span></div><p>Quotes, calculators and fast replies turn visitors into real conversations.</p><span class="label sn-flow">site to leads</span></div><div class="sn e-agents"><div class="sn-hd"><span class="bot bot-xs" data-bot="agents"></span><b>Agents</b><span class="label">earth</span></div><p>Answers everyone who reaches out through the site, and books the visit.</p><span class="label sn-flow">site to agents</span></div><div class="sn e-ops"><div class="sn-hd"><span class="bot bot-xs" data-bot="ops"></span><b>Ops</b><span class="label">water</span></div><p>Every booking, order and form from the site lands in one place.</p><span class="label sn-flow">site to ops</span></div><div class="sn e-marketing"><div class="sn-hd"><span class="bot bot-xs" data-bot="marketing"></span><b>Marketing</b><span class="label">wind</span></div><p>Emails, pages and search keep sending people back.</p><span class="label sn-flow">back to the site</span></div></div>
     </div>
   </div>
 </section>
@@ -1228,23 +1332,24 @@ html.sheet-open{overflow:hidden}
       <h2 class="say-h" id="familiar-h">You started a business. Then it became a job.</h2>
     </div>
     <div class="say-ctl">
-      <span class="label say-n" aria-hidden="true"><b>01</b> / 08</span>
+      <span class="label say-n" aria-hidden="true"><b>01</b> / 09</span>
       <button class="say-btn" type="button" data-say="-1" aria-label="Previous"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M11.5 7h-9M6 3.5 2.5 7 6 10.5"/></svg></button>
       <button class="say-btn" type="button" data-say="1" aria-label="Next"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></button>
     </div>
   </div>
   <ul class="say-rail" tabindex="0" aria-label="Things owners tell us">
         <li class="say-card e-ops"><div class="sc-top"><span class="label">01</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">Everything still runs through me.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="ops"></span>Ops</span></div></li>
-        <li class="say-card e-sys"><div class="sc-top"><span class="label">02</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">I pay for a stack of apps and still live in spreadsheets.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="edots" aria-hidden="true"><i class="e-ops"></i><i class="e-agents"></i><i class="e-leads"></i><i class="e-marketing"></i></span>All four, as one system</span></div></li>
-        <li class="say-card e-leads"><div class="sc-top"><span class="label">03</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">Leads come in at night and sit until Monday.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="leads"></span>Leads</span></div></li>
-        <li class="say-card e-agents"><div class="sc-top"><span class="label">04</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">I can&#x27;t take a week off.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="agents"></span>Agents</span></div></li>
-        <li class="say-card e-marketing"><div class="sc-top"><span class="label">05</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">Nobody&#x27;s heard of us outside of referrals.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="marketing"></span>Marketing</span></div></li>
-        <li class="say-card e-ops"><div class="sc-top"><span class="label">06</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">Only one person knows how that part works.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="ops"></span>Ops</span></div></li>
-        <li class="say-card e-agents"><div class="sc-top"><span class="label">07</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">I answer the same five questions every day.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="agents"></span>Agents</span></div></li>
-        <li class="say-card e-sys"><div class="sc-top"><span class="label">08</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">People keep asking if they can use what I built.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="sc-lic" aria-hidden="true"></span>A resale license</span></div></li>
+        <li class="say-card e-sys"><div class="sc-top"><span class="label">02</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">Our website looks fine and does nothing.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="sc-site" aria-hidden="true"><i></i></span>A website that sells</span></div></li>
+        <li class="say-card e-sys"><div class="sc-top"><span class="label">03</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">I pay for a stack of apps and still live in spreadsheets.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="edots" aria-hidden="true"><i class="e-ops"></i><i class="e-agents"></i><i class="e-leads"></i><i class="e-marketing"></i></span>All four, as one system</span></div></li>
+        <li class="say-card e-leads"><div class="sc-top"><span class="label">04</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">Leads come in at night and sit until Monday.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="leads"></span>Leads</span></div></li>
+        <li class="say-card e-agents"><div class="sc-top"><span class="label">05</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">I can&#x27;t take a week off.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="agents"></span>Agents</span></div></li>
+        <li class="say-card e-marketing"><div class="sc-top"><span class="label">06</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">Nobody&#x27;s heard of us outside of referrals.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="marketing"></span>Marketing</span></div></li>
+        <li class="say-card e-ops"><div class="sc-top"><span class="label">07</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">Only one person knows how that part works.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="ops"></span>Ops</span></div></li>
+        <li class="say-card e-agents"><div class="sc-top"><span class="label">08</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">I answer the same five questions every day.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="bot bot-xs" data-bot="agents"></span>Agents</span></div></li>
+        <li class="say-card e-sys"><div class="sc-top"><span class="label">09</span><svg class="sc-qm" viewBox="0 0 50 40" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="0.5" y="10.5" width="9" height="9"/><rect x="10.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/></svg></div><q class="sc-q">People keep asking if they can use what I built.</q><div class="sc-ft"><span class="label">fixed by</span><span class="sc-by"><span class="sc-lic" aria-hidden="true"></span>A resale license</span></div></li>
   </ul>
   <div class="wrap">
-    <div class="say-meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="say-meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="say-ft"><p>If you've said any of these this month, we should talk.</p><a class="btn" href="#start">Tell us yours <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div>
   </div>
 </section>
@@ -1254,35 +1359,35 @@ html.sheet-open{overflow:hidden}
     <div class="center-hd">
       <p class="eyebrow">What we build</p>
       <h2 class="h2" id="engines-h">Four engines. Four elements.</h2>
-      <p class="lede">Water, earth, fire and wind. We build one or all four for your business, then add tools made for your industry. They share the same information, so nothing gets typed in twice.</p>
+      <p class="lede">Water, earth, fire and wind. Each one plugs into your website, and they share the same information, so nothing gets typed in twice. Start with one or run all four.</p>
     </div>
   </div>
   <div class="strips">
     <article class="strip e-ops" id="engine-ops">
       <div class="wrap strip-in">
         <div class="strip-id"><span class="label strip-el"><svg class="elem e-ops" viewBox="0 0 70 70" aria-hidden="true"><rect x="30.5" y="0.5" width="9" height="9"/><rect x="20.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="20.5" y="20.5" width="9" height="9"/><rect x="30.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="50.5" y="20.5" width="9" height="9"/><rect x="0.5" y="30.5" width="9" height="9"/><rect x="10.5" y="30.5" width="9" height="9"/><rect x="20.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/><rect x="40.5" y="30.5" width="9" height="9"/><rect x="50.5" y="30.5" width="9" height="9"/><rect x="60.5" y="30.5" width="9" height="9"/><rect x="0.5" y="40.5" width="9" height="9"/><rect x="10.5" y="40.5" width="9" height="9"/><rect x="30.5" y="40.5" width="9" height="9"/><rect x="40.5" y="40.5" width="9" height="9"/><rect x="50.5" y="40.5" width="9" height="9"/><rect x="60.5" y="40.5" width="9" height="9"/><rect x="0.5" y="50.5" width="9" height="9"/><rect x="10.5" y="50.5" width="9" height="9"/><rect x="20.5" y="50.5" width="9" height="9"/><rect x="30.5" y="50.5" width="9" height="9"/><rect x="40.5" y="50.5" width="9" height="9"/><rect x="50.5" y="50.5" width="9" height="9"/><rect x="60.5" y="50.5" width="9" height="9"/><rect x="10.5" y="60.5" width="9" height="9"/><rect x="20.5" y="60.5" width="9" height="9"/><rect x="30.5" y="60.5" width="9" height="9"/><rect x="40.5" y="60.5" width="9" height="9"/><rect x="50.5" y="60.5" width="9" height="9"/></svg>engine 1 / water / Stay organized</span><h3 class="strip-name">Ops</h3><p class="strip-who"><b>The organizer.</b> Calm and steady, like water. Gets into every corner of the business and keeps it all flowing. Up at 6 with your day sorted.</p></div>
-        <div class="strip-bd"><p class="strip-line">Keeps your schedule, clients, orders and numbers in one place.</p><ul class="strip-caps"><li>Your schedule, clients and orders in one place</li><li>A daily summary of what needs you</li><li>One place your team can look up how things are done</li><li>A score that shows what still depends on you</li></ul></div>
+        <div class="strip-bd"><p class="strip-line">Keeps your schedule, clients, orders and numbers in one place.</p><p class="strip-site"><span class="label">site to ops</span>Every booking, order and form from the site lands in one place.</p><ul class="strip-caps"><li>Your schedule, clients and orders in one place</li><li>A daily summary of what needs you</li><li>One place your team can look up how things are done</li><li>A score that shows what still depends on you</li></ul></div>
         <div class="strip-ft"><button class="bot-card e-ops" type="button" aria-label="Say hi to Ops"><span class="bot-stage n1"><span class="bot" data-bot="ops"></span></span><span class="bot-say" aria-live="polite"></span></button><span class="label">see it in</span><a href="work/adessa-mind.html">Adessa Mind</a><a href="work/art-of-practice.html">Art of Practice</a></div>
       </div>
     </article>
     <article class="strip e-agents" id="engine-agents">
       <div class="wrap strip-in">
         <div class="strip-id"><span class="label strip-el"><svg class="elem e-agents" viewBox="0 0 70 70" aria-hidden="true"><rect x="40.5" y="0.5" width="9" height="9"/><rect x="50.5" y="0.5" width="9" height="9"/><rect x="60.5" y="0.5" width="9" height="9"/><rect x="20.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="40.5" y="10.5" width="9" height="9"/><rect x="50.5" y="10.5" width="9" height="9"/><rect x="60.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="20.5" y="20.5" width="9" height="9"/><rect x="30.5" y="20.5" width="9" height="9"/><rect x="40.5" y="20.5" width="9" height="9"/><rect x="50.5" y="20.5" width="9" height="9"/><rect x="60.5" y="20.5" width="9" height="9"/><rect x="10.5" y="30.5" width="9" height="9"/><rect x="20.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/><rect x="40.5" y="30.5" width="9" height="9"/><rect x="50.5" y="30.5" width="9" height="9"/><rect x="10.5" y="40.5" width="9" height="9"/><rect x="20.5" y="40.5" width="9" height="9"/><rect x="30.5" y="40.5" width="9" height="9"/><rect x="40.5" y="40.5" width="9" height="9"/><rect x="0.5" y="50.5" width="9" height="9"/><rect x="20.5" y="50.5" width="9" height="9"/><rect x="0.5" y="60.5" width="9" height="9"/></svg>engine 2 / earth / Handle the busywork</span><h3 class="strip-name">Agents</h3><p class="strip-who"><b>The helpers.</b> Solid as a mountain range. There are a few of them, they do the heavy lifting every shift, and they always ask before sending anything new.</p></div>
-        <div class="strip-bd"><p class="strip-line">Answers, books, reminds and follows up, and checks with you first.</p><ul class="strip-caps"><li>Answers new inquiries and books appointments</li><li>Sends reminders and follow-ups</li><li>Drafts replies and reports for you to check</li><li>Asks before anything important goes out</li></ul></div>
+        <div class="strip-bd"><p class="strip-line">Answers, books, reminds and follows up, and checks with you first.</p><p class="strip-site"><span class="label">site to agents</span>Answers everyone who reaches out through the site, and books the visit.</p><ul class="strip-caps"><li>Answers new inquiries and books appointments</li><li>Sends reminders and follow-ups</li><li>Drafts replies and reports for you to check</li><li>Asks before anything important goes out</li></ul></div>
         <div class="strip-ft"><button class="bot-card e-agents" type="button" aria-label="Say hi to Agents"><span class="bot-stage n3"><span class="bot" data-bot="agents"></span><span class="bot" data-bot="agents"></span><span class="bot" data-bot="agents"></span></span><span class="bot-say" aria-live="polite"></span></button><span class="label">see it in</span><a href="work/adessa-mind.html">Adessa Mind</a><a href="work/jason-stephenson.html">Jason Stephenson</a></div>
       </div>
     </article>
     <article class="strip e-leads" id="engine-leads">
       <div class="wrap strip-in">
         <div class="strip-id"><span class="label strip-el"><svg class="elem e-leads" viewBox="0 0 70 70" aria-hidden="true"><rect x="20.5" y="0.5" width="9" height="9"/><rect x="20.5" y="10.5" width="9" height="9"/><rect x="30.5" y="10.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="20.5" y="20.5" width="9" height="9"/><rect x="30.5" y="20.5" width="9" height="9"/><rect x="50.5" y="20.5" width="9" height="9"/><rect x="10.5" y="30.5" width="9" height="9"/><rect x="20.5" y="30.5" width="9" height="9"/><rect x="30.5" y="30.5" width="9" height="9"/><rect x="40.5" y="30.5" width="9" height="9"/><rect x="50.5" y="30.5" width="9" height="9"/><rect x="0.5" y="40.5" width="9" height="9"/><rect x="10.5" y="40.5" width="9" height="9"/><rect x="20.5" y="40.5" width="9" height="9"/><rect x="40.5" y="40.5" width="9" height="9"/><rect x="50.5" y="40.5" width="9" height="9"/><rect x="60.5" y="40.5" width="9" height="9"/><rect x="0.5" y="50.5" width="9" height="9"/><rect x="10.5" y="50.5" width="9" height="9"/><rect x="50.5" y="50.5" width="9" height="9"/><rect x="60.5" y="50.5" width="9" height="9"/><rect x="10.5" y="60.5" width="9" height="9"/><rect x="20.5" y="60.5" width="9" height="9"/><rect x="30.5" y="60.5" width="9" height="9"/><rect x="40.5" y="60.5" width="9" height="9"/><rect x="50.5" y="60.5" width="9" height="9"/></svg>engine 3 / fire / Win more customers</span><h3 class="strip-name">Leads</h3><p class="strip-who"><b>The go-getter.</b> All fire. First to say hi, answers at 10pm, remembers every name and never lets a quote go cold.</p></div>
-        <div class="strip-bd"><p class="strip-line">Turns website visitors into real conversations.</p><ul class="strip-caps"><li>Price calculators and quote tools</li><li>A helper on your site that answers questions any hour</li><li>Quotes customers can accept online</li><li>Every new lead saved with the full conversation</li></ul></div>
+        <div class="strip-bd"><p class="strip-line">Turns website visitors into real conversations.</p><p class="strip-site"><span class="label">site to leads</span>Quotes, calculators and fast replies turn visitors into real conversations.</p><ul class="strip-caps"><li>Price calculators and quote tools</li><li>A helper on your site that answers questions any hour</li><li>Quotes customers can accept online</li><li>Every new lead saved with the full conversation</li></ul></div>
         <div class="strip-ft"><button class="bot-card e-leads" type="button" aria-label="Say hi to Leads"><span class="bot-stage n1"><span class="bot" data-bot="leads"></span></span><span class="bot-say" aria-live="polite"></span></button><span class="label">see it in</span><a href="work/element-glo.html">Element Glo</a></div>
       </div>
     </article>
     <article class="strip e-marketing" id="engine-marketing">
       <div class="wrap strip-in">
         <div class="strip-id"><span class="label strip-el"><svg class="elem e-marketing" viewBox="0 0 70 70" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9"/><rect x="10.5" y="0.5" width="9" height="9"/><rect x="20.5" y="0.5" width="9" height="9"/><rect x="30.5" y="0.5" width="9" height="9"/><rect x="40.5" y="0.5" width="9" height="9"/><rect x="50.5" y="10.5" width="9" height="9"/><rect x="0.5" y="20.5" width="9" height="9"/><rect x="10.5" y="20.5" width="9" height="9"/><rect x="20.5" y="20.5" width="9" height="9"/><rect x="30.5" y="20.5" width="9" height="9"/><rect x="60.5" y="20.5" width="9" height="9"/><rect x="60.5" y="30.5" width="9" height="9"/><rect x="0.5" y="40.5" width="9" height="9"/><rect x="10.5" y="40.5" width="9" height="9"/><rect x="20.5" y="40.5" width="9" height="9"/><rect x="30.5" y="40.5" width="9" height="9"/><rect x="40.5" y="40.5" width="9" height="9"/><rect x="50.5" y="40.5" width="9" height="9"/><rect x="0.5" y="60.5" width="9" height="9"/><rect x="10.5" y="60.5" width="9" height="9"/><rect x="20.5" y="60.5" width="9" height="9"/></svg>engine 4 / wind / Get the word out</span><h3 class="strip-name">Marketing</h3><p class="strip-who"><b>The messenger.</b> Quick as the wind. Carries your name further: emails from your own domain, landing pages that capture leads, and tests that show what works.</p></div>
-        <div class="strip-bd"><p class="strip-line">Emails and landing pages that keep your name in front of the right people.</p><ul class="strip-caps"><li>Newsletters and email series, sent from your own domain</li><li>Landing pages with forms that turn visitors into leads</li><li>A brand kit, so every email and page looks like you</li><li>Page tests and search setup that show what works</li></ul></div>
+        <div class="strip-bd"><p class="strip-line">Emails and landing pages that keep your name in front of the right people.</p><p class="strip-site"><span class="label">back to the site</span>Emails, pages and search keep sending people back.</p><ul class="strip-caps"><li>Newsletters and email series, sent from your own domain</li><li>Landing pages with forms that turn visitors into leads</li><li>A brand kit, so every email and page looks like you</li><li>Page tests and search setup that show what works</li></ul></div>
         <div class="strip-ft"><button class="bot-card e-marketing" type="button" aria-label="Say hi to Marketing"><span class="bot-stage n1"><span class="bot" data-bot="marketing"></span></span><span class="bot-say" aria-live="polite"></span></button><span class="label">see it in</span><a href="work/fit-funnels.html">Fit Funnels</a></div>
       </div>
     </article>
@@ -1437,7 +1542,7 @@ html.sheet-open{overflow:hidden}
     </div>
     <ol class="track">
       <li class="tk-step"><span class="tk-n">01</span><span class="tk-dot"><svg class="px" data-icon="discuss" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Discuss</h3><p>We talk with you and your team and see how the work really gets done.</p></li>
-      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We build your engines around it and connect them to the tools you already use.</p></li>
+      <li class="tk-step"><span class="tk-n">02</span><span class="tk-dot"><svg class="px" data-icon="build" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Build</h3><p>We design your website, then build your engines around it and connect them to the tools you already use.</p></li>
       <li class="tk-step"><span class="tk-n">03</span><span class="tk-dot"><svg class="px" data-icon="implement" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Launch</h3><p>We roll it out with your team one piece at a time, until it runs without you in the middle.</p></li>
       <li class="tk-step"><span class="tk-n">04</span><span class="tk-dot"><svg class="px" data-icon="measure" viewBox="0 0 50 50" aria-hidden="true"></svg></span><h3 class="h3">Improve</h3><p>We track how much of the business runs without you, and pick what to fix next.</p></li>
     </ol>
@@ -1482,7 +1587,7 @@ html.sheet-open{overflow:hidden}
     <p class="wm" id="wm" role="img" aria-label="OpLev"><svg class="wm-svg" id="wm-t" viewBox="5 5 2890 690" aria-hidden="true"><g class="wm-l"><rect class="t" x="105" y="5" width="90" height="90"/><rect class="t" x="205" y="5" width="90" height="90"/><rect class="t" x="305" y="5" width="90" height="90"/><rect class="t" x="5" y="105" width="90" height="90"/><rect class="t" x="405" y="105" width="90" height="90"/><rect class="t" x="5" y="205" width="90" height="90"/><rect class="t" x="405" y="205" width="90" height="90"/><rect class="t" x="5" y="305" width="90" height="90"/><rect class="t" x="405" y="305" width="90" height="90"/><rect class="t" x="5" y="405" width="90" height="90"/><rect class="t" x="405" y="405" width="90" height="90"/><rect class="t" x="5" y="505" width="90" height="90"/><rect class="t" x="405" y="505" width="90" height="90"/><rect class="t" x="105" y="605" width="90" height="90"/><rect class="t" x="205" y="605" width="90" height="90"/><rect class="t" x="305" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="605" y="5" width="90" height="90"/><rect class="t" x="705" y="5" width="90" height="90"/><rect class="t" x="805" y="5" width="90" height="90"/><rect class="t" x="905" y="5" width="90" height="90"/><rect class="t" x="605" y="105" width="90" height="90"/><rect class="t" x="1005" y="105" width="90" height="90"/><rect class="t" x="605" y="205" width="90" height="90"/><rect class="t" x="1005" y="205" width="90" height="90"/><rect class="t" x="605" y="305" width="90" height="90"/><rect class="t" x="705" y="305" width="90" height="90"/><rect class="t" x="805" y="305" width="90" height="90"/><rect class="t" x="905" y="305" width="90" height="90"/><rect class="t" x="605" y="405" width="90" height="90"/><rect class="t" x="605" y="505" width="90" height="90"/><rect class="t" x="605" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="1205" y="5" width="90" height="90"/><rect class="t" x="1205" y="105" width="90" height="90"/><rect class="t" x="1205" y="205" width="90" height="90"/><rect class="t" x="1205" y="305" width="90" height="90"/><rect class="t" x="1205" y="405" width="90" height="90"/><rect class="t" x="1205" y="505" width="90" height="90"/><rect class="t" x="1205" y="605" width="90" height="90"/><rect class="t" x="1305" y="605" width="90" height="90"/><rect class="t" x="1405" y="605" width="90" height="90"/><rect class="t" x="1505" y="605" width="90" height="90"/><rect class="t" x="1605" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="1805" y="5" width="90" height="90"/><rect class="t" x="1905" y="5" width="90" height="90"/><rect class="t" x="2005" y="5" width="90" height="90"/><rect class="t" x="2105" y="5" width="90" height="90"/><rect class="t" x="2205" y="5" width="90" height="90"/><rect class="t" x="1805" y="105" width="90" height="90"/><rect class="t" x="1805" y="205" width="90" height="90"/><rect class="t" x="1805" y="305" width="90" height="90"/><rect class="t" x="1905" y="305" width="90" height="90"/><rect class="t" x="2005" y="305" width="90" height="90"/><rect class="t" x="2105" y="305" width="90" height="90"/><rect class="t" x="1805" y="405" width="90" height="90"/><rect class="t" x="1805" y="505" width="90" height="90"/><rect class="t" x="1805" y="605" width="90" height="90"/><rect class="t" x="1905" y="605" width="90" height="90"/><rect class="t" x="2005" y="605" width="90" height="90"/><rect class="t" x="2105" y="605" width="90" height="90"/><rect class="t" x="2205" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="2405" y="5" width="90" height="90"/><rect class="t" x="2805" y="5" width="90" height="90"/><rect class="t" x="2405" y="105" width="90" height="90"/><rect class="t" x="2805" y="105" width="90" height="90"/><rect class="t" x="2405" y="205" width="90" height="90"/><rect class="t" x="2805" y="205" width="90" height="90"/><rect class="t" x="2505" y="305" width="90" height="90"/><rect class="t" x="2705" y="305" width="90" height="90"/><rect class="t" x="2505" y="405" width="90" height="90"/><rect class="t" x="2705" y="405" width="90" height="90"/><rect class="t" x="2505" y="505" width="90" height="90"/><rect class="t" x="2705" y="505" width="90" height="90"/><rect class="t" x="2605" y="605" width="90" height="90"/></g></svg></p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>Custom engines for companies</span>
+      <span>Websites that sell. Engines that run the rest.</span>
       <span>Bend, Oregon</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -1915,6 +2020,18 @@ $$('.idx a').forEach(a=>a.addEventListener('mouseenter',()=>decode($('.idx-name'
 /* jobs rail arrows */
 $$('[data-rail]').forEach(b=>b.addEventListener('click',()=>{const r=$('.plays.rail');if(r)r.scrollBy({left:(+b.dataset.rail)*Math.max(280,r.clientWidth*.8),behavior:RM?'auto':'smooth'});}));
 
+/* ---------- the site mock: the price slider moves like someone's using it ---------- */
+(function(){
+  if(RM)return;
+  $$('.site-mock').forEach(m=>{
+    const k=$('.sm-sl i',m),amt=$('[data-sm-amt]',m);if(!k||!amt)return;
+    const stops=[[18,640],[40,1240],[64,1980],[82,2560],[52,1610]];let i=0,on=false;
+    once([m],()=>{on=true;},.2);
+    setInterval(()=>{if(!on||document.hidden)return;i=(i+1)%stops.length;const [p,v]=stops[i];k.style.left=p+'%';
+      setTimeout(()=>{amt.textContent=v.toLocaleString('en-US');decode(amt,300);},350);},2200);
+  });
+})();
+
 /* ---------- tools board: pick an industry, see what plugs into each engine ---------- */
 (function(){
   const sel=$('#tool-for'),board=$('#tboard'),src=$('#tools-data'),go=$('#tool-go');if(!sel||!board||!src)return;
@@ -2218,7 +2335,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
   const after=()=>{decode($('#h1'));};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','custom engines'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','websites + engines'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);
