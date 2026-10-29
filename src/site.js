@@ -737,7 +737,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
   const after=()=>{decode($('#h1'));};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','websites + engines'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','the business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);
