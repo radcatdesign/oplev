@@ -28,6 +28,10 @@ This writes `index.html`, `how-it-works.html`, `pricing.html`, `work.html`, `sta
 
 The home page is a four-step build: set your base (business type and engines, website always included), choose your add-ons (that business's tools), choose your build style (Clean, Bold, Warm or Playful, shown on a website mock) and watch it run (a simulated day). The mock's business name, headline and button for each business type live in `SITE_COPY` in `build.py`, the engine lines in `ENGINE_DOES`, the styles in `BUILD_STYLES`. The day's events and the logic live in the "build your engine" block in `src/site.js`. "Apply with this build" opens `/start` with the build filled in, and the application email includes it.
 
+## Motion
+
+Motion follows transitions.dev (Jakub Antalik, used under its license, see `vendor/TRANSITIONS-LICENSE.txt`). The shared tokens (`--duration-*`, `--ease-*`, `--distance-*`, `--scale-*`, `--blur-*`) and each transition's variables sit at the top of `src/site.css`; reach for a token before writing a new number. In use: menu dropdown (the "Who it's for" menu), panel reveal (the walkthrough sheet and the run summary), accordion (pricing questions), error shake (the application form and the last engine in the builder), number pop-in (prices, clock and counters), soft swap and text morph (the build bar and the run button), texts reveal (the hero lines and each row of the simulated day), toast (website events), checkbox check, thinking states and the matrix loader (the run status line). The helpers live near the top of `src/site.js`. Step 3's website preview is drawn with the UI generation runtime in `vendor/` (loaded as a module on the home page only).
+
 ## Case images
 
 Put an image in `img/` and set `"img": "img/adessa-mind.jpg"` on that case. It replaces the generated placeholder everywhere the case appears.

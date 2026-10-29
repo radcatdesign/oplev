@@ -245,7 +245,7 @@ def mega(p):
           <ul>{''.join(f'<li><a href="{p}for/{x["id"]}.html"><span class="mg-n">{E(x["name"])}</span>{edots(x["engines"])}</a></li>' for x in icps_in(g['id']))}</ul>
         </div>''' for gi, g in enumerate(GROUPS))
     return f'''
-  <div class="mega" id="mega" hidden>
+  <div class="mega t-dropdown" id="mega" data-origin="top-center" hidden>
     <div class="wrap">
       <div class="mg-grid">{cols}
       </div>
@@ -534,6 +534,11 @@ BUILD_STEPS = [('Set your base', 'step-1'), ('Choose your add-ons', 'step-2'),
                ('Choose your build style', 'step-3'), ('Watch it run', 'step-4')]
 
 
+# transitions.dev UI generation (vendor/): draws the website preview as it is "built" in step 3
+GEN_LOADER = ('<script type="module">import{generate}from"./vendor/ui-generation.js";'
+              'window.OPGEN=generate;window.dispatchEvent(new Event("opgen"));</script>')
+
+
 def builder(x0):
     data = {
         'icps': {x['id']: {'n': x['name'], 'f': x['form'][0], 'e': x['engines'],
@@ -548,7 +553,7 @@ def builder(x0):
         f'<option value="{x["id"]}"{" selected" if x is x0 else ""}>{E(x["name"])}</option>' for x in icps_in(g['id'])) + '</optgroup>' for g in GROUPS)
     base = ''.join(f'''
         <button class="bx-eng e-{k}" type="button" data-eng="{k}" aria-pressed="{"true" if k in x0["engines"] else "false"}">
-          <span class="bx-eng-top"><span class="bot bot-xs" data-bot="{k}"></span><b>{E(ENGINE_NAME[k])}</b><span class="label">{E(ELEMENT[k].lower())}</span><span class="bx-check" aria-hidden="true"></span></span>
+          <span class="bx-eng-top"><span class="bot bot-xs" data-bot="{k}"></span><b>{E(ENGINE_NAME[k])}</b><span class="label">{E(ELEMENT[k].lower())}</span><span class="bx-check t-check" aria-hidden="true"><svg viewBox="0 0 10.1668 10.1668"><path d="M1 5.52L3.92 9.17L9.17 1"/></svg></span></span>
           <span class="bx-eng-h">{E(ENGINE_DOES[k][0])}</span>
           <span class="bx-eng-p">{E(ENGINE_DOES[k][1])}</span>
         </button>''' for k in BUILD_ORDER)
@@ -582,7 +587,7 @@ def builder(x0):
           <span class="bx-eng-p">Designed to sell, fast, and set up for Google and AI search. Everything else runs off it.</span>
         </div>{base}
       </div>
-      <div class="bx-total"><span class="bx-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="label"><b data-bx-count>{len(x0["engines"])} engines</b> / <b data-bx-price>$15k+</b> a month / website included</span></div>
+      <div class="bx-total t-input-wrap"><span class="bx-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="label"><b class="t-text-soft" data-bx-count>{len(x0["engines"])} engines</b> / <b class="t-digit-group" data-bx-price>$15k+</b> a month / website included</span><span class="label bx-err t-error-msg" role="alert">keep at least one engine</span></div>
       {nxt(2, 'choose your add-ons')}
     </div>
   </section>
@@ -590,7 +595,7 @@ def builder(x0):
   <section class="sec bstep" id="step-2" aria-labelledby="step-2-h">
     <div class="wrap">{head(2, 'Choose your add-ons.', 'Tools made for your kind of business. Each one plugs into an engine. Add any, any time.')}
       <div class="bx-tools" id="bx-tools"></div>
-      <p class="label bx-note"><b data-bx-tcount>4 add-ons</b> / priced per tool, added monthly</p>
+      <p class="label bx-note"><b class="t-text-soft" data-bx-tcount>4 add-ons</b> / priced per tool, added monthly</p>
       {nxt(3, 'choose your build style')}
     </div>
   </section>
@@ -611,16 +616,16 @@ def builder(x0):
       <div class="bx-run">
         <div class="bx-stage">
           <div class="bx-stats">
-            <div><span class="label">time</span><b data-bx-clock>5:59am</b></div>
-            <div><span class="label">done on its own</span><b data-bx-auto>0</b></div>
-            <div><span class="label">needed you</span><b data-bx-you>0</b></div>
+            <div><span class="label">time</span><b class="t-digit-group" data-bx-clock>5:59am</b></div>
+            <div><span class="label">done on its own</span><b class="t-digit-group" data-bx-auto>0</b></div>
+            <div><span class="label">needed you</span><b class="t-digit-group" data-bx-you>0</b></div>
           </div>
           <div class="bx-prev" data-bx-mock="run"></div>
         </div>
         <div class="bx-log">
-          <div class="bx-log-hd"><span class="label" data-bx-logt>a day at {E(site0[0].lower())}</span><button class="btn bx-play" type="button" data-bx-play>Run the day {ARR_R}</button></div>
+          <div class="bx-log-hd"><span class="bx-status"><span class="t-matrix is-still" data-variant="scan" aria-hidden="true"></span><span class="t-think label is-still" role="status"><span class="t-think-text" data-text="a day at {E(site0[0].lower())}" data-bx-logt>a day at {E(site0[0].lower())}</span></span></span><button class="btn bx-play" type="button" data-bx-play><span class="t-morph">Run the day</span> {ARR_R}</button></div>
           <ol class="bx-rows" data-bx-rows></ol>
-          <div class="bx-done" data-bx-done hidden>
+          <div class="bx-done t-panel-slide" data-bx-done data-open="false" hidden>
             <p class="bx-done-h" data-bx-sum aria-live="polite"></p>
             <div class="actions"><a class="btn" href="start.html#build" data-bx-apply>Apply with this build {ARR_R}</a><button class="btn ghost" type="button" data-bx-again>Run it again {ARR_R}</button></div>
           </div>
@@ -631,8 +636,8 @@ def builder(x0):
 
   <div class="bx-bar" data-bx-bar>
     <div class="wrap bx-bar-in">
-      <div class="bxb-sum"><span class="label">your build</span><b data-bx-biz>{E(x0['name'])}</b><span class="bxb-meta" data-bx-meta></span></div>
-      <div class="bxb-price"><b data-bx-price>$15k+</b><span class="label">a month</span></div>
+      <div class="bxb-sum"><span class="label">your build</span><b class="t-text-soft" data-bx-biz>{E(x0['name'])}</b><span class="bxb-meta t-text-soft" data-bx-meta></span></div>
+      <div class="bxb-price"><b class="t-digit-group" data-bx-price>$15k+</b><span class="label">a month</span></div>
       <a class="btn bxb-go" href="start.html#build" data-bx-apply><span>Apply<span class="bxb-long"> with this build</span></span> {ARR_R}</a>
     </div>
   </div>
@@ -821,7 +826,7 @@ def home(mode='full'):
 </section>
 '''
     return page('OpLev', 'OpLev builds the ultimate business engine, one that operates itself: a website built to convert, plus the engines that answer leads, follow up, run the day and bring customers back. Built around how you work, kept running by us, licensed monthly.',
-                body, p='', home=True, active=None, mode=mode)
+                body, p='', home=True, active=None, mode=mode, data=GEN_LOADER)
 
 
 # ---------- pricing ----------
@@ -1012,54 +1017,54 @@ def pricing():
       </div>
     </div>
     <div class="faq">
-      <details open>
-        <summary><span class="h3">Why pay monthly instead of buying it?</span></summary>
-        <p class="a">A build you pay for once starts aging the day it ships. Someone has to host it, fix it and keep it current, and that usually means hiring a developer. With a monthly license, that's our job, and your engines keep getting better.</p>
-      </details>
-      <details>
-        <summary><span class="h3">Who owns what you build?</span></summary>
-        <p class="a">We do. You license it, and we host, maintain and improve it while you use it. Your business data stays yours.</p>
-      </details>
-      <details>
-        <summary><span class="h3">Can we ask for changes?</span></summary>
-        <p class="a">Yes. Changes and updates are included. We decide what to build next on your check-in calls.</p>
-      </details>
-      <details>
-        <summary><span class="h3">What is a resale license?</span></summary>
-        <p class="a">It lets you sell what we built for you to businesses like yours. Add it to any plan. We price it based on how you plan to sell.</p>
-      </details>
-      <details>
-        <summary><span class="h3">Which engine should we start with?</span></summary>
-        <p class="a">The one closest to your biggest bottleneck. If leads slip, Leads. If your team is buried in follow-up, Agents. If nobody else knows how things run, Ops. We will help you decide on the first call.</p>
-      </details>
-      <details>
-        <summary><span class="h3">Where do we start?</span></summary>
-        <p class="a">Apply. If it's a fit, we'll set up a short call, look at what still depends on you, and tell you where to start and which plan fits.</p>
-      </details>
-      <details>
-        <summary><span class="h3">Why do we have to apply?</span></summary>
-        <p class="a">We're a small team and only take on a few clients at a time, so every build gets our full attention. Applying tells us both if it's the right fit before anyone spends money.</p>
-      </details>
-      <details>
-        <summary><span class="h3">What does the + on Three or more mean?</span></summary>
-        <p class="a">It starts at $15k a month for three engines and goes up with the fourth engine, your team size and how much we build into each one. We quote it after our first call, so you know the number before you commit.</p>
-      </details>
-      <details>
-        <summary><span class="h3">Is the website included?</span></summary>
-        <p class="a">Yes. Every plan starts with your website: designed, built, hosted and kept fast by us. The engines run off it, so it's the first thing we build.</p>
-      </details>
-      <details>
-        <summary><span class="h3">What's a tool?</span></summary>
-        <p class="a">Something we add to an engine for your kind of business. A pool company adds a route-based price calculator to Leads. A med spa adds treatment reminders to Agents. A gym adds a free trial page to Marketing. Engines are the base, tools make them yours, and you can add them to any engine at any time.</p>
-      </details>
-      <details>
-        <summary><span class="h3">Can we change licenses?</span></summary>
-        <p class="a">Yes. Add an engine or move down at the start of any month.</p>
-      </details>
-      <details>
-        <summary><span class="h3">Do we even need this?</span></summary>
-        <p class="a">Maybe not. If the business runs fine while you take two weeks off, keep your money. We'll tell you that on the first call.</p>
-      </details>
+      <div class="t-acc" data-open="true">
+        <button class="t-acc-head" type="button" aria-expanded="true" aria-controls="faq-1"><span class="h3">Why pay monthly instead of buying it?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-1"><div class="t-acc-panel-inner"><p class="a">A build you pay for once starts aging the day it ships. Someone has to host it, fix it and keep it current, and that usually means hiring a developer. With a monthly license, that's our job, and your engines keep getting better.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-2"><span class="h3">Who owns what you build?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-2" inert><div class="t-acc-panel-inner"><p class="a">We do. You license it, and we host, maintain and improve it while you use it. Your business data stays yours.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-3"><span class="h3">Can we ask for changes?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-3" inert><div class="t-acc-panel-inner"><p class="a">Yes. Changes and updates are included. We decide what to build next on your check-in calls.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-4"><span class="h3">What is a resale license?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-4" inert><div class="t-acc-panel-inner"><p class="a">It lets you sell what we built for you to businesses like yours. Add it to any plan. We price it based on how you plan to sell.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-5"><span class="h3">Which engine should we start with?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-5" inert><div class="t-acc-panel-inner"><p class="a">The one closest to your biggest bottleneck. If leads slip, Leads. If your team is buried in follow-up, Agents. If nobody else knows how things run, Ops. We will help you decide on the first call.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-6"><span class="h3">Where do we start?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-6" inert><div class="t-acc-panel-inner"><p class="a">Apply. If it's a fit, we'll set up a short call, look at what still depends on you, and tell you where to start and which plan fits.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-7"><span class="h3">Why do we have to apply?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-7" inert><div class="t-acc-panel-inner"><p class="a">We're a small team and only take on a few clients at a time, so every build gets our full attention. Applying tells us both if it's the right fit before anyone spends money.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-8"><span class="h3">What does the + on Three or more mean?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-8" inert><div class="t-acc-panel-inner"><p class="a">It starts at $15k a month for three engines and goes up with the fourth engine, your team size and how much we build into each one. We quote it after our first call, so you know the number before you commit.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-9"><span class="h3">Is the website included?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-9" inert><div class="t-acc-panel-inner"><p class="a">Yes. Every plan starts with your website: designed, built, hosted and kept fast by us. The engines run off it, so it's the first thing we build.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-10"><span class="h3">What's a tool?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-10" inert><div class="t-acc-panel-inner"><p class="a">Something we add to an engine for your kind of business. A pool company adds a route-based price calculator to Leads. A med spa adds treatment reminders to Agents. A gym adds a free trial page to Marketing. Engines are the base, tools make them yours, and you can add them to any engine at any time.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-11"><span class="h3">Can we change licenses?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-11" inert><div class="t-acc-panel-inner"><p class="a">Yes. Add an engine or move down at the start of any month.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-12"><span class="h3">Do we even need this?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-12" inert><div class="t-acc-panel-inner"><p class="a">Maybe not. If the business runs fine while you take two weeks off, keep your money. We'll tell you that on the first call.</p></div></div>
+      </div>
     </div>
   </div>
 </section>
