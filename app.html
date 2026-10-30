@@ -1418,8 +1418,8 @@ html.sheet-open{overflow:hidden}
   .bxb-sum>.label{display:none}
 }
 @media (max-width:979px){.bx-stage{display:contents}.bx-stats{order:1}.bx-log{order:2}.bx-stage .bx-prev{order:3}}
-.bx-js .bx-bar{transform:translateY(105%);transition:transform var(--panel-close-dur) var(--panel-ease)}
-.bx-js .bx-bar.on{transform:none;transition-duration:var(--panel-open-dur)}
+.bx-js .bx-bar{transform:translateY(105%);opacity:0;visibility:hidden;transition:transform var(--panel-close-dur) var(--panel-ease),opacity var(--panel-close-dur) var(--panel-ease),visibility 0s linear var(--panel-close-dur)}
+.bx-js .bx-bar.on{transform:none;opacity:1;visibility:visible;transition:transform var(--panel-open-dur) var(--panel-ease),opacity var(--panel-open-dur) var(--panel-ease),visibility 0s}
 .inq-build .inq-os-n{font:400 14px/1.5 var(--body);flex-basis:100%;order:3}
 
 /* ---------- transitions (transitions.dev, adapted) ---------- */
@@ -1535,6 +1535,17 @@ html.sheet-open{overflow:hidden}
 .t-gen-label--small{font-size:7.5px;fill:var(--gen-strong)}
 .t-gen-label--tag{font-size:7.5px;fill:var(--gen-strong);letter-spacing:.05em;text-transform:uppercase}
 @media (prefers-reduced-motion: reduce){.t-gen{display:none}}
+
+/* who we build for, by size */
+.sizes{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:860px){.sizes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.size{display:flex;flex-direction:column;gap:12px;padding:clamp(20px,2.4vw,32px);background:var(--ink);color:var(--paper);text-decoration:none;min-height:240px;transition:background var(--duration-quick) var(--ease-out)}
+.size:hover{background:var(--ink-2)}
+.size .h3{margin:0}
+.size p{margin:0;color:var(--soft);line-height:1.5;max-width:42ch}
+.size-go{margin-top:auto;display:inline-flex;gap:8px;align-items:center;color:var(--paper)}
+.size-go svg{width:13px;height:13px}
+.mg-ft-t a{color:var(--paper);text-underline-offset:3px}
 
 /* OpLev Console. Same Bison tokens as the site (site.css loads first).
    Layout: fixed sidebar + sticky top bar + scrolling view; cards use the 1px hairline grid. Drawer slides in from the right. */

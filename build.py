@@ -169,12 +169,14 @@ NIGHT = {
 PAINS = [
     ('Everything still runs through me.', 'ops'),
     ('Our website looks fine and does nothing.', 'site'),
+    ('Every team keeps its own spreadsheet, and none of them match.', 'system'),
     ('I pay for a stack of apps and still live in spreadsheets.', 'system'),
     ('Leads come in at night and sit until Monday.', 'leads'),
     ("I can't take a week off.", 'agents'),
     ("Nobody's heard of us outside of referrals.", 'marketing'),
     ('Only one person knows how that part works.', 'ops'),
     ('I answer the same five questions every day.', 'agents'),
+    ('We bought the software. Half the team still works around it.', 'ops'),
     ('People keep asking if they can use what I built.', 'resale'),
 ]
 QMARK = ['##.##', '##.##', '.#..#', '#..#.']
@@ -192,7 +194,7 @@ def pain_card(i, text, k):
     elif k == 'site':
         icon, who, cls = '<span class="sc-site" aria-hidden="true"><i></i></span>', 'A website that sells', 'e-sys'
     elif k == 'system':
-        icon, who, cls = edots([e for e, *_ in ENGINES]), 'All four, as one system', 'e-sys'
+        icon, who, cls = edots([e for e, *_ in ENGINES]), 'All four engines together', 'e-sys'
     else:
         icon, who, cls = '<span class="sc-lic" aria-hidden="true"></span>', 'A resale license', 'e-sys'
     return (f'\n        <li class="say-card {cls}"><div class="sc-top"><span class="label">{i + 1:02d}</span>{qmark()}</div>'
@@ -209,13 +211,14 @@ CMP = [
 ]
 
 F_TYPE = [('clinic', 'Health or wellness'), ('field', 'Home or field service'), ('brand', 'Product brand'),
-          ('agency', 'Agency or firm'), ('creator', 'Creator or coach'), ('startup', 'Startup'), ('other', 'Something else')]
-F_TEAM = [('1', 'Just me'), ('2-5', '2 to 5'), ('6-20', '6 to 20'), ('21-50', '21 to 50'), ('50', '50+')]
+          ('agency', 'Agency or firm'), ('creator', 'Creator or coach'), ('startup', 'Startup'),
+          ('enterprise', 'Enterprise or large company'), ('other', 'Something else')]
+F_TEAM = [('1', 'Just me'), ('2-5', '2 to 5'), ('6-20', '6 to 20'), ('21-50', '21 to 50'), ('51-250', '51 to 250'), ('250', '250+')]
 F_BUILD = [('ops', 'Staying organized (Ops)'), ('agents', 'Busywork and follow-ups (Agents)'), ('leads', 'Getting more customers (Leads)'),
            ('marketing', 'Getting the word out (Marketing)'),
            ('unsure', 'Not sure yet')]
 F_LICENSE = [('one', 'One engine / $5k'), ('core', 'Two engines / $10k'), ('company', 'Three or more / $15k+'),
-             ('unsure', 'Not sure yet')]
+             ('enterprise', 'Enterprise / scoped on a call'), ('unsure', 'Not sure yet')]
 F_RESALE = [('yes', 'Yes'), ('later', 'Maybe later'), ('no', 'No')]
 F_TIMING = [('month', 'This month'), ('quarter', 'This quarter'), ('exploring', 'Just exploring')]
 
@@ -227,7 +230,7 @@ def nav_items(p, home):
     return [
         ('work', 'Work', p + 'work.html', 'case studies', False),
         ('how', 'How it works', p + 'how-it-works.html', 'start to finish', False),
-        ('for', "Who it's for", p + 'for.html', f'{len(ICPS)} businesses', False),
+        ('for', "Who it's for", p + 'for.html', 'by industry and size', False),
         ('market', 'Marketplace', p + 'marketplace.html', 'ready-made systems', False),
         ('pricing', 'Pricing', p + 'pricing.html', 'how we charge', False),
         ('contact', 'Apply', p + 'start.html', 'limited spots', True),
@@ -250,7 +253,7 @@ def mega(p):
       <div class="mg-grid">{cols}
       </div>
       <div class="mg-ft">
-        <p class="mg-ft-t">Not on the list? Every build starts from how you work, so tell us about yours.</p>
+        <p class="mg-ft-t">Not on the list, or running a larger company? Every build starts from how you work. <a href="{p}for.html#sizes">Startups and enterprise</a></p>
         <div class="mg-ft-r"><span class="mg-key label">{''.join(f'{edots([k])}{n} ' for k, n, *_ in ENGINES)}</span><a class="label mg-all" href="{p}for.html">See all {len(ICPS)} {ARR_R}</a><a class="btn btn-sm" href="{p}start.html">Apply</a></div>
       </div>
     </div>
@@ -348,7 +351,7 @@ def shell_bottom():
     <p class="wm" id="wm" role="img" aria-label="OpLev">{wordmark_svg()}</p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>The business engine that operates itself.</span>
+      <span>Custom operating engines, built and managed by OpLev.</span>
       <span>{E(LOCATION)}</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -518,17 +521,17 @@ SITE_COPY = {
 }
 # what each engine does on its own, in one line
 ENGINE_DOES = {
-    'leads': ('It answers every lead.', 'Prices, questions and bookings from your website, answered in minutes, day or night.'),
-    'agents': ('It follows up for you.', 'Reminders, rebooking and invoice nudges in your voice. Anything new waits for your OK.'),
-    'ops': ('It keeps the day on track.', 'Schedule, clients, orders and numbers stay current. A summary hits your phone at 6am.'),
-    'marketing': ('It brings people back.', 'Newsletters and welcome emails from your own domain, and pages that turn visitors into leads.'),
+    'leads': ('Every lead gets an answer.', 'Prices, questions and bookings from your website get a reply within minutes, at any hour.'),
+    'agents': ('Follow-ups go out on time.', 'Reminders, rebooking and invoice nudges, written in your voice. Anything new waits for your OK.'),
+    'ops': ('Your day is planned before you wake up.', 'Schedule, clients, orders and numbers stay current, and a summary lands on your phone at 6am.'),
+    'marketing': ('Past customers hear from you again.', 'Newsletters and welcome emails from your own domain, plus pages that turn visitors into leads.'),
 }
 BUILD_ORDER = ['leads', 'agents', 'ops', 'marketing']
 BUILD_STYLES = [
-    ('clean', 'Clean', 'Light, sharp and roomy. Lets the work speak.'),
-    ('bold', 'Bold', 'Dark, big type, hard to miss.'),
-    ('warm', 'Warm', 'Soft color and serif type. Feels personal.'),
-    ('playful', 'Playful', 'Bright blocks and round shapes. Full of energy.'),
+    ('clean', 'Clean', 'Light and roomy, with sharp type.'),
+    ('bold', 'Bold', 'Dark, with oversized type.'),
+    ('warm', 'Warm', 'Soft colors and a serif. Feels like a person runs it.'),
+    ('playful', 'Playful', 'Bright color blocks and round shapes.'),
 ]
 BUILD_STEPS = [('Set your base', 'step-1'), ('Choose your add-ons', 'step-2'),
                ('Choose your build style', 'step-3'), ('Watch it run', 'step-4')]
@@ -537,6 +540,30 @@ BUILD_STEPS = [('Set your base', 'step-1'), ('Choose your add-ons', 'step-2'),
 # transitions.dev UI generation (vendor/): draws the website preview as it is "built" in step 3
 GEN_LOADER = ('<script type="module">import{generate}from"./vendor/ui-generation.js";'
               'window.OPGEN=generate;window.dispatchEvent(new Event("opgen"));</script>')
+
+
+SIZES = [
+    ('small', 'Small businesses', 'Clinics, home services, shops and firms. We start with your website and the engine closest to your biggest bottleneck.',
+     'Find your industry', 'for.html'),
+    ('startups', 'Startups', 'Founders and early teams. Engines for demo booking, onboarding, the weekly numbers and the investor update.',
+     'For startups', 'for/startups.html'),
+    ('enterprise', 'Enterprise', 'Companies with several teams or locations. We start with one team or one process, connect it to the systems you already run and manage it from there.',
+     'How enterprise works', 'pricing.html#enterprise'),
+]
+
+
+def sizes(p='', hid='sizes-h', heading='Who we build for.'):
+    cards = ''.join(f'''
+      <a class="size" href="{p}{href}" id="size-{k}"><span class="label">{i + 1:02d}</span><h3 class="h3">{E(t)}</h3><p>{E(d)}</p><span class="label size-go">{E(go)} {ARR_R}</span></a>'''
+                    for i, (k, t, d, go, href) in enumerate(SIZES))
+    return f'''
+<section class="sec sizes-sec" id="sizes" aria-labelledby="{hid}">
+  <div class="wrap">
+    <div class="head"><div class="head-l"><p class="eyebrow">By size</p><h2 class="h2" id="{hid}">{heading}</h2></div></div>
+    <div class="sizes">{cards}
+    </div>
+  </div>
+</section>'''
 
 
 def builder(x0):
@@ -578,13 +605,13 @@ def builder(x0):
   <script type="application/json" id="bx-data">{blob}</script>
 
   <section class="sec bstep" id="step-1" aria-labelledby="step-1-h">
-    <div class="wrap">{head(1, 'Set your base.', 'Every engine starts with a website built to sell. Pick your business, then the engines it runs on.')}
+    <div class="wrap">{head(1, 'Set your base.', 'Pick your business, then the engines you want. Every small business build starts with a website, and the engines run off it.')}
       <div class="tpick bx-pick"><label class="tpick-l" for="bx-biz">My business</label><span class="tpick-s"><select id="bx-biz">{opts_html}</select></span></div>
       <div class="bx-base">
         <div class="bx-site">
           <span class="bx-eng-top"><span class="bx-site-ic" aria-hidden="true"><i></i><i></i><i></i></span><b>Website</b><span class="label">always on</span></span>
-          <span class="bx-eng-h">It brings them in.</span>
-          <span class="bx-eng-p">Designed to sell, fast, and set up for Google and AI search. Everything else runs off it.</span>
+          <span class="bx-eng-h">Visitors turn into inquiries.</span>
+          <span class="bx-eng-p">Fast pages set up for Google and AI search, with a clear next step on each one. The engines run off what comes in.</span>
         </div>{base}
       </div>
       <div class="bx-total t-input-wrap"><span class="bx-meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="label"><b class="t-text-soft" data-bx-count>{len(x0["engines"])} engines</b> / <b class="t-digit-group" data-bx-price>$15k+</b> a month / website included</span><span class="label bx-err t-error-msg" role="alert">keep at least one engine</span></div>
@@ -593,7 +620,7 @@ def builder(x0):
   </section>
 
   <section class="sec bstep" id="step-2" aria-labelledby="step-2-h">
-    <div class="wrap">{head(2, 'Choose your add-ons.', 'Tools made for your kind of business. Each one plugs into an engine. Add any, any time.')}
+    <div class="wrap">{head(2, 'Choose your add-ons.', 'Each engine takes tools made for your kind of business. Pick the ones you want now and add more later.')}
       <div class="bx-tools" id="bx-tools"></div>
       <p class="label bx-note"><b class="t-text-soft" data-bx-tcount>4 add-ons</b> / priced per tool, added monthly</p>
       {nxt(3, 'choose your build style')}
@@ -601,7 +628,7 @@ def builder(x0):
   </section>
 
   <section class="sec bstep" id="step-3" aria-labelledby="step-3-h">
-    <div class="wrap">{head(3, 'Choose your build style.', 'How your website looks and feels. We design every site from scratch. This sets the direction.')}
+    <div class="wrap">{head(3, 'Choose your build style.', 'Pick a direction for your website. We design every site from scratch, so treat this as a starting point for the first call.')}
       <div class="bx-look">
         <fieldset class="bx-styles"><legend class="sr">Build style</legend>{styles}
         </fieldset>
@@ -612,7 +639,7 @@ def builder(x0):
   </section>
 
   <section class="sec bstep bs-run" id="step-4" aria-labelledby="step-4-h">
-    <div class="wrap">{head(4, 'Now watch it run.', 'One day in your business with this build. It does the work. You step in when it asks.')}
+    <div class="wrap">{head(4, 'Now watch it run.', 'Here is one day in your business with this build. The engines do the work and stop to ask you when something is new.')}
       <div class="bx-run">
         <div class="bx-stage">
           <div class="bx-stats">
@@ -758,9 +785,9 @@ def home(mode='full'):
   <canvas class="field" id="field" aria-hidden="true"></canvas>
   <div class="wrap">
     <span class="readout label" id="readout" aria-hidden="true">x 0000 · y 0000</span>
-    <p class="eyebrow">Custom built for your business</p>
+    <p class="eyebrow">An agency for SMBs, startups and enterprise</p>
     <h1 class="h1 h1-x" id="h1" aria-label="The ultimate business engine.">The ultimate business <s class="xo">website</s> engine.</h1>
-    <p class="lede">It answers leads, books, follows up and brings people back, on its own. We build it around how you work and keep it tuned.</p>
+    <p class="lede">We build custom operating engines and manage them for you every month. Each one takes over part of the work, from answering new leads to chasing unpaid invoices, and asks before anything new goes out.</p>
     {spots(' hero-spots')}
     <div class="actions">
       <a class="btn" href="#step-1">Build your engine {ARR_D}</a>
@@ -769,12 +796,12 @@ def home(mode='full'):
     <nav class="htabs hsteps" aria-label="Build your engine in four steps">{steps_html}</nav>
   </div>
 </section>
-''' + builder(ICP['pool-service']) + f'''
+''' + builder(ICP['pool-service']) + sizes() + f'''
 <section class="sec say" id="familiar" aria-labelledby="familiar-h">
   <div class="wrap say-hd">
     <div>
       <p class="eyebrow">Sound familiar?</p>
-      <h2 class="say-h" id="familiar-h">You started a business. Then it became a job.</h2>
+      <h2 class="say-h" id="familiar-h">Where the work gets stuck.</h2>
     </div>
     <div class="say-ctl">
       <span class="label say-n" aria-hidden="true"><b>01</b> / {len(PAINS):02d}</span>
@@ -820,12 +847,12 @@ def home(mode='full'):
   <div class="wrap close-in">
     {spots(' close-spots')}
     <h2 class="close-h" id="close-h">{CAPACITY['open']} client spots left for {E(CAPACITY['window'])}.</h2>
-    <p class="lede">We build it, run it and keep improving it. From $5k a month, website included. We reply to every application.</p>
+    <p class="lede">Small business builds start at $5k a month with the website included. Enterprise work is scoped on a call. We reply to every application.</p>
     <div class="actions"><a class="btn" href="start.html">Apply for a spot {ARR_R}</a><a class="btn ghost" href="pricing.html">See pricing {ARR_R}</a></div>
   </div>
 </section>
 '''
-    return page('OpLev', 'OpLev builds the ultimate business engine, one that operates itself: a website built to convert, plus the engines that answer leads, follow up, run the day and bring customers back. Built around how you work, kept running by us, licensed monthly.',
+    return page('OpLev', 'OpLev is an agency that builds and manages custom operating engines for small businesses, startups and enterprise teams. Engines for leads, follow-ups, operations and marketing, built around how you work and run for you every month.',
                 body, p='', home=True, active=None, mode=mode, data=GEN_LOADER)
 
 
@@ -896,7 +923,7 @@ def pricing():
                    'We host it, fix it and update it', 'A monthly progress score', 'A monthly check-in call',
                    'Email support, reply within a business day'],
                   'Apply for one engine')
-             + plan(2, 'core', 'Two engines', '$10k', 'Two engines that feed each other, so nothing falls between them.',
+             + plan(2, 'core', 'Two engines', '$10k', 'Two engines working from the same records.',
                     ['Your website, designed and built to convert', 'Your two engines, working together', 'Tools that work across both', 'We interview your team',
                      'A monthly progress score', 'We host it, fix it and update it',
                      'A weekly check-in call', 'Same-day support'],
@@ -908,11 +935,22 @@ def pricing():
                      'Price depends on team size'],
                     'Apply for three or more'))
     lic = f'''
+      <article class="lic lic-ent" id="enterprise" aria-labelledby="ent-h">
+        <div class="lic-l">
+          <span class="label">for larger companies</span>
+          <h3 class="h3" id="ent-h">Enterprise</h3>
+          <p>For companies with several teams, locations or departments. We usually start with one team or one process, connect it to the systems you already use and grow from there. We scope it on a call and price it per engagement.</p>
+        </div>
+        <div class="lic-r">
+          <p class="price"><span class="amt">Scoped</span><span class="per">/ per engagement</span></p>
+          <a class="btn" href="start.html#enterprise">Talk to us {ARR_R}</a>
+        </div>
+      </article>
       <article class="lic lic-tools" aria-labelledby="tools-h">
         <div class="lic-l">
           <span class="label">add to any engine</span>
           <h3 class="h3" id="tools-h">Industry tools</h3>
-          <p>Engines are the base. Tools are built for your kind of business and plug into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, a welcome series in Marketing. Add as many as you need.</p>
+          <p>Tools are built for your kind of business and plug into one engine: a price calculator in Leads, treatment reminders in Agents, a route summary in Ops, a welcome series in Marketing. Add as many as you need.</p>
           <a class="label lic-more" href="for.html">See the tools for your industry {ARR_R}</a>
         </div>
         <div class="lic-r">
@@ -946,11 +984,11 @@ def pricing():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">Pricing</p>
-    <h1 class="h1" id="h1">Your business engine. One monthly license.</h1>
-    <p class="lede">We build the engine that runs your business on its own. Every plan starts with your website, designed to convert, plus one to all four engines. We host it, fix it and keep improving it. Want to sell what we build for you to other businesses? Add a resale license.</p>
+    <h1 class="h1" id="h1">One monthly license. We build it and keep it running.</h1>
+    <p class="lede">You pay monthly for the engines you use. That covers the build, hosting, fixes, the changes you ask for and regular check-ins. Small business plans include your website. Enterprise work is scoped and priced after a call. If other businesses want what we built for you, a resale license lets you sell it to them.</p>
     <div class="every model-row">
-      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>Your business engine, built and kept running by us.</p></div>
-      <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates included. Add engines as you grow.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">01</span><h3 class="h3">Run it</h3><p>We build your engines and manage them every month.</p></div>
+      <div class="ev"><span class="b" aria-hidden="true">02</span><h3 class="h3">Grow it</h3><p>Updates are included. Add an engine when you're ready.</p></div>
       <div class="ev"><span class="b" aria-hidden="true">03</span><h3 class="h3">Sell it</h3><p>Add a resale license and sell it to others.</p></div>
     </div>
   </div>
@@ -961,7 +999,7 @@ def pricing():
     <div class="head">
       <div class="head-l">
         <p class="eyebrow">Plans</p>
-        <h2 class="h2" id="plans-h">Pick your engines. We build and run them.</h2>
+        <h2 class="h2" id="plans-h">Pick how many engines you need.</h2>
       </div>
       <p class="label">usd / billed monthly</p>
     </div>
@@ -981,7 +1019,7 @@ def pricing():
       <div class="head-l">
         <p class="eyebrow">Why monthly</p>
         <h2 class="h2" id="why-h">Why pay monthly?</h2>
-        <p class="lede">Off-the-shelf apps make you work their way. A typical agency hands over the build and moves on. With us, you get engines made for you, kept running by the people who built them.</p>
+        <p class="lede">Off-the-shelf apps make you work their way, and most agencies hand over a build and move on. We build around how you already work and keep managing it after launch.</p>
       </div>
     </div>
     <div class="cmp" role="table" aria-label="Off-the-shelf apps, a typical agency and OpLev compared">
@@ -994,8 +1032,8 @@ def pricing():
   <div class="wrap split">
     <div class="head-l">
       <p class="eyebrow">Resale</p>
-      <h2 class="h2" id="resale-h">Your system could be a product.</h2>
-      <p class="lede">The way you run your business is worth something to everyone who runs one like it. Prove it works in yours, then sell it to them.</p>
+      <h2 class="h2" id="resale-h">Sell what we built for you.</h2>
+      <p class="lede">A setup that works in your business will probably help others like it. Run it in yours first, then license it to them.</p>
       <div class="actions"><a class="btn" href="start.html#resale">Ask about resale {ARR_R}</a><a class="btn ghost" href="marketplace.html">See the marketplace {ARR_R}</a></div>
     </div>
     <div class="split-r">
@@ -1051,15 +1089,19 @@ def pricing():
       </div>
       <div class="t-acc" data-open="false">
         <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-9"><span class="h3">Is the website included?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
-        <div class="t-acc-panel" id="faq-9" inert><div class="t-acc-panel-inner"><p class="a">Yes. Every plan starts with your website: designed, built, hosted and kept fast by us. The engines run off it, so it's the first thing we build.</p></div></div>
+        <div class="t-acc-panel" id="faq-9" inert><div class="t-acc-panel-inner"><p class="a">Yes, on every small business plan. We design it, build it, host it and keep it fast, and since the engines run off it, it's the first thing we build. Enterprise builds can include one or connect to the site you already have.</p></div></div>
       </div>
       <div class="t-acc" data-open="false">
         <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-10"><span class="h3">What's a tool?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
-        <div class="t-acc-panel" id="faq-10" inert><div class="t-acc-panel-inner"><p class="a">Something we add to an engine for your kind of business. A pool company adds a route-based price calculator to Leads. A med spa adds treatment reminders to Agents. A gym adds a free trial page to Marketing. Engines are the base, tools make them yours, and you can add them to any engine at any time.</p></div></div>
+        <div class="t-acc-panel" id="faq-10" inert><div class="t-acc-panel-inner"><p class="a">Something we add to an engine for your kind of business. A pool company adds a route-based price calculator to Leads. A med spa adds treatment reminders to Agents. A gym adds a free trial page to Marketing. You can add a tool to any engine at any time.</p></div></div>
       </div>
       <div class="t-acc" data-open="false">
         <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-11"><span class="h3">Can we change licenses?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
         <div class="t-acc-panel" id="faq-11" inert><div class="t-acc-panel-inner"><p class="a">Yes. Add an engine or move down at the start of any month.</p></div></div>
+      </div>
+      <div class="t-acc" data-open="false">
+        <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-13"><span class="h3">Do you work with enterprise teams?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
+        <div class="t-acc-panel" id="faq-13" inert><div class="t-acc-panel-inner"><p class="a">Yes. Larger companies usually start with one team or one process. We scope it on a call, connect it to the systems you already use and manage it from there.</p></div></div>
       </div>
       <div class="t-acc" data-open="false">
         <button class="t-acc-head" type="button" aria-expanded="false" aria-controls="faq-12"><span class="h3">Do we even need this?</span><span class="t-acc-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6.5L8 10.5L12 6.5"/></svg></span></button>
@@ -1080,7 +1122,7 @@ def pricing():
     </div>
   </div>
 </section>'''
-    return page('OpLev Pricing', 'OpLev builds the business engine that operates itself and runs it for a monthly license: one engine from $5k a month, two for $10k, three or more from $15k. Add a resale license to sell them to others.',
+    return page('OpLev Pricing', 'OpLev builds and manages custom operating engines for a monthly license: one engine from $5k a month, two for $10k, three or more from $15k. Enterprise work is scoped on a call. Add a resale license to sell what we build for you.',
                 body, p='', active='pricing')
 
 
@@ -1118,15 +1160,16 @@ def for_index():
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">Who it's for</p><span class="label">{len(ICPS):02d} kinds of business</span></div>
     <h1 class="h1" id="h1">Pick your business.</h1>
-    <p class="lede">Every engine we build is custom. These are the businesses we build for most, with the tools we add to each engine for them. Yours starts from how you work.</p>
+    <p class="lede">We build for small businesses, startups and enterprise teams. Below are the industries we build for most, with the tools we usually add. Every build still starts from how you work.</p>
     {spots()}
   </div>
 </section>
 
+''' + sizes('', 'sizes-h', 'Small business, startup or enterprise.') + f'''
 <div class="wrap fgroups">{blocks}
   <a class="fg-else" href="start.html"><span class="label">not on the list</span><span class="fg-else-t">Something else? Tell us how it works.</span><span class="fr-go">{ARR_R}</span></a>
 </div>''' + cta('Tell us how yours works.', "Tell us what still runs through you. We'll show you what we'd build and where we'd start.", '')
-    return page("Who It's For | OpLev", 'What OpLev builds for clinics, home services, product brands, agencies, firms, startups and creators. Every engine is custom.',
+    return page("Who It's For | OpLev", 'What OpLev builds for small businesses, startups and enterprise teams, by industry. Every engine is custom.',
                 body, p='', active='for')
 
 
@@ -1200,7 +1243,7 @@ def icp_page(x):
     <div class="head-l">
       <p class="eyebrow">It starts with your website</p>
       <h2 class="h2" id="site-h">A website built for {E(x['name'].lower())}.</h2>
-      <p class="lede">Fast, beautiful and built to convert. Every visitor gets a next step, and everything they send goes straight into your engines.</p>
+      <p class="lede">Fast pages that give every visitor a next step. Whatever they send goes straight into your engines.</p>
     </div>
     <div class="split-r">
       {site_mock(domain, ' sm-sm')}
@@ -1288,7 +1331,7 @@ def os_card(x, p=''):
 
 
 LICENSE_STEPS = [
-    ('Pick one', 'Find an OS built for a business like yours, and see every tool in it.'),
+    ('Pick one', 'Find a setup built for a business like yours and see every tool in it.'),
     ('We tailor it', 'We connect it to your tools and set it up with your wording, your prices and your rules.'),
     ('We run it', 'You pay monthly. We host it, fix it and keep it improving. The owner earns on every license.'),
 ]
@@ -1296,8 +1339,8 @@ LICENSE_STEPS = [
 
 SELL_STEPS = [
     ('We build it for you', 'Custom engines, built around how your business runs.'),
-    ('It proves itself', "It runs your business first. That's the proof buyers want."),
-    ('We list it', 'Your OS goes in the marketplace. We tailor and run it for every buyer.'),
+    ('It proves itself', 'It runs your business first, which is the proof buyers look for.'),
+    ('We list it', 'It goes in the marketplace. We tailor it and run it for every buyer.'),
     ('You earn', 'Every business that licenses it pays you, every month.'),
 ]
 
@@ -1322,8 +1365,8 @@ def market_index():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <div class="crumbs"><p class="eyebrow">Marketplace</p><span class="label">{len(MARKET):02d} example listings</span></div>
-    <h1 class="h1" id="h1">Operating systems, ready to license.</h1>
-    <p class="lede">Each OS here is a set of engines and industry tools, built by OpLev for a business like yours, then listed by its owner. Pick one, apply, and we tailor it to you and run it every month. Faster than starting from scratch.</p>
+    <h1 class="h1" id="h1">Engine setups, ready to license.</h1>
+    <p class="lede">Each listing is a set of engines and industry tools we built for one business and its owner put up for license. Pick one and we tailor it to your business and run it every month, which is faster than starting from scratch.</p>
     <p class="label mk-note">These are example listings while the first ones go live.</p>
     <div class="tabs filters mk-filters" role="group" aria-label="Filter by business">{filters}</div>
     <div class="cards mk-cards">{cards}
@@ -1336,7 +1379,7 @@ def market_index():
     <div class="head">
       <div class="head-l">
         <p class="eyebrow">How licensing works</p>
-        <h2 class="h2" id="lic-steps-h">Proven in one business. Tailored for yours.</h2>
+        <h2 class="h2" id="lic-steps-h">Built for one business, tailored to yours.</h2>
       </div>
     </div>
     {license_steps()}
@@ -1348,15 +1391,15 @@ def market_index():
     <div class="head-l">
       <p class="eyebrow">Sell yours</p>
       <h2 class="h2" id="sell-h">Built something that works? List it.</h2>
-      <p class="lede">What works for your business will work for businesses like yours. Add a resale license and we list your OS here, run it for every buyer, and you earn on every license.</p>
+      <p class="lede">If it works in your business, it can work in others like it. Add a resale license and we list it here, run it for every buyer and pay you on every license.</p>
       <div class="actions"><a class="btn" href="start.html#resale">Ask about resale {ARR_R}</a><a class="btn ghost" href="pricing.html#resale">How resale works {ARR_R}</a></div>
     </div>
     <div class="split-r">
       {sell_steps()}
     </div>
   </div>
-</section>''' + cta("Don't see your business?", "We'll build an OS around how yours works. Tell us what still runs through you.", '')
-    return page('OS Marketplace | OpLev', 'Operating systems OpLev built for real kinds of business, ready to license. Pick one, we tailor it to you and run it every month.',
+</section>''' + cta("Don't see your business?", "We'll build engines around how yours works. Tell us what still runs through you.", '')
+    return page('OS Marketplace | OpLev', 'Engine setups OpLev built for real businesses, ready to license. Pick one and we tailor it to you and run it every month.',
                 body, p='', active='market')
 
 
@@ -1368,13 +1411,13 @@ def market_page(i):
     demo = f'{p}app.html#{x["sid"]}' if x.get('sid') else None
     jobs = job_cards(os_jobs(x), sid=x.get('sid'), p=p, extra_cls=' plays-top', start=start, demo=demo or f'{p}marketplace.html')
     more = ''.join(os_card(MARKET[(i + k) % n], p) for k in (1, 2, 3))
-    acts = f'<a class="btn" href="{start}">Apply for this OS {ARR_R}</a>' + (
+    acts = f'<a class="btn" href="{start}">Apply for this setup {ARR_R}</a>' + (
         f'<a class="btn ghost" href="{demo}">See an example dashboard {ARR_R}</a>' if demo else '')
     body = f'''
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <div class="crumbs"><a class="label" href="{p}marketplace.html">{ARR_L} Marketplace</a><span class="label">os {i + 1:02d} / {n:02d} / example listing</span></div>
-    <p class="eyebrow">Operating system for {E(x['type_label'].lower())}</p>
+    <p class="eyebrow">Engine setup for {E(x['type_label'].lower())}</p>
     <h1 class="h1" id="h1">{E(x['name'])}</h1>
     <p class="lede">{E(x['pitch'])}</p>
     <dl class="facts f4">
@@ -1406,7 +1449,7 @@ def market_page(i):
     <div class="head">
       <div class="head-l">
         <p class="eyebrow">How licensing works</p>
-        <h2 class="h2" id="lic-steps-h">Proven in one business. Tailored for yours.</h2>
+        <h2 class="h2" id="lic-steps-h">Built for one business, tailored to yours.</h2>
       </div>
     </div>
     {license_steps()}
@@ -1418,7 +1461,7 @@ def market_page(i):
     <div class="head">
       <div class="head-l">
         <p class="eyebrow">More in the marketplace</p>
-        <h2 class="h2" id="more-h">Other operating systems.</h2>
+        <h2 class="h2" id="more-h">Other setups.</h2>
       </div>
       <a class="btn ghost" href="{p}marketplace.html">See all {ARR_R}</a>
     </div>
@@ -1436,10 +1479,10 @@ PHASES = [
      'Fill in a two-minute application.', 'A reply from the people who would build it.'),
     ('discuss', 'Discuss', 'We get on a call with you and your team and see how the work really gets done: where leads come in, what you answer twice, what only one person knows.',
      'Walk us through a normal week.', 'A plan with what we would build first, the monthly price and a launch date.'),
-    ('build', 'Build', 'We design your website first, then build your engines around it and around how you already work, connected to the tools you use, like your calendar, inbox and payments.',
+    ('build', 'Build', 'We build your engines around how you already work and connect them to the tools you use, like your calendar, inbox and payments. Small business builds start with the website. Enterprise builds start inside the systems your teams already use.',
      'Answer our questions and try it early.', 'Engines built for your business, tested on your real work.'),
     ('implement', 'Launch', 'We roll it out one piece at a time. Every tool checks with you first until you trust it, then it runs on its own.',
-     'Approve drafts from your phone.', 'Busywork off your plate. Nothing important goes out without your OK.'),
+     'Approve drafts from your phone.', 'Less busywork, and nothing important goes out without your OK.'),
     ('measure', 'Improve', 'Every month we track how much of the business runs without you, then pick the next thing to fix.',
      'Join a short check-in call.', 'Engines that keep getting better for as long as you use them.'),
 ]
@@ -1449,7 +1492,7 @@ DUO = [
 ]
 MONTHLY = [
     ('Hosting, fixes and updates', 'We keep it running. You never hire a developer.'),
-    ('Changes when you ask', 'New tools, new rules, new wording. We build them in.'),
+    ('Changes when you ask', 'New tools, rules or wording, built in when you ask.'),
     ('A progress score', 'A simple number for how much runs without you.'),
     ('Check-in calls', 'We review what is working and pick what to fix next.'),
     ('Approvals your way', 'You decide what needs your OK and what runs on its own.'),
@@ -1472,8 +1515,8 @@ def how_page():
 <section class="top" aria-labelledby="h1">
   <div class="wrap">
     <p class="eyebrow">How it works</p>
-    <h1 class="h1" id="h1">From first call to a business that runs itself.</h1>
-    <p class="lede">We learn how your business runs, build the engine around it and keep it running every month. You talk to the people building it, the whole way.</p>
+    <h1 class="h1" id="h1">From first call to every month after.</h1>
+    <p class="lede">We learn how your business runs, build engines around it and keep them running every month. You talk to the people building it the whole way through.</p>
     <dl class="facts f4">
       <div><dt class="label">You talk to</dt><dd>The people building it</dd></div>
       <div><dt class="label">You pay</dt><dd>One monthly price</dd></div>
@@ -1539,14 +1582,14 @@ def how_page():
   <div class="wrap split">
     <div class="head-l">
       <p class="eyebrow">Then sell it</p>
-      <h2 class="h2" id="resale-h">Your OS can earn.</h2>
-      <p class="lede">What works for you will work for businesses like yours. List it in our marketplace and earn on every license. We run it for every buyer.</p>
+      <h2 class="h2" id="resale-h">Sell what we built for you.</h2>
+      <p class="lede">If it works for you, it will likely work for businesses like yours. List it in our marketplace and earn on every license while we run it for each buyer.</p>
       <div class="actions"><a class="btn" href="marketplace.html">Browse the marketplace {ARR_R}</a></div>
     </div>
     <div class="split-r">{sell_steps()}</div>
   </div>
 </section>''' + inquiry('h2', 'Ready when you are.')
-    return page('How It Works | OpLev', 'How OpLev works: we learn how your business runs, build the engine around it and keep it running every month.',
+    return page('How It Works | OpLev', 'How OpLev works: we learn how your business runs, build engines around it and keep them running every month.',
                 body, p='', active='how')
 
 

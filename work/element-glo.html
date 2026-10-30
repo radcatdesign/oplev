@@ -1419,8 +1419,8 @@ html.sheet-open{overflow:hidden}
   .bxb-sum>.label{display:none}
 }
 @media (max-width:979px){.bx-stage{display:contents}.bx-stats{order:1}.bx-log{order:2}.bx-stage .bx-prev{order:3}}
-.bx-js .bx-bar{transform:translateY(105%);transition:transform var(--panel-close-dur) var(--panel-ease)}
-.bx-js .bx-bar.on{transform:none;transition-duration:var(--panel-open-dur)}
+.bx-js .bx-bar{transform:translateY(105%);opacity:0;visibility:hidden;transition:transform var(--panel-close-dur) var(--panel-ease),opacity var(--panel-close-dur) var(--panel-ease),visibility 0s linear var(--panel-close-dur)}
+.bx-js .bx-bar.on{transform:none;opacity:1;visibility:visible;transition:transform var(--panel-open-dur) var(--panel-ease),opacity var(--panel-open-dur) var(--panel-ease),visibility 0s}
 .inq-build .inq-os-n{font:400 14px/1.5 var(--body);flex-basis:100%;order:3}
 
 /* ---------- transitions (transitions.dev, adapted) ---------- */
@@ -1536,6 +1536,17 @@ html.sheet-open{overflow:hidden}
 .t-gen-label--small{font-size:7.5px;fill:var(--gen-strong)}
 .t-gen-label--tag{font-size:7.5px;fill:var(--gen-strong);letter-spacing:.05em;text-transform:uppercase}
 @media (prefers-reduced-motion: reduce){.t-gen{display:none}}
+
+/* who we build for, by size */
+.sizes{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:860px){.sizes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.size{display:flex;flex-direction:column;gap:12px;padding:clamp(20px,2.4vw,32px);background:var(--ink);color:var(--paper);text-decoration:none;min-height:240px;transition:background var(--duration-quick) var(--ease-out)}
+.size:hover{background:var(--ink-2)}
+.size .h3{margin:0}
+.size p{margin:0;color:var(--soft);line-height:1.5;max-width:42ch}
+.size-go{margin-top:auto;display:inline-flex;gap:8px;align-items:center;color:var(--paper)}
+.size-go svg{width:13px;height:13px}
+.mg-ft-t a{color:var(--paper);text-underline-offset:3px}
 </style>
 </head>
 <body>
@@ -1594,7 +1605,7 @@ html.sheet-open{overflow:hidden}
         </div>
       </div>
       <div class="mg-ft">
-        <p class="mg-ft-t">Not on the list? Every build starts from how you work, so tell us about yours.</p>
+        <p class="mg-ft-t">Not on the list, or running a larger company? Every build starts from how you work. <a href="../for.html#sizes">Startups and enterprise</a></p>
         <div class="mg-ft-r"><span class="mg-key label"><span class="edots" aria-hidden="true"><i class="e-ops"></i></span>Ops <span class="edots" aria-hidden="true"><i class="e-agents"></i></span>Agents <span class="edots" aria-hidden="true"><i class="e-leads"></i></span>Leads <span class="edots" aria-hidden="true"><i class="e-marketing"></i></span>Marketing </span><a class="label mg-all" href="../for.html">See all 20 <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a><a class="btn btn-sm" href="../start.html">Apply</a></div>
       </div>
     </div>
@@ -1607,7 +1618,7 @@ html.sheet-open{overflow:hidden}
       <ul class="menu-list">
         <li><a href="../work.html" aria-current="page"><span class="mn">01</span><span class="mt">Work</span><span class="mp">case studies</span></a></li>
         <li><a href="../how-it-works.html"><span class="mn">02</span><span class="mt">How it works</span><span class="mp">start to finish</span></a></li>
-        <li class="menu-sub"><button class="menu-sub-btn" type="button" aria-expanded="false" aria-controls="menu-for"><span class="mn">03</span><span class="mt">Who it's for</span><span class="mp">20 businesses<i class="pm" aria-hidden="true"></i></span></button><div class="menu-for" id="menu-for" hidden><div class="mf-g"><p class="label">Health + wellness</p><ul><li><a href="../for/med-spas.html">Med spas</a></li><li><a href="../for/dental.html">Dental offices</a></li><li><a href="../for/physical-therapy.html">PT + chiropractic</a></li><li><a href="../for/gyms.html">Gyms + studios</a></li></ul></div><div class="mf-g"><p class="label">Home + field services</p><ul><li><a href="../for/pool-service.html">Pool service</a></li><li><a href="../for/hvac-plumbing.html">HVAC + plumbing</a></li><li><a href="../for/landscaping.html">Landscaping</a></li><li><a href="../for/contractors.html">Contractors + remodelers</a></li></ul></div><div class="mf-g"><p class="label">Product brands</p><ul><li><a href="../for/ecommerce.html">Online brands</a></li><li><a href="../for/food-beverage.html">Food + beverage</a></li><li><a href="../for/beauty.html">Beauty + skincare</a></li><li><a href="../for/showrooms.html">Home goods + showrooms</a></li></ul></div><div class="mf-g"><p class="label">Agencies + firms</p><ul><li><a href="../for/agencies.html">Marketing agencies</a></li><li><a href="../for/law.html">Law firms</a></li><li><a href="../for/accounting.html">Accounting + bookkeeping</a></li><li><a href="../for/real-estate.html">Real estate teams</a></li></ul></div><div class="mf-g"><p class="label">Founders + creators</p><ul><li><a href="../for/startups.html">Startups</a></li><li><a href="../for/creators.html">Creators + podcasters</a></li><li><a href="../for/coaches.html">Coaches + courses</a></li><li><a href="../for/events.html">Events + venues</a></li></ul></div><a class="label mf-all" href="../for.html">See all 20 <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div></li>
+        <li class="menu-sub"><button class="menu-sub-btn" type="button" aria-expanded="false" aria-controls="menu-for"><span class="mn">03</span><span class="mt">Who it's for</span><span class="mp">by industry and size<i class="pm" aria-hidden="true"></i></span></button><div class="menu-for" id="menu-for" hidden><div class="mf-g"><p class="label">Health + wellness</p><ul><li><a href="../for/med-spas.html">Med spas</a></li><li><a href="../for/dental.html">Dental offices</a></li><li><a href="../for/physical-therapy.html">PT + chiropractic</a></li><li><a href="../for/gyms.html">Gyms + studios</a></li></ul></div><div class="mf-g"><p class="label">Home + field services</p><ul><li><a href="../for/pool-service.html">Pool service</a></li><li><a href="../for/hvac-plumbing.html">HVAC + plumbing</a></li><li><a href="../for/landscaping.html">Landscaping</a></li><li><a href="../for/contractors.html">Contractors + remodelers</a></li></ul></div><div class="mf-g"><p class="label">Product brands</p><ul><li><a href="../for/ecommerce.html">Online brands</a></li><li><a href="../for/food-beverage.html">Food + beverage</a></li><li><a href="../for/beauty.html">Beauty + skincare</a></li><li><a href="../for/showrooms.html">Home goods + showrooms</a></li></ul></div><div class="mf-g"><p class="label">Agencies + firms</p><ul><li><a href="../for/agencies.html">Marketing agencies</a></li><li><a href="../for/law.html">Law firms</a></li><li><a href="../for/accounting.html">Accounting + bookkeeping</a></li><li><a href="../for/real-estate.html">Real estate teams</a></li></ul></div><div class="mf-g"><p class="label">Founders + creators</p><ul><li><a href="../for/startups.html">Startups</a></li><li><a href="../for/creators.html">Creators + podcasters</a></li><li><a href="../for/coaches.html">Coaches + courses</a></li><li><a href="../for/events.html">Events + venues</a></li></ul></div><a class="label mf-all" href="../for.html">See all 20 <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5"/></svg></a></div></li>
         <li><a href="../marketplace.html"><span class="mn">04</span><span class="mt">Marketplace</span><span class="mp">ready-made systems</span></a></li>
         <li><a href="../pricing.html"><span class="mn">05</span><span class="mt">Pricing</span><span class="mp">how we charge</span></a></li>
         <li><a href="../start.html"><span class="mn">06</span><span class="mt">Apply</span><span class="mp">limited spots</span></a></li>
@@ -1727,7 +1738,7 @@ html.sheet-open{overflow:hidden}
     <p class="wm" id="wm" role="img" aria-label="OpLev"><svg class="wm-svg" id="wm-t" viewBox="5 5 2890 690" aria-hidden="true"><g class="wm-l"><rect class="t" x="105" y="5" width="90" height="90"/><rect class="t" x="205" y="5" width="90" height="90"/><rect class="t" x="305" y="5" width="90" height="90"/><rect class="t" x="5" y="105" width="90" height="90"/><rect class="t" x="405" y="105" width="90" height="90"/><rect class="t" x="5" y="205" width="90" height="90"/><rect class="t" x="405" y="205" width="90" height="90"/><rect class="t" x="5" y="305" width="90" height="90"/><rect class="t" x="405" y="305" width="90" height="90"/><rect class="t" x="5" y="405" width="90" height="90"/><rect class="t" x="405" y="405" width="90" height="90"/><rect class="t" x="5" y="505" width="90" height="90"/><rect class="t" x="405" y="505" width="90" height="90"/><rect class="t" x="105" y="605" width="90" height="90"/><rect class="t" x="205" y="605" width="90" height="90"/><rect class="t" x="305" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="605" y="5" width="90" height="90"/><rect class="t" x="705" y="5" width="90" height="90"/><rect class="t" x="805" y="5" width="90" height="90"/><rect class="t" x="905" y="5" width="90" height="90"/><rect class="t" x="605" y="105" width="90" height="90"/><rect class="t" x="1005" y="105" width="90" height="90"/><rect class="t" x="605" y="205" width="90" height="90"/><rect class="t" x="1005" y="205" width="90" height="90"/><rect class="t" x="605" y="305" width="90" height="90"/><rect class="t" x="705" y="305" width="90" height="90"/><rect class="t" x="805" y="305" width="90" height="90"/><rect class="t" x="905" y="305" width="90" height="90"/><rect class="t" x="605" y="405" width="90" height="90"/><rect class="t" x="605" y="505" width="90" height="90"/><rect class="t" x="605" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="1205" y="5" width="90" height="90"/><rect class="t" x="1205" y="105" width="90" height="90"/><rect class="t" x="1205" y="205" width="90" height="90"/><rect class="t" x="1205" y="305" width="90" height="90"/><rect class="t" x="1205" y="405" width="90" height="90"/><rect class="t" x="1205" y="505" width="90" height="90"/><rect class="t" x="1205" y="605" width="90" height="90"/><rect class="t" x="1305" y="605" width="90" height="90"/><rect class="t" x="1405" y="605" width="90" height="90"/><rect class="t" x="1505" y="605" width="90" height="90"/><rect class="t" x="1605" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="1805" y="5" width="90" height="90"/><rect class="t" x="1905" y="5" width="90" height="90"/><rect class="t" x="2005" y="5" width="90" height="90"/><rect class="t" x="2105" y="5" width="90" height="90"/><rect class="t" x="2205" y="5" width="90" height="90"/><rect class="t" x="1805" y="105" width="90" height="90"/><rect class="t" x="1805" y="205" width="90" height="90"/><rect class="t" x="1805" y="305" width="90" height="90"/><rect class="t" x="1905" y="305" width="90" height="90"/><rect class="t" x="2005" y="305" width="90" height="90"/><rect class="t" x="2105" y="305" width="90" height="90"/><rect class="t" x="1805" y="405" width="90" height="90"/><rect class="t" x="1805" y="505" width="90" height="90"/><rect class="t" x="1805" y="605" width="90" height="90"/><rect class="t" x="1905" y="605" width="90" height="90"/><rect class="t" x="2005" y="605" width="90" height="90"/><rect class="t" x="2105" y="605" width="90" height="90"/><rect class="t" x="2205" y="605" width="90" height="90"/></g><g class="wm-l"><rect class="t" x="2405" y="5" width="90" height="90"/><rect class="t" x="2805" y="5" width="90" height="90"/><rect class="t" x="2405" y="105" width="90" height="90"/><rect class="t" x="2805" y="105" width="90" height="90"/><rect class="t" x="2405" y="205" width="90" height="90"/><rect class="t" x="2805" y="205" width="90" height="90"/><rect class="t" x="2505" y="305" width="90" height="90"/><rect class="t" x="2705" y="305" width="90" height="90"/><rect class="t" x="2505" y="405" width="90" height="90"/><rect class="t" x="2705" y="405" width="90" height="90"/><rect class="t" x="2505" y="505" width="90" height="90"/><rect class="t" x="2705" y="505" width="90" height="90"/><rect class="t" x="2605" y="605" width="90" height="90"/></g></svg></p>
     <div class="frow label">
       <span>OpLev</span>
-      <span>The business engine that operates itself.</span>
+      <span>Custom operating engines, built and managed by OpLev.</span>
       <span>Bend, Oregon</span>
       <span class="clock" data-clock></span>
       <span data-year>2026</span>
@@ -2382,6 +2393,7 @@ $$('form.inq').forEach(f=>{
   const PRE={one:'license-one',core:'license-core',company:'license-company',resale:'resale-yes'};
   const h=(location.hash||'').slice(1).toLowerCase();
   if(h){const el=document.getElementById('inq-'+(PRE[h]||('type-'+h)));if(el&&f.contains(el))el.checked=true;}
+  if(h==='enterprise'){const l=document.getElementById('inq-license-enterprise');if(l&&f.contains(l))l.checked=true;}
   try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');TEXT.forEach(k=>{const el=f.elements[k];if(el&&d[k]&&!el.value)el.value=d[k];});}catch(e){}
   // marketplace links (start.html#os-practice) say which OS the inquiry is about
   const osBox=$('.inq-os',f),osIn=$('#inq-os',f);let osNames={};try{osNames=JSON.parse(($('.os-names',f)||{}).textContent||'{}')}catch(e){}
@@ -2761,7 +2773,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
     }
     if(id!==run)return;
     const mins=you*2;
-    $('[data-bx-sum]',root).textContent='One day. '+plural(auto,'thing')+' done on its own. '+(you?'You stepped in '+(you===1?'once':you+' times')+', about '+mins+' minutes.':"You didn't have to do a thing.");
+    $('[data-bx-sum]',root).textContent=plural(auto,'thing')+' got done today without you. '+(you?'You stepped in '+(you===1?'once':you+' times')+', for about '+mins+' minutes.':"You didn't have to step in once.");
     showDone(true);setRunning(false);
     if(thinkBox)thinkSwap(thinkBox,'day done / '+plural(auto+you,'thing'));
     const t=$('[data-bm-toast]',root);if(t)t.classList.remove('is-open');
@@ -2792,7 +2804,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
     if(heroLines.length&&!RM)setTimeout(()=>heroWrap.classList.add('is-shown'),380);};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','the ultimate business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','custom operating engines'],['engines','water / earth / fire / wind'],['built for','smb / startups / enterprise'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

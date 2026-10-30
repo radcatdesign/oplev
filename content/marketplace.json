@@ -94,7 +94,7 @@
   "type_label": "Startups",
   "for": "Early-stage startups with a small team",
   "sid": "startup",
-  "pitch": "Every lead captured, every number on one screen and the investor update drafted for you.",
+  "pitch": "Leads and numbers in one place, and the investor update drafted before you sit down to write it.",
   "engines": [
    "ops",
    "leads"
@@ -116,7 +116,7 @@
   "type_label": "Home + field services",
   "for": "Contractors, installers and home service teams",
   "sid": null,
-  "pitch": "Quotes go out fast, follow-ups happen on their own and happy customers leave reviews.",
+  "pitch": "Quotes go out fast and follow-ups happen on their own. When a job goes well, the customer gets asked for a review.",
   "engines": [
    "leads",
    "agents"

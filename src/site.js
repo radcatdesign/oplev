@@ -643,6 +643,7 @@ $$('form.inq').forEach(f=>{
   const PRE={one:'license-one',core:'license-core',company:'license-company',resale:'resale-yes'};
   const h=(location.hash||'').slice(1).toLowerCase();
   if(h){const el=document.getElementById('inq-'+(PRE[h]||('type-'+h)));if(el&&f.contains(el))el.checked=true;}
+  if(h==='enterprise'){const l=document.getElementById('inq-license-enterprise');if(l&&f.contains(l))l.checked=true;}
   try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');TEXT.forEach(k=>{const el=f.elements[k];if(el&&d[k]&&!el.value)el.value=d[k];});}catch(e){}
   // marketplace links (start.html#os-practice) say which OS the inquiry is about
   const osBox=$('.inq-os',f),osIn=$('#inq-os',f);let osNames={};try{osNames=JSON.parse(($('.os-names',f)||{}).textContent||'{}')}catch(e){}
@@ -1022,7 +1023,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
     }
     if(id!==run)return;
     const mins=you*2;
-    $('[data-bx-sum]',root).textContent='One day. '+plural(auto,'thing')+' done on its own. '+(you?'You stepped in '+(you===1?'once':you+' times')+', about '+mins+' minutes.':"You didn't have to do a thing.");
+    $('[data-bx-sum]',root).textContent=plural(auto,'thing')+' got done today without you. '+(you?'You stepped in '+(you===1?'once':you+' times')+', for about '+mins+' minutes.':"You didn't have to step in once.");
     showDone(true);setRunning(false);
     if(thinkBox)thinkSwap(thinkBox,'day done / '+plural(auto+you,'thing'));
     const t=$('[data-bm-toast]',root);if(t)t.classList.remove('is-open');
@@ -1053,7 +1054,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>refreshThu
     if(heroLines.length&&!RM)setTimeout(()=>heroWrap.classList.add('is-shown'),380);};
   if(!html.classList.contains('is-loading')||!L){if(L)L.remove();after();return;}
   const n=$('#ld-n'),fill=$('#ld-fill'),log=$('#ld-log');
-  const lines=[['> oplev'],['who','an agency'],['what','the ultimate business engine'],['engines','water / earth / fire / wind'],['built for','your company'],['> hello']];
+  const lines=[['> oplev'],['who','an agency'],['what','custom operating engines'],['engines','water / earth / fire / wind'],['built for','smb / startups / enterprise'],['> hello']];
   const fmt=l=>l.length===1?esc(l[0]):'  '+l[0]+' '+'.'.repeat(Math.max(3,19-l[0].length))+' <b>'+l[1]+'</b>';
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const fontsP=Promise.race([document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve(),sleep(2600)]);

@@ -378,12 +378,12 @@
     "id": "fit-funnels",
     "name": "Fit Funnels",
     "focus": "launches",
-    "line": "Client launches for a fitness marketing team, on rails.",
+    "line": "Client launches for a fitness marketing team, run the same way every time.",
     "engines": [
       "ops",
       "agents"
     ],
-    "summary": "Each new gym client meant a week of setup and a checklist nobody could find. We turned launch into a written system and built agents for onboarding, pre-launch checks and the weekly report.",
+    "summary": "Each new gym client meant a week of setup and a checklist nobody could find. We turned launch into a repeatable system and built agents for onboarding, pre-launch checks and the weekly report.",
     "built": "Operating system + 3 agents",
     "includes": "Onboarding, launch QA and reporting agents",
     "img": "",
@@ -405,7 +405,7 @@
       [
         "guide",
         "Launch system",
-        "One written process for taking a new gym client from signed to live."
+        "One repeatable process for taking a new gym client from signed to live."
       ],
       [
         "agent",

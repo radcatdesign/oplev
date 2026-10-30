@@ -39,7 +39,7 @@
         ""
       ],
       "h1": "Fill the schedule without living on your phone.",
-      "lede": "We build a business engine that runs on its own. It will answer pricing questions at 10pm, remind clients when their next treatment is due and follow up on every consult that didn't book.",
+      "lede": "We build and run engines that answer pricing questions at 10pm, remind clients when their next treatment is due and follow up on every consult that didn't book.",
       "fit": "1 to 3 locations, a front desk that can't keep up",
       "engines": [
         "leads",
@@ -177,7 +177,7 @@
         ""
       ],
       "h1": "Fewer empty chairs. Less phone tag.",
-      "lede": "We build a business engine that runs on its own. It will confirm visits, fill last-minute openings from your waitlist and follow up on treatment plans patients never scheduled.",
+      "lede": "We build and run engines that confirm visits, fill last-minute openings from your waitlist and follow up on treatment plans patients never scheduled.",
       "fit": "1 to 5 offices, a front desk on the phone all day",
       "engines": [
         "agents",
@@ -308,7 +308,7 @@
         ""
       ],
       "h1": "Keep patients coming back through the whole plan.",
-      "lede": "We build a business engine that runs on its own. It will book new patients fast, rebook missed visits the same day and draft visit notes from your dictation.",
+      "lede": "We build and run engines that book new patients fast, rebook missed visits the same day and draft visit notes from your dictation.",
       "fit": "1 to 4 clinics, patients on multi-visit plans",
       "engines": [
         "ops",
@@ -444,7 +444,7 @@
         ""
       ],
       "h1": "Turn trial signups into members.",
-      "lede": "We build a business engine that runs on its own. It will reply to every trial request in minutes, follow up after the first class and flag members who've stopped showing up.",
+      "lede": "We build and run engines that reply to every trial request in minutes, follow up after the first class and flag members who've stopped showing up.",
       "fit": "1 to 5 locations, classes or personal training",
       "engines": [
         "leads",
@@ -581,7 +581,7 @@
         ""
       ],
       "h1": "More pools on the route. Less time on the phone.",
-      "lede": "We build a business engine that runs on its own. It will price weekly service on your website, text customers when their tech is on the way and chase unpaid invoices for you.",
+      "lede": "We build and run engines that price weekly service on your website, text customers when their tech is on the way and chase unpaid invoices for you.",
       "fit": "2 to 30 techs on routes, weekly service plus repairs",
       "engines": [
         "leads",
@@ -719,7 +719,7 @@
         ""
       ],
       "h1": "Stop losing jobs to voicemail.",
-      "lede": "We build a business engine that runs on its own. It will answer new requests in minutes, follow up on every estimate and remind plan members when their tune-up is due.",
+      "lede": "We build and run engines that answer new requests in minutes, follow up on every estimate and remind plan members when their tune-up is due.",
       "fit": "3 to 40 techs, service calls plus installs",
       "engines": [
         "leads",
@@ -860,7 +860,7 @@
         ""
       ],
       "h1": "Sell the season before it starts.",
-      "lede": "We build a business engine that runs on its own. It will price projects on your website, follow up on every estimate and line up spring work before the phone gets busy.",
+      "lede": "We build and run engines that price projects on your website, follow up on every estimate and line up spring work before the phone gets busy.",
       "fit": "Design-build or maintenance crews, 5 to 50 people",
       "engines": [
         "leads",
@@ -992,7 +992,7 @@
         ""
       ],
       "h1": "Stop driving out to quote jobs you won't win.",
-      "lede": "We build a business engine that runs on its own. It will give homeowners a ballpark price online, qualify them before you drive out and send every client a weekly project update.",
+      "lede": "We build and run engines that give homeowners a ballpark price online, qualify them before you drive out and send every client a weekly project update.",
       "fit": "Remodelers and specialty trades, 5 to 60 people",
       "engines": [
         "leads",
@@ -1126,7 +1126,7 @@
         ""
       ],
       "h1": "Answer every customer without hiring a support team.",
-      "lede": "We build a business engine that runs on its own. It will answer order questions at any hour, answer product questions before people buy and tell you before a best seller runs out.",
+      "lede": "We build and run engines that answer order questions at any hour, answer product questions before people buy and tell you before a best seller runs out.",
       "fit": "Brands selling online, $1M to $20M a year",
       "engines": [
         "agents",
@@ -1263,7 +1263,7 @@
         ""
       ],
       "h1": "Get into more stores without more spreadsheets.",
-      "lede": "We build a business engine that runs on its own. It will handle wholesale applications, catch stores that stopped reordering and keep every launch on schedule.",
+      "lede": "We build and run engines that handle wholesale applications, catch stores that stopped reordering and keep every launch on schedule.",
       "fit": "Packaged food and drink brands selling online and in stores",
       "engines": [
         "ops",
@@ -1400,7 +1400,7 @@
         ""
       ],
       "h1": "Help every customer find the right product.",
-      "lede": "We build a business engine that runs on its own. It will recommend the right routine, answer product questions in your voice and handle order questions at any hour.",
+      "lede": "We build and run engines that recommend the right routine, answer product questions in your voice and handle order questions at any hour.",
       "fit": "Skincare, haircare and cosmetics brands selling online",
       "engines": [
         "leads",
@@ -1533,7 +1533,7 @@
         ""
       ],
       "h1": "Let buyers see it in their space before they call.",
-      "lede": "We build a business engine that runs on its own. It will price orders on your website, show products on the buyer's own photo and follow up on every quote.",
+      "lede": "We build and run engines that price orders on your website, show products on the buyer's own photo and follow up on every quote.",
       "fit": "Tile, flooring, furniture and fixtures, with a showroom or trade program",
       "engines": [
         "leads",
@@ -1664,7 +1664,7 @@
         ""
       ],
       "h1": "Take on more clients without more project managers.",
-      "lede": "We build a business engine that runs on its own. It will onboard new clients, build Friday reports from live data and catch extra work before it turns into free work.",
+      "lede": "We build and run engines that onboard new clients, build Friday reports from live data and catch extra work before it turns into free work.",
       "fit": "Creative, marketing and web agencies, 5 to 50 people",
       "engines": [
         "ops",
@@ -1795,7 +1795,7 @@
         ""
       ],
       "h1": "Answer new clients before they call the next firm.",
-      "lede": "We build a business engine that runs on its own. It will respond to new inquiries in minutes, collect documents without the chasing and keep clients updated without a phone call.",
+      "lede": "We build and run engines that respond to new inquiries in minutes, collect documents without the chasing and keep clients updated without a phone call.",
       "fit": "Small and mid-size firms with new inquiries every week",
       "engines": [
         "agents",
@@ -1932,7 +1932,7 @@
         ""
       ],
       "h1": "Stop chasing clients for receipts.",
-      "lede": "We build a business engine that runs on its own. It will collect documents every month, remind clients before deadlines and show your team who's waiting on what.",
+      "lede": "We build and run engines that collect documents every month, remind clients before deadlines and show your team who's waiting on what.",
       "fit": "Firms with 30 to 500 recurring clients",
       "engines": [
         "agents",
@@ -2069,7 +2069,7 @@
         ""
       ],
       "h1": "Reply to every lead while it's still warm.",
-      "lede": "We build a business engine that runs on its own. It will answer new leads in minutes, track every deadline from offer to close and keep past clients close until they sell again.",
+      "lede": "We build and run engines that answer new leads in minutes, track every deadline from offer to close and keep past clients close until they sell again.",
       "fit": "Teams of 3 to 30 agents",
       "engines": [
         "leads",
@@ -2207,7 +2207,7 @@
         ""
       ],
       "h1": "Run the company like you have a COO.",
-      "lede": "We build a business engine that runs on its own. It will book demos from your waitlist, put your numbers on one screen and draft the investor update for you.",
+      "lede": "We build and run engines that book demos from your waitlist, put your numbers on one screen and draft the investor update for you.",
       "fit": "Seed to Series A, 3 to 40 people",
       "engines": [
         "leads",
@@ -2344,7 +2344,7 @@
         ""
       ],
       "h1": "Make the work. We'll handle the inbox.",
-      "lede": "We build a business engine that runs on its own. It will publish every release everywhere, sort your inbox and send you only the sponsor deals worth a look.",
+      "lede": "We build and run engines that publish every release everywhere, sort your inbox and send you only the sponsor deals worth a look.",
       "fit": "Creators with a team of 1 to 10 and a real business behind the channel",
       "engines": [
         "agents",
@@ -2485,7 +2485,7 @@
         ""
       ],
       "h1": "Spend your time coaching, not chasing.",
-      "lede": "We build a business engine that runs on its own. It will book discovery calls with the right people, onboard every new client the same way and check in on students before they fall behind.",
+      "lede": "We build and run engines that book discovery calls with the right people, onboard every new client the same way and check in on students before they fall behind.",
       "fit": "Coaches and course businesses with 30 to 3,000 clients or students",
       "engines": [
         "leads",
@@ -2622,7 +2622,7 @@
         "Events or venue"
       ],
       "h1": "Answer every inquiry while the date is still open.",
-      "lede": "We build a business engine that runs on its own. It will reply to inquiries with availability and pricing, follow up on proposals and confirm every vendor before the day.",
+      "lede": "We build and run engines that reply to inquiries with availability and pricing, follow up on proposals and confirm every vendor before the day.",
       "fit": "Venues, planners and producers with 30+ events a year",
       "engines": [
         "leads",
